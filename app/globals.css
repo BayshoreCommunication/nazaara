@@ -64,6 +64,17 @@ html {
   -moz-appearance: none;
 }
 
+.carosel .swiper-wrapper {
+  padding-bottom: 20px;
+}
+
+.carosel .swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: var(--swiper-pagination-bottom, 0px);
+}
+
 /* Hide scrollbar in Webkit browsers */
 .scrollbar-none::-webkit-scrollbar {
   width: 0.25rem;
@@ -98,3 +109,7 @@ html {
 .product-modal .swiper-slide {
   max-width: 240px;
 }
+/* .fix .swiper-slide-active {
+  top: 50%;
+  transform: translateY(50%);
+} */

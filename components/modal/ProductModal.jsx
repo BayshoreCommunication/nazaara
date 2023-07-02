@@ -57,31 +57,33 @@ const ProductModal = ({
   return (
     <>
       <div className="fixed z-50 left-0 top-0 w-[100%]  bg-white bg-opacity-30 backdrop-blur-[16px] product-modal">
-        <div className={`flex  relative justify-between h-[100vh]`}>
-          {width > 991 && (
-            <Swiper
-              slidesPerView={3}
-              direction="vertical"
-              spaceBetween={40}
-              mousewheel={true}
-              keyboard={true}
-            >
-              {ProductData.data.map((elem, index) => (
-                <SwiperSlide key={index}>
-                  <Image
-                    src={elem.src}
-                    alt="details"
-                    width={200}
-                    height={200}
-                    className={`rounded-md shadow-sm h-full w-auto  ${
-                      elem.src === imgUrl ? "" : "opacity-30"
-                    }`}
-                    onClick={() => handleCount(elem.src, index)}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          )}
+        <div className={`flex fix relative justify-between h-[100vh]`}>
+          <div className="bg-green-400">
+            {width > 991 && (
+              <Swiper
+                slidesPerView={3}
+                direction="vertical"
+                spaceBetween={40}
+                mousewheel={true}
+                keyboard={true}
+              >
+                {ProductData.data.map((elem, index) => (
+                  <SwiperSlide key={index}>
+                    <Image
+                      src={elem.src}
+                      alt="details"
+                      width={200}
+                      height={200}
+                      className={`rounded-md shadow-sm h-full w-auto  ${
+                        elem.src === imgUrl ? "" : "opacity-30"
+                      }`}
+                      onClick={() => handleCount(elem.src, index)}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
+          </div>
 
           <div
             className={`flex justify-center items-center h-[100vh] w-auto gap-4 relative left-28`}

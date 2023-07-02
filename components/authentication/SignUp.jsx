@@ -1,9 +1,122 @@
-import React from "react";
+import { useState } from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  // FacebookAuthProvider,
+} from "firebase/auth";
+import usefetch from "@/customhooks/usefetch";
+import axios from "axios";
 
 const SignUp = ({ setAuth }) => {
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const firebaseConfig = {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASURMENT_ID,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+  // const facebookProvider = new FacebookAuthProvider();
+
+  const googleSignIn = () => {
+    signInWithPopup(auth, googleProvider)
+      .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // The signed-in user info.
+        const userGoogle = result.user;
+        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
+        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
+        const userAuthCheck = await usefetch(url);
+
+        if (userAuthCheck) {
+          axios
+            .post(`${process.env.API_URL}/api/v1/user`, {
+              fullName: userGoogle.providerData.map(
+                (elem) => elem.displayName
+              )[0],
+              email: userGoogle.providerData.map((elem) => elem.email)[0],
+              password: "dummy",
+              phone: "",
+              refund: 0,
+              imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
+            })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+
+        // localStorage.setItem(
+        //   "userAuthCredential",
+        //   JSON.stringify(userAuthCredential.user)
+        // );
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("errorMessage", error);
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
+
+  // const facebookSignIn = () => {
+  //   signInWithPopup(auth, facebookProvider)
+  //     .then((result) => {
+  //       // The signed-in user info.
+  //       const userFaceBook = result.user;
+  //       console.log("userFaceBook", userFaceBook);
+  //       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+  //       const credential = FacebookAuthProvider.credentialFromResult(result);
+  //       const accessToken = credential.accessToken;
+  //       console.log("tokenFaceBook", accessToken);
+  //       // IdP data available using getAdditionalUserInfo(result)
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = FacebookAuthProvider.credentialFromError(error);
+
+  //       // ...
+  //     });
+  // };
+
+  const handleInput = (input) => {
+    setUser({ ...user, ...input });
+  };
+
   return (
     <div className="absolute bg-white w-max h-max right-0 z-20 top-9 rounded-lg shadow-xl">
       <div className="flex flex-col">
@@ -21,6 +134,9 @@ const SignUp = ({ setAuth }) => {
                   id="name"
                   name="name"
                   type="text"
+                  onChange={(event) => {
+                    handleInput({ name: event.target.value });
+                  }}
                   placeholder="Enter Your Name"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
@@ -39,6 +155,9 @@ const SignUp = ({ setAuth }) => {
                   id="email"
                   name="email"
                   type="email"
+                  onChange={(event) => {
+                    handleInput({ email: event.target.value });
+                  }}
                   placeholder="Enter Email"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
@@ -57,6 +176,9 @@ const SignUp = ({ setAuth }) => {
                   id="phone"
                   name="phone"
                   type="text"
+                  onChange={(event) => {
+                    handleInput({ phone: event.target.value });
+                  }}
                   placeholder="Enter Phone Number"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
@@ -75,6 +197,9 @@ const SignUp = ({ setAuth }) => {
                   id="password"
                   name="password"
                   type="password"
+                  onChange={(event) => {
+                    handleInput({ password: event.target.value });
+                  }}
                   placeholder="Enter Password"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
@@ -94,7 +219,6 @@ const SignUp = ({ setAuth }) => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Already a member?
             <button
-              href="#"
               onClick={() => setAuth("signIn")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2 ml-1"
             >
@@ -111,7 +235,10 @@ const SignUp = ({ setAuth }) => {
             <hr className="w-full bg-gray-400 " />
           </div>
           <div className="flex justify-center gap-x-3 mt-1 font-medium">
-            <button className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-full hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white">
+            <button
+              onClick={googleSignIn}
+              className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-full hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
+            >
               <AiOutlineGoogle
                 className="hidden group-hover:block"
                 color="white"
@@ -119,7 +246,10 @@ const SignUp = ({ setAuth }) => {
               <FcGoogle className="block group-hover:hidden" color="white" />
               Google
             </button>
-            <button className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-[#1877F2] w-full border-[#1876f258] text-gray-600 hover:text-white">
+            <button
+              // onClick={facebookSignIn}
+              className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-[#1877F2] w-full border-[#1876f258] text-gray-600 hover:text-white"
+            >
               <BsFacebook className="hidden group-hover:block" color="white" />
               <BsFacebook
                 className="block group-hover:hidden"

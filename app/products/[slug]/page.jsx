@@ -116,12 +116,16 @@ const ProductDetails = () => {
         {/* similar products section  */}
         <div className="container">
           <h2 className="card-title">Similar Products</h2>
-          <SimilarProductsCarosel />
+          <div className="carosel">
+            <SimilarProductsCarosel />
+          </div>
         </div>
         {/* More From the collections  */}
-        <div className="container mt-6">
+        <div className="container my-6">
           <h2 className="card-title">More From The Collections</h2>
-          <SimilarProductsCarosel />
+          <div className="carosel">
+            <SimilarProductsCarosel />
+          </div>
         </div>
       </div>
     </>

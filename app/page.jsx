@@ -8,8 +8,23 @@ import DeliveryDesktop from "@/components/delivery-partner/DeliveryDesktop";
 import TinySlider from "@/components/tiny-carosel/TinySlider";
 import Image from "next/image";
 import Link from "next/link";
+// import { useGetContactsQuery } from "@/services/contactApi";
 
-export default function Home() {
+const Home = () => {
+  // const {
+  //   data: contact,
+  //   isLoading,
+  //   isError,
+  //   isFetching,
+  //   isSuccess,
+  // } = useGetContactsQuery();
+
+  // contact != undefined &&
+  //   console.log(
+  //     "test data",
+  //     contact.data.map((elem) => elem.message)
+  //   );
+
   return (
     <div className="container my-4 lg:my-10 flex flex-col gap-y-10 lg:gap-y-16">
       {/* top carosel start */}
@@ -63,7 +78,6 @@ export default function Home() {
         </div>
       </div>
       {/* banner end */}
-
       {/* YOU MAY LIKE start */}
       <div>
         <h1 className="card-title">YOU MAY LIKE</h1>
@@ -88,4 +102,6 @@ export default function Home() {
       {/* Our Delivery Partner end */}
     </div>
   );
-}
+};
+
+export default Home;
