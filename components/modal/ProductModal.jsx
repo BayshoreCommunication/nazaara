@@ -5,8 +5,9 @@ import { ProductData } from "@/data/product";
 //swiper import here
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Keyboard, Mousewheel } from "swiper/core";
+import { Navigation } from "swiper";
 import "swiper/css";
-import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import Image from "next/image";
 
@@ -28,37 +29,34 @@ const ProductModal = ({
     setCountUrl(idx);
   };
 
-  const getOffset = () => {
-    console.log(
-      "top",
-      document.querySelector(".opacity-30").getBoundingClientRect().top
-    );
-    console.log(
-      "bottom",
-      document.querySelector(".opacity-30").getBoundingClientRect().bottom
-    );
-  };
-
   const handleLeft = () => {
     const prev = countUrl > 0 ? countUrl - 1 : ProductData.data.length - 1;
     const dataLeft = ProductData.data.map((elem) => elem.src)[prev];
     setCountUrl(prev);
     setImgUrl(dataLeft);
-    getOffset();
+    // getOffset();
   };
   const handleRight = () => {
     const next = countUrl < ProductData.data.length - 1 ? countUrl + 1 : 0;
     const dataRight = ProductData.data.map((elem) => elem.src)[next];
     setCountUrl(next);
     setImgUrl(dataRight);
-    getOffset();
+    // getOffset();
   };
+
+  const rightButton = document.querySelector(".swiper-button-next");
+  const leftButton = document.querySelector(".swiper-button-prev");
+
+  if (rightButton != undefined && leftButton != undefined) {
+    rightButton.addEventListener("click", handleRight);
+    leftButton.addEventListener("click", handleLeft);
+  }
 
   return (
     <>
       <div className="fixed z-50 left-0 top-0 w-[100%]  bg-white bg-opacity-30 backdrop-blur-[16px] product-modal">
         <div className={`flex fix relative justify-between h-[100vh]`}>
-          <div className="bg-green-400">
+          <div>
             {width > 991 && (
               <Swiper
                 slidesPerView={3}
@@ -66,6 +64,8 @@ const ProductModal = ({
                 spaceBetween={40}
                 mousewheel={true}
                 keyboard={true}
+                navigation={true}
+                modules={[Navigation]}
               >
                 {ProductData.data.map((elem, index) => (
                   <SwiperSlide key={index}>
@@ -88,12 +88,12 @@ const ProductModal = ({
           <div
             className={`flex justify-center items-center h-[100vh] w-auto gap-4 relative left-28`}
           >
-            <button
+            {/* <button
               className="p-5 bg-white rounded-lg shadow-md relative z-20"
               onClick={() => handleLeft()}
             >
               <BsChevronLeft size={35} />
-            </button>
+            </button> */}
             <Image
               src={imgUrl}
               alt="details"
@@ -101,12 +101,12 @@ const ProductModal = ({
               height={600}
               className="rounded-md shadow-md h-[80%] w-auto"
             />
-            <button
+            {/* <button
               className="p-5 bg-white rounded-lg shadow-md relative z-20"
               onClick={() => handleRight()}
             >
               <BsChevronRight size={35} />
-            </button>
+            </button> */}
           </div>
           <IoCloseSharp
             size={25}
