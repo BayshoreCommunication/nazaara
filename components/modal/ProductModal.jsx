@@ -34,14 +34,12 @@ const ProductModal = ({
     const dataLeft = ProductData.data.map((elem) => elem.src)[prev];
     setCountUrl(prev);
     setImgUrl(dataLeft);
-    // getOffset();
   };
   const handleRight = () => {
     const next = countUrl < ProductData.data.length - 1 ? countUrl + 1 : 0;
     const dataRight = ProductData.data.map((elem) => elem.src)[next];
     setCountUrl(next);
     setImgUrl(dataRight);
-    // getOffset();
   };
 
   const rightButton = document.querySelector(".swiper-button-next");
