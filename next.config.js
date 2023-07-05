@@ -10,6 +10,9 @@ const nextConfig = {
     APP_ID: process.env.APP_ID,
     MEASURMENT_ID: process.env.MEASURMENT_ID,
   },
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
 };
 
 module.exports = nextConfig;

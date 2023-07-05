@@ -46,7 +46,7 @@ const SignIn = ({ setAuth }) => {
             "userAuthCredential",
             JSON.stringify(userAuthCredential.user)
           );
-          setAuthCheck(userAuthCredential.user.imageUrl);
+          setAuthCheck("Success.");
         } else {
           setAuthCheck("Please sign up first.");
         }
@@ -87,7 +87,6 @@ const SignIn = ({ setAuth }) => {
   //       const email = error.customData.email;
   //       // The AuthCredential type that was used.
   //       const credential = FacebookAuthProvider.credentialFromError(error);
-
   //       // ...
   //     });
   // };
@@ -104,7 +103,7 @@ const SignIn = ({ setAuth }) => {
               >
                 Email Address
               </label>
-              <div className="">
+              <div>
                 <input
                   id="email"
                   name="email"
@@ -122,7 +121,7 @@ const SignIn = ({ setAuth }) => {
               >
                 Password
               </label>
-              <div className="">
+              <div>
                 <input
                   id="password"
                   name="password"

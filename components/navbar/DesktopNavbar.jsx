@@ -21,6 +21,10 @@ const DesktopNavbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
+  const jsonStr = localStorage.getItem("userAuthCredential");
+  const obj = JSON.parse(jsonStr);
+  const imageUrl = obj.imageUrl;
+
   return (
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">
@@ -42,23 +46,37 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-            <div className="relative">
-              <Image
-                src="/images/logo/user.svg"
-                alt="logo"
-                width={20}
-                height={20}
-                className="cursor-pointer"
-                onClick={() => handleAuth()}
-              />
-              {/* User Authentication Content */}
-              {isAuth && (
-                <>
-                  {auth === "signIn" && <SignIn setAuth={setAuth} />}
-                  {auth === "signUp" && <SignUp setAuth={setAuth} />}
-                </>
-              )}
-            </div>
+            {imageUrl != "" ? (
+              <div className="relative">
+                <Link href="/#">
+                  <Image
+                    src={imageUrl}
+                    alt="logo"
+                    width={22}
+                    height={22}
+                    className="rounded-sm"
+                  />
+                </Link>
+              </div>
+            ) : (
+              <div className="relative">
+                <Image
+                  src="/images/logo/user.svg"
+                  alt="logo"
+                  width={20}
+                  height={20}
+                  className="cursor-pointer"
+                  onClick={() => handleAuth()}
+                />
+                {/* User Authentication Content */}
+                {isAuth && (
+                  <>
+                    {auth === "signIn" && <SignIn setAuth={setAuth} />}
+                    {auth === "signUp" && <SignUp setAuth={setAuth} />}
+                  </>
+                )}
+              </div>
+            )}
             {/* shopping cart  */}
             <div className="relative">
               <Image
