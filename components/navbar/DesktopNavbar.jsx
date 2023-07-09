@@ -20,10 +20,15 @@ const DesktopNavbar = () => {
     setIsAuth(false);
     setIsCartOpen(!isCartOpen);
   };
-
-  const jsonStr = localStorage.getItem("userAuthCredential");
-  const obj = JSON.parse(jsonStr);
-  const imageUrl = obj.imageUrl;
+  let imageUrl = "";
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const jsonStr = localStorage.getItem("userAuthCredential");
+    if (jsonStr != null) {
+      const obj = JSON.parse(jsonStr);
+      imageUrl = obj.imageUrl;
+    }
+  }
 
   return (
     <div className="hidden lg:block container py-4">
@@ -71,8 +76,12 @@ const DesktopNavbar = () => {
                 {/* User Authentication Content */}
                 {isAuth && (
                   <>
-                    {auth === "signIn" && <SignIn setAuth={setAuth} />}
-                    {auth === "signUp" && <SignUp setAuth={setAuth} />}
+                    {auth === "signIn" && (
+                      <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
+                    )}
+                    {auth === "signUp" && (
+                      <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
+                    )}
                   </>
                 )}
               </div>

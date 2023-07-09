@@ -12,7 +12,7 @@ import {
 import usefetch from "@/customhooks/usefetch";
 import axios from "axios";
 
-const SignUp = ({ setAuth }) => {
+const SignUp = ({ setAuth, setIsAuth }) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -60,6 +60,7 @@ const SignUp = ({ setAuth }) => {
               imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
             })
             .then((response) => {
+              setIsAuth(false);
               console.log(response);
             })
             .catch((error) => {

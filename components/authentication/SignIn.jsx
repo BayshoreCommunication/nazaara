@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import usefetch from "@/customhooks/usefetch";
 
-const SignIn = ({ setAuth }) => {
+const SignIn = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState();
   const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -46,7 +46,8 @@ const SignIn = ({ setAuth }) => {
             "userAuthCredential",
             JSON.stringify(userAuthCredential.user)
           );
-          setAuthCheck("Success.");
+          setAuthCheck("Sign in complete.");
+          setIsAuth(false);
         } else {
           setAuthCheck("Please sign up first.");
         }
