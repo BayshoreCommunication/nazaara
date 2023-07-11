@@ -22,6 +22,10 @@ export const ProductData = {
     },
     {
       _id: "1238",
+      src: "/images/products/details5.png",
+    },
+    {
+      _id: "1239",
       src: "/images/products/details6.png",
     },
   ],
