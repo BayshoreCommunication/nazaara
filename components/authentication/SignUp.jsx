@@ -13,6 +13,7 @@ import usefetch from "@/customhooks/usefetch";
 import axios from "axios";
 
 const SignUp = ({ setAuth, setIsAuth }) => {
+  const [authCheck, setAuthCheck] = useState("");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -47,7 +48,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
         const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
         const userAuthCheck = await usefetch(url);
 
-        if (userAuthCheck) {
+        if (userAuthCheck.status === "Not matched") {
           axios
             .post(`${process.env.API_URL}/api/v1/user`, {
               fullName: userGoogle.providerData.map(
@@ -66,6 +67,8 @@ const SignUp = ({ setAuth, setIsAuth }) => {
             .catch((error) => {
               console.log(error);
             });
+        } else {
+          setAuthCheck("Already registered.");
         }
         // IdP data available using getAdditionalUserInfo(result)
         // ...
@@ -212,6 +215,11 @@ const SignUp = ({ setAuth, setIsAuth }) => {
               </button>
             </div>
           </form>
+          {authCheck === "Already registered." && (
+            <p className="mt-4 text-center text-xl text-emerald-800">
+              Already registered an account.
+            </p>
+          )}
           <p className="mt-4 text-center text-sm text-gray-500">
             Already a member?
             <button
