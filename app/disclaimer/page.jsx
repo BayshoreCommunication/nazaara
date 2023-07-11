@@ -181,7 +181,7 @@ const page = () => {
             </p>
             <p className="mb-2">
               By visiting this page on our website:
-              <Link passHref  href="/contact-us">
+              <Link href="/contact-us">
                 https://www.nazaaralifestyle.com/contact-us
               </Link>
             </p>

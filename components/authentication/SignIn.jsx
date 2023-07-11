@@ -2,70 +2,70 @@ import { useState } from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-// import { initializeApp } from "firebase/app";
-// import {
-//   getAuth,
-//   signInWithPopup,
-//   GoogleAuthProvider,
-//   FacebookAuthProvider,
-// } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  // FacebookAuthProvider,
+} from "firebase/auth";
 import usefetch from "@/customhooks/usefetch";
 
 const SignIn = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState();
-  // const firebaseConfig = {
-  //   apiKey: process.env.API_KEY,
-  //   authDomain: process.env.AUTH_DOMAIN,
-  //   projectId: process.env.PROJECT_ID,
-  //   storageBucket: process.env.STORAGE_BUCKET,
-  //   messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-  //   appId: process.env.APP_ID,
-  //   measurementId: process.env.MEASURMENT_ID,
-  // };
+  const firebaseConfig = {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASURMENT_ID,
+  };
 
-  // const app = initializeApp(firebaseConfig);
-  // const auth = getAuth(app);
-  // const googleProvider = new GoogleAuthProvider();
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
   // const facebookProvider = new FacebookAuthProvider();
 
-  // const googleSignIn = () => {
-  //   signInWithPopup(auth, googleProvider)
-  //     .then(async (result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       // const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       // const token = credential.accessToken;
-  //       // The signed-in user info.
-  //       const userGoogle = result.user;
-  //       const dataCheck = userGoogle.providerData.map((elem) => elem.email);
+  const googleSignIn = () => {
+    signInWithPopup(auth, googleProvider)
+      .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // The signed-in user info.
+        const userGoogle = result.user;
+        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
 
-  //       const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
-  //       const userAuthCredential = await usefetch(url);
-  //       // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
-  //       if (userAuthCredential.user) {
-  //         localStorage.setItem(
-  //           "userAuthCredential",
-  //           JSON.stringify(userAuthCredential.user)
-  //         );
-  //         setAuthCheck("Sign in complete.");
-  //         setIsAuth(false);
-  //       } else {
-  //         setAuthCheck("Please sign up first.");
-  //       }
-  //       // IdP data available using getAdditionalUserInfo(result)
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log("errorMessage", error);
-  //       // The email of the user's account used.
-  //       // const email = error.customData.email;
-  //       // The AuthCredential type that was used.
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // ...
-  //     });
-  // };
+        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
+        const userAuthCredential = await usefetch(url);
+        // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
+        if (userAuthCredential.user) {
+          localStorage.setItem(
+            "userAuthCredential",
+            JSON.stringify(userAuthCredential.user)
+          );
+          setAuthCheck("Sign in complete.");
+          setIsAuth(false);
+        } else {
+          setAuthCheck("Please sign up first.");
+        }
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("errorMessage", error);
+        // The email of the user's account used.
+        // const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
 
   // const facebookSignIn = () => {
   //   signInWithPopup(auth, facebookProvider)
@@ -177,7 +177,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
           </div>
           <div className="flex justify-center gap-x-3 mt-1 font-medium">
             <button
-              // onClick={googleSignIn}
+              onClick={googleSignIn}
               className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-full hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
             >
               <AiOutlineGoogle

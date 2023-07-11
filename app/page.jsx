@@ -69,7 +69,7 @@ const Home = () => {
             <p className="text-lg lg:text-4xl font-bold lg:mt-1 mb-1 lg:mb-4">
               Festive Unstitched
             </p>
-            <Link passHref  href="/">
+            <Link href="/">
               <button className="text-white bg-secondary-color px-3 py-1 text-sm lg:text-base rounded-lg">
                 Shopping Now
               </button>

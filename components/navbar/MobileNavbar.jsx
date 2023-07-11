@@ -26,7 +26,7 @@ const MobileNavbar = () => {
         </div>
 
         <div className="w-2/4">
-          <Link passHref  className="flex justify-center" href="/">
+          <Link className="flex justify-center" href="/">
             <Image
               src="/images/nazara-navbar-logo.png"
               alt="logo"
@@ -80,28 +80,28 @@ const MobileNavbar = () => {
               </div>
             </form>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/">HOME</Link>
+              <Link href="/">HOME</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/">EXCLUSIVE WOMAN WEAR</Link>
+              <Link href="/">EXCLUSIVE WOMAN WEAR</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/packages">NEW ARRIVALS</Link>
+              <Link href="/packages">NEW ARRIVALS</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/membership">PARTY WEAR</Link>
+              <Link href="/membership">PARTY WEAR</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/about-us">REGULAR WEAR</Link>
+              <Link href="/about-us">REGULAR WEAR</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/contact-us">BRIDAL WEAR</Link>
+              <Link href="/contact-us">BRIDAL WEAR</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/contact-us">BOOK AN APPOINTMENT</Link>
+              <Link href="/contact-us">BOOK AN APPOINTMENT</Link>
             </li>
             <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link passHref  href="/contact-us">OUR LOCATIONS</Link>
+              <Link href="/contact-us">OUR LOCATIONS</Link>
             </li>
           </div>
         </div>
