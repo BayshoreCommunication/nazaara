@@ -20,7 +20,7 @@ import DrawerContent from "@/components/drawer/DrawerContent";
 
 // component import here
 import SimilarProductsCarosel from "@/components/similar-products/SimilarProductsCarosel";
-import useWindowDimensions from "@/components/useDimensionWindow";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
 import ProductDetailsComponent from "@/components/product-detail/ProductDetailsComponent";
 import DetailImage from "@/components/product-detail/DetailImagePage";
 import { useEffect, useState } from "react";

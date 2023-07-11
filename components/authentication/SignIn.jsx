@@ -10,6 +10,7 @@ import {
   // FacebookAuthProvider,
 } from "firebase/auth";
 import usefetch from "@/customhooks/usefetch";
+import { setCookie } from "cookies-next";
 
 const SignIn = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState();
@@ -42,9 +43,12 @@ const SignIn = ({ setAuth, setIsAuth }) => {
         const userAuthCredential = await usefetch(url);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
-          localStorage.setItem(
+          setCookie(
             "userAuthCredential",
-            JSON.stringify(userAuthCredential.user)
+            JSON.stringify(userAuthCredential.user),
+            {
+              maxAge: 24 * 60 * 60 * 1000,
+            }
           );
           setAuthCheck("Sign in complete.");
           setIsAuth(false);

@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 
 import Image from "next/image";
 
-import useWindowDimensions from "../useDimensionWindow";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
 
 const ProductModal = ({
   setOpenModal,

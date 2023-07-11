@@ -5,6 +5,7 @@ import Cart from "../shopping-cart/Cart";
 import SignIn from "../authentication/SignIn";
 import SignUp from "../authentication/SignUp";
 import { useState } from "react";
+import { getCookie } from "cookies-next";
 
 const DesktopNavbar = () => {
   const [auth, setAuth] = useState("signIn");
@@ -20,14 +21,13 @@ const DesktopNavbar = () => {
     setIsAuth(false);
     setIsCartOpen(!isCartOpen);
   };
+
   let imageUrl = "";
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    const jsonStr = localStorage.getItem("userAuthCredential");
-    if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr);
-      imageUrl = obj.imageUrl;
-    }
+  // Perform localStorage action
+  const jsonStr = getCookie("userAuthCredential");
+  if (jsonStr != null) {
+    const obj = JSON.parse(jsonStr);
+    imageUrl = obj.imageUrl;
   }
 
   return (
@@ -51,41 +51,28 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-            {imageUrl != "" ? (
-              <div className="relative">
-                <Link href="/#">
-                  <Image
-                    src={imageUrl}
-                    alt="logo"
-                    width={22}
-                    height={22}
-                    className="rounded-sm"
-                  />
-                </Link>
-              </div>
-            ) : (
-              <div className="relative">
-                <Image
-                  src="/images/logo/user.svg"
-                  alt="logo"
-                  width={20}
-                  height={20}
-                  className="cursor-pointer"
-                  onClick={() => handleAuth()}
-                />
-                {/* User Authentication Content */}
-                {isAuth && (
-                  <>
-                    {auth === "signIn" && (
-                      <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
-                    )}
-                    {auth === "signUp" && (
-                      <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
-                    )}
-                  </>
-                )}
-              </div>
-            )}
+
+            <div className="relative">
+              <Image
+                src={imageUrl != "" ? imageUrl : "/images/logo/user.svg"}
+                alt="logo"
+                width={20}
+                height={20}
+                className="cursor-pointer"
+                onClick={() => handleAuth()}
+              />
+              {/* User Authentication Content */}
+              {isAuth && (
+                <>
+                  {auth === "signIn" && (
+                    <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
+                  )}
+                  {auth === "signUp" && (
+                    <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
+                  )}
+                </>
+              )}
+            </div>
             {/* shopping cart  */}
             <div className="relative">
               <Image
