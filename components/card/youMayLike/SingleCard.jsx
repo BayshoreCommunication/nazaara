@@ -8,7 +8,7 @@ import React from "react";
 const SingleCard = () => {
   return (
     <div>
-      <Link href="/products/1236">
+      <Link passHref  href="/products/1236">
         <div className="relative">
           <Image
             src="/images/products/you_may_like.png"

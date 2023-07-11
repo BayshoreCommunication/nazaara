@@ -34,12 +34,12 @@ const DesktopNavbar = () => {
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">
         <div className="w-1/4">
-          <Link href="/" className="bg-[#910000] px-2 py-1 text-base">
+          <Link passHref  href="/" className="bg-[#910000] px-2 py-1 text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
         </div>
         <div className="w-2/4 flex justify-center">
-          <Link className="w-max" href="/">
+          <Link passHref  className="w-max" href="/">
             <Image
               src="/images/nazara-navbar-logo.png"
               alt="logo"
@@ -53,7 +53,7 @@ const DesktopNavbar = () => {
             {/* User Authentication  */}
             {imageUrl != "" ? (
               <div className="relative">
-                <Link href="/#">
+                <Link passHref  href="/#">
                   <Image
                     src={imageUrl}
                     alt="logo"

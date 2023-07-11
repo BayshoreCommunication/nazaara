@@ -5,7 +5,7 @@ const BestSellingCard = () => {
   return (
     <div className="border-4 border-secondary-color transition-all duration-500  hover:shadow-[#d6bc67] hover:shadow-lg">
       <div>
-        <Link className="" href="/products">
+        <Link passHref  className="" href="/products">
           <div>
             <Image
               src="/images/products/best_selling.png"

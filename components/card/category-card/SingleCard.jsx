@@ -5,7 +5,7 @@ import React from "react";
 const SingleCard = () => {
   return (
     <div>
-      <Link href="/" className="relative">
+      <Link passHref  href="/" className="relative">
         <Image
           src="/images/category/bridal_top.png"
           alt="bridal_top"

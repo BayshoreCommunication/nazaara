@@ -9,7 +9,7 @@ const DesktopFooter = () => {
         <div className="lg:flex lg:items-start lg:justify-between">
           <div>
             <div>
-              <Link
+              <Link passHref 
                 href="/"
                 className="flex items-center justify-center lg:justify-start mb-4 sm:mb-0"
               >
@@ -24,28 +24,28 @@ const DesktopFooter = () => {
               </Link>
             </div>
             <div className="text-color-cus flex justify-center gap-x-6 mb-3 lg:mb-0 ml-24 xl:ml-40">
-              <Link
+              <Link passHref 
                 href="https://www.facebook.com/EliteSpaFlorida/"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaFacebook size={25} color="white" />
               </Link>
-              <Link
+              <Link passHref 
                 href="https://www.youtube.com/"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaYoutube size={25} color="white" />
               </Link>
-              <Link
+              <Link passHref 
                 href="https://www.instagram.com/Elite_spa7/"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaInstagram size={25} color="white" />
               </Link>
-              <Link
+              <Link passHref 
                 href="https://www.instagram.com/Elite_spa7/"
                 target="_blank"
               >
@@ -61,21 +61,21 @@ const DesktopFooter = () => {
                 CUSTOMER SERVICE
               </p>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Track Your Order</Link>
+                <Link passHref  href="/">Track Your Order</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Shipping & Delivery</Link>
+                <Link passHref  href="/">Shipping & Delivery</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Return & Exchange</Link>
+                <Link passHref  href="/">Return & Exchange</Link>
               </li>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Book an Appointment</Link>
+                <Link passHref  href="/">Book an Appointment</Link>
               </li>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/faq">FAQ’S</Link>
+                <Link passHref  href="/faq">FAQ’S</Link>
               </li>
             </ul>
           </div>
@@ -87,15 +87,15 @@ const DesktopFooter = () => {
                 MORE FROM NAZARA
               </p>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">E-Gift Cards</Link>
+                <Link passHref  href="/">E-Gift Cards</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">We’re Hiring!</Link>
+                <Link passHref  href="/">We’re Hiring!</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/location">Our Locations</Link>
+                <Link passHref  href="/location">Our Locations</Link>
               </li>
             </ul>
           </div>
@@ -106,21 +106,21 @@ const DesktopFooter = () => {
           <ul className="flex flex-col gap-y-1 lg:gap-y-3">
             <p className="text-white text-sm font-medium mb-2">OUR COMPANY</p>
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/contact-us">Contact us</Link>
+              <Link passHref  href="/contact-us">Contact us</Link>
             </li>
 
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/about-us">About us</Link>
+              <Link passHref  href="/about-us">About us</Link>
             </li>
 
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/terms-of-use">Terms of use</Link>
+              <Link passHref  href="/terms-of-use">Terms of use</Link>
             </li>
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link passHref  href="/privacy-policy">Privacy Policy</Link>
             </li>
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/disclaimer">Disclaimer</Link>
+              <Link passHref  href="/disclaimer">Disclaimer</Link>
             </li>
           </ul>
         </div>
@@ -133,7 +133,7 @@ const DesktopFooter = () => {
               </div>
               <div className="text-white">
                 Design & Development by
-                <Link
+                <Link passHref 
                   className=" ml-1"
                   href="https://bayshorecommunication.com/"
                   target="_blank"

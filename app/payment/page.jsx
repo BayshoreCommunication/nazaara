@@ -45,7 +45,7 @@ const Payment = () => {
                 </p>
                 <div className="flex gap-x-1 text-sm">
                   <p>Already have an account?</p>
-                  <Link className="text-red-400" href="/">
+                  <Link passHref  className="text-red-400" href="/">
                     Login
                   </Link>
                 </div>
@@ -56,16 +56,16 @@ const Payment = () => {
                 type="email"
                 placeholder="Enter Your Email"
               />
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="link-checkbox"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox"
-                  class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
+                  htmlFor="link-checkbox"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
                     Email me with news and offers
@@ -161,16 +161,16 @@ const Payment = () => {
                   placeholder="Enter Phone Number"
                 />
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="link-checkbox-bottom"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox-bottom"
-                  class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
+                  htmlFor="link-checkbox-bottom"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
                     Save this information for next time
@@ -215,10 +215,10 @@ const Payment = () => {
           </form>
 
           <div className="pt-4 border-t-2 border-gray-200 mt-10 flex gap-x-4 text-gray-500">
-            <Link href="/refund">Refund Policy</Link>
-            <Link href="/refund">Shipping Policy</Link>
-            <Link href="/refund">Privacy Policy</Link>
-            <Link href="/refund">Terms of use</Link>
+            <Link passHref  href="/refund">Refund Policy</Link>
+            <Link passHref  href="/refund">Shipping Policy</Link>
+            <Link passHref  href="/refund">Privacy Policy</Link>
+            <Link passHref  href="/refund">Terms of use</Link>
           </div>
         </div>
       </div>
