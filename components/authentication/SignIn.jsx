@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from "firebase/auth";
+} from "@firebase/auth";
 import usefetch from "@/customhooks/usefetch";
 
 const SignIn = ({ setAuth, setIsAuth }) => {

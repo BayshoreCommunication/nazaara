@@ -8,11 +8,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from "firebase/auth";
+} from "@firebase/auth";
 import usefetch from "@/customhooks/usefetch";
 import axios from "axios";
 
 const SignUp = ({ setAuth, setIsAuth }) => {
+  console.log(typeof GoogleAuthProvider);
   const [user, setUser] = useState({
     name: "",
     email: "",
