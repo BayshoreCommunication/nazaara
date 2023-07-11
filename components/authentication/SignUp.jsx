@@ -54,7 +54,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                 (elem) => elem.displayName
               )[0],
               email: userGoogle.providerData.map((elem) => elem.email)[0],
-              password: "dummy",
+              password: Math.random().toString(36).slice(-8),
               phone: "",
               refund: 0,
               imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
@@ -67,11 +67,6 @@ const SignUp = ({ setAuth, setIsAuth }) => {
               console.log(error);
             });
         }
-
-        // localStorage.setItem(
-        //   "userAuthCredential",
-        //   JSON.stringify(userAuthCredential.user)
-        // );
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       })
