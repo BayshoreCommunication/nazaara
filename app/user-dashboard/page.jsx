@@ -1,25 +1,24 @@
 "use client"
 import DashboardUtil from '@/components/user-dashboard/DashboardUtil'
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
 import { useSelector } from 'react-redux';
 
 const UserDashboard = () => {
     const dashboardValue = useSelector((state) => state.selectDashboard.value)
-    console.log(dashboardValue);
+    // console.log(dashboardValue);
   return (
     <div className='container my-10 flex flex-col gap-y-4'>
         <h2 className='text-xl font-semibold'>Hello, Sadit Shekh</h2>
         <DashboardUtil />
-        {
-            dashboardValue === "profile" && 
-            <div>
-                <div className='text-gray-600 flex gap-4 items-start'>
+        <div>
+        <div className='text-gray-600 flex flex-col lg:flex-row gap-4 items-start'>
             <div className='border rounded-lg py-2 px-4 flex-1'>
                 <div className='flex gap-2 mb-2'>
                     <p className='text-lg font-medium'>Personal Profile</p>
                     <p> | </p>
-                    <button className='text-primary-color'>Edit</button>
+                    <Link href="/user-dashboard/wewhuwdus" passHref><button className='text-primary-color'>Edit</button></Link>
                 </div>
                 <p>Sadit Shekh</p>
                 <p>sadit@gmail.com</p>
@@ -51,11 +50,11 @@ const UserDashboard = () => {
 
             </div>
             </div>
-            </div>
+        </div>
             {/* recent order  */}
             <div>
             
-            <div className="relative overflow-x-auto border py-2 px-4 rounded-lg text-gray-500">
+            <div className="relative overflow-x-auto border py-2 px-4 rounded-lg text-gray-500 mt-4">
                 <h2 className='text-lg font-medium ml-2 mb-2'>Recent Orders</h2>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -175,16 +174,17 @@ const UserDashboard = () => {
             </div>
 
             </div>
-            </div>
-
-           
+            </div>  
+        {/* {
+            dashboardValue === "profile" && 
+            
+        } */}
+        {/* {
+            dashboardValue === "order" && <MyOrder />
         }
         {
-            dashboardValue === "order" && <h1>order here</h1>
-        }
-        {
-            dashboardValue === "return" && <h1>return here</h1>
-        }
+            dashboardValue === "return" && <MyReturn />
+        } */}
     </div>
   )
 }
