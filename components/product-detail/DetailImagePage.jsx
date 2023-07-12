@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ProductData } from "@/data/product";
 import ProductModal from "../modal/ProductModal";
 import { useState } from "react";
-import useWindowDimensions from "../useDimensionWindow";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
 
 const DetailImage = ({ setOpenModal, openModal }) => {
   const [imgUrl, setImgUrl] = useState();

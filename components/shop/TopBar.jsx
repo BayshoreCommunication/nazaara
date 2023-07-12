@@ -20,7 +20,7 @@ const TopBar = ({ title, desc }) => {
   return (
     <div className="py-4 border-b">
       <div className="flex items-center gap-4 text-gray-500">
-        <Link passHref  className="flex items-center gap-1" href="/">
+        <Link className="flex items-center gap-1" href="/">
           <AiFillHome />
           <span className="hover:underline hover:underline-offset-2">Home</span>
         </Link>

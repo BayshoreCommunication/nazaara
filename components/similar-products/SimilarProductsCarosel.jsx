@@ -5,7 +5,7 @@ import SwiperCore, { Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import SingleCard from "../card/youMayLike/SingleCard";
-import useWindowDimensions from "../useDimensionWindow";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
 
 const SimilarProductsCarosel = () => {
   SwiperCore.use([Autoplay]);
