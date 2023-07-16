@@ -58,6 +58,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
               password: Math.random().toString(36).slice(-8),
               phone: "",
               refund: 0,
+              addressBook: "",
               imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
             })
             .then((response) => {

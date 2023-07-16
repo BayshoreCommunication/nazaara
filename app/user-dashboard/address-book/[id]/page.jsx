@@ -11,10 +11,13 @@ const AddressBook = () => {
       <h2 className="text-xl font-semibold">Hello, Sadit Shekh</h2>
       <DashboardUtil />
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold mb-3 text-gray-800">
+        <h1 className="text-lg font-semibold my-3 text-gray-800">
           Address Book
         </h1>
-        <button className="flex items-center gap-1 text-sm font-medium text-gray-700">
+        <button
+          onClick={() => setAddressModalOpen(true)}
+          className="flex items-center gap-1 text-sm font-medium text-gray-700"
+        >
           <AiOutlinePlus color="#820000" /> Add New Address
         </button>
       </div>
