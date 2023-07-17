@@ -1,13 +1,34 @@
 "use client";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
+import usefetch from "@/customhooks/usefetch";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const UserDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user, setUser] = useState();
   const [addressBookModalOpen, setAddressBookModalOpen] = useState(false);
+  // console.log("process.env.API_URL", process.env.API_URL);
+  const url = `${process.env.API_URL}/api/v1/user`;
+  // const dataUser = useCallback(async () => {
+  //   const data = await usefetch(url);
+  //   setUser(data);
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(url);
+      const jsonData = await res.json();
+      setUser(jsonData.data);
+      // console.log("res", jsonData);
+    };
+    fetchData();
+  }, [url]);
+
+  console.log("user", user);
+
   return (
     <div className="container my-10 flex flex-col gap-y-4">
       <h2 className="text-xl font-semibold">Hello, Sadit Shekh</h2>

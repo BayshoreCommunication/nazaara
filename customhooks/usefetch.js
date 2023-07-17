@@ -6,7 +6,7 @@ const usefetch = async (url) => {
       throw new Error("Failed to fetch data");
     }
 
-    const jsonData = res.json();
+    const jsonData = await res.json();
 
     return jsonData;
   } catch (error) {
