@@ -2,6 +2,7 @@
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
 import usefetch from "@/customhooks/usefetch";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -12,10 +13,6 @@ const UserDashboard = () => {
   const [addressBookModalOpen, setAddressBookModalOpen] = useState(false);
   // console.log("process.env.API_URL", process.env.API_URL);
   const url = `${process.env.API_URL}/api/v1/user`;
-  // const dataUser = useCallback(async () => {
-  //   const data = await usefetch(url);
-  //   setUser(data);
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,11 +24,24 @@ const UserDashboard = () => {
     fetchData();
   }, [url]);
 
-  console.log("user", user);
+  // console.log("user", user);
+
+  let getUserIdFromCookie;
+  const cookie = getCookie("userAuthCredential");
+  if (cookie != null) {
+    const obj = JSON.parse(cookie);
+    getUserIdFromCookie = obj._id;
+  }
+
+  // console.log(getUserIdFromCookie);
+
+  const authUserData = user?.find((data) => data._id === getUserIdFromCookie);
+
+  console.log(authUserData);
 
   return (
     <div className="container my-10 flex flex-col gap-y-4">
-      <h2 className="text-xl font-semibold">Hello, Sadit Shekh</h2>
+      <h2 className="text-xl font-semibold">Hello, {authUserData?.fullName}</h2>
       <DashboardUtil />
       <div>
         <div className="text-gray-600 flex flex-col lg:flex-row gap-4 items-start">
@@ -46,8 +56,8 @@ const UserDashboard = () => {
                 Edit
               </button>
             </div>
-            <p>Sadit Shekh</p>
-            <p>sadit@gmail.com</p>
+            {authUserData?.fullName && <p>{authUserData?.fullName}</p>}
+            {authUserData?.email && <p>{authUserData?.email}</p>}
             <p>Phone: +880 1303949494</p>
             <p>Gender: Male</p>
           </div>
@@ -55,26 +65,28 @@ const UserDashboard = () => {
             <div className="flex gap-2 mb-2">
               <p className="text-lg font-medium">Address Book</p>
               <p> | </p>
-              <Link href="/user-dashboard/address-book/erere">
+              <Link href={`/user-dashboard/${authUserData?._id}`}>
                 <button className="text-primary-color">Edit</button>
               </Link>
             </div>
-            <div className="flex">
-              <div className="border-e-2 flex-1">
-                <p className="text-md">Default Shopping Address</p>
-                <p className="my-2 font-semibold text-gray-700">Sadit Shekh</p>
-                <p>Block A, road-12, House-10</p>
-                <p>Dhaka, Dhaka North, Aftabnogor</p>
-                <p>+880 9329383829</p>
+
+            {authUserData?.addressBook && (
+              <div className="flex gap-3">
+                {authUserData?.addressBook.map((data) => (
+                  <div key={data._id} className="border-e-2 flex-1">
+                    <p className="text-md text-green-700 bg-slate-200 px-2 py-1 w-max text-xs">
+                      {data?.addressType}
+                    </p>
+                    <p className="my-2 font-semibold text-gray-700">
+                      {data?.fullName}
+                    </p>
+                    <p>{`${data?.street}, ${data?.zip}`}</p>
+                    <p>{`${data?.city}, ${data?.country}`}</p>
+                    <p>{data?.mobile}</p>
+                  </div>
+                ))}
               </div>
-              <div className="flex-1 ml-4">
-                <p className="text-md">Default Billing Address</p>
-                <p className="my-2 font-semibold text-gray-700">Sadit Shekh</p>
-                <p>Block A, road-12, House-10</p>
-                <p>Dhaka, Dhaka North, Aftabnogor</p>
-                <p>+880 9329383829</p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
         {/* recent order  */}
