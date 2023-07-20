@@ -11,7 +11,14 @@ export const usersApi = createApi({
     getUserByID: builder.query({
       query: (id) => `/api/v1/user/${id}`,
     }),
+    getUserAddressByID: builder.query({
+      query: (id) => `/api/v1/user-addressbook/${id}`,
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useGetUserByIDQuery } = usersApi;
+export const {
+  useGetUsersQuery,
+  useGetUserByIDQuery,
+  useGetUserAddressByIDQuery,
+} = usersApi;

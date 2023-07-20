@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/Loader";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditAddressBook from "@/components/user-dashboard/EditAddressBookModal";
 import { useGetUserByIDQuery } from "@/services/userApi";
@@ -7,12 +8,27 @@ import { AiOutlinePlus } from "react-icons/ai";
 
 const AddressBook = ({ params }) => {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
+  const [addressEditId, setAddressEditId] = useState("");
+
   const userData = useGetUserByIDQuery(params.addressBookId);
+
+  const { isLoading: userDataLoading } = userData;
+
+  if (userDataLoading) {
+    return <Loader height="h-[90vh]" />;
+  }
 
   let data;
   if (userData.status === "fulfilled") {
     data = userData.data.data;
   }
+
+  const handleEditModal = (id) => {
+    setAddressModalOpen(true);
+    setAddressEditId(id);
+  };
+
+  // console.log("addressId", addressEditId);
 
   return (
     <div className="container my-10">
@@ -41,7 +57,8 @@ const AddressBook = ({ params }) => {
               <div className="flex justify-between">
                 <p className="text-base font-semibold">{data?.fullName}</p>
                 <button
-                  onClick={() => setAddressModalOpen(true)}
+                  // onClick={() => setAddressModalOpen(true)}
+                  onClick={() => handleEditModal(data?._id)}
                   className="text-primary-color font-medium"
                 >
                   EDIT
@@ -62,7 +79,10 @@ const AddressBook = ({ params }) => {
           ))}
       </div>
       {addressModalOpen && (
-        <EditAddressBook setAddressBookModalOpen={setAddressModalOpen} />
+        <EditAddressBook
+          addressEditId={addressEditId}
+          setAddressBookModalOpen={setAddressModalOpen}
+        />
       )}
     </div>
   );

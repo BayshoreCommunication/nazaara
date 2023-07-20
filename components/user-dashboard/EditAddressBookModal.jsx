@@ -1,6 +1,9 @@
+import { useGetUserAddressByIDQuery } from "@/services/userApi";
 import { IoCloseSharp } from "react-icons/io5";
 
-const EditAddressBook = ({ setAddressBookModalOpen }) => {
+const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
+  const address = useGetUserAddressByIDQuery(addressEditId);
+  console.log("address book", address);
   return (
     <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center backdrop-opacity-50 bg-white/60 ">
       <div className="h-max w-96 lg:w-[28rem] bg-white relative rounded-xl border-4 border-secondary-color">
@@ -19,14 +22,14 @@ const EditAddressBook = ({ setAddressBookModalOpen }) => {
               <div className="grid grid-cols-2 gap-x-3">
                 <div className="mb-3">
                   <label
-                    htmlFor="fullName"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Full Name
                   </label>
                   <input
                     type="text"
-                    id="fullName"
+                    id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Name"
                     required
@@ -49,16 +52,16 @@ const EditAddressBook = ({ setAddressBookModalOpen }) => {
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="province"
+                    htmlFor="Street"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Province
+                    Street
                   </label>
                   <input
                     type="text"
-                    id="province"
+                    id="Street"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="province"
+                    placeholder="Street"
                     required
                   />
                 </div>
@@ -79,51 +82,49 @@ const EditAddressBook = ({ setAddressBookModalOpen }) => {
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="area"
+                    htmlFor="Country"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Area
+                    Country
                   </label>
                   <input
                     type="text"
-                    id="area"
+                    id="Country"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="area"
+                    placeholder="Country"
                     required
                   />
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="address"
+                    htmlFor="Zip"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Address
+                    Zip
                   </label>
                   <input
                     type="text"
-                    id="address"
+                    id="Zip"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="address"
+                    placeholder="Zip"
                     required
                   />
                 </div>
 
                 <div className="mb-3">
                   <label
-                    htmlFor="countries"
+                    htmlFor="type"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Select Address Type
                   </label>
                   <select
-                    id="countries"
+                    id="type"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   >
-                    <option selected disabled>
-                      Choose a Address
-                    </option>
+                    <option disabled>Choose Address Type</option>
                     <option value="Home">Home</option>
-                    <option value="Office">Office</option>
+                    <option value="Workspace">Workspace</option>
                   </select>
                 </div>
               </div>
