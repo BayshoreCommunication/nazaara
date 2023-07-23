@@ -1,11 +1,15 @@
 import { useGetUserAddressByIDQuery } from "@/services/userApi";
 import { IoCloseSharp } from "react-icons/io5";
+import Loader from "../Loader";
+import { ScaleLoader } from "react-spinners";
 
 const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
-  const address = useGetUserAddressByIDQuery(addressEditId);
-  console.log("address book", address);
+  const {data, isLoading} = useGetUserAddressByIDQuery(addressEditId);
+  const addressData = data?.data;
   return (
-    <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center backdrop-opacity-50 bg-white/60 ">
+   <>
+    {
+      !isLoading && <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center backdrop-opacity-50 bg-white/60 ">
       <div className="h-max w-96 lg:w-[28rem] bg-white relative rounded-xl border-4 border-secondary-color">
         <button
           className="btn btn-sm btn-circle absolute right-3 top-[6px]"
@@ -32,6 +36,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Name"
+                    defaultValue={addressData?.fullName}
                     required
                   />
                 </div>
@@ -47,6 +52,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="mobile"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Mobile"
+                    defaultValue={addressData?.mobile}
                     required
                   />
                 </div>
@@ -62,6 +68,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="Street"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Street"
+                    defaultValue={addressData?.street}
                     required
                   />
                 </div>
@@ -77,6 +84,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="city"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="city"
+                    defaultValue={addressData?.city}
                     required
                   />
                 </div>
@@ -92,6 +100,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="Country"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Country"
+                    defaultValue={addressData?.country}
                     required
                   />
                 </div>
@@ -107,6 +116,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="Zip"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Zip"
+                    defaultValue={addressData?.zip}
                     required
                   />
                 </div>
@@ -136,6 +146,8 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
         </div>
       </div>
     </div>
+    }
+   </>
   );
 };
 

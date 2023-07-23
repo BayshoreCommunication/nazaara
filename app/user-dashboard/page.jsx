@@ -1,7 +1,9 @@
 "use client";
+import Loader from "@/components/Loader";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
-import usefetch from "@/customhooks/usefetch";
+// import usefetch from "@/customhooks/usefetch";
+import { useGetUserByIDQuery } from "@/services/userApi";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,23 +11,8 @@ import React, { useEffect, useState } from "react";
 
 const UserDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState();
-  const [addressBookModalOpen, setAddressBookModalOpen] = useState(false);
-  // console.log("process.env.API_URL", process.env.API_URL);
-  const url = `${process.env.API_URL}/api/v1/user`;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(url);
-      const jsonData = await res.json();
-      setUser(jsonData.data);
-      // console.log("res", jsonData);
-    };
-    fetchData();
-  }, [url]);
-
-  // console.log("user", user);
-
+  //get authenticate user id using cookie
   let getUserIdFromCookie;
   const cookie = getCookie("userAuthCredential");
   if (cookie != null) {
@@ -33,11 +20,14 @@ const UserDashboard = () => {
     getUserIdFromCookie = obj._id;
   }
 
-  // console.log(getUserIdFromCookie);
+  //fetch specific user data using rtk query
+  const {data, isLoading} = useGetUserByIDQuery(getUserIdFromCookie);
 
-  const authUserData = user?.find((data) => data._id === getUserIdFromCookie);
-
-  console.log(authUserData);
+  // when isLoading is false show loading spinner
+  if (isLoading) {
+    return <Loader height="h-[90vh]" />;
+  }
+  const authUserData = data.data;
 
   return (
     <div className="container my-10 flex flex-col gap-y-4">
