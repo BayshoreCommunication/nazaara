@@ -31,7 +31,7 @@ const AddressBook = ({ params }) => {
   return (
     <>
       {
-        userDataLoading && <div className="container my-10">
+        !userDataLoading && <div className="container my-10">
         {data && (
           <h2 className="text-xl font-semibold">Hello, {data?.fullName}</h2>
         )}

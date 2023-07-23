@@ -1,11 +1,39 @@
 import { useGetUserAddressByIDQuery } from "@/services/userApi";
+import { useEffect, useMemo } from "react";
+import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
-import Loader from "../Loader";
-import { ScaleLoader } from "react-spinners";
 
 const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
+
   const {data, isLoading} = useGetUserAddressByIDQuery(addressEditId);
   const addressData = data?.data;
+  const [formData, setFormData] = useState({
+    fullName: "",
+    mobile: '',
+    street: '',
+    city: '',
+    country: '',
+    zip: '',
+    addressType: '',
+  });
+
+  useEffect(()=> {
+    if(addressData){
+      setFormData({...addressData})
+    }
+  }, [addressData])
+
+  console.log(formData)
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(); // This line should work now
+    formData.append('image', profileData.image)
+    // Perform any required actions with the form data
+    console.log(data);
+    // Submit the form data to an API or perform other operations as needed
+  };
+
   return (
    <>
     {
@@ -22,7 +50,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
         </h2>
         <div className="mt-3 mb-3 mx-4">
           <div>
-            <form className="border p-5 rounded-lg">
+            <form onSubmit={handleSubmit} className="border p-5 rounded-lg">
               <div className="grid grid-cols-2 gap-x-3">
                 <div className="mb-3">
                   <label
@@ -34,9 +62,11 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                   <input
                     type="text"
                     id="name"
+                    name="fullName"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Name"
-                    defaultValue={addressData?.fullName}
+                    defaultValue={formData?.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.fullName})}
                     required
                   />
                 </div>
@@ -52,7 +82,9 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="mobile"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Mobile"
-                    defaultValue={addressData?.mobile}
+                    name="mobile"
+                    defaultValue={formData?.mobile}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.mobile})}
                     required
                   />
                 </div>
@@ -68,7 +100,9 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="Street"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Street"
-                    defaultValue={addressData?.street}
+                    name="street"
+                    defaultValue={formData?.street}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.street})}
                     required
                   />
                 </div>
@@ -84,7 +118,9 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="city"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="city"
-                    defaultValue={addressData?.city}
+                    name="city"
+                    defaultValue={formData?.city}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.city})}
                     required
                   />
                 </div>
@@ -98,9 +134,11 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                   <input
                     type="text"
                     id="Country"
+                    name="country"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Country"
-                    defaultValue={addressData?.country}
+                    defaultValue={formData?.country}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.country})}
                     required
                   />
                 </div>
@@ -116,7 +154,9 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     id="Zip"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Zip"
-                    defaultValue={addressData?.zip}
+                    name="zip"
+                    defaultValue={formData?.zip}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.zip})}
                     required
                   />
                 </div>
@@ -130,15 +170,36 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                   </label>
                   <select
                     id="type"
+                    name="addressType"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    defaultValue={formData?.addressType}
+                    onChange={(e) => setFormData({...formData, addressType: e.target.value})}
                   >
                     <option disabled>Choose Address Type</option>
                     <option value="Home">Home</option>
                     <option value="Workspace">Workspace</option>
                   </select>
                 </div>
+
+                {/* <div className="mb-3">
+                  <label
+                    htmlFor="type"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select Address Type
+                  </label>
+                  <select
+                    id="type"
+                    name="addressType"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  >
+                    <option disabled>Choose Address Type</option>
+                    <option value="Home">Home</option>
+                    <option value="Workspace">Workspace</option>
+                  </select>
+                </div> */}
               </div>
-              <button className="mt-4 w-full bg-primary-color py-2 text-white rounded-md hover:bg-primary-hover-color text-sm">
+              <button type="submit" className="mt-4 w-full bg-primary-color py-2 text-white rounded-md hover:bg-primary-hover-color text-sm">
                 Save Changes
               </button>
             </form>
