@@ -6,6 +6,7 @@ import ModalPopup from "@/components/modal/ModalPopup";
 import { usePathname } from "next/navigation";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }) {
   const router = usePathname();
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
       <title>Nazara</title>
       <body>
         <Provider store={store}>
+        <Toaster position="top-center" reverseOrder={false} />
           {router === "/payment" ? (
             children
           ) : (

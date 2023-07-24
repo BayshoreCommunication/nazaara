@@ -27,10 +27,12 @@ const UserDashboard = () => {
   if (isLoading) {
     return <Loader height="h-[90vh]" />;
   }
-  const authUserData = data.data;
+  const authUserData = data?.data;
 
   return (
-    <div className="container my-10 flex flex-col gap-y-4">
+    <>
+    {
+      isLoading ? <Loader height="h-[90vh]" /> : <div className="container my-10 flex flex-col gap-y-4">
       <h2 className="text-xl font-semibold">Hello, {authUserData?.fullName}</h2>
       <DashboardUtil />
       <div>
@@ -198,6 +200,8 @@ const UserDashboard = () => {
       </div>
       {isModalOpen && <EditUserProfile setIsModalOpen={setIsModalOpen} />}
     </div>
+    }
+    </>
   );
 };
 

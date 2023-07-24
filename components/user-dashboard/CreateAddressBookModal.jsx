@@ -1,71 +1,54 @@
-import { useGetUserAddressByIDQuery, useUpdateUserAddressByIdMutation } from "@/services/userApi";
-import { useMemo } from "react";
+"use client"
+import { useCreateAddressMutation } from "@/services/userApi";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { IoCloseSharp } from "react-icons/io5";
 
-const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
+const CreateAddressBook = ({ setAddAddressBookModal, userId }) => {
+    const [createAddress]=useCreateAddressMutation();
+    const [formData, setFormData] = useState({
+        user_id: userId,
+        fullName: "",
+        mobile: '',
+        street: '',
+        city: '',
+        country: '',
+        zip: '',
+        addressType: '',
+      });
 
-  const {data, isLoading} = useGetUserAddressByIDQuery(addressEditId);
-  const addressData = data?.data;
-
-  const [formData, setFormData] = useState({
-    fullName: "",
-    mobile: '',
-    street: '',
-    city: '',
-    country: '',
-    zip: '',
-    addressType: '',
-  });
-
- 
-
-  const [updateUserAddress, {isLoading: isUpdating}] = useUpdateUserAddressByIdMutation()
-
-  useMemo(()=> {
-    if(addressData !== undefined){
-      setFormData({...addressData})
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        const data = await createAddress(formData);
+        if (data) {
+            setAddAddressBookModal(false)
+            toast.success("New Address Created", { duration: 3000 });
+        // Reset form fields
+        // setFormData({
+        //     name: "",
+        //     status: "",
+        // });
+        }
     }
-  }, [addressData])
-
-  if (isLoading) {
-    return <></>
-  }
-
-  const id = addressData?._id;
-
-  const handleSubmit = async(event) => {
-    try {
-      event.preventDefault();
-      const updateAddress = await updateUserAddress({id, payload: formData})
-      if (updateAddress.data.success) {
-        setAddressBookModalOpen(false);
-        toast.success("Address updated successfully", { duration: 3000 });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
    <>
     {
-      !isLoading && <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center backdrop-opacity-50 bg-white/60 ">
+    <div className="fixed z-10 left-0 top-0 h-full w-full overflow-auto flex items-center justify-center backdrop-opacity-50 bg-white/60 ">
       <div className="h-max w-96 lg:w-[28rem] bg-white relative rounded-xl border-4 border-secondary-color">
         <button
           className="btn btn-sm btn-circle absolute right-3 top-[6px]"
-          onClick={() => setAddressBookModalOpen(false)}
+          onClick={() => setAddAddressBookModal(false)}
         >
           <IoCloseSharp size={26} color="gray" />
         </button>
         <h2 className="ml-9 mt-5 text-lg font-semibold text-gray-600">
-          Edit Your Address Details:
+          Add Your Address Details:
         </h2>
         <div className="mt-3 mb-3 mx-4">
           <div>
             <form onSubmit={handleSubmit} className="border p-5 rounded-lg">
-              <div className="grid grid-cols-2 gap-x-3">
+            <div className="grid grid-cols-2 gap-x-3">
                 <div className="mb-3">
                   <label
                     htmlFor="name"
@@ -79,7 +62,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     name="fullName"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Name"
-                    value={formData?.fullName}
+                    // value={formData?.fullName}
                     onChange={(e) => setFormData({...formData, fullName:e.target.value})}
                     required
                   />
@@ -97,7 +80,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Mobile"
                     name="mobile"
-                    value={formData?.mobile}
+                    // value={formData?.mobile}
                     onChange={(e) => setFormData({...formData, mobile: e.target.value})}
                     required
                   />
@@ -115,7 +98,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Street"
                     name="street"
-                    defaultValue={formData?.street}
+                    // defaultValue={formData?.street}
                     onChange={(e) => setFormData({...formData, street: e.target.value})}
                     required
                   />
@@ -133,7 +116,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="city"
                     name="city"
-                    defaultValue={formData?.city}
+                    // defaultValue={formData?.city}
                     onChange={(e) => setFormData({...formData, city: e.target.value})}
                     required
                   />
@@ -151,7 +134,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     name="country"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Country"
-                    defaultValue={formData?.country}
+                    // defaultValue={formData?.country}
                     onChange={(e) => setFormData({...formData, country: e.target.value})}
                     required
                   />
@@ -169,7 +152,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Zip"
                     name="zip"
-                    defaultValue={formData?.zip}
+                    // defaultValue={formData?.zip}
                     onChange={(e) => setFormData({...formData, zip: e.target.value})}
                     required
                   />
@@ -185,36 +168,20 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                   <select
                     id="type"
                     name="addressType"
+                    required
+                    defaultValue="Choose"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    defaultValue={formData?.addressType}
+                    // defaultValue={formData?.addressType}
                     onChange={(e) => setFormData({...formData, addressType: e.target.value})}
                   >
-                    <option disabled>Choose Address Type</option>
+                    <option value="Choose" disabled selected>Choose Address Type</option>
                     <option value="Home">Home</option>
                     <option value="Workspace">Workspace</option>
                   </select>
                 </div>
-
-                {/* <div className="mb-3">
-                  <label
-                    htmlFor="type"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select Address Type
-                  </label>
-                  <select
-                    id="type"
-                    name="addressType"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  >
-                    <option disabled>Choose Address Type</option>
-                    <option value="Home">Home</option>
-                    <option value="Workspace">Workspace</option>
-                  </select>
-                </div> */}
               </div>
               <button type="submit" className="mt-4 w-full bg-primary-color py-2 text-white rounded-md hover:bg-primary-hover-color text-sm">
-                Save Changes
+                Add New Address
               </button>
             </form>
           </div>
@@ -226,4 +193,4 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
   );
 };
 
-export default EditAddressBook;
+export default CreateAddressBook;
