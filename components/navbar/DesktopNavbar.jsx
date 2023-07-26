@@ -25,10 +25,14 @@ const DesktopNavbar = () => {
   let imageUrl = "";
   // Perform localStorage action
   const jsonStr = getCookie("userAuthCredential");
+  console.log("jsonStr", jsonStr)
+
   if (jsonStr != null) {
     const obj = JSON.parse(jsonStr);
     imageUrl = obj.imageUrl;
   }
+
+  console.log("datafound", imageUrl)
 
   return (
     <div className="hidden lg:block container py-4">

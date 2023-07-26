@@ -48,19 +48,22 @@ const SignUp = ({ setAuth, setIsAuth }) => {
         const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
         const userAuthCheck = await usefetch(url);
 
+        const formData = {
+          fullName: userGoogle.providerData.map(
+            (elem) => elem.displayName
+          )[0],
+          email: userGoogle.providerData.map((elem) => elem.email)[0],
+          password: Math.random().toString(36).slice(-8),
+          phone: "",
+          refund: 0,
+          addressBook: "",
+          imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
+        };
+
+
         if (userAuthCheck.status === "Not matched") {
           axios
-            .post(`${process.env.API_URL}/api/v1/user`, {
-              fullName: userGoogle.providerData.map(
-                (elem) => elem.displayName
-              )[0],
-              email: userGoogle.providerData.map((elem) => elem.email)[0],
-              password: Math.random().toString(36).slice(-8),
-              phone: "",
-              refund: 0,
-              addressBook: "",
-              imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
-            })
+            .post(`${process.env.API_URL}/api/v1/user`, formData)
             .then((response) => {
               setIsAuth(false);
               console.log(response);
