@@ -3,31 +3,30 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Subscribe = () => {
-  const [formData, setFormData] = useState('');
-  const handleChange = (e) =>{
+  const [formData, setFormData] = useState("");
+  const handleChange = (e) => {
     setFormData(e.target.value);
-  }
-  const handleSubmit = async(e) =>{
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = `${process.env.API_URL}/api/v1/subscriber`;
 
-      const response = await axios.post(url, {email: formData});
+      const response = await axios.post(url, { email: formData });
 
       if (response.status === 200) {
-        toast.success("Successfully Subscribed")
-        setFormData('');
+        toast.success("Successfully Subscribed");
+        setFormData("");
       }
     } catch (error) {
       if (error.response.status === 422) {
         toast.error("Already Subscribed with this email!");
-        setFormData('')
-      }
-      else{
-        toast.error("Something Went Wrong!")
+        setFormData("");
+      } else {
+        toast.error("Something Went Wrong!");
       }
     }
-  }
+  };
   return (
     <div className="container text-white flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-10 py-6">
       <div className="lg:w-3/5">
@@ -38,8 +37,12 @@ const Subscribe = () => {
           receive our newsletter. You can opt out at any time.
         </p>
       </div>
+
       <div className="lg:w-2/5">
-        <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col lg:flex-row gap-2"
+        >
           <input
             type="email"
             value={formData}
