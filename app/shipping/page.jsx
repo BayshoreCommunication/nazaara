@@ -4,7 +4,7 @@ import { FaTruck } from "react-icons/fa";
 const ShippingDelivery = () => {
   return (
     <div>
-      <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-2xl font-medium text-gray-600">
+      <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-xl font-medium text-gray-600">
         <FaTruck />
         SHIPPING & DELIVERY
       </h1>
