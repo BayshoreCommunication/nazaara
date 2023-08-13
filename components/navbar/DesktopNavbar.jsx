@@ -4,13 +4,14 @@ import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
 import SignIn from "../authentication/SignIn";
 import SignUp from "../authentication/SignUp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 
 const DesktopNavbar = () => {
   const [auth, setAuth] = useState("signIn");
   const [isAuth, setIsAuth] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [imgUrl, setImgUrl] = useState(null);
 
   const handleAuth = () => {
     setIsCartOpen(false);
@@ -22,14 +23,15 @@ const DesktopNavbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-  let imageUrl = "";
   // Perform localStorage action
-  const jsonStr = getCookie("userAuthCredential");
 
-  if (jsonStr != null) {
-    const obj = JSON.parse(jsonStr);
-    imageUrl = obj.imageUrl;
-  }
+  useEffect(() => {
+    const jsonStr = getCookie("userAuthCredential");
+    if (jsonStr != null) {
+      const obj = JSON.parse(jsonStr);
+      setImgUrl(obj.imageUrl);
+    }
+  }, []);
 
   return (
     <div className="hidden lg:block container py-4">
@@ -55,7 +57,7 @@ const DesktopNavbar = () => {
 
             <div className="relative">
               <Image
-                src={imageUrl != "" ? imageUrl : "/images/logo/user.svg"}
+                src={imgUrl != null ? imgUrl : "/images/logo/user.svg"}
                 alt="logo"
                 width={20}
                 height={20}

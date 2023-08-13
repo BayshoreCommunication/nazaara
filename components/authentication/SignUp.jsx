@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import usefetch from "@/customhooks/usefetch";
 import axios from "axios";
+import firebase_app from "@/firebase/config";
 
 const SignUp = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState("");
@@ -20,19 +21,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
     phone: "",
     password: "",
   });
-
-  const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASURMENT_ID,
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const auth = getAuth(firebase_app);
   const googleProvider = new GoogleAuthProvider();
   // const facebookProvider = new FacebookAuthProvider();
 
@@ -49,9 +38,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
         const userAuthCheck = await usefetch(url);
 
         const formData = {
-          fullName: userGoogle.providerData.map(
-            (elem) => elem.displayName
-          )[0],
+          fullName: userGoogle.providerData.map((elem) => elem.displayName)[0],
           email: userGoogle.providerData.map((elem) => elem.email)[0],
           password: Math.random().toString(36).slice(-8),
           phone: "",
@@ -59,7 +46,6 @@ const SignUp = ({ setAuth, setIsAuth }) => {
           addressBook: "",
           imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
         };
-
 
         if (userAuthCheck.status === "Not matched") {
           axios
