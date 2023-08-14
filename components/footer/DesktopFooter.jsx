@@ -61,15 +61,15 @@ const DesktopFooter = () => {
                 CUSTOMER SERVICE
               </p>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Track Your Order</Link>
+                <Link href="/order-track">Track Your Order</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Shipping & Delivery</Link>
+                <Link href="/shipping">Shipping & Delivery</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Return & Exchange</Link>
+                <Link href="/return&exchange">Return & Exchange</Link>
               </li>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/">Book an Appointment</Link>
@@ -87,11 +87,11 @@ const DesktopFooter = () => {
                 MORE FROM NAZARA
               </p>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">E-Gift Cards</Link>
+                <Link href="/e-gift">E-Gift Cards</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">We’re Hiring!</Link>
+                <Link href="/career">We’re Hiring!</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">

@@ -2,8 +2,27 @@
 import { useState } from "react";
 import TopBar from "@/components/TopBar";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import axios from "axios";
+// import CustomizeData from "@/components/customizeData/CustomizeData";
 
-const Page = () => {
+const Page = async () => {
+  const url = `http://localhost:8000/api/v1/customization/64d9fb77f3a7ce9915b44b6f`;
+  // const data = await CustomizeData(url);
+
+  const [data, setData] = useState({});
+  axios
+    .get(url)
+    .then((response) => {
+      // Handle the successful response
+      setData(response.data);
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error("Error:", error);
+    });
+
+  console.log("datasss", data);
+
   const [toggle, setToggle] = useState({
     value1: false,
     value2: false,
@@ -76,6 +95,8 @@ const Page = () => {
       }));
     }
   };
+
+  // console.log("data hoola", data.ceodata);
 
   return (
     <>
