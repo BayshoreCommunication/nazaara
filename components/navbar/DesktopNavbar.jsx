@@ -4,7 +4,7 @@ import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
 import SignIn from "../authentication/SignIn";
 import SignUp from "../authentication/SignUp";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 
 const DesktopNavbar = () => {
@@ -12,6 +12,19 @@ const DesktopNavbar = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
+
+  const jsonStr = getCookie("userAuthCredential");
+
+  const getCookieData = useCallback(() => {
+    if (jsonStr != null) {
+      const obj = JSON.parse(jsonStr);
+      setImgUrl(obj.imageUrl);
+    }
+  }, [jsonStr]);
+
+  useEffect(() => {
+    getCookieData();
+  }, [getCookieData, jsonStr]);
 
   const handleAuth = () => {
     setIsCartOpen(false);
@@ -22,16 +35,6 @@ const DesktopNavbar = () => {
     setIsAuth(false);
     setIsCartOpen(!isCartOpen);
   };
-
-  // Perform localStorage action
-
-  useEffect(() => {
-    const jsonStr = getCookie("userAuthCredential");
-    if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr);
-      setImgUrl(obj.imageUrl);
-    }
-  }, []);
 
   return (
     <div className="hidden lg:block container py-4">
@@ -54,14 +57,16 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-
             <div className="relative">
               <Image
                 src={imgUrl != null ? imgUrl : "/images/logo/user.svg"}
                 alt="logo"
-                width={20}
-                height={20}
-                className="cursor-pointer"
+                width={23}
+                height={23}
+                className={`cursor-pointer ${
+                  imgUrl &&
+                  "rounded-full h-7 w-7 shadow-md border-2 border-red-800 outline outline-1 outline-white"
+                }`}
                 onClick={() => handleAuth()}
               />
               {/* User Authentication Content */}
@@ -81,8 +86,8 @@ const DesktopNavbar = () => {
               <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
-                width={20}
-                height={20}
+                width={23}
+                height={23}
                 className="cursor-pointer"
                 onClick={() => handleCartOpen()}
               />
