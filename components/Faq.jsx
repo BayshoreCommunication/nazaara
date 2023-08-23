@@ -1,3 +1,4 @@
+//multiple toggle button where if I click one button all are closed
 "use client";
 import React, { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";

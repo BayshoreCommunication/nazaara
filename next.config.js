@@ -11,7 +11,7 @@ const nextConfig = {
     MEASURMENT_ID: process.env.MEASURMENT_ID,
   },
   images: {
-    domains: ["lh3.googleusercontent.com"],
+    domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
   },
 };
 
