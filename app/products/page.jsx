@@ -1,32 +1,36 @@
-"use client";
+// "use client";
+import FetchServerSideData from "@/components/DataFetchingComponent/ServerSideDataFetching";
 import SingleCard from "@/components/card/youMayLike/SingleCard";
-import Brand from "@/components/shop/Brand";
-import Color from "@/components/shop/Color";
-import Delivery from "@/components/shop/Delivery";
-import Discount from "@/components/shop/Discount";
-import Filter from "@/components/shop/Filter";
-import Price from "@/components/shop/Price";
-import Size from "@/components/shop/Size";
-import SortBy from "@/components/shop/SortBy";
-import TopBar from "@/components/shop/TopBar";
+// import Brand from "@/components/shop/Brand";
+// import Color from "@/components/shop/Color";
+// import Delivery from "@/components/shop/Delivery";
+// import Discount from "@/components/shop/Discount";
+// import Filter from "@/components/shop/Filter";
+// import Price from "@/components/shop/Price";
+// import Size from "@/components/shop/Size";
+// import SortBy from "@/components/shop/SortBy";
+// import TopBar from "@/components/shop/TopBar";
 import React from "react";
-import { BsArrowBarRight } from "react-icons/bs";
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/scrollbar";
+// import "swiper/css";
+// import "swiper/css/scrollbar";
 
 // import required modules
-import { Scrollbar } from "swiper";
+// import { Scrollbar } from "swiper";
 
-const Products = () => {
+const Products = async () => {
+  const datas = await FetchServerSideData(
+    "http://localhost:8000/api/v1/product"
+  );
+  console.log("hloo", datas.product);
   return (
     <>
       <div className="container">
-        <div>
+        {/* <div>
           <TopBar
             title="Designer Wear"
             desc="All collection of new products, exclusive collections, the latest trends, and more."
@@ -80,12 +84,15 @@ const Products = () => {
             </div>
             <SortBy />
           </div>
-        </div>
+        </div> */}
 
         {/* products  */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6 my-6">
-          {[...Array(12)].map((x, i) => (
+          {/* {[...Array(12)].map((x, i) => (
             <SingleCard key={i} />
+          ))} */}
+          {datas?.product?.map((data, i) => (
+            <SingleCard data={data} key={i} />
           ))}
         </div>
 
