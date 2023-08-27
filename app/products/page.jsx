@@ -1,7 +1,4 @@
 "use client";
-// import AllProducts from "@/components/AllProducts/AllProducts";
-import ClientSideDataFetching from "@/components/DataFetchingComponent/ClientSideDataFetching";
-import PendingShipBadge from "@/components/PendingShipBadge";
 import PercentageBadge from "@/components/PercentageBadge";
 import ReadyToShipBadge from "@/components/ReadyToShipBadge";
 import TopBar from "@/components/TopBar";
@@ -40,11 +37,6 @@ const Products = () => {
   }, [apiUrl]);
 
   console.log("data using axios", data);
-
-  //pagination
-
-  // const { data: productsData, isLoading: productsLoading } =
-  //   useGetProductsQuery({ page: currentPage, limit });
 
   const totalPages = data?.totalPages;
 
@@ -143,7 +135,7 @@ const Products = () => {
         title="Designer Wear"
         desc="All collection of new products, exclusive collections, the latest trends, and more."
       />
-      <div className="container">
+      <div className="container my-10">
         <div>
           <div>
             <div>

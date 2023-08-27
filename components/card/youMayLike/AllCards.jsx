@@ -11,6 +11,7 @@ import { Scrollbar } from "swiper";
 import SingleCard from "./SingleCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
+// import { getRandomObjects } from "@/components/GetRandomObject";
 
 const AllCards = () => {
   const [data, setData] = useState([]);
@@ -21,7 +22,9 @@ const AllCards = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
-        setData(response.data);
+        if (response.status === 200) {
+          setData(response.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -30,57 +33,84 @@ const AllCards = () => {
     fetchData();
   }, []);
 
-  const productData = data?.product;
+  const productData = data.product;
   console.log("data using axios in all card", productData);
+
+  const numberOfArraysToSelect = 8;
+
+  const [randomArrays, setRandomArrays] = useState([]);
+
+  useEffect(() => {
+    if (data.product !== undefined) {
+      const copyOfListOfArrays = [...data.product];
+
+      for (let i = copyOfListOfArrays.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copyOfListOfArrays[i], copyOfListOfArrays[j]] = [
+          copyOfListOfArrays[j],
+          copyOfListOfArrays[i],
+        ];
+      }
+
+      const selectedArrays = copyOfListOfArrays.slice(
+        0,
+        numberOfArraysToSelect
+      );
+      setRandomArrays(selectedArrays);
+    }
+  }, [data]);
+
+  console.log("randomArrays", randomArrays);
 
   return (
     <>
-      <div className="flex gap-4 lg:hidden card-mobile">
-        <Swiper
-          slidesPerView={2}
-          spaceBetween={10}
-          scrollbar={{
-            hide: false,
-          }}
-          modules={[Scrollbar]}
-          className="mySwiper"
-        >
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-          </SwiperSlide>
-        </Swiper>
-      </div>
-      <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-      </div>
+      {randomArrays && (
+        <>
+          <div className="flex gap-4 lg:hidden card-mobile">
+            <Swiper
+              slidesPerView={2}
+              spaceBetween={10}
+              scrollbar={{
+                hide: false,
+              }}
+              modules={[Scrollbar]}
+              className="mySwiper"
+            >
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SingleCard />
+              </SwiperSlide>
+            </Swiper>
+          </div>
+          <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+            {randomArrays.map((data, i) => (
+              <div key={i}>
+                <SingleCard data={data} />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -26,10 +26,32 @@ import DetailImage from "@/components/product-detail/DetailImagePage";
 import { useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
 import { ProductData } from "@/data/product";
+import axios from "axios";
 
-const ProductDetails = () => {
+const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState(null);
+
+  const apiUrl = `${process.env.API_URL}/api/v1/product/${params.slug}`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        if (response.status === 200) {
+          setData(response);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // {
+  //   data && console.log("data using axios", data.data.data);
+  // }
 
   const handleScroll = () => {
     const div = document.getElementById("leftDiv");
@@ -75,7 +97,13 @@ const ProductDetails = () => {
               isScrollingUp ? "scroll-up" : ""
             }`}
           >
-            <DetailImage setOpenModal={setOpenModal} openModal={openModal} />
+            {data && (
+              <DetailImage
+                productData={data?.data?.data}
+                setOpenModal={setOpenModal}
+                openModal={openModal}
+              />
+            )}
             <div className="block lg:hidden h-96 sm:h-[30rem]">
               <Swiper
                 modules={[Pagination]}
@@ -99,8 +127,11 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="w-full lg:w-[40%] sticky top-0 h-max">
-            <ProductDetailsComponent toggleDrawer={toggleDrawer} />
-            <Accordion />
+            <ProductDetailsComponent
+              data={data?.data?.data}
+              toggleDrawer={toggleDrawer}
+            />
+            <Accordion data={data?.data?.data} />
           </div>
         </div>
         <Drawer
