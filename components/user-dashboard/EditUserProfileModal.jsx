@@ -6,7 +6,7 @@ const EditUserProfile = ({ setIsModalOpen }) => {
   const [file, setFile] = useState();
   console.log(file);
   function handleChange(e) {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
   }
 
