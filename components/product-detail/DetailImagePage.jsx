@@ -19,14 +19,14 @@ const DetailImage = ({ productData, setOpenModal, openModal }) => {
       {productData && (
         <>
           <div className="hidden lg:grid grid-cols-2 gap-4">
-            {productData?.variant?.map((elem, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setOpenModal(true);
-                }}
-              >
-                {elem?.imageUrl?.map((url, index) => (
+            {productData?.variant?.map((elem) =>
+              elem.imageUrl.map((url, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
                   <Image
                     key={url}
                     src={url}
@@ -38,9 +38,9 @@ const DetailImage = ({ productData, setOpenModal, openModal }) => {
                       setCountUrl(index);
                     }}
                   />
-                ))}
-              </button>
-            ))}
+                </button>
+              ))
+            )}
           </div>
           {width > 991 && openModal && (
             <ProductModal

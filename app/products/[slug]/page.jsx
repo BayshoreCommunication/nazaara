@@ -146,7 +146,7 @@ const ProductDetails = ({ params }) => {
     }
   }, [allProducts]);
 
-  // console.log("randomArrays", randomArrays);
+  console.log("randomArrays", data);
 
   return (
     <>

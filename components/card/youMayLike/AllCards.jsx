@@ -33,7 +33,7 @@ const AllCards = () => {
     fetchData();
   }, [apiUrl]);
 
-  const productData = data.product;
+  // const productData = data.product;
 
   //generate randomProducts
   const numberOfArraysToSelect = 8;
@@ -73,30 +73,11 @@ const AllCards = () => {
               modules={[Scrollbar]}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SingleCard />
-              </SwiperSlide>
+              {randomArrays.map((data, i) => (
+                <SwiperSlide key={i}>
+                  <SingleCard data={data} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
           <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
