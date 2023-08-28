@@ -16,6 +16,10 @@ import firebase_app from "@/firebase/config";
 
 const SignIn = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
   const auth = getAuth(firebase_app);
   const googleProvider = new GoogleAuthProvider();
   // const facebookProvider = new FacebookAuthProvider();
@@ -88,11 +92,30 @@ const SignIn = ({ setAuth, setIsAuth }) => {
   //     });
   // };
 
+  const handleInput = (input) => {
+    setUser({ ...user, ...input });
+  };
+
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
+    const userAuthCredential = await usefetch(url);
+    if (userAuthCredential.user) {
+      setCookie("userAuthCredential", JSON.stringify(userAuthCredential.user), {
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      setAuthCheck("Sign in complete.");
+      setIsAuth(false);
+    } else {
+      setAuthCheck("Please sign up first.");
+    }
+  };
+
   return (
-    <div className="absolute bg-white w-max h-max right-0 z-20 top-9 rounded-lg shadow-xl">
+    <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
       <div className="flex flex-col">
         <div className="p-6">
-          <form className="space-y-5" action="#" method="POST">
+          <div className="space-y-5">
             <div>
               <label
                 htmlFor="email"
@@ -105,7 +128,10 @@ const SignIn = ({ setAuth, setIsAuth }) => {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Enter Email"
+                  onChange={(event) => {
+                    handleInput({ email: event.target.value });
+                  }}
+                  placeholder="Enter email"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
                 />
@@ -123,6 +149,9 @@ const SignIn = ({ setAuth, setIsAuth }) => {
                   id="password"
                   name="password"
                   type="password"
+                  onChange={(event) => {
+                    handleInput({ password: event.target.value });
+                  }}
                   placeholder="Enter Password"
                   required
                   className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
@@ -132,13 +161,14 @@ const SignIn = ({ setAuth, setIsAuth }) => {
 
             <div>
               <button
+                onClick={handleSignIn}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
               >
                 Sign In
               </button>
             </div>
-          </form>
+          </div>
           <div className="text-sm text-end mt-1">
             <Link
               href="#"
@@ -174,7 +204,8 @@ const SignIn = ({ setAuth, setIsAuth }) => {
           <div className="flex justify-center gap-x-3 mt-1 font-medium">
             <button
               onClick={googleSignIn}
-              className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-full hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
+              // use w-full to use both
+              className="flex w-1/2 group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
             >
               <AiOutlineGoogle
                 className="hidden group-hover:block"
@@ -183,14 +214,14 @@ const SignIn = ({ setAuth, setIsAuth }) => {
               <FcGoogle className="block group-hover:hidden" color="white" />
               Google
             </button>
-            <button className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-[#1877F2] w-full border-[#1876f258] text-gray-600 hover:text-white">
+            {/* <button className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-[#1877F2] w-full border-[#1876f258] text-gray-600 hover:text-white">
               <BsFacebook className="hidden group-hover:block" color="white" />
               <BsFacebook
                 className="block group-hover:hidden"
                 color="#1877F2"
               />
               Facebook
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

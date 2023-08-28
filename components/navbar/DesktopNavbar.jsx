@@ -58,17 +58,26 @@ const DesktopNavbar = () => {
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
             <div className="relative">
-              <Image
-                src={imgUrl != null ? imgUrl : "/images/logo/user.svg"}
-                alt="logo"
-                width={23}
-                height={23}
-                className={`cursor-pointer ${
-                  imgUrl &&
-                  "rounded-full h-7 w-7 shadow-md border-2 border-red-800 outline outline-1 outline-white"
-                }`}
-                onClick={() => handleAuth()}
-              />
+              {imgUrl != null ? (
+                <Link href="/user-dashboard">
+                  <Image
+                    src={imgUrl}
+                    alt="logo"
+                    width={23}
+                    height={23}
+                    className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2 border-red-800 outline outline-1 outline-white"
+                  />
+                </Link>
+              ) : (
+                <Image
+                  src="/images/logo/user.svg"
+                  alt="logo"
+                  width={23}
+                  height={23}
+                  className="cursor-pointe"
+                  onClick={handleAuth}
+                />
+              )}
               {/* User Authentication Content */}
               {isAuth && (
                 <>

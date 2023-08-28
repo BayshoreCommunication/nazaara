@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithPopup,
@@ -16,7 +15,7 @@ import firebase_app from "@/firebase/config";
 const SignUp = ({ setAuth, setIsAuth }) => {
   const [authCheck, setAuthCheck] = useState("");
   const [user, setUser] = useState({
-    name: "",
+    fullName: "",
     email: "",
     phone: "",
     password: "",
@@ -106,25 +105,55 @@ const SignUp = ({ setAuth, setIsAuth }) => {
     setUser({ ...user, ...input });
   };
 
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
+    const userAuthCheck = await usefetch(url);
+
+    const formData = {
+      fullName: user.fullName,
+      email: user.email,
+      password: user.password,
+      phone: user.phone,
+      refund: 0,
+      addressBook: "",
+      imageUrl: "/images/user.png",
+    };
+
+    if (userAuthCheck.status === "Not matched") {
+      axios
+        .post(`${process.env.API_URL}/api/v1/user`, formData)
+        .then((response) => {
+          setIsAuth(false);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setAuthCheck("Already registered.");
+    }
+  };
+
   return (
-    <div className="absolute bg-white w-max h-max right-0 z-20 top-9 rounded-lg shadow-xl">
+    <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
       <div className="flex flex-col">
         <div className="p-6">
-          <form className="space-y-5" action="#" method="POST">
+          <div className="space-y-5">
             <div>
               <label
                 htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Name
+                Full Name
               </label>
               <div className="">
                 <input
                   id="name"
-                  name="name"
+                  name="fullName"
                   type="text"
                   onChange={(event) => {
-                    handleInput({ name: event.target.value });
+                    handleInput({ fullName: event.target.value });
                   }}
                   placeholder="Enter Your Name"
                   required
@@ -195,16 +224,16 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                 />
               </div>
             </div>
-
             <div>
               <button
+                onClick={handleSignUp}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
               >
                 Sign Up
               </button>
             </div>
-          </form>
+          </div>
           {authCheck === "Already registered." && (
             <p className="mt-4 text-center text-xl text-emerald-800">
               Already registered an account.
