@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "./Button";
+import Link from "next/link";
 
 const BookAppointment = () => {
   return (
@@ -13,7 +14,9 @@ const BookAppointment = () => {
             <p className="my-6 tracking-[4px] font-semibold">
               WE ARE AVAILABLE TO WORK ON YOUR CUSTOMIZED ORDER.
             </p>
-            <Button text="BOOK NOW !" />
+            <Link href="/contact-us">
+              <Button text="BOOK NOW" />
+            </Link>
           </div>
         </div>
         <div className="xl:flex justify-center hidden sm:block">

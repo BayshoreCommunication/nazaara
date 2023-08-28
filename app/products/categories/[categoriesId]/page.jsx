@@ -17,11 +17,15 @@ import { useEffect, useState } from "react";
 import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const Products = () => {
-  const [data, setData] = useState([]);
+const Categories = ({ params }) => {
+  const [data, setData] = useState(null);
+  const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12`;
+  const limit = 12;
+
+  const apiUrl = `${process.env.API_URL}/api/v1/product?category=${params.categoriesId}&page=${currentPage}&limit=${limit}`;
+  const allApiUrl = `${process.env.API_URL}/api/v1/product?category=${params.categoriesId}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,9 +40,24 @@ const Products = () => {
     fetchData();
   }, [apiUrl]);
 
-  console.log("data using axios", data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(allApiUrl);
+        setTotalPage(Number(response.data.product.length));
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const totalPages = data?.totalPages;
+    fetchData();
+  }, [allApiUrl]);
+
+  // console.log("data using axios", data.product.length);
+
+  const totalPages = Math.ceil(totalPage / limit);
+  //   console.log("pageee", totalPages);
+  console.log(totalPages);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -129,6 +148,8 @@ const Products = () => {
 
     return pageNumbers;
   };
+
+  //   console.log("datasss", data);
 
   return (
     <>
@@ -236,38 +257,40 @@ const Products = () => {
               ))}
             </div>
 
-            <div>
-              <ul className="flex -space-x-px text-sm justify-center mt-4">
-                <li>
-                  <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-l-lg hover:text-gray-100 ${
-                      currentPage === 1
-                        ? "bg-primary-hover-color"
-                        : "bg-primary-color"
-                    }`}
-                  >
-                    Previous
-                  </button>
-                </li>
+            {totalPages > 1 && (
+              <div>
+                <ul className="flex -space-x-px text-sm justify-center mt-4">
+                  <li>
+                    <button
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                      className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-l-lg hover:text-gray-100 ${
+                        currentPage === 1
+                          ? "bg-primary-hover-color"
+                          : "bg-primary-color"
+                      }`}
+                    >
+                      Previous
+                    </button>
+                  </li>
 
-                <li className="flex !text-black">{renderPageNumbers()}</li>
-                <li>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-e-lg hover:text-gray-100 ${
-                      currentPage === totalPages
-                        ? "bg-primary-hover-color"
-                        : "bg-primary-color"
-                    }`}
-                  >
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </div>
+                  <li className="flex !text-black">{renderPageNumbers()}</li>
+                  <li>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                      className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-e-lg hover:text-gray-100 ${
+                        currentPage === totalPages
+                          ? "bg-primary-hover-color"
+                          : "bg-primary-color"
+                      }`}
+                    >
+                      Next
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -275,4 +298,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Categories;
