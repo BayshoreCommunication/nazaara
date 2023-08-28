@@ -6,8 +6,12 @@ import SignIn from "../authentication/SignIn";
 import SignUp from "../authentication/SignUp";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
+import axios from "axios";
+import Loader from "../Loader";
 
 const DesktopNavbar = () => {
+  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
+  const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
   const [isAuth, setIsAuth] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -22,9 +26,21 @@ const DesktopNavbar = () => {
     }
   }, [jsonStr]);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(apiUrl);
+      if (response.status === 200) {
+        setCategories(response.data.newData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getCookieData();
-  }, [getCookieData, jsonStr]);
+    fetchData();
+  }, [getCookieData, jsonStr, apiUrl]);
 
   const handleAuth = () => {
     setIsCartOpen(false);
@@ -35,6 +51,10 @@ const DesktopNavbar = () => {
     setIsAuth(false);
     setIsCartOpen(!isCartOpen);
   };
+
+  if (!categories) {
+    return <Loader height="h-[15vh]" />;
+  }
 
   return (
     <div className="hidden lg:block container py-4">
@@ -129,157 +149,97 @@ const DesktopNavbar = () => {
                     <li className="text-primary-color font-semibold">
                       SHOP BY CATEGORY
                     </li>
-                    <li>CROP-TOP SKIRT</li>
-                    <li>PARTY SHARARA</li>
-                    <li>PARTY GHARARA</li>
-                    <li>PARTY GOWN</li>
-                    <li>PARTY SAREE</li>
+                    {categories.map((elem, index) => {
+                      if (index < 5) {
+                        return (
+                          <li key={index}>
+                            <Link
+                              href={`/products/categories/${elem.category}`}
+                            >
+                              {elem.category}
+                            </Link>
+                          </li>
+                        );
+                      }
+                    })}
                   </ul>
                   <Image
-                    src="/images/dress/dress.png"
+                    src={categories[0].url}
                     alt="logo"
                     width={180}
                     height={64}
+                    className="rounded-md border-2 border-[#d4af37]"
                   />
                   <Image
-                    src="/images/dress/dress-1.png"
+                    src={categories[6].url}
                     alt="logo"
                     width={180}
                     height={64}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                REGULAR WEAR
-                <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-              </li>
-              <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
-                <div className="flex justify-between w-2/3 mx-auto py-6">
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">SALE</li>
-                    <li>NEW ARRIVALS</li>
-                    <li>READY TO SHIP</li>
-                    <li>LIMITED STOCK</li>
-                    <li>DISCOUNT</li>
-                  </ul>
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">
-                      SHOP BY CATEGORY
-                    </li>
-                    <li>DESIGNER WEAR</li>
-                    <li>READY SAREE</li>
-                    <li>SINGLE SAREE</li>
-                    <li>UNSTITCHED KAMEEZ</li>
-                    <li>READY KAMEEZ</li>
-                  </ul>
-                  <Image
-                    src="/images/dress/dress.png"
-                    alt="logo"
-                    width={180}
-                    height={64}
-                  />
-                  <Image
-                    src="/images/dress/dress-1.png"
-                    alt="logo"
-                    width={180}
-                    height={64}
+                    className="rounded-md border-2 border-[#d4af37]"
                   />
                 </div>
               </div>
             </div>
-            <div className="group">
-              <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                PARTY WEAR
-                <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-              </li>
-              <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
-                <div className="flex justify-between w-2/3 mx-auto py-6">
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">SALE</li>
-                    <li>NEW ARRIVALS</li>
-                    <li>READY TO SHIP</li>
-                    <li>LIMITED STOCK</li>
-                    <li>DISCOUNT</li>
-                  </ul>
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">
-                      SHOP BY CATEGORY
+            {categories.map((elem, index) => {
+              if (index < 3) {
+                return (
+                  <div className="group" key={index}>
+                    <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                      {elem.category}
+                      <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
                     </li>
-                    <li>CROP-TOP SKIRT</li>
-                    <li>PARTY SHARARA</li>
-                    <li>PARTY GHARARA</li>
-                    <li>PARTY GOWN</li>
-                    <li>PARTY SAREE</li>
-                  </ul>
-                  <Image
-                    src="/images/dress/dress.png"
-                    alt="logo"
-                    width={180}
-                    height={64}
-                  />
-                  <Image
-                    src="/images/dress/dress-1.png"
-                    alt="logo"
-                    width={180}
-                    height={64}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <li className="font-medium relative cursor-pointer text-sm  px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                BRIDAL WEAR
-                <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-              </li>
-              <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
-                <div className="flex justify-between w-2/3 mx-auto py-6">
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">SALE</li>
-                    <li>NEW ARRIVALS</li>
-                    <li>READY TO SHIP</li>
-                    <li>LIMITED STOCK</li>
-                    <li>DISCOUNT</li>
-                  </ul>
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">
-                      SHOP BY CATEGORY
-                    </li>
-                    <li>BRIDAL LEHENGA</li>
-                    <li>SEMI-BRIDAL LEHENGA</li>
-                    <li>BRIDAL SHARARA</li>
-                    <li>BRIDAL GHARARA</li>
-                    <li>BRIDAL GOWN</li>
-                    <li>BRIDAL PAMPLOOM</li>
-                    <li>BRIDAL SAREE</li>
-                  </ul>
-                  <ul className="flex flex-col gap-y-2">
-                    <li className="text-primary-color font-semibold">
-                      SHOP BY FESTIVAL
-                    </li>
-                    <li>ENGAGEMENT</li>
-                    <li>HALDI & MEHNDI</li>
-                    <li>NIKKAH</li>
-                    <li>WALIMA</li>
-                  </ul>
-                  <Image
-                    src="/images/dress/dress-1.png"
-                    alt="logo"
-                    width={180}
-                    height={64}
-                  />
-                </div>
-              </div>
-            </div>
+                    <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
+                      <div className="flex justify-between w-2/3 mx-auto py-6">
+                        <ul className="flex flex-col gap-y-2">
+                          <li className="text-primary-color font-semibold">
+                            SALE
+                          </li>
+                          <li>NEW ARRIVALS</li>
+                          <li>READY TO SHIP</li>
+                          <li>LIMITED STOCK</li>
+                          <li>DISCOUNT</li>
+                        </ul>
+                        <ul className="flex flex-col gap-y-2">
+                          <li className="text-primary-color font-semibold">
+                            SHOP BY CATEGORY
+                          </li>
+                          {categories.map((elem, index) => {
+                            if (index < 5) {
+                              return (
+                                <li key={index}>
+                                  <Link
+                                    href={`/products/categories/${elem.category}`}
+                                  >
+                                    {elem.category}
+                                  </Link>
+                                </li>
+                              );
+                            }
+                          })}
+                        </ul>
+                        <Image
+                          src={categories[3].url}
+                          alt="logo"
+                          width={180}
+                          height={64}
+                          className="rounded-md border-2 border-[#d4af37]"
+                        />
+                        <Image
+                          src={categories[5].url}
+                          alt="logo"
+                          width={180}
+                          height={64}
+                          className="rounded-md border-2 border-[#d4af37]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
             <div>
               <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                BOOK AN APPOINTMENT
-              </li>
-            </div>
-            <div>
-              <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                OUR LOCATIONS
+                <Link href="/contact-us">OUR LOCATIONS</Link>
               </li>
             </div>
           </ul>
