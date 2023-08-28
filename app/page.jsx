@@ -1,10 +1,10 @@
-"use client";
 import BookAppointment from "@/components/BookAppointment";
 import AllCategoriesCard from "@/components/card/category-card/AllCategoriesCard";
 import AllBestSellingCard from "@/components/card/product/bestSelling/AllBestSellingCard";
 import AllCards from "@/components/card/youMayLike/AllCards";
 import Slider from "@/components/carosel/Slider";
-import DeliveryDesktop from "@/components/delivery-partner/DeliveryDesktop";
+import Banner from "@/components/homepage/banner/Banner";
+import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
 import TinySlider from "@/components/tiny-carosel/TinySlider";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,29 +53,8 @@ const Home = () => {
       {/* best selling end */}
 
       {/* banner start */}
-      <div className="">
-        <div className="relative">
-          <Image
-            src="/images/homepage_banner.png"
-            alt="bridal_top"
-            width={1860}
-            height={681}
-            className="w-full h-40 lg:h-auto"
-          />
-          <div className="text-primary-color absolute top-1/2 -translate-y-1/2 right-5 lg:right-28">
-            <p className="text-xs lg:text-base font-medium">
-              Shipped in 24 Hours
-            </p>
-            <p className="text-lg lg:text-4xl font-bold lg:mt-1 mb-1 lg:mb-4">
-              Festive Unstitched
-            </p>
-            <Link href="/">
-              <button className="text-white bg-secondary-color px-3 py-1 text-sm lg:text-base rounded-lg">
-                Shopping Now
-              </button>
-            </Link>
-          </div>
-        </div>
+      <div>
+        <Banner />
       </div>
       {/* banner end */}
       {/* YOU MAY LIKE start */}

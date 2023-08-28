@@ -26,10 +26,68 @@ import DetailImage from "@/components/product-detail/DetailImagePage";
 import { useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
 import { ProductData } from "@/data/product";
+import axios from "axios";
 
-const ProductDetails = () => {
+const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [categoryData, setCategoryData] = useState(null);
+  const [allProducts, setAllProducts] = useState(null);
+
+  const apiUrl = `${process.env.API_URL}/api/v1/product/${params.slug}`;
+  const categoryApiUrl = `${process.env.API_URL}/api/v1/product?category=${category}`;
+  const allProductUrl = `${process.env.API_URL}/api/v1/product`;
+
+  //get single product details
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        if (response.status === 200) {
+          setData(response);
+          setCategory(response.data.data.category);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [apiUrl]);
+
+  //get single product all category data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(categoryApiUrl);
+        if (response.status === 200) {
+          setCategoryData(response.data.product);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [categoryApiUrl]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(allProductUrl);
+        if (response.status === 200) {
+          setAllProducts(response.data.product);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [allProductUrl]);
+
+  // {
+  //   data && console.log("data using axios products", allProducts);
+  // }
 
   const handleScroll = () => {
     const div = document.getElementById("leftDiv");
@@ -65,6 +123,31 @@ const ProductDetails = () => {
     typeof document !== "undefined" && (document.body.style.overflow = "auto");
   }
 
+  //generate random array from an array
+  const numberOfArraysToSelect = 8;
+  const [randomArrays, setRandomArrays] = useState([]);
+  useEffect(() => {
+    if (allProducts) {
+      const copyOfListOfArrays = [...allProducts];
+
+      for (let i = copyOfListOfArrays.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copyOfListOfArrays[i], copyOfListOfArrays[j]] = [
+          copyOfListOfArrays[j],
+          copyOfListOfArrays[i],
+        ];
+      }
+
+      const selectedArrays = copyOfListOfArrays.slice(
+        0,
+        numberOfArraysToSelect
+      );
+      setRandomArrays(selectedArrays);
+    }
+  }, [allProducts]);
+
+  // console.log("randomArrays", randomArrays);
+
   return (
     <>
       <div>
@@ -75,7 +158,13 @@ const ProductDetails = () => {
               isScrollingUp ? "scroll-up" : ""
             }`}
           >
-            <DetailImage setOpenModal={setOpenModal} openModal={openModal} />
+            {data && (
+              <DetailImage
+                productData={data?.data?.data}
+                setOpenModal={setOpenModal}
+                openModal={openModal}
+              />
+            )}
             <div className="block lg:hidden h-96 sm:h-[30rem]">
               <Swiper
                 modules={[Pagination]}
@@ -99,8 +188,11 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="w-full lg:w-[40%] sticky top-0 h-max">
-            <ProductDetailsComponent toggleDrawer={toggleDrawer} />
-            <Accordion />
+            <ProductDetailsComponent
+              data={data?.data?.data}
+              toggleDrawer={toggleDrawer}
+            />
+            <Accordion data={data?.data?.data} />
           </div>
         </div>
         <Drawer
@@ -114,17 +206,21 @@ const ProductDetails = () => {
           <DrawerContent setIsOpen={setIsOpen} />
         </Drawer>
         {/* similar products section  */}
-        <div className="container">
-          <h2 className="card-title">Similar Products</h2>
-          <div className="carosel">
-            <SimilarProductsCarosel />
+
+        {categoryData && (
+          <div className="container">
+            <h2 className="card-title">Similar Products</h2>
+            <div className="carosel">
+              <SimilarProductsCarosel categoryData={categoryData} />
+            </div>
           </div>
-        </div>
+        )}
+
         {/* More From the collections  */}
         <div className="container my-6">
           <h2 className="card-title">More From The Collections</h2>
           <div className="carosel">
-            <SimilarProductsCarosel />
+            <SimilarProductsCarosel categoryData={randomArrays} />
           </div>
         </div>
       </div>

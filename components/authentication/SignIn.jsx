@@ -36,7 +36,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
 
         const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
         const userAuthCredential = await usefetch(url);
-        console.log("userAuthCredential", userAuthCredential);
+        // console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
