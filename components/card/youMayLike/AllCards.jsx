@@ -31,13 +31,12 @@ const AllCards = () => {
     };
 
     fetchData();
-  }, []);
+  }, [apiUrl]);
 
   const productData = data.product;
-  console.log("data using axios in all card", productData);
 
+  //generate randomProducts
   const numberOfArraysToSelect = 8;
-
   const [randomArrays, setRandomArrays] = useState([]);
 
   useEffect(() => {
@@ -59,8 +58,6 @@ const AllCards = () => {
       setRandomArrays(selectedArrays);
     }
   }, [data]);
-
-  console.log("randomArrays", randomArrays);
 
   return (
     <>

@@ -3,8 +3,16 @@ import { HiShoppingBag } from "react-icons/hi";
 import { TbTruckDelivery } from "react-icons/tb";
 import PendingShipBadge from "../PendingShipBadge";
 import { RxDotFilled } from "react-icons/rx";
+import { useEffect, useState } from "react";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
+  const [calculatePrice, setCalculatePrice] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  //set initial price
+  useEffect(() => {
+    setCalculatePrice(data?.salePrice);
+  }, [data?.salePrice]);
+
   const percentageReduction =
     ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
 
@@ -12,6 +20,33 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
   const date = new Date();
   // console.log("pp", percentageFloor);
+
+  const [futureDate, setFutureDate] = useState(null);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
+
+    setFutureDate(futureDate);
+  }, []);
+
+  //handle price
+  const handleIncreasePrice = () => {
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  // Function to decrease the price
+  const handleDecreasePrice = () => {
+    if (data?.salePrice < calculatePrice) {
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  console.log("price", calculatePrice);
+
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
       {data && (
@@ -28,7 +63,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             </p> */}
           <div className="flex items-center gap-2">
             <p className="font-bold text-bold text-xl">
-              BDT {data?.salePrice}/-
+              BDT {calculatePrice}/-
             </p>
             <p className="line-through text-sm font-medium">
               BDT {data?.regularPrice}/-
@@ -70,94 +105,33 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <h2 className="font-medium">Quantity</h2>
           <div className="flex items-center">
-            <button className=" text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl">
+            <button
+              onClick={handleDecreasePrice}
+              className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
+                calculatePrice == data?.salePrice && "cursor-not-allowed"
+              }`}
+            >
               -
             </button>
             <p className="text-gray-500 border border-gray-300 font-normal w-8 h-8 flex justify-center items-center">
-              1
+              {quantity}
             </p>
-            <button className="text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl">
+            <button
+              onClick={handleIncreasePrice}
+              className="text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl"
+            >
               +
             </button>
           </div>
 
           <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
-            <TbTruckDelivery /> Estimated Shipping Date: 10,jun
+            <TbTruckDelivery /> Estimated Shipping Date:
+            {` ${futureDate.toDateString()}`}
           </p>
 
           <button className="w-full text-white flex justify-center items-center bg-gray-800 hover:bg-black gap-1 py-2 font-medium">
             <HiShoppingBag size={20} /> Add To Cart
           </button>
-
-          {/* <div>
-        <div
-          tabIndex={0}
-          className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-lg mb-2"
-        >
-          <input type="checkbox" />
-          <button className="collapse-title text-xl font-medium text-left">
-            <span className="flex items-center">
-              <FaFemale /> Product Description
-            </span>
-          </button>
-          <div className="collapse-content">
-            <p>
-              <span>Outfit Type: </span>
-              <span>Eastern</span>
-            </p>
-            <p>
-              <span>Style: </span>
-              <span>Frock</span>
-            </p>
-            <p>
-              <span>Package Include: </span>
-              <span>1 Piece -Top</span>
-            </p>
-            <p>
-              <span>Fabric: </span>
-              <span>OrganzaColor: BrownWork Technique: </span>
-            </p>
-            <ul>
-              <li>{`Long Printed Organza frock style with Flair 160" round`}</li>
-              <li>Dyed raw silk bottom</li>
-              <li>Printed Organza Dupatta</li>
-              <li>{`Model is wearing Small Size with the Height 5’5`}</li>
-            </ul>
-            <p>
-              <span>Disclaimer: </span>
-              <span>The color of the outfit may vary due to lighting</span>
-            </p>
-            <p>effect use in photography</p>
-          </div>
-        </div>
-        <div
-          tabIndex={1}
-          className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-lg"
-        >
-          <input type="checkbox" />
-          <button className="collapse-title text-xl font-medium text-left">
-            <span className="flex items-center gap-1">
-              <BsShield /> Customer Protection
-            </span>
-          </button>
-          <div className="collapse-content">
-            <div className="grid grid-cols-2 gap-2">
-              <span className="flex items-center gap-1">
-                <BsShield /> Worldwide Delivery
-              </span>
-              <span className="flex items-center gap-1">
-                <BsShield /> Safe Payment
-              </span>
-              <span className="flex items-center gap-1">
-                <BsShield /> Return Policy
-              </span>
-              <span className="flex items-center gap-1">
-                <BsShield /> Nazaara Commitment
-              </span>
-            </div>
-          </div>
-        </div>
-      </div> */}
         </>
       )}
     </div>

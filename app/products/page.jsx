@@ -21,7 +21,7 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=4`;
+  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12`;
 
   useEffect(() => {
     const fetchData = async () => {

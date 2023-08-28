@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { BsShield } from "react-icons/bs";
 import { FaAngleDown, FaAngleUp, FaFemale } from "react-icons/fa";
+const parse = require("html-react-parser");
 
 const Accordion = ({ data }) => {
   const [activeTab, setActiveTab] = useState(null);
@@ -26,7 +27,9 @@ const Accordion = ({ data }) => {
               {activeTab === 1 ? <FaAngleUp /> : <FaAngleDown />}
             </button>
             <div className={activeTab === 1 ? "block" : "hidden"}>
-              <div className="collapse-content py-2">{data?.description}</div>
+              <div className="collapse-content py-2">
+                {parse(data?.description)}
+              </div>
             </div>
           </div>
           <div className="border border-gray-400 rounded-lg px-5">

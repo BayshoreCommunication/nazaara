@@ -11,7 +11,7 @@ const SingleCard = ({ data }) => {
     ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
 
   const percentageFloor = Math.floor(percentageReduction);
-  console.log("pp", percentageFloor);
+  // console.log("pp", percentageFloor);
 
   return (
     <div>

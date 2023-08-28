@@ -7,47 +7,33 @@ import "swiper/css/pagination";
 import SingleCard from "../card/youMayLike/SingleCard";
 import useWindowDimensions from "@/customhooks/useDimensionWindow";
 
-const SimilarProductsCarosel = () => {
+const SimilarProductsCarosel = ({ categoryData }) => {
+  console.log("from carosel", categoryData);
   SwiperCore.use([Autoplay]);
   const { width } = useWindowDimensions();
   return (
-    <Swiper
-      modules={[Pagination]}
-      loop={true}
-      autoplay={{
-        delay: 3000,
-      }}
-      slidesPerView={width > 992 ? 4 : 2}
-      spaceBetween={10}
-      pagination={{ clickable: true }}
-    >
-      <div>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SingleCard />
-        </SwiperSlide>
-      </div>
-    </Swiper>
+    <>
+      {categoryData && (
+        <Swiper
+          modules={[Pagination]}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+          }}
+          slidesPerView={width > 992 ? 4 : 2}
+          spaceBetween={10}
+          pagination={{ clickable: true }}
+        >
+          <div>
+            {categoryData.map((data, i) => (
+              <SwiperSlide key={i}>
+                <SingleCard data={data} />
+              </SwiperSlide>
+            ))}
+          </div>
+        </Swiper>
+      )}
+    </>
   );
 };
 
