@@ -117,7 +117,7 @@ const DesktopNavbar = () => {
                 onClick={() => handleCartOpen()}
               />
               <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
-                <p className="text-black text-xs font-semibold">{quantity}</p>
+                <p className="text-black text-xs font-semibold">{4}</p>
               </div>
 
               {/* shopping cart content*/}
