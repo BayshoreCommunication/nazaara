@@ -1,59 +1,59 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import Cart from "../shopping-cart/Cart";
-import SignIn from "../authentication/SignIn";
-import SignUp from "../authentication/SignUp";
-import { useCallback, useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
-import axios from "axios";
-import Loader from "../Loader";
+'use client'
+import Image from 'next/image'
+import Link from 'next/link'
+import Cart from '../shopping-cart/Cart'
+import SignIn from '../authentication/SignIn'
+import SignUp from '../authentication/SignUp'
+import { useCallback, useEffect, useState } from 'react'
+import { getCookie } from 'cookies-next'
+import axios from 'axios'
+import Loader from '../Loader'
 
 const DesktopNavbar = () => {
-  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
-  const [categories, setCategories] = useState(null);
-  const [auth, setAuth] = useState("signIn");
-  const [isAuth, setIsAuth] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [imgUrl, setImgUrl] = useState(null);
+  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`
+  const [categories, setCategories] = useState(null)
+  const [auth, setAuth] = useState('signIn')
+  const [isAuth, setIsAuth] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [imgUrl, setImgUrl] = useState(null)
 
-  const jsonStr = getCookie("userAuthCredential");
+  const jsonStr = getCookie('userAuthCredential')
 
   const getCookieData = useCallback(() => {
     if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr);
-      setImgUrl(obj.imageUrl);
+      const obj = JSON.parse(jsonStr)
+      setImgUrl(obj.imageUrl)
     }
-  }, [jsonStr]);
+  }, [jsonStr])
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(apiUrl)
       if (response.status === 200) {
-        setCategories(response.data.newData);
+        setCategories(response.data.newData)
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }, [apiUrl])
 
   useEffect(() => {
-    getCookieData();
-    fetchData();
-  }, [getCookieData, jsonStr, apiUrl]);
+    getCookieData()
+    fetchData()
+  }, [getCookieData, jsonStr, apiUrl, fetchData])
 
   const handleAuth = () => {
-    setIsCartOpen(false);
-    setIsAuth(!isAuth);
-  };
+    setIsCartOpen(false)
+    setIsAuth(!isAuth)
+  }
 
   const handleCartOpen = () => {
-    setIsAuth(false);
-    setIsCartOpen(!isCartOpen);
-  };
+    setIsAuth(false)
+    setIsCartOpen(!isCartOpen)
+  }
 
   if (!categories) {
-    return <Loader height="h-[15vh]" />;
+    return <Loader height="h-[15vh]" />
   }
 
   return (
@@ -101,10 +101,10 @@ const DesktopNavbar = () => {
               {/* User Authentication Content */}
               {isAuth && (
                 <>
-                  {auth === "signIn" && (
+                  {auth === 'signIn' && (
                     <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
                   )}
-                  {auth === "signUp" && (
+                  {auth === 'signUp' && (
                     <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
                   )}
                 </>
@@ -159,7 +159,7 @@ const DesktopNavbar = () => {
                               {elem.category}
                             </Link>
                           </li>
-                        );
+                        )
                       }
                     })}
                   </ul>
@@ -213,7 +213,7 @@ const DesktopNavbar = () => {
                                     {elem.category}
                                   </Link>
                                 </li>
-                              );
+                              )
                             }
                           })}
                         </ul>
@@ -234,12 +234,12 @@ const DesktopNavbar = () => {
                       </div>
                     </div>
                   </div>
-                );
+                )
               }
             })}
             <div>
               <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                <Link href="/contact-us">OUR LOCATIONS</Link>
+                <Link href="/location">OUR LOCATIONS</Link>
               </li>
             </div>
           </ul>
@@ -274,7 +274,7 @@ const DesktopNavbar = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DesktopNavbar;
+export default DesktopNavbar

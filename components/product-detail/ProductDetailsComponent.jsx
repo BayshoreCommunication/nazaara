@@ -1,51 +1,59 @@
-import { BsBoxArrowUp, BsShield } from "react-icons/bs";
-import { HiShoppingBag } from "react-icons/hi";
-import { TbTruckDelivery } from "react-icons/tb";
-import PendingShipBadge from "../PendingShipBadge";
-import { RxDotFilled } from "react-icons/rx";
-import { useEffect, useState } from "react";
+import { BsBoxArrowUp, BsShield } from 'react-icons/bs'
+import { HiShoppingBag } from 'react-icons/hi'
+import { TbTruckDelivery } from 'react-icons/tb'
+import PendingShipBadge from '../PendingShipBadge'
+import { RxDotFilled } from 'react-icons/rx'
+import { useEffect, useState } from 'react'
+import { getCookie } from 'cookies-next'
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  const [calculatePrice, setCalculatePrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [calculatePrice, setCalculatePrice] = useState(0)
+  const [quantity, setQuantity] = useState(1)
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice);
-  }, [data?.salePrice]);
+    setCalculatePrice(data?.salePrice)
+  }, [data?.salePrice])
 
   const percentageReduction =
-    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
+    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100
 
-  const percentageFloor = Math.floor(percentageReduction);
+  const percentageFloor = Math.floor(percentageReduction)
 
-  const date = new Date();
+  const date = new Date()
   // console.log("pp", percentageFloor);
 
-  const [futureDate, setFutureDate] = useState(null);
+  const [futureDate, setFutureDate] = useState(null)
 
   useEffect(() => {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate);
-    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
+    const currentDate = new Date()
+    const futureDate = new Date(currentDate)
+    futureDate.setDate(currentDate.getDate() + 3) // Add 10 days
 
-    setFutureDate(futureDate);
-  }, []);
+    setFutureDate(futureDate)
+  }, [])
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice)
+    setQuantity((prevQuantity) => prevQuantity + 1)
+  }
 
   // Function to decrease the price
   const handleDecreasePrice = () => {
     if (data?.salePrice < calculatePrice) {
-      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice)
+      setQuantity((prevQuantity) => prevQuantity - 1)
     }
-  };
+  }
 
-  console.log("price", calculatePrice);
+  const clickCheck = (event) => {
+    const jsonStr = getCookie('userAuthCredential')
+    if (jsonStr != null) {
+      const obj = JSON.parse(jsonStr)
+      const testData = { testProduct: data?._id, testUser: obj._id, quantity }
+      console.log('test event:', testData)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
@@ -108,7 +116,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <button
               onClick={handleDecreasePrice}
               className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && "cursor-not-allowed"
+                calculatePrice == data?.salePrice && 'cursor-not-allowed'
               }`}
             >
               -
@@ -129,13 +137,16 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             {` ${futureDate.toDateString()}`}
           </p>
 
-          <button className="w-full text-white flex justify-center items-center bg-gray-800 hover:bg-black gap-1 py-2 font-medium">
+          <button
+            onClick={clickCheck}
+            className="w-full text-white flex justify-center items-center bg-gray-800 hover:bg-black gap-1 py-2 font-medium"
+          >
             <HiShoppingBag size={20} /> Add To Cart
           </button>
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ProductDetailsComponent;
+export default ProductDetailsComponent

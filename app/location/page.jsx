@@ -1,10 +1,9 @@
-import TopBar from "@/components/TopBar";
+import TopBar from '@/components/TopBar'
 
 const page = () => {
   return (
     <div>
       <TopBar />
-
       <div className="my-10 lg:w-2/3 xl:w-1/2 mx-auto">
         <h2 className="heading-3 text-center mb-16 text-gray-700 w-[90%] mx-auto">
           VISIT OUR STORES DIRECTLY TODAY!
@@ -100,7 +99,7 @@ const page = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page
