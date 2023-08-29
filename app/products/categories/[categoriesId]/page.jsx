@@ -40,6 +40,8 @@ const Categories = ({ params }) => {
     fetchData();
   }, [apiUrl]);
 
+  console.log("dataaaaass", data);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,9 +57,9 @@ const Categories = ({ params }) => {
 
   // console.log("data using axios", data.product.length);
 
-  const totalPages = Math.ceil(totalPage / limit);
+  const totalPages = Math.ceil(data?.total / limit);
   //   console.log("pageee", totalPages);
-  console.log(totalPages);
+  // console.log(totalPages);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {

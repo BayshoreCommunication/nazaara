@@ -1,60 +1,66 @@
-'use client'
-import Image from 'next/image'
-import Link from 'next/link'
-import Cart from '../shopping-cart/Cart'
-import SignIn from '../authentication/SignIn'
-import SignUp from '../authentication/SignUp'
-import { useCallback, useEffect, useState } from 'react'
-import { getCookie } from 'cookies-next'
-import axios from 'axios'
-import Loader from '../Loader'
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import Cart from "../shopping-cart/Cart";
+import SignIn from "../authentication/SignIn";
+import SignUp from "../authentication/SignUp";
+import { useCallback, useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import axios from "axios";
+import Loader from "../Loader";
 
 const DesktopNavbar = () => {
-  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`
-  const [categories, setCategories] = useState(null)
-  const [auth, setAuth] = useState('signIn')
-  const [isAuth, setIsAuth] = useState(false)
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [imgUrl, setImgUrl] = useState(null)
+  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
+  const [categories, setCategories] = useState(null);
+  const [auth, setAuth] = useState("signIn");
+  const [isAuth, setIsAuth] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [imgUrl, setImgUrl] = useState(null);
 
-  const jsonStr = getCookie('userAuthCredential')
+  const jsonStr = getCookie("userAuthCredential");
 
   const getCookieData = useCallback(() => {
     if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr)
-      setImgUrl(obj.imageUrl)
+      const obj = JSON.parse(jsonStr);
+      setImgUrl(obj.imageUrl);
     }
-  }, [jsonStr])
+  }, [jsonStr]);
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl)
+      const response = await axios.get(apiUrl);
       if (response.status === 200) {
-        setCategories(response.data.newData)
+        setCategories(response.data.newData);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [apiUrl])
+  }, [apiUrl]);
 
   useEffect(() => {
-    getCookieData()
-    fetchData()
-  }, [getCookieData, jsonStr, apiUrl, fetchData])
+    getCookieData();
+    fetchData();
+  }, [getCookieData, jsonStr, apiUrl, fetchData]);
 
   const handleAuth = () => {
-    setIsCartOpen(false)
-    setIsAuth(!isAuth)
-  }
+    setIsCartOpen(false);
+    setIsAuth(!isAuth);
+  };
 
   const handleCartOpen = () => {
-    setIsAuth(false)
-    setIsCartOpen(!isCartOpen)
-  }
+    setIsAuth(false);
+    setIsCartOpen(!isCartOpen);
+  };
 
   if (!categories) {
-    return <Loader height="h-[15vh]" />
+    return <Loader height="h-[15vh]" />;
   }
+
+  const cookiesProduct = getCookie("add-to-cart");
+  const jsonData = JSON?.parse(cookiesProduct);
+  const quantity = jsonData?.quantity;
+
+  console.log("quantityOfProduct", quantity);
 
   return (
     <div className="hidden lg:block container py-4">
@@ -101,10 +107,10 @@ const DesktopNavbar = () => {
               {/* User Authentication Content */}
               {isAuth && (
                 <>
-                  {auth === 'signIn' && (
+                  {auth === "signIn" && (
                     <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
                   )}
-                  {auth === 'signUp' && (
+                  {auth === "signUp" && (
                     <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
                   )}
                 </>
@@ -120,6 +126,10 @@ const DesktopNavbar = () => {
                 className="cursor-pointer"
                 onClick={() => handleCartOpen()}
               />
+              <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
+                <p className="text-black text-xs font-semibold">{quantity}</p>
+              </div>
+
               {/* shopping cart content*/}
               {isCartOpen && <Cart />}
             </div>
@@ -159,7 +169,7 @@ const DesktopNavbar = () => {
                               {elem.category}
                             </Link>
                           </li>
-                        )
+                        );
                       }
                     })}
                   </ul>
@@ -213,7 +223,7 @@ const DesktopNavbar = () => {
                                     {elem.category}
                                   </Link>
                                 </li>
-                              )
+                              );
                             }
                           })}
                         </ul>
@@ -234,7 +244,7 @@ const DesktopNavbar = () => {
                       </div>
                     </div>
                   </div>
-                )
+                );
               }
             })}
             <div>
@@ -274,7 +284,7 @@ const DesktopNavbar = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DesktopNavbar
+export default DesktopNavbar;
