@@ -52,16 +52,6 @@ const DesktopNavbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-  // if (!categories) {
-  //   return <Loader height="h-[15vh]" />;
-  // }
-
-  const cookiesProduct = getCookie("add-to-cart");
-  const jsonData = JSON?.parse(cookiesProduct);
-  const quantity = jsonData?.quantity;
-
-  console.log("quantityOfProduct", quantity);
-
   return (
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">

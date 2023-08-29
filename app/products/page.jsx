@@ -25,8 +25,6 @@ const Products = () => {
   const [currentCategory, setCurrentCategory] = useState("");
   const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}`;
 
-  console.log("data", data);
-
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(apiUrl);
