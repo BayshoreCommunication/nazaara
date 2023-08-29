@@ -1,65 +1,80 @@
-import { BsBoxArrowUp, BsShield } from 'react-icons/bs'
-import { HiShoppingBag } from 'react-icons/hi'
-import { TbTruckDelivery } from 'react-icons/tb'
-import PendingShipBadge from '../PendingShipBadge'
-import { RxDotFilled } from 'react-icons/rx'
-import { useEffect, useState } from 'react'
-import { getCookie } from 'cookies-next'
+import { BsBoxArrowUp, BsShield } from "react-icons/bs";
+import { HiShoppingBag } from "react-icons/hi";
+import { TbTruckDelivery } from "react-icons/tb";
+import PendingShipBadge from "../PendingShipBadge";
+import { RxDotFilled } from "react-icons/rx";
+import { useEffect, useState } from "react";
+import { getCookie, setCookie } from "cookies-next";
+import { toast } from "react-hot-toast";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  const [calculatePrice, setCalculatePrice] = useState(0)
-  const [quantity, setQuantity] = useState(1)
+  const [calculatePrice, setCalculatePrice] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice)
-  }, [data?.salePrice])
+    setCalculatePrice(data?.salePrice);
+  }, [data?.salePrice]);
 
   const percentageReduction =
-    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100
+    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
 
-  const percentageFloor = Math.floor(percentageReduction)
+  const percentageFloor = Math.floor(percentageReduction);
 
-  const date = new Date()
+  const date = new Date();
   // console.log("pp", percentageFloor);
 
-  const [futureDate, setFutureDate] = useState(null)
+  const [futureDate, setFutureDate] = useState(null);
 
   useEffect(() => {
-    const currentDate = new Date()
-    const futureDate = new Date(currentDate)
-    futureDate.setDate(currentDate.getDate() + 3) // Add 10 days
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
 
-    setFutureDate(futureDate)
-  }, [])
+    setFutureDate(futureDate);
+  }, []);
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice)
-    setQuantity((prevQuantity) => prevQuantity + 1)
-  }
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
 
   // Function to decrease the price
   const handleDecreasePrice = () => {
     if (data?.salePrice < calculatePrice) {
-      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice)
-      setQuantity((prevQuantity) => prevQuantity - 1)
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
+      setQuantity((prevQuantity) => prevQuantity - 1);
     }
-  }
+  };
 
-  const clickCheck = (event) => {
-    const jsonStr = getCookie('userAuthCredential')
-    if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr)
-      const testData = { testProduct: data?._id, testUser: obj._id, quantity }
-      console.log('test event:', testData)
+  const [getSize, setGetSize] = useState(null);
+  const [getColor, setGetColor] = useState(null);
+
+  console.log(getSize, getColor);
+
+  const handleAddToCart = (event) => {
+    const jsonStr = getCookie("userAuthCredential");
+    if (jsonStr) {
+      const obj = JSON.parse(jsonStr);
+      const cartData = {
+        product: data?._id,
+        user: obj._id,
+        quantity,
+        color: getColor,
+        size: getSize,
+      };
+      setCookie("add-to-cart", cartData);
+      console.log("cartData", cartData);
+    } else {
+      toast.error("please Login First");
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
       {data && (
         <>
-          <h3 className="font-bold text-2xl lg:text-xl">{data?.category}</h3>
+          <h3 className="font-bold text-2xl lg:text-xl">{data?.productName}</h3>
           <p className="text-gray-500">{data?.sku}</p>
           <p className="flex items-center -ml-1 text-sm font-medium">
             <RxDotFilled size={30} color="green" />
@@ -89,7 +104,11 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             {data?.size?.map((data) => (
               <button
                 key={data}
-                className="px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal"
+                onClick={() => setGetSize(data)}
+                className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
+                  getSize === data &&
+                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                }`}
               >
                 {data}
               </button>
@@ -98,17 +117,18 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <h2 className="font-medium">Color</h2>
           <div className="flex items-center gap-2">
-            {data?.variant?.map((data) => (
+            {data?.variant?.map((data, i) => (
               <button
-                key={data}
-                className="px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal"
+                key={i}
+                onClick={() => setGetColor(data?.color)}
+                className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
+                  getColor === data?.color &&
+                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                }`}
               >
                 {data?.color}
               </button>
             ))}
-            <button className="px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal">
-              PINK
-            </button>
           </div>
 
           <h2 className="font-medium">Quantity</h2>
@@ -116,7 +136,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <button
               onClick={handleDecreasePrice}
               className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && 'cursor-not-allowed'
+                calculatePrice == data?.salePrice && "cursor-not-allowed"
               }`}
             >
               -
@@ -138,7 +158,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
           </p>
 
           <button
-            onClick={clickCheck}
+            onClick={handleAddToCart}
             className="w-full text-white flex justify-center items-center bg-gray-800 hover:bg-black gap-1 py-2 font-medium"
           >
             <HiShoppingBag size={20} /> Add To Cart
@@ -146,7 +166,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetailsComponent
+export default ProductDetailsComponent;

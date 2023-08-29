@@ -56,6 +56,12 @@ const DesktopNavbar = () => {
   //   return <Loader height="h-[15vh]" />;
   // }
 
+  const cookiesProduct = getCookie("add-to-cart");
+  const jsonData = JSON?.parse(cookiesProduct);
+  const quantity = jsonData?.quantity;
+
+  console.log("quantityOfProduct", quantity);
+
   return (
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">
@@ -120,6 +126,10 @@ const DesktopNavbar = () => {
                 className="cursor-pointer"
                 onClick={() => handleCartOpen()}
               />
+              <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
+                <p className="text-black text-xs font-semibold">{quantity}</p>
+              </div>
+
               {/* shopping cart content*/}
               {isCartOpen && <Cart />}
             </div>
