@@ -8,8 +8,10 @@ import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import Loader from "../Loader";
+import { useSelector } from "react-redux";
 
 const DesktopNavbar = () => {
+  const cartItems = useSelector((state) => state.cart.items);
   const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
@@ -56,11 +58,13 @@ const DesktopNavbar = () => {
     return <Loader height="h-[15vh]" />;
   }
 
-  const cookiesProduct = getCookie("add-to-cart");
-  const jsonData = JSON?.parse(cookiesProduct);
-  const quantity = jsonData?.quantity;
+  // const cookiesProduct = getCookie("add-to-cart");
+  // const jsonData = JSON?.parse(cookiesProduct);
+  // const quantity = jsonData?.quantity;
 
-  console.log("quantityOfProduct", quantity);
+  // console.log("quantityOfProduct", quantity);
+
+  const cartQuantity = cartItems.length;
 
   return (
     <div className="hidden lg:block container py-4">
@@ -127,7 +131,9 @@ const DesktopNavbar = () => {
                 onClick={() => handleCartOpen()}
               />
               <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
-                <p className="text-black text-xs font-semibold">{quantity}</p>
+                <p className="text-black text-xs font-semibold">
+                  {cartQuantity}
+                </p>
               </div>
 
               {/* shopping cart content*/}
