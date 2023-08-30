@@ -6,8 +6,11 @@ import { RxDotFilled } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/services/cartSlice";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
+  const dispatch = useDispatch();
   const [calculatePrice, setCalculatePrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   //set initial price
@@ -19,9 +22,6 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
 
   const percentageFloor = Math.floor(percentageReduction);
-
-  const date = new Date();
-  // console.log("pp", percentageFloor);
 
   const [futureDate, setFutureDate] = useState(null);
 
@@ -50,11 +50,11 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
   const [getSize, setGetSize] = useState(null);
   const [getColor, setGetColor] = useState(null);
 
-  console.log(getSize, getColor);
+  // console.log(getSize, getColor);
 
-  const handleAddToCart = (event) => {
+  const handleAddToCart = () => {
     const jsonStr = getCookie("userAuthCredential");
-    if (jsonStr) {
+    if (jsonStr && getColor && getSize) {
       const obj = JSON.parse(jsonStr);
       const cartData = {
         product: data?._id,
@@ -63,10 +63,14 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         color: getColor,
         size: getSize,
       };
-      setCookie("add-to-cart", cartData);
-      console.log("cartData", cartData);
+      dispatch(addItemToCart(cartData));
+      console.log("Dispatched addItemToCart action:", cartData);
     } else {
-      toast.error("please Login First");
+      if (!jsonStr) {
+        toast.error("please Login First");
+      } else if (!getColor || !getSize) {
+        toast.error("please select a color and a size");
+      }
     }
   };
 

@@ -139,9 +139,9 @@ const ProductDetails = ({ params }) => {
     }
   }, [allProducts]);
 
-  {
-    data && console.log("Need", data.data.data);
-  }
+  // {
+  //   data && console.log("Need", data.data.data);
+  // }
 
   return (
     <div>
