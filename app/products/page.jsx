@@ -23,7 +23,12 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentCategory, setCurrentCategory] = useState("");
-  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}`;
+  const [currentColor, setCurrentColor] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [currentSize, setCurrentSize] = useState("");
+
+  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+  // http://localhost:8000/api/v1/product?page=1&limit=5&sort=asc&sortBy=salePrice
 
   const fetchData = useCallback(async () => {
     try {
@@ -173,12 +178,10 @@ const Products = () => {
           <div className="hidden lg:flex py-4 border-b-2  items-center justify-between">
             <Filter />
             <div className="flex gap-4">
-              <Brand />
-              <Size />
-              <Price />
+              <Size setCurrentSize={setCurrentSize} />
+              <Price priceRange={priceRange} setPriceRange={setPriceRange} />
               <Category setCurrentCategory={setCurrentCategory} />
-              <Delivery />
-              <Color />
+              <Color setCurrentColor={setCurrentColor} />
             </div>
             <SortBy />
           </div>

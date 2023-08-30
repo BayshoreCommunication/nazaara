@@ -254,6 +254,13 @@ html {
   }
 }
 
+.rc-slider-handle {
+  border: solid 2px #820000 !important;
+}
+.rc-slider-track {
+  background-color: #820000 !important;
+}
+
 /* .fix .swiper-slide-active {
   top: 50%;
   transform: translateY(50%);
