@@ -23,9 +23,6 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
   const percentageFloor = Math.floor(percentageReduction);
 
-  const date = new Date();
-  // console.log("pp", percentageFloor);
-
   const [futureDate, setFutureDate] = useState(null);
 
   useEffect(() => {
@@ -55,31 +52,9 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
   // console.log(getSize, getColor);
 
-  // const handleAddToCart = () => {
-  //   const jsonStr = getCookie("userAuthCredential");
-  //   if (jsonStr && getColor && getSize) {
-  //     const obj = JSON.parse(jsonStr);
-  //     const cartData = {
-  //       product: data?._id,
-  //       user: obj._id,
-  //       quantity,
-  //       color: getColor,
-  //       size: getSize,
-  //     };
-  //     dispatch(addItemToCart(cartData));
-  //   } else {
-  //     if (!jsonStr) {
-  //       toast.error("please Login First");
-  //     } else if (!getColor) {
-  //       toast.error("please select a color");
-  //     } else {
-  //       toast.error("please select a size");
-  //     }
-  //   }
-  // };
   const handleAddToCart = () => {
     const jsonStr = getCookie("userAuthCredential");
-    if (jsonStr) {
+    if (jsonStr && getColor && getSize) {
       const obj = JSON.parse(jsonStr);
       const cartData = {
         product: data?._id,
@@ -89,8 +64,13 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         size: getSize,
       };
       dispatch(addItemToCart(cartData));
+      console.log("Dispatched addItemToCart action:", cartData);
     } else {
-      toast.error("please Login First");
+      if (!jsonStr) {
+        toast.error("please Login First");
+      } else if (!getColor || !getSize) {
+        toast.error("please select a color and a size");
+      }
     }
   };
 

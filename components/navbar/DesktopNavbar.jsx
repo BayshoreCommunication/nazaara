@@ -137,7 +137,7 @@ const DesktopNavbar = () => {
               </div>
 
               {/* shopping cart content*/}
-              {isCartOpen && <Cart />}
+              {isCartOpen && <Cart setIsCartOpen={setIsCartOpen} />}
             </div>
           </div>
         </div>
