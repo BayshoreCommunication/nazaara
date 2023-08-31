@@ -40,18 +40,16 @@ const Categories = ({ params }) => {
     fetchData();
   }, [apiUrl]);
 
-  console.log("dataaaaass", data);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(allApiUrl);
+      setTotalPage(Number(response.data.product.length));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(allApiUrl);
-        setTotalPage(Number(response.data.product.length));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
   }, [allApiUrl]);
 

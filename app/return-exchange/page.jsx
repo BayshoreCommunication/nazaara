@@ -56,7 +56,7 @@ const ReturnAndExchange = () => {
             type="email"
             placeholder="Product Name"
           />
-          <select class="block w-full px-4 py-2 pr-8 rounded bg-white border border-gray-300 focus:outline-none text-gray-500">
+          <select className="block w-full px-4 py-2 pr-8 rounded bg-white border border-gray-300 focus:outline-none text-gray-500">
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>

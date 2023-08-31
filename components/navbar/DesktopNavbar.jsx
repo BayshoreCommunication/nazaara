@@ -7,7 +7,6 @@ import SignUp from "../authentication/SignUp";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
-import Loader from "../Loader";
 import { useSelector } from "react-redux";
 
 const DesktopNavbar = () => {
@@ -15,8 +14,6 @@ const DesktopNavbar = () => {
   const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
-  const [isAuth, setIsAuth] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
 
   const jsonStr = getCookie("userAuthCredential");
@@ -44,26 +41,6 @@ const DesktopNavbar = () => {
     fetchData();
   }, [getCookieData, jsonStr, apiUrl, fetchData]);
 
-  const handleAuth = () => {
-    setIsCartOpen(false);
-    setIsAuth(!isAuth);
-  };
-
-  const handleCartOpen = () => {
-    setIsAuth(false);
-    setIsCartOpen(!isCartOpen);
-  };
-
-  // if (!categories) {
-  //   return <Loader height="h-[15vh]" />;
-  // }
-
-  // const cookiesProduct = getCookie("add-to-cart");
-  // const jsonData = JSON?.parse(cookiesProduct);
-  // const quantity = jsonData?.quantity;
-
-  // console.log("quantityOfProduct", quantity);
-
   const cartQuantity = cartItems.length;
 
   return (
@@ -87,7 +64,7 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-            <div className="relative">
+            <div className="relative group">
               {imgUrl != null ? (
                 <Link href="/user-dashboard">
                   <Image
@@ -105,23 +82,18 @@ const DesktopNavbar = () => {
                   width={23}
                   height={23}
                   className="cursor-pointe"
-                  onClick={handleAuth}
                 />
               )}
               {/* User Authentication Content */}
-              {isAuth && (
-                <>
-                  {auth === "signIn" && (
-                    <SignIn setAuth={setAuth} setIsAuth={setIsAuth} />
-                  )}
-                  {auth === "signUp" && (
-                    <SignUp setAuth={setAuth} setIsAuth={setIsAuth} />
-                  )}
-                </>
+              {!imgUrl && (
+                <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition duration-700">
+                  {auth === "signIn" && <SignIn setAuth={setAuth} />}
+                  {auth === "signUp" && <SignUp setAuth={setAuth} />}
+                </div>
               )}
             </div>
             {/* shopping cart  */}
-            <div className="relative">
+            <div className="relative group">
               <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
@@ -137,7 +109,9 @@ const DesktopNavbar = () => {
               </div>
 
               {/* shopping cart content*/}
-              {isCartOpen && <Cart setIsCartOpen={setIsCartOpen} />}
+              <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition duration-700">
+                <Cart />
+              </div>
             </div>
           </div>
         </div>

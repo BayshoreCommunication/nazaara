@@ -51,7 +51,7 @@ const Cart = ({ setIsCartOpen }) => {
   const fetchProductDetails = async (productId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/product/${productId}`
+        `${process.env.API_URL}/api/v1/product/${productId}`
       );
       return response.data;
     } catch (error) {
@@ -77,7 +77,7 @@ const Cart = ({ setIsCartOpen }) => {
     }
   }, [cartItems]);
 
-  console.log("product-details", productDetails);
+  // console.log("product-details", productDetails);
 
   return (
     <>
@@ -183,7 +183,7 @@ const Cart = ({ setIsCartOpen }) => {
           )}
           {cartItems.length && (
             <Link
-              href={""}
+              href="/payment"
               className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color"
             >
               Proceed to Checkout

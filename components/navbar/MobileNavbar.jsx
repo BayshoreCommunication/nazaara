@@ -37,12 +37,10 @@ const MobileNavbar = () => {
         </div>
 
         <div className="flex gap-2 sm:gap-4 items-center justify-end w-1/4">
-          <button onClick={() => setToogle(!toogle)}>
+          {/* <button onClick={() => setToogle(!toogle)}>
             <FaSearch size={18} />
-          </button>
-
+          </button> */}
           <FaUserCircle size={18} />
-
           <FaShoppingBag size={18} />
         </div>
       </div>

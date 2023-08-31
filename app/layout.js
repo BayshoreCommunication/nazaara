@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <title>Nazara</title>
       <body>
         <Provider store={store}>
-        <Toaster position="top-center" reverseOrder={false} />
+          <Toaster position="top-center" reverseOrder={false} />
           {router === "/payment" ? (
             children
           ) : (

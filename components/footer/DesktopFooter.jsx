@@ -69,7 +69,7 @@ const DesktopFooter = () => {
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/return&exchange">Return & Exchange</Link>
+                <Link href="/return-exchange">Return & Exchange</Link>
               </li>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/">Book an Appointment</Link>
