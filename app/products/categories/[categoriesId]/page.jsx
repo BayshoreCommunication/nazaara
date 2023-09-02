@@ -39,7 +39,7 @@ const Categories = ({ params }) => {
     fetchData()
   }, [apiUrl, fetchData])
 
-  const totalPages = Math.ceil(data?.total / limit)
+  const totalPages = Math.ceil(data?.total / 12)
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
