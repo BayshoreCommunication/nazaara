@@ -1,105 +1,89 @@
-"use client";
-import PercentageBadge from "@/components/PercentageBadge";
-import ReadyToShipBadge from "@/components/ReadyToShipBadge";
-import TopBar from "@/components/TopBar";
-import Brand from "@/components/shop/Brand";
-import Color from "@/components/shop/Color";
-import Delivery from "@/components/shop/Delivery";
-import Discount from "@/components/shop/Discount";
-import Filter from "@/components/shop/Filter";
-import Price from "@/components/shop/Price";
-import Size from "@/components/shop/Size";
-import SortBy from "@/components/shop/SortBy";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Scrollbar } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+'use client'
+import PercentageBadge from '@/components/PercentageBadge'
+import ReadyToShipBadge from '@/components/ReadyToShipBadge'
+import TopBar from '@/components/TopBar'
+import Brand from '@/components/shop/Brand'
+import Color from '@/components/shop/Color'
+import Delivery from '@/components/shop/Delivery'
+import Discount from '@/components/shop/Discount'
+import Filter from '@/components/shop/Filter'
+import Price from '@/components/shop/Price'
+import Size from '@/components/shop/Size'
+import SortBy from '@/components/shop/SortBy'
+import axios from 'axios'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useCallback, useEffect, useState } from 'react'
+import { Scrollbar } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 const Categories = ({ params }) => {
-  const [data, setData] = useState(null);
-  const [totalPage, setTotalPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [currentColor, setCurrentColor] = useState('')
+  const [priceRange, setPriceRange] = useState([0, 100000])
+  const [currentSize, setCurrentSize] = useState('')
 
-  const limit = 12;
+  const limit = 12
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product?category=${params.categoriesId}&page=${currentPage}&limit=${limit}`;
-  const allApiUrl = `${process.env.API_URL}/api/v1/product?category=${params.categoriesId}`;
+  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${params.categoriesId}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(apiUrl);
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [apiUrl]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(allApiUrl);
-      setTotalPage(Number(response.data.product.length));
+      const response = await axios.get(apiUrl)
+      setData(response.data)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }, [apiUrl])
 
   useEffect(() => {
-    fetchData();
-  }, [allApiUrl]);
+    fetchData()
+  }, [apiUrl, fetchData])
 
-  // console.log("data using axios", data.product.length);
-
-  const totalPages = Math.ceil(data?.total / limit);
-  //   console.log("pageee", totalPages);
-  // console.log(totalPages);
+  const totalPages = Math.ceil(data?.total / limit)
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage(currentPage - 1)
     }
-  };
+  }
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(currentPage + 1)
     }
-  };
+  }
 
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      setCurrentPage(page)
       // getData();
     }
-  };
+  }
 
   const renderPageNumbers = () => {
-    const pageNumbers = [];
+    const pageNumbers = []
     const ellipsis = (
       <button className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300">
         ...
       </button>
-    );
+    )
 
-    const maxButtonsToShow = 5; // Number of buttons to show at a time
-    const halfMaxButtons = Math.floor(maxButtonsToShow / 2);
+    const maxButtonsToShow = 5 // Number of buttons to show at a time
+    const halfMaxButtons = Math.floor(maxButtonsToShow / 2)
 
-    let startPage = currentPage - halfMaxButtons;
-    let endPage = currentPage + halfMaxButtons;
+    let startPage = currentPage - halfMaxButtons
+    let endPage = currentPage + halfMaxButtons
 
     if (startPage < 1) {
-      startPage = 1;
-      endPage = Math.min(totalPages, maxButtonsToShow);
+      startPage = 1
+      endPage = Math.min(totalPages, maxButtonsToShow)
     }
 
     if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, totalPages - maxButtonsToShow + 1);
+      endPage = totalPages
+      startPage = Math.max(1, totalPages - maxButtonsToShow + 1)
     }
 
     if (startPage > 1) {
@@ -110,10 +94,10 @@ const Categories = ({ params }) => {
           onClick={() => handlePageClick(1)}
         >
           1
-        </button>
-      );
+        </button>,
+      )
       if (startPage > 2) {
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(ellipsis)
       }
     }
 
@@ -122,18 +106,18 @@ const Categories = ({ params }) => {
         <button
           key={i}
           className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 ${
-            currentPage === i ? "bg-primary-color text-white" : ""
+            currentPage === i ? 'bg-primary-color text-white' : ''
           }`}
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </button>
-      );
+        </button>,
+      )
     }
 
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(ellipsis)
       }
       pageNumbers.push(
         <button
@@ -142,14 +126,12 @@ const Categories = ({ params }) => {
           onClick={() => handlePageClick(totalPages)}
         >
           {totalPages}
-        </button>
-      );
+        </button>,
+      )
     }
 
-    return pageNumbers;
-  };
-
-  //   console.log("datasss", data);
+    return pageNumbers
+  }
 
   return (
     <>
@@ -201,12 +183,12 @@ const Categories = ({ params }) => {
               <div className="hidden lg:flex py-4 border-b-2  items-center justify-between">
                 <Filter />
                 <div className="flex gap-4">
-                  <Brand />
-                  <Size />
-                  <Price />
-                  <Discount />
-                  <Delivery />
-                  <Color />
+                  <Size setCurrentSize={setCurrentSize} />
+                  <Price
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+                  />
+                  <Color setCurrentColor={setCurrentColor} />
                 </div>
                 <SortBy />
               </div>
@@ -230,7 +212,7 @@ const Categories = ({ params }) => {
                           text={`-${Math.ceil(
                             ((data?.regularPrice - data?.salePrice) /
                               data?.regularPrice) *
-                              100
+                              100,
                           )}%`}
                         />
                       </div>
@@ -266,8 +248,8 @@ const Categories = ({ params }) => {
                       disabled={currentPage === 1}
                       className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-l-lg hover:text-gray-100 ${
                         currentPage === 1
-                          ? "bg-primary-hover-color"
-                          : "bg-primary-color"
+                          ? 'bg-primary-hover-color'
+                          : 'bg-primary-color'
                       }`}
                     >
                       Previous
@@ -281,8 +263,8 @@ const Categories = ({ params }) => {
                       disabled={currentPage === totalPages}
                       className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-e-lg hover:text-gray-100 ${
                         currentPage === totalPages
-                          ? "bg-primary-hover-color"
-                          : "bg-primary-color"
+                          ? 'bg-primary-hover-color'
+                          : 'bg-primary-color'
                       }`}
                     >
                       Next
@@ -295,7 +277,7 @@ const Categories = ({ params }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Categories;
+export default Categories

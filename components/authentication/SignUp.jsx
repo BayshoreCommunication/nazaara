@@ -1,27 +1,29 @@
-import { useState } from "react";
-import { AiOutlineGoogle } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
+import { useState } from 'react'
+import { AiOutlineGoogle } from 'react-icons/ai'
+import { BsFacebook } from 'react-icons/bs'
+import { FcGoogle } from 'react-icons/fc'
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from "firebase/auth";
-import usefetch from "@/customhooks/usefetch";
-import axios from "axios";
-import firebase_app from "@/firebase/config";
+} from 'firebase/auth'
+import usefetch from '@/customhooks/usefetch'
+import axios from 'axios'
+import firebase_app from '@/firebase/config'
+import { toast } from 'react-hot-toast'
 
-const SignUp = ({ setAuth, setIsAuth }) => {
-  const [authCheck, setAuthCheck] = useState("");
+const SignUp = ({ setAuth }) => {
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [authCheck, setAuthCheck] = useState('')
   const [user, setUser] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
-  const auth = getAuth(firebase_app);
-  const googleProvider = new GoogleAuthProvider();
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+  })
+  const auth = getAuth(firebase_app)
+  const googleProvider = new GoogleAuthProvider()
   // const facebookProvider = new FacebookAuthProvider();
 
   const googleSignIn = () => {
@@ -31,49 +33,52 @@ const SignUp = ({ setAuth, setIsAuth }) => {
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;
         // The signed-in user info.
-        const userGoogle = result.user;
-        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
-        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
-        const userAuthCheck = await usefetch(url);
+        const userGoogle = result.user
+        const dataCheck = userGoogle.providerData.map((elem) => elem.email)
+        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`
+        const userAuthCheck = await usefetch(url)
 
         const formData = {
           fullName: userGoogle.providerData.map((elem) => elem.displayName)[0],
           email: userGoogle.providerData.map((elem) => elem.email)[0],
           password: Math.random().toString(36).slice(-8),
-          phone: "",
+          phone: '',
+          gender: '',
           refund: 0,
-          addressBook: "",
+          addressBook: [],
           imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
-        };
+        }
 
-        if (userAuthCheck.status === "Not matched") {
+        if (userAuthCheck.status === 'Not matched') {
           axios
             .post(`${process.env.API_URL}/api/v1/user`, formData)
             .then((response) => {
-              setIsAuth(false);
-              console.log(response);
+              toast.success('Successfully registered.')
+              setAuth('signIn')
+              console.log(response)
             })
             .catch((error) => {
-              console.log(error);
-            });
+              console.log(error)
+            })
         } else {
-          setAuthCheck("Already registered.");
+          toast.error('Already heve an account!')
+          setAuthCheck('Already registered!')
         }
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("errorMessage", error);
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('errorMessage', error)
         // The email of the user's account used.
-        const email = error.customData.email;
+        const email = error.customData.email
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        const credential = GoogleAuthProvider.credentialFromError(error)
         // ...
-      });
-  };
+      })
+  }
 
   // const facebookSignIn = () => {
   //   signInWithPopup(auth, facebookProvider)
@@ -102,13 +107,13 @@ const SignUp = ({ setAuth, setIsAuth }) => {
   // };
 
   const handleInput = (input) => {
-    setUser({ ...user, ...input });
-  };
+    setUser({ ...user, ...input })
+  }
 
   const handleSignUp = async (event) => {
-    event.preventDefault();
-    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
-    const userAuthCheck = await usefetch(url);
+    event.preventDefault()
+    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`
+    const userAuthCheck = await usefetch(url)
 
     const formData = {
       fullName: user.fullName,
@@ -116,24 +121,23 @@ const SignUp = ({ setAuth, setIsAuth }) => {
       password: user.password,
       phone: user.phone,
       refund: 0,
-      addressBook: "",
-      imageUrl: "/images/user.png",
-    };
+      addressBook: '',
+      imageUrl: '/images/user.png',
+    }
 
-    if (userAuthCheck.status === "Not matched") {
+    if (userAuthCheck.status === 'Not matched') {
       axios
         .post(`${process.env.API_URL}/api/v1/user`, formData)
         .then((response) => {
-          setIsAuth(false);
-          console.log(response);
+          console.log(response)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log('error', error)
+        })
     } else {
-      setAuthCheck("Already registered.");
+      setAuthCheck('Already registered.')
     }
-  };
+  }
 
   return (
     <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
@@ -153,7 +157,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                   name="fullName"
                   type="text"
                   onChange={(event) => {
-                    handleInput({ fullName: event.target.value });
+                    handleInput({ fullName: event.target.value })
                   }}
                   placeholder="Enter Your Name"
                   required
@@ -174,7 +178,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                   name="email"
                   type="email"
                   onChange={(event) => {
-                    handleInput({ email: event.target.value });
+                    handleInput({ email: event.target.value })
                   }}
                   placeholder="Enter Email"
                   required
@@ -195,7 +199,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                   name="phone"
                   type="text"
                   onChange={(event) => {
-                    handleInput({ phone: event.target.value });
+                    handleInput({ phone: event.target.value })
                   }}
                   placeholder="Enter Phone Number"
                   required
@@ -216,7 +220,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                   name="password"
                   type="password"
                   onChange={(event) => {
-                    handleInput({ password: event.target.value });
+                    handleInput({ password: event.target.value })
                   }}
                   placeholder="Enter Password"
                   required
@@ -225,16 +229,52 @@ const SignUp = ({ setAuth, setIsAuth }) => {
               </div>
             </div>
             <div>
-              <button
-                onClick={handleSignUp}
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Sign Up
-              </button>
+                Confirm Password
+              </label>
+              <div className="">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  onChange={(event) => {
+                    setConfirmPassword(event.target.value)
+                  }}
+                  placeholder="Confirm Your Password"
+                  required
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                />
+              </div>
+            </div>
+            {user.password != confirmPassword && (
+              <p className="text-red-600 text-center">
+                Password and Confirm Password not matched
+              </p>
+            )}
+            <div>
+              {user.password != confirmPassword ? (
+                <button
+                  disabled
+                  type="submit"
+                  className="cursor-not-allowed flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
+                >
+                  Sign Up
+                </button>
+              ) : (
+                <button
+                  onClick={handleSignUp}
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
+                >
+                  Sign Up
+                </button>
+              )}
             </div>
           </div>
-          {authCheck === "Already registered." && (
+          {authCheck === 'Already registered.' && (
             <p className="mt-4 text-center text-xl text-emerald-800">
               Already registered an account.
             </p>
@@ -242,7 +282,7 @@ const SignUp = ({ setAuth, setIsAuth }) => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Already a member?
             <button
-              onClick={() => setAuth("signIn")}
+              onClick={() => setAuth('signIn')}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2 ml-1"
             >
               Sign In
@@ -260,16 +300,16 @@ const SignUp = ({ setAuth, setIsAuth }) => {
           <div className="flex justify-center gap-x-3 mt-1 font-medium">
             <button
               onClick={googleSignIn}
-              className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-full hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
+              className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 w-1/2 hover:bg-red-500 border-[#ef44444e] text-gray-600 hover:text-white"
             >
               <AiOutlineGoogle
                 className="hidden group-hover:block"
                 color="white"
               />
-              <FcGoogle className="block group-hover:hidden" color="white" />
+              <FcGoogle className="block group-hover:hidden" />
               Google
             </button>
-            <button
+            {/* <button
               // onClick={facebookSignIn}
               className="flex group items-center justify-center gap-[6px] border rounded-md px-2 py-1 hover:bg-[#1877F2] w-full border-[#1876f258] text-gray-600 hover:text-white"
             >
@@ -279,12 +319,12 @@ const SignUp = ({ setAuth, setIsAuth }) => {
                 color="#1877F2"
               />
               Facebook
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

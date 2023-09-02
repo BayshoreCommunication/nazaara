@@ -1,27 +1,28 @@
-import { useState } from "react";
-import { AiOutlineGoogle } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
-import { initializeApp } from "firebase/app";
+import { useState } from 'react'
+import { AiOutlineGoogle } from 'react-icons/ai'
+import { BsFacebook } from 'react-icons/bs'
+import { FcGoogle } from 'react-icons/fc'
+import { initializeApp } from 'firebase/app'
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from "firebase/auth";
-import usefetch from "@/customhooks/usefetch";
-import { setCookie } from "cookies-next";
-import Link from "next/link";
-import firebase_app from "@/firebase/config";
+} from 'firebase/auth'
+import usefetch from '@/customhooks/usefetch'
+import { setCookie } from 'cookies-next'
+import Link from 'next/link'
+import firebase_app from '@/firebase/config'
+import { toast } from 'react-hot-toast'
 
-const SignIn = ({ setAuth, setIsAuth }) => {
-  const [authCheck, setAuthCheck] = useState();
+const SignIn = ({ setAuth }) => {
+  const [authCheck, setAuthCheck] = useState()
   const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  const auth = getAuth(firebase_app);
-  const googleProvider = new GoogleAuthProvider();
+    email: '',
+    password: '',
+  })
+  const auth = getAuth(firebase_app)
+  const googleProvider = new GoogleAuthProvider()
   // const facebookProvider = new FacebookAuthProvider();
 
   const googleSignIn = () => {
@@ -31,41 +32,42 @@ const SignIn = ({ setAuth, setIsAuth }) => {
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;
         // The signed-in user info.
-        const userGoogle = result.user;
-        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
+        const userGoogle = result.user
+        const dataCheck = userGoogle.providerData.map((elem) => elem.email)
 
-        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
-        const userAuthCredential = await usefetch(url);
+        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`
+        const userAuthCredential = await usefetch(url)
         // console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
-            "userAuthCredential",
+            'userAuthCredential',
             JSON.stringify(userAuthCredential.user),
             {
               maxAge: 24 * 60 * 60 * 1000,
-            }
-          );
-          setAuthCheck("Sign in complete.");
-          setIsAuth(false);
+            },
+          )
+          toast.success('Sign in Successfull.')
+          setAuthCheck('Sign in complete.')
         } else {
-          setAuthCheck("Please sign up first.");
+          toast.error('Please sign up first!')
+          setAuthCheck('Please sign up first!')
         }
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("errorMessage", error);
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('errorMessage', error)
         // The email of the user's account used.
         // const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        const credential = GoogleAuthProvider.credentialFromError(error)
         // ...
-      });
-  };
+      })
+  }
 
   // const facebookSignIn = () => {
   //   signInWithPopup(auth, facebookProvider)
@@ -93,23 +95,22 @@ const SignIn = ({ setAuth, setIsAuth }) => {
   // };
 
   const handleInput = (input) => {
-    setUser({ ...user, ...input });
-  };
+    setUser({ ...user, ...input })
+  }
 
   const handleSignIn = async (event) => {
-    event.preventDefault();
-    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
-    const userAuthCredential = await usefetch(url);
+    event.preventDefault()
+    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`
+    const userAuthCredential = await usefetch(url)
     if (userAuthCredential.user) {
-      setCookie("userAuthCredential", JSON.stringify(userAuthCredential.user), {
+      setCookie('userAuthCredential', JSON.stringify(userAuthCredential.user), {
         maxAge: 24 * 60 * 60 * 1000,
-      });
-      setAuthCheck("Sign in complete.");
-      setIsAuth(false);
+      })
+      setAuthCheck('Sign in complete.')
     } else {
-      setAuthCheck("Please sign up first.");
+      setAuthCheck('Please sign up first.')
     }
-  };
+  }
 
   return (
     <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
@@ -129,7 +130,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
                   name="email"
                   type="email"
                   onChange={(event) => {
-                    handleInput({ email: event.target.value });
+                    handleInput({ email: event.target.value })
                   }}
                   placeholder="Enter email"
                   required
@@ -150,7 +151,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
                   name="password"
                   type="password"
                   onChange={(event) => {
-                    handleInput({ password: event.target.value });
+                    handleInput({ password: event.target.value })
                   }}
                   placeholder="Enter Password"
                   required
@@ -177,7 +178,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
               Forgot password?
             </Link>
           </div>
-          {authCheck === "Please sign up first." && (
+          {authCheck === 'Please sign up first.' && (
             <p className="mt-4 text-center text-xl text-red-800">
               Please sign up first.
             </p>
@@ -186,7 +187,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
             Not a member?
             <button
               href="#"
-              onClick={() => setAuth("signUp")}
+              onClick={() => setAuth('signUp')}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2 ml-1"
             >
               Sign Up
@@ -226,7 +227,7 @@ const SignIn = ({ setAuth, setIsAuth }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn
