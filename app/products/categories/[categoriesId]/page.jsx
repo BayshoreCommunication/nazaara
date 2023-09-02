@@ -24,8 +24,6 @@ const Categories = ({ params }) => {
   const [priceRange, setPriceRange] = useState([0, 100000])
   const [currentSize, setCurrentSize] = useState('')
 
-  const limit = 12
-
   const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${params.categoriesId}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`
 
   const fetchData = useCallback(async () => {
