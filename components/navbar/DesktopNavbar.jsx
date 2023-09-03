@@ -1,47 +1,47 @@
-'use client'
-import Image from 'next/image'
-import Link from 'next/link'
-import Cart from '../shopping-cart/Cart'
-import SignIn from '../authentication/SignIn'
-import SignUp from '../authentication/SignUp'
-import { useCallback, useEffect, useState } from 'react'
-import { getCookie } from 'cookies-next'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import Cart from "../shopping-cart/Cart";
+import SignIn from "../authentication/SignIn";
+import SignUp from "../authentication/SignUp";
+import { useCallback, useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const DesktopNavbar = () => {
-  const cartItems = useSelector((state) => state.cart.items)
-  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`
-  const [categories, setCategories] = useState(null)
-  const [auth, setAuth] = useState('signIn')
-  const [imgUrl, setImgUrl] = useState(null)
+  const cartItems = useSelector((state) => state.cart.items);
+  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
+  const [categories, setCategories] = useState(null);
+  const [auth, setAuth] = useState("signIn");
+  const [imgUrl, setImgUrl] = useState(null);
 
-  const jsonStr = getCookie('userAuthCredential')
+  const jsonStr = getCookie("userAuthCredential");
 
   const getCookieData = useCallback(() => {
     if (jsonStr != null) {
-      const obj = JSON.parse(jsonStr)
-      setImgUrl(obj.imageUrl)
+      const obj = JSON.parse(jsonStr);
+      setImgUrl(obj.imageUrl);
     }
-  }, [jsonStr])
+  }, [jsonStr]);
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl)
+      const response = await axios.get(apiUrl);
       if (response.status === 200) {
-        setCategories(response.data.newData)
+        setCategories(response.data.newData);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [apiUrl])
+  }, [apiUrl]);
 
   useEffect(() => {
-    getCookieData()
-    fetchData()
-  }, [getCookieData, jsonStr, apiUrl, fetchData])
+    getCookieData();
+    fetchData();
+  }, [getCookieData, jsonStr, apiUrl, fetchData]);
 
-  const cartQuantity = cartItems.length
+  const cartQuantity = cartItems.length;
 
   return (
     <div className="hidden lg:block container py-4">
@@ -81,14 +81,14 @@ const DesktopNavbar = () => {
                   alt="logo"
                   width={23}
                   height={23}
-                  className="cursor-pointe"
+                  className="cursor-pointer"
                 />
               )}
               {/* User Authentication Content */}
               {!imgUrl && (
                 <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-1000">
-                  {auth === 'signIn' && <SignIn setAuth={setAuth} />}
-                  {auth === 'signUp' && <SignUp setAuth={setAuth} />}
+                  {auth === "signIn" && <SignIn setAuth={setAuth} />}
+                  {auth === "signUp" && <SignUp setAuth={setAuth} />}
                 </div>
               )}
             </div>
@@ -160,7 +160,7 @@ const DesktopNavbar = () => {
                                       {elem.category}
                                     </Link>
                                   </li>
-                                )
+                                );
                               }
                             })}
                           </ul>
@@ -181,7 +181,7 @@ const DesktopNavbar = () => {
                         </div>
                       </div>
                     </div>
-                  )
+                  );
                 }
               })}
               <div>
@@ -222,7 +222,7 @@ const DesktopNavbar = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DesktopNavbar
+export default DesktopNavbar;

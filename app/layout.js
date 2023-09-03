@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
       <body>
         <Provider store={store}>
           <Toaster position="top-center" reverseOrder={false} />
-          {router === "/payment" || router === "/measurement" ? (
+          {router === "/information" ||
+          router === "/measurement" ||
+          router === "/payment" ? (
             children
           ) : (
             <>

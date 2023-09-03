@@ -183,7 +183,7 @@ const Cart = ({ setIsCartOpen }) => {
           )}
           {cartItems.length && (
             <Link
-              href="/payment"
+              href="/information"
               className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color"
             >
               Proceed to Checkout
