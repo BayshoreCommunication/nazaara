@@ -67,9 +67,7 @@ const EditUserProfile = ({ setIsModalOpen }) => {
                     id="countries"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   >
-                    <option selected disabled>
-                      Choose a Gender
-                    </option>
+                    <option disabled>Choose a Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Others">Others</option>

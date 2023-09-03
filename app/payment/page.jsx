@@ -64,7 +64,7 @@ const Payment = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox"
+                  htmlFor="link-checkbox"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
@@ -118,7 +118,7 @@ const Payment = () => {
                   className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
-                  <option selected>Select A Country</option>
+                  <option value="">Select A Country</option>
                   {countries.map((country, index) => (
                     <option key={index}>{country.name}</option>
                   ))}
@@ -140,7 +140,7 @@ const Payment = () => {
                     className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
                   >
-                    <option selected>Select Country Code</option>
+                    <option value="">Select Country Code</option>
                     {countries.map((country, index) => (
                       <option key={index}>{country.code}</option>
                     ))}
@@ -169,7 +169,7 @@ const Payment = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox-bottom"
+                  htmlFor="link-checkbox-bottom"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
