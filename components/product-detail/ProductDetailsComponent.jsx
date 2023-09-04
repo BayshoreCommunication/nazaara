@@ -64,7 +64,11 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         size: getSize,
       };
       dispatch(addItemToCart(cartData));
-      console.log("Dispatched addItemToCart action: ", cartItems);
+      const variantId = `${cartData.product}-${cartData.color}-${cartData.size}`;
+      // console.log("variantId: ", variantId);
+      // console.log("Dispatched: ", cartItems);
+      const check = cartItems.find((item) => item.variantId === variantId);
+      console.log("test: ", check);
       // axios
       //   .post(`${process.env.API_URL}/api/v1/cart`, cartData)
       //   .then((response) => {
