@@ -2,6 +2,23 @@ import { useCallback, useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
 import axios from "axios";
 
+const ColorAttribute = ({ elem, active, onClick }) => {
+  return (
+    <>
+      <button
+        className={`border border-gray-300 p-2 rounded-md hover:bg-gray-200 hover:border-gray-200 ${
+          active
+            ? "text-white bg-primary-color hover:bg-primary-hover-color"
+            : ""
+        }`}
+        onClick={() => onClick(elem)}
+      >
+        {elem}
+      </button>
+    </>
+  );
+};
+
 const Color = ({ setCurrentColor }) => {
   const [colorData, setColorData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,9 +38,16 @@ const Color = ({ setCurrentColor }) => {
   useEffect(() => {
     fetchData();
   }, [apiUrl]);
+
+  const [activeColor, setActiveColor] = useState("");
+
+  const handleSizeSelection = (elem) => {
+    setCurrentColor(elem);
+    setActiveColor(elem);
+  };
   return (
     <div className="group relative z-10">
-      <ToogleButton title="Color" />
+      <ToogleButton title={`Color ${activeColor ? `(${activeColor})` : ""}`} />
       <div className="h-2 w-24"></div>
       <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Color</h4>
@@ -67,13 +91,12 @@ const Color = ({ setCurrentColor }) => {
                 el.color.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((el, i) => (
-                <button
-                  className="border border-gray-300 p-2 rounded-md hover:bg-gray-200 hover:border-gray-200"
+                <ColorAttribute
                   key={i}
-                  onClick={() => setCurrentColor(el.color)}
-                >
-                  {el.color}
-                </button>
+                  elem={el.color} // Render the 'color' property of the 'el' object
+                  active={activeColor === el.color}
+                  onClick={handleSizeSelection}
+                />
               ))}
           </div>
         </div>
