@@ -1,91 +1,91 @@
-'use client'
-import Loader from '@/components/Loader'
-import PercentageBadge from '@/components/PercentageBadge'
-import ReadyToShipBadge from '@/components/ReadyToShipBadge'
-import TopBar from '@/components/TopBar'
-import Brand from '@/components/shop/Brand'
-import Category from '@/components/shop/Category'
-import Color from '@/components/shop/Color'
-import Delivery from '@/components/shop/Delivery'
-import Discount from '@/components/shop/Discount'
-import Filter from '@/components/shop/Filter'
-import Price from '@/components/shop/Price'
-import Size from '@/components/shop/Size'
-import SortBy from '@/components/shop/SortBy'
-import axios from 'axios'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
-import { Scrollbar } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
+"use client";
+import Loader from "@/components/Loader";
+import PercentageBadge from "@/components/PercentageBadge";
+import ReadyToShipBadge from "@/components/ReadyToShipBadge";
+import TopBar from "@/components/TopBar";
+import Brand from "@/components/shop/Brand";
+import Category from "@/components/shop/Category";
+import Color from "@/components/shop/Color";
+import Delivery from "@/components/shop/Delivery";
+import Discount from "@/components/shop/Discount";
+import Filter from "@/components/shop/Filter";
+import Price from "@/components/shop/Price";
+import Size from "@/components/shop/Size";
+import SortBy from "@/components/shop/SortBy";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { Scrollbar } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const Products = () => {
-  const [data, setData] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [currentCategory, setCurrentCategory] = useState('')
-  const [currentColor, setCurrentColor] = useState('')
-  const [priceRange, setPriceRange] = useState([0, 100000])
-  const [currentSize, setCurrentSize] = useState('')
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentColor, setCurrentColor] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [currentSize, setCurrentSize] = useState("");
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`
+  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
   // http://localhost:8000/api/v1/product?page=1&limit=5&sort=asc&sortBy=salePrice
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl)
-      setData(response.data)
+      const response = await axios.get(apiUrl);
+      setData(response.data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [apiUrl])
+  }, [apiUrl]);
 
   useEffect(() => {
-    fetchData()
-  }, [apiUrl, fetchData])
+    fetchData();
+  }, [apiUrl, fetchData]);
 
-  const totalPages = Math.ceil(data?.total / 12)
+  const totalPages = Math.ceil(data?.total / 12);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page)
+      setCurrentPage(page);
       // getData();
     }
-  }
+  };
 
   const renderPageNumbers = () => {
-    const pageNumbers = []
+    const pageNumbers = [];
     const ellipsis = (
       <button className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300">
         ...
       </button>
-    )
+    );
 
-    const maxButtonsToShow = 5 // Number of buttons to show at a time
-    const halfMaxButtons = Math.floor(maxButtonsToShow / 2)
+    const maxButtonsToShow = 5; // Number of buttons to show at a time
+    const halfMaxButtons = Math.floor(maxButtonsToShow / 2);
 
-    let startPage = currentPage - halfMaxButtons
-    let endPage = currentPage + halfMaxButtons
+    let startPage = currentPage - halfMaxButtons;
+    let endPage = currentPage + halfMaxButtons;
 
     if (startPage < 1) {
-      startPage = 1
-      endPage = Math.min(totalPages, maxButtonsToShow)
+      startPage = 1;
+      endPage = Math.min(totalPages, maxButtonsToShow);
     }
 
     if (endPage > totalPages) {
-      endPage = totalPages
-      startPage = Math.max(1, totalPages - maxButtonsToShow + 1)
+      endPage = totalPages;
+      startPage = Math.max(1, totalPages - maxButtonsToShow + 1);
     }
 
     if (startPage > 1) {
@@ -96,10 +96,10 @@ const Products = () => {
           onClick={() => handlePageClick(1)}
         >
           1
-        </button>,
-      )
+        </button>
+      );
       if (startPage > 2) {
-        pageNumbers.push(ellipsis)
+        pageNumbers.push(ellipsis);
       }
     }
 
@@ -108,18 +108,18 @@ const Products = () => {
         <button
           key={i}
           className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 ${
-            currentPage === i ? 'bg-primary-color text-white' : ''
+            currentPage === i ? "bg-primary-color text-white" : ""
           }`}
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </button>,
-      )
+        </button>
+      );
     }
 
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
-        pageNumbers.push(ellipsis)
+        pageNumbers.push(ellipsis);
       }
       pageNumbers.push(
         <button
@@ -128,15 +128,15 @@ const Products = () => {
           onClick={() => handlePageClick(totalPages)}
         >
           {totalPages}
-        </button>,
-      )
+        </button>
+      );
     }
-    return pageNumbers
-  }
+    return pageNumbers;
+  };
 
   return (
     <>
-      <TopBar />
+      <TopBar />/
       <div className="container my-10">
         <div>
           <div className="block lg:hidden card-mobile mt-6">
@@ -204,7 +204,7 @@ const Products = () => {
                       text={`-${Math.ceil(
                         ((data?.regularPrice - data?.salePrice) /
                           data?.regularPrice) *
-                          100,
+                          100
                       )}%`}
                     />
                   </div>
@@ -239,8 +239,8 @@ const Products = () => {
                   disabled={currentPage === 1}
                   className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-l-lg hover:text-gray-100 ${
                     currentPage === 1
-                      ? 'bg-primary-hover-color'
-                      : 'bg-primary-color'
+                      ? "bg-primary-hover-color"
+                      : "bg-primary-color"
                   }`}
                 >
                   Previous
@@ -254,8 +254,8 @@ const Products = () => {
                   disabled={currentPage === totalPages}
                   className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-200 border border-gray-100 rounded-e-lg hover:text-gray-100 ${
                     currentPage === totalPages
-                      ? 'bg-primary-hover-color'
-                      : 'bg-primary-color'
+                      ? "bg-primary-hover-color"
+                      : "bg-primary-color"
                   }`}
                 >
                   Next
@@ -266,7 +266,7 @@ const Products = () => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;
