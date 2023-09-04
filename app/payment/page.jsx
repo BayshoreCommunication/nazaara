@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation/Navigation";
+import Navigation from "@/components/paymentNav/Navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineRollback } from "react-icons/ai";
@@ -48,7 +48,7 @@ const Payment = () => {
               {/* <Link href={`/measurement`}>
                 <Button text="Continue to Measurement" />
               </Link> */}
-              <Link href={`/mesurement`} className="flex gap-1 items-center">
+              <Link href={`/measurement`} className="flex gap-1 items-center">
                 <AiOutlineRollback /> Return to Mesurement
               </Link>
             </div>

@@ -27,8 +27,6 @@ const cartSlice = createSlice({
         // Add the new product variant to the cart
         state.items.push({ ...action.payload, variantId });
       }
-
-      console.log("Updated cart state:", state);
     },
     updateQuantity: (state, action) => {
       const { variantId, newQuantity } = action.payload;

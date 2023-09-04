@@ -6,16 +6,22 @@ import { RxDotFilled } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "@/services/cartSlice";
+import axios from "axios";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
+  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const [getSize, setGetSize] = useState(null);
+  const [getColor, setGetColor] = useState(null);
   const [calculatePrice, setCalculatePrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   //set initial price
   useEffect(() => {
     setCalculatePrice(data?.salePrice);
+    setGetSize(data?.size[0]);
+    setGetColor(data?.variant[0].color);
   }, [data?.salePrice]);
 
   const percentageReduction =
@@ -29,7 +35,6 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     const currentDate = new Date();
     const futureDate = new Date(currentDate);
     futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
-
     setFutureDate(futureDate);
   }, []);
 
@@ -47,11 +52,6 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     }
   };
 
-  const [getSize, setGetSize] = useState(null);
-  const [getColor, setGetColor] = useState(null);
-
-  // console.log(getSize, getColor);
-
   const handleAddToCart = () => {
     const jsonStr = getCookie("userAuthCredential");
     if (jsonStr && getColor && getSize) {
@@ -64,12 +64,22 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         size: getSize,
       };
       dispatch(addItemToCart(cartData));
-      console.log("Dispatched addItemToCart action:", cartData);
+      console.log("Dispatched addItemToCart action: ", cartItems);
+      // axios
+      //   .post(`${process.env.API_URL}/api/v1/cart`, cartData)
+      //   .then((response) => {
+      //     toast.success(`${cartData.quantity} product added to cart`);
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     toast.error(`Something went wrong!`);
+      //     console.error(error);
+      //   });
     } else {
       if (!jsonStr) {
-        toast.error("please Login First");
-      } else if (!getColor || !getSize) {
-        toast.error("please select a color and a size");
+        toast.error("Please Login First!");
+      } else {
+        toast.error("Something went wrong!");
       }
     }
   };
@@ -80,14 +90,17 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         <>
           <h3 className="font-bold text-2xl lg:text-xl">{data?.productName}</h3>
           <p className="text-gray-500">{data?.sku}</p>
-          <p className="flex items-center -ml-1 text-sm font-medium">
-            <RxDotFilled size={30} color="green" />
-            In Stock
-          </p>
-          {/* <p className="flex items-center -ml-1 text-sm">
+          {data?.stock > 0 ? (
+            <p className="flex items-center -ml-1 text-sm font-medium">
+              <RxDotFilled size={30} color="green" />
+              In Stock
+            </p>
+          ) : (
+            <p className="flex items-center -ml-1 text-sm">
               <RxDotFilled size={30} color="#820000" />
               Out of Stock
-            </p> */}
+            </p>
+          )}
           <div className="flex items-center gap-2">
             <p className="font-bold text-bold text-xl">
               BDT {calculatePrice}/-

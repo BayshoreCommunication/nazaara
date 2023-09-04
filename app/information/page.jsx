@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/Button";
-import Navigation from "@/components/Navigation/Navigation";
+import Navigation from "@/components/paymentNav/Navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";

@@ -8,7 +8,7 @@ import { MdDeleteForever } from "react-icons/md";
 import Button from "../Button";
 import Link from "next/link";
 
-const Cart = ({ setIsCartOpen }) => {
+const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
@@ -92,12 +92,6 @@ const Cart = ({ setIsCartOpen }) => {
                   : `(${cartItems.length} Item)`}
               </span>
             </div>
-            <button
-              onClick={() => setIsCartOpen(false)}
-              className="text-xl font-semibold"
-            >
-              x
-            </button>
           </div>
           {cartItems.length ? (
             <>
@@ -127,7 +121,7 @@ const Cart = ({ setIsCartOpen }) => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-black text-sm">
-                      BDT {detail.product.data.salePrice}/-
+                      BDT {detail.product.data.salePrice * detail.quantity}/-
                     </p>
                     <div className="flex items-center">
                       {detail.quantity > 1 ? (
