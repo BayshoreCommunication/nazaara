@@ -11,9 +11,17 @@ const Price = ({ priceRange, setPriceRange }) => {
   const minPrice = priceRange?.[0] ?? 0;
   const maxPrice = priceRange?.[1] ?? 0;
 
+  console.log(minPrice, maxPrice);
+
   return (
     <div className="group relative z-10">
-      <ToogleButton title="Price" />
+      <ToogleButton
+        title={
+          minPrice != 0 || maxPrice != 100000
+            ? `BDT. ${minPrice.toLocaleString()} - BDT. ${maxPrice.toLocaleString()}`
+            : "Price"
+        }
+      />
       <div className="h-2 w-24"></div>
       <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Price</h4>
