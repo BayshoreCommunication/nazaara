@@ -7,12 +7,9 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItemToCart: (state, action) => {
-      const { product, quantity, size, color } = action.payload;
+      console.log("payload", action.payload);
+      const { quantity, variantId } = action.payload;
       // console.log("Adding item to cart:", product, quantity, size, color);
-
-      // Create a unique identifier for the variant
-      const variantId = `${product}-${color}-${size}`;
-      // console.log("variantId", variantId);
 
       // Check if an existing item matches the variant identifier
       const existingItem = state.items.find(

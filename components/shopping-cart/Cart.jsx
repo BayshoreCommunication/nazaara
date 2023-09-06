@@ -13,41 +13,6 @@ const Cart = () => {
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const fetchProductDetails = async (productId) => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/api/v1/product/${productId}`
-  //       );
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error("Error fetching product details:", error);
-  //       return null;
-  //     }
-  //   };
-
-  //   const fetchAllProductDetails = async () => {
-  //     const detailsPromises = cartItems.map((item) =>
-  //       fetchProductDetails(item.product)
-  //     );
-  //     const details = await Promise.all(detailsPromises);
-  //     setProductDetails(
-  //       details
-  //         .filter((detail) => detail !== null)
-  //         .map((detail, index) => ({
-  //           ...detail,
-  //           color: cartItems[index].color,
-  //           size: cartItems[index].size,
-  //           quantity: cartItems[index].quantity,
-  //         }))
-  //     );
-  //   };
-
-  //   if (cartItems.length > 0) {
-  //     fetchAllProductDetails();
-  //   }
-  // }, [cartItems]);
-
   const fetchProductDetails = async (productId) => {
     try {
       const response = await axios.get(
@@ -77,7 +42,7 @@ const Cart = () => {
     }
   }, [cartItems]);
 
-  // console.log("product-details", productDetails);
+  console.log("product-details 2", cartItems);
 
   return (
     <>

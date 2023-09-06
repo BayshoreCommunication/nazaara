@@ -4,7 +4,7 @@ import { TbTruckDelivery } from 'react-icons/tb'
 import PendingShipBadge from '../PendingShipBadge'
 import { RxDotFilled } from 'react-icons/rx'
 import { useEffect, useState } from 'react'
-import { getCookie, setCookie } from 'cookies-next'
+import { getCookie } from 'cookies-next'
 import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart } from '@/services/cartSlice'
@@ -62,24 +62,39 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         quantity,
         color: getColor,
         size: getSize,
+        variantId: `${data?._id}-${getColor}-${getSize}`,
       }
       dispatch(addItemToCart(cartData))
-      const variantId = `${cartData.product}-${cartData.color}-${cartData.size}`
-      // console.log("variantId: ", variantId);
-      // console.log("Dispatched: ", cartItems);
-      const check = items.filter((item) => item.variantId === variantId)
-      // const check = cartItems?.find((item) => item.variantId === variantId)
-      console.log('test: ', check)
-      // axios
-      //   .post(`${process.env.API_URL}/api/v1/cart`, cartData)
-      //   .then((response) => {
-      //     toast.success(`${cartData.quantity} product added to cart`);
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     toast.error(`Something went wrong!`);
-      //     console.error(error);
-      //   });
+      const check = cartItems.find(
+        (item) => item.variantId === cartData.variantId,
+      )
+      if (check) {
+        axios
+          .patch(`${process.env.API_URL}/api/v1/cart`, {
+            user: cartData.user,
+            variantId: cartData.variantId,
+            quantity: check.quantity + cartData.quantity, // previous quantity added with current quantity
+          })
+          .then((response) => {
+            toast.success(`${cartData.quantity} new product added to cart`)
+            console.log(response)
+          })
+          .catch((error) => {
+            toast.error(`Something went wrong!`)
+            console.error(error)
+          })
+      } else {
+        axios
+          .post(`${process.env.API_URL}/api/v1/cart`, cartData)
+          .then((response) => {
+            toast.success(`${cartData.quantity} product added to cart`)
+            console.log(response)
+          })
+          .catch((error) => {
+            toast.error(`Something went wrong!`)
+            console.error(error)
+          })
+      }
     } else {
       if (!jsonStr) {
         toast.error('Please Login First!')

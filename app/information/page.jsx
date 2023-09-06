@@ -1,33 +1,53 @@
 "use client";
 import Button from "@/components/Button";
 import Navigation from "@/components/paymentNav/Navigation";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AiOutlineRollback } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
+  const cartItems = useSelector((state) => state.cart.items);
   const [countries, setCountries] = useState([]);
+  const [cartData, setCartData] = useState();
+  const fetchCountries = async () => {
+    try {
+      const response = await fetch("https://restcountries.com/v2/all");
+      const data = await response.json();
+      const countryList = data.map((country) => ({
+        code: `+${country.callingCodes[0]}-${country.name}`,
+        name: country.name,
+      }));
+      setCountries(countryList);
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    const jsonStr = getCookie("userAuthCredential");
+    try {
+      if (jsonStr) {
+        const obj = JSON.parse(jsonStr);
+        const response = await fetch(
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
+        );
+        const data = await response.json();
+        setCartData(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v2/all");
-        const data = await response.json();
-        const countryList = data.map((country) => ({
-          code: `+${country.callingCodes[0]}-${country.name}`,
-          name: country.name,
-        }));
-        setCountries(countryList);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-
     fetchCountries();
+    fetchData();
   }, []);
 
-  // console.log(countries);
+  const fetchProductData = (url) => {};
+
   return (
     <div className="payment-container flex gap-10">
       <div className="py-20 flex-1">
@@ -228,44 +248,36 @@ const Payment = () => {
       </div>
       <div className="flex-1 bg-primary-color">
         <div className="text-white payment-container-end mt-20 ml-10 text-sm">
-          <div className="flex justify-between items-center pb-7 border-b mb-7">
-            <div className="flex gap-4 items-center relative">
-              <Image
-                src="/images/products/details.png"
-                alt="bridal_top"
-                width={60}
-                height={40}
-                className="rounded-sm w-[4rem] h-[4.8rem]"
-              />
-              <div className="flex justify-center items-center bg-white rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
-                <p className="text-primary-color text-xs font-semibold">1</p>
+          {cartItems?.map((data, index) => {
+            // console.log("test", data.product.variant[0].imageUrl[0]);
+            return (
+              <div
+                className="flex justify-between items-center pb-7 border-b mb-7"
+                key={index}
+              >
+                <div className="flex gap-4 items-center relative">
+                  <Image
+                    src="/images/products/details.png"
+                    alt="bridal_top"
+                    width={60}
+                    height={40}
+                    className="rounded-sm w-[4rem] h-[4.8rem]"
+                  />
+                  <div className="flex justify-center items-center bg-white rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
+                    <p className="text-primary-color text-xs font-semibold">
+                      {data.quantity}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Lehenga</p>
+                    <p>{data.size[index]}</p>
+                  </div>
+                </div>
+                <p>BDT 2300/-</p>
               </div>
-              <div>
-                <p>Lehenga</p>
-                <p>XL</p>
-              </div>
-            </div>
-            <p>BDT 2300/-</p>
-          </div>
-          <div className="flex justify-between items-center pb-7 border-b mb-7">
-            <div className="flex gap-4 items-center relative">
-              <Image
-                src="/images/products/details.png"
-                alt="bridal_top"
-                width={60}
-                height={40}
-                className="rounded-sm w-[4rem] h-[4.8rem]"
-              />
-              <div className="flex justify-center items-center bg-white rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
-                <p className="text-primary-color text-xs font-semibold">1</p>
-              </div>
-              <div>
-                <p>Lehenga</p>
-                <p>XL</p>
-              </div>
-            </div>
-            <p>BDT 2300/-</p>
-          </div>
+            );
+          })}
+
           <div className="flex gap-x-4 border-b border-gray-600 pb-7">
             <input
               className="appearance-none bg-transparent block text-white border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-white w-4/5"
