@@ -1,74 +1,75 @@
-import { BsBoxArrowUp, BsShield } from "react-icons/bs";
-import { HiShoppingBag } from "react-icons/hi";
-import { TbTruckDelivery } from "react-icons/tb";
-import PendingShipBadge from "../PendingShipBadge";
-import { RxDotFilled } from "react-icons/rx";
-import { useEffect, useState } from "react";
-import { getCookie, setCookie } from "cookies-next";
-import { toast } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "@/services/cartSlice";
-import axios from "axios";
+import { BsBoxArrowUp, BsShield } from 'react-icons/bs'
+import { HiShoppingBag } from 'react-icons/hi'
+import { TbTruckDelivery } from 'react-icons/tb'
+import PendingShipBadge from '../PendingShipBadge'
+import { RxDotFilled } from 'react-icons/rx'
+import { useEffect, useState } from 'react'
+import { getCookie, setCookie } from 'cookies-next'
+import { toast } from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart } from '@/services/cartSlice'
+import axios from 'axios'
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-  const [getSize, setGetSize] = useState(null);
-  const [getColor, setGetColor] = useState(null);
-  const [calculatePrice, setCalculatePrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const cartItems = useSelector((state) => state.cart.items)
+  const dispatch = useDispatch()
+  const [getSize, setGetSize] = useState(null)
+  const [getColor, setGetColor] = useState(null)
+  const [calculatePrice, setCalculatePrice] = useState(0)
+  const [quantity, setQuantity] = useState(1)
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice);
-    setGetSize(data?.size[0]);
-    setGetColor(data?.variant[0].color);
-  }, [data?.salePrice]);
+    setCalculatePrice(data?.salePrice)
+    setGetSize(data?.size[0])
+    setGetColor(data?.variant[0].color)
+  }, [data?.salePrice, data?.size, data?.variant])
 
   const percentageReduction =
-    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
+    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100
 
-  const percentageFloor = Math.floor(percentageReduction);
+  const percentageFloor = Math.floor(percentageReduction)
 
-  const [futureDate, setFutureDate] = useState(null);
+  const [futureDate, setFutureDate] = useState(null)
 
   useEffect(() => {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate);
-    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
-    setFutureDate(futureDate);
-  }, []);
+    const currentDate = new Date()
+    const futureDate = new Date(currentDate)
+    futureDate.setDate(currentDate.getDate() + 3) // Add 10 days
+    setFutureDate(futureDate)
+  }, [])
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice)
+    setQuantity((prevQuantity) => prevQuantity + 1)
+  }
 
   // Function to decrease the price
   const handleDecreasePrice = () => {
     if (data?.salePrice < calculatePrice) {
-      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice)
+      setQuantity((prevQuantity) => prevQuantity - 1)
     }
-  };
+  }
 
   const handleAddToCart = () => {
-    const jsonStr = getCookie("userAuthCredential");
+    const jsonStr = getCookie('userAuthCredential')
     if (jsonStr && getColor && getSize) {
-      const obj = JSON.parse(jsonStr);
+      const obj = JSON.parse(jsonStr)
       const cartData = {
         product: data?._id,
         user: obj._id,
         quantity,
         color: getColor,
         size: getSize,
-      };
-      dispatch(addItemToCart(cartData));
-      const variantId = `${cartData.product}-${cartData.color}-${cartData.size}`;
+      }
+      dispatch(addItemToCart(cartData))
+      const variantId = `${cartData.product}-${cartData.color}-${cartData.size}`
       // console.log("variantId: ", variantId);
       // console.log("Dispatched: ", cartItems);
-      const check = cartItems.find((item) => item.variantId === variantId);
-      console.log("test: ", check);
+      const check = items.filter((item) => item.variantId === variantId)
+      // const check = cartItems?.find((item) => item.variantId === variantId)
+      console.log('test: ', check)
       // axios
       //   .post(`${process.env.API_URL}/api/v1/cart`, cartData)
       //   .then((response) => {
@@ -81,12 +82,12 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
       //   });
     } else {
       if (!jsonStr) {
-        toast.error("Please Login First!");
+        toast.error('Please Login First!')
       } else {
-        toast.error("Something went wrong!");
+        toast.error('Something went wrong!')
       }
     }
-  };
+  }
 
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
@@ -128,7 +129,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                 onClick={() => setGetSize(data)}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getSize === data &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
                 }`}
               >
                 {data}
@@ -144,7 +145,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                 onClick={() => setGetColor(data?.color)}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getColor === data?.color &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
                 }`}
               >
                 {data?.color}
@@ -157,7 +158,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <button
               onClick={handleDecreasePrice}
               className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && "cursor-not-allowed"
+                calculatePrice == data?.salePrice && 'cursor-not-allowed'
               }`}
             >
               -
@@ -187,7 +188,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ProductDetailsComponent;
+export default ProductDetailsComponent
