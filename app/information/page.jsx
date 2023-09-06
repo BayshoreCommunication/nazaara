@@ -4,7 +4,7 @@ import Navigation from '@/components/paymentNav/Navigation'
 import { getCookie } from 'cookies-next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const Payment = () => {
@@ -26,7 +26,7 @@ const Payment = () => {
     }
   }
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const jsonStr = getCookie('userAuthCredential')
     try {
       if (jsonStr) {
@@ -45,12 +45,12 @@ const Payment = () => {
     } catch (error) {
       console.error('Error fetching countries:', error)
     }
-  }
+  }, [cartItems])
 
   useEffect(() => {
     fetchCountries()
     fetchData()
-  }, [])
+  }, [fetchData])
 
   // const fetchProductData = (url) => {};
 
