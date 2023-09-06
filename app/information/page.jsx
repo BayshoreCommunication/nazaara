@@ -1,52 +1,58 @@
-"use client";
-import Button from "@/components/Button";
-import Navigation from "@/components/paymentNav/Navigation";
-import { getCookie } from "cookies-next";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+'use client'
+import Button from '@/components/Button'
+import Navigation from '@/components/paymentNav/Navigation'
+import { getCookie } from 'cookies-next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const Payment = () => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const [countries, setCountries] = useState([]);
-  const [cartData, setCartData] = useState();
+  const cartItems = useSelector((state) => state.cart.items)
+  const [countries, setCountries] = useState([])
+  const [cartData, setCartData] = useState()
+  const [subtotal, setSubtotal] = useState(0)
   const fetchCountries = async () => {
     try {
-      const response = await fetch("https://restcountries.com/v2/all");
-      const data = await response.json();
+      const response = await fetch('https://restcountries.com/v2/all')
+      const data = await response.json()
       const countryList = data.map((country) => ({
         code: `+${country.callingCodes[0]}-${country.name}`,
         name: country.name,
-      }));
-      setCountries(countryList);
+      }))
+      setCountries(countryList)
     } catch (error) {
-      console.error("Error fetching countries:", error);
+      console.error('Error fetching countries:', error)
     }
-  };
+  }
 
   const fetchData = async () => {
-    const jsonStr = getCookie("userAuthCredential");
+    const jsonStr = getCookie('userAuthCredential')
     try {
       if (jsonStr) {
-        const obj = JSON.parse(jsonStr);
+        const obj = JSON.parse(jsonStr)
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
-        );
-        const data = await response.json();
-        setCartData(data.data);
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
+        )
+        const data = await response.json()
+        setCartData(data.data)
+        let total = 0
+        data.data.forEach((data, index) => {
+          total += data.product.salePrice * cartItems[index].quantity
+        })
+        setSubtotal(total)
       }
     } catch (error) {
-      console.error("Error fetching countries:", error);
+      console.error('Error fetching countries:', error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchCountries();
-    fetchData();
-  }, []);
+    fetchCountries()
+    fetchData()
+  }, [])
 
-  const fetchProductData = (url) => {};
+  // const fetchProductData = (url) => {};
 
   return (
     <div className="payment-container flex gap-10">
@@ -248,8 +254,7 @@ const Payment = () => {
       </div>
       <div className="flex-1 bg-primary-color">
         <div className="text-white payment-container-end mt-20 ml-10 text-sm">
-          {cartItems?.map((data, index) => {
-            // console.log("test", data.product.variant[0].imageUrl[0]);
+          {cartData?.map((data, index) => {
             return (
               <div
                 className="flex justify-between items-center pb-7 border-b mb-7"
@@ -257,7 +262,7 @@ const Payment = () => {
               >
                 <div className="flex gap-4 items-center relative">
                   <Image
-                    src="/images/products/details.png"
+                    src={`${data.product.variant.map((el) => el.imageUrl)[0]}`}
                     alt="bridal_top"
                     width={60}
                     height={40}
@@ -265,17 +270,19 @@ const Payment = () => {
                   />
                   <div className="flex justify-center items-center bg-white rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
                     <p className="text-primary-color text-xs font-semibold">
-                      {data.quantity}
+                      {cartItems[index]?.quantity}
                     </p>
                   </div>
                   <div>
-                    <p>Lehenga</p>
-                    <p>{data.size[index]}</p>
+                    <p>{data.product.productName}</p>
+                    <p>{data.size}</p>
                   </div>
                 </div>
-                <p>BDT 2300/-</p>
+                <p>
+                  BDT {data.product.salePrice * cartItems[index]?.quantity}/-
+                </p>
               </div>
-            );
+            )
           })}
 
           <div className="flex gap-x-4 border-b border-gray-600 pb-7">
@@ -292,7 +299,7 @@ const Payment = () => {
           <div className="mt-7 border-b border-gray-600 pb-7">
             <div className="flex justify-between items-center mb-3">
               <p>Sub Total</p>
-              <p>BDT 5000/-</p>
+              <p>BDT {subtotal}/-</p>
             </div>
             <div className="flex justify-between items-center">
               <p>Shipping</p>
@@ -302,12 +309,12 @@ const Payment = () => {
 
           <div className="flex justify-between items-center mt-3">
             <p>Total</p>
-            <p>BDT 5050/-</p>
+            <p>BDT {subtotal + 50}/-</p>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Payment;
+export default Payment

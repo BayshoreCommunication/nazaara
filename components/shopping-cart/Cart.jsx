@@ -1,48 +1,46 @@
-import { removeItemFromCart, updateQuantity } from "@/services/cartSlice";
-import axios from "axios";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { MdDeleteForever } from "react-icons/md";
-import Button from "../Button";
-import Link from "next/link";
+import { removeItemFromCart, updateQuantity } from '@/services/cartSlice'
+import axios from 'axios'
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { MdDeleteForever } from 'react-icons/md'
+import Button from '../Button'
+import Link from 'next/link'
 
 const Cart = () => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const [productDetails, setProductDetails] = useState([]);
-  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items)
+  const [productDetails, setProductDetails] = useState([])
+  const dispatch = useDispatch()
 
   const fetchProductDetails = async (productId) => {
     try {
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productId}`
-      );
-      return response.data;
+        `${process.env.API_URL}/api/v1/product/${productId}`,
+      )
+      return response.data
     } catch (error) {
-      console.error("Error fetching product details:", error);
-      return null;
+      console.error('Error fetching product details:', error)
+      return null
     }
-  };
+  }
 
   useEffect(() => {
     const fetchAllProductDetails = async () => {
       const productDetails = await Promise.all(
         cartItems.map(async (item) => ({
           ...item,
-          product: await fetchProductDetails(item.product),
-        }))
-      );
+          product: await fetchProductDetails(item.product._id),
+        })),
+      )
 
-      setProductDetails(productDetails);
-    };
+      setProductDetails(productDetails)
+    }
 
     if (cartItems.length > 0) {
-      fetchAllProductDetails();
+      fetchAllProductDetails()
     }
-  }, [cartItems]);
-
-  console.log("product-details 2", cartItems);
+  }, [cartItems])
 
   return (
     <>
@@ -80,7 +78,7 @@ const Cart = () => {
                       <span className="font-medium">Size:</span> {detail.size}
                     </p>
                     <p>
-                      <span className="font-medium">Quantity:</span>{" "}
+                      <span className="font-medium">Quantity:</span>{' '}
                       {detail.quantity}
                     </p>
                   </div>
@@ -96,7 +94,7 @@ const Cart = () => {
                               updateQuantity({
                                 variantId: detail.variantId, // Use the variantId re
                                 newQuantity: detail.quantity - 1,
-                              })
+                              }),
                             )
                           }
                           className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
@@ -107,7 +105,7 @@ const Cart = () => {
                         <button
                           onClick={() =>
                             dispatch(
-                              removeItemFromCart(detail.variantId) // Use the variantId here
+                              removeItemFromCart(detail.variantId), // Use the variantId here
                             )
                           }
                           className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
@@ -125,7 +123,7 @@ const Cart = () => {
                             updateQuantity({
                               variantId: detail.variantId, // Use the variantId here
                               newQuantity: detail.quantity + 1,
-                            })
+                            }),
                           )
                         }
                         className="flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl"
@@ -151,7 +149,7 @@ const Cart = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart
