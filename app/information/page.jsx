@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 const Payment = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const [countries, setCountries] = useState([]);
-  const [productDetails, setProductDetails] = useState([]);
   const [cartData, setCartData] = useState();
   const [subtotal, setSubtotal] = useState(0);
   const fetchCountries = async () => {
@@ -28,20 +27,17 @@ const Payment = () => {
     }
   };
 
-  const fetchProductDetails = useCallback(
-    async (productId) => {
-      try {
-        const response = await axios.get(
-          `${process.env.API_URL}/api/v1/product/${productId}`
-        );
-        return response.data.data;
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        return null;
-      }
-    },
-    [cartItems]
-  );
+  const fetchProductDetails = useCallback(async (productId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.API_URL}/api/v1/product/${productId}`
+      );
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+      return null;
+    }
+  }, []);
 
   const fetchData = useCallback(async () => {
     const jsonStr = getCookie("userAuthCredential");
@@ -77,7 +73,7 @@ const Payment = () => {
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
-  }, [cartItems]);
+  }, [fetchProductDetails]);
 
   useEffect(() => {
     fetchCountries();
@@ -176,7 +172,7 @@ const Payment = () => {
                   className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
-                  <option selected>Select A Country</option>
+                  <option value="">Select A Country</option>
                   {countries.map((country, index) => (
                     <option key={index}>{country.name}</option>
                   ))}
