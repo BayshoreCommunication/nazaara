@@ -1,58 +1,88 @@
-'use client'
-import Button from '@/components/Button'
-import Navigation from '@/components/paymentNav/Navigation'
-import { getCookie } from 'cookies-next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+"use client";
+import Button from "@/components/Button";
+import Navigation from "@/components/paymentNav/Navigation";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
-  const cartItems = useSelector((state) => state.cart.items)
-  const [countries, setCountries] = useState([])
-  const [cartData, setCartData] = useState()
-  const [subtotal, setSubtotal] = useState(0)
+  const cartItems = useSelector((state) => state.cart.items);
+  const [countries, setCountries] = useState([]);
+  const [productDetails, setProductDetails] = useState([]);
+  const [cartData, setCartData] = useState();
+  const [subtotal, setSubtotal] = useState(0);
   const fetchCountries = async () => {
     try {
-      const response = await fetch('https://restcountries.com/v2/all')
-      const data = await response.json()
+      const response = await fetch("https://restcountries.com/v2/all");
+      const data = await response.json();
       const countryList = data.map((country) => ({
         code: `+${country.callingCodes[0]}-${country.name}`,
         name: country.name,
-      }))
-      setCountries(countryList)
+      }));
+      setCountries(countryList);
     } catch (error) {
-      console.error('Error fetching countries:', error)
+      console.error("Error fetching countries:", error);
     }
-  }
+  };
+
+  const fetchProductDetails = useCallback(
+    async (productId) => {
+      try {
+        const response = await axios.get(
+          `${process.env.API_URL}/api/v1/product/${productId}`
+        );
+        return response.data.data;
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+        return null;
+      }
+    },
+    [cartItems]
+  );
 
   const fetchData = useCallback(async () => {
-    const jsonStr = getCookie('userAuthCredential')
+    const jsonStr = getCookie("userAuthCredential");
     try {
       if (jsonStr) {
-        const obj = JSON.parse(jsonStr)
+        const obj = JSON.parse(jsonStr);
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
-        )
-        const data = await response.json()
-        setCartData(data.data)
-        let total = 0
-        data.data.forEach((data, index) => {
-          total += data.product.salePrice * cartItems[index].quantity
-        })
-        setSubtotal(total)
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
+        );
+        const data = await response.json();
+
+        // Fetch product details for each cart item
+        const updatedCartData = await Promise.all(
+          data.data.map(async (cart) => {
+            const productDetails = await fetchProductDetails(
+              cart.product // Assuming cartItem.product is the product Id
+            );
+            return {
+              ...cart,
+              productDetails, // Include product details in cart item
+            };
+          })
+        );
+
+        setCartData(updatedCartData);
+
+        let total = 0;
+        updatedCartData.forEach((cartItem, index) => {
+          total += cartItem.productDetails.salePrice * cartItem.quantity;
+        });
+        setSubtotal(total);
       }
     } catch (error) {
-      console.error('Error fetching countries:', error)
+      console.error("Error fetching cart data:", error);
     }
-  }, [cartItems])
+  }, [cartItems]);
 
   useEffect(() => {
-    fetchCountries()
-    fetchData()
-  }, [fetchData])
-
-  // const fetchProductData = (url) => {};
+    fetchCountries();
+    fetchData();
+  }, [fetchData, cartItems]);
 
   return (
     <div className="payment-container flex gap-10">
@@ -92,7 +122,7 @@ const Payment = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox"
+                  htmlFor="link-checkbox"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
@@ -197,7 +227,7 @@ const Payment = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
-                  for="link-checkbox-bottom"
+                  htmlFor="link-checkbox-bottom"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                 >
                   <p className="text-sm text-gray-500">
@@ -262,7 +292,9 @@ const Payment = () => {
               >
                 <div className="flex gap-4 items-center relative">
                   <Image
-                    src={`${data.product.variant.map((el) => el.imageUrl)[0]}`}
+                    src={`${
+                      data.productDetails.variant.map((el) => el.imageUrl)[0]
+                    }`}
                     alt="bridal_top"
                     width={60}
                     height={40}
@@ -274,15 +306,16 @@ const Payment = () => {
                     </p>
                   </div>
                   <div>
-                    <p>{data.product.productName}</p>
+                    <p>{data.productDetails.productName}</p>
                     <p>{data.size}</p>
                   </div>
                 </div>
                 <p>
-                  BDT {data.product.salePrice * cartItems[index]?.quantity}/-
+                  BDT{" "}
+                  {data.productDetails.salePrice * cartItems[index]?.quantity}/-
                 </p>
               </div>
-            )
+            );
           })}
 
           <div className="flex gap-x-4 border-b border-gray-600 pb-7">
@@ -314,7 +347,7 @@ const Payment = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Payment
+export default Payment;
