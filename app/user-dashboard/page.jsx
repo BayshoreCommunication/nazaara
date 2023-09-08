@@ -90,7 +90,7 @@ const UserDashboard = () => {
                         </p>
                         <p>{`${data?.street}, ${data?.zip}`}</p>
                         <p>{`${data?.city}, ${data?.country}`}</p>
-                        <p>{data?.mobile}</p>
+                        <p>{data?.phone}</p>
                       </div>
                     ))}
                   </div>
