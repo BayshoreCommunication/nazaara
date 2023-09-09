@@ -144,12 +144,6 @@ html {
   box-shadow: 0px 0px 6px 2px #6b6b6b2e;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: light;
-  }
-}
-
 @media only screen and (min-width: 1800px) and (max-width: 1899px) {
   .swiper-button-prev {
     left: 37.5% !important;
