@@ -32,10 +32,17 @@ const DrawerContent = ({ data, setIsOpen }) => {
             <div>
               <h3 className="font-bold text-xl">{data.productName}</h3>
               <p className="text-gray-500">{data.sku}</p>
-              <p className="flex items-center -ml-1 text-sm font-medium">
-                <RxDotFilled size={30} color="green" />
-                In Stock
-              </p>
+              {data?.stock > 0 ? (
+                <p className="flex items-center -ml-1 text-sm font-medium">
+                  <RxDotFilled size={30} color="green" />
+                  In Stock
+                </p>
+              ) : (
+                <p className="flex items-center -ml-1 text-sm font-medium">
+                  <RxDotFilled size={30} color="#820000" />
+                  Out of Stock
+                </p>
+              )}
               <div className="flex items-center gap-2">
                 <p className="font-bold text-bold text-xl">
                   BDT {data.salePrice}/-
