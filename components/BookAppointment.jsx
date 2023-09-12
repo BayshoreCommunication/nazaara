@@ -9,13 +9,13 @@ const BookAppointment = () => {
         <div className="flex justify-center">
           <div className="xl:w-3/4">
             <h2 className="font-semibold tracking-[4px] text-2xl lg:text-4xl text-primary-color">
-              BOOK AN APPOINTMENT
+              Contuct Us
             </h2>
             <p className="my-6 tracking-[4px] font-semibold">
               WE ARE AVAILABLE TO WORK ON YOUR CUSTOMIZED ORDER.
             </p>
             <Link href="/contact-us">
-              <Button text="BOOK NOW" />
+              <Button text="CONTACT NOW" />
             </Link>
           </div>
         </div>

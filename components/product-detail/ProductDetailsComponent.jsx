@@ -1,78 +1,108 @@
-import { BsBoxArrowUp, BsShield } from "react-icons/bs";
-import { HiShoppingBag } from "react-icons/hi";
-import { TbTruckDelivery } from "react-icons/tb";
-import PendingShipBadge from "../PendingShipBadge";
-import { RxDotFilled } from "react-icons/rx";
-import { useEffect, useState } from "react";
-import { getCookie, setCookie } from "cookies-next";
-import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { addItemToCart } from "@/services/cartSlice";
+import { BsBoxArrowUp, BsShield } from 'react-icons/bs'
+import { HiShoppingBag } from 'react-icons/hi'
+import { TbTruckDelivery } from 'react-icons/tb'
+import PendingShipBadge from '../PendingShipBadge'
+import { RxDotFilled } from 'react-icons/rx'
+import { useEffect, useState } from 'react'
+import { getCookie } from 'cookies-next'
+import { toast } from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart } from '@/services/cartSlice'
+import axios from 'axios'
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  const dispatch = useDispatch();
-  const [calculatePrice, setCalculatePrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const cartItems = useSelector((state) => state.cart.items)
+  const dispatch = useDispatch()
+  const [getSize, setGetSize] = useState(null)
+  const [getColor, setGetColor] = useState(null)
+  const [calculatePrice, setCalculatePrice] = useState(0)
+  const [quantity, setQuantity] = useState(1)
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice);
-  }, [data?.salePrice]);
+    setCalculatePrice(data?.salePrice)
+    setGetSize(data?.size[0])
+    setGetColor(data?.variant[0].color)
+  }, [data?.salePrice, data?.size, data?.variant])
 
   const percentageReduction =
-    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
+    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100
 
-  const percentageFloor = Math.floor(percentageReduction);
+  const percentageFloor = Math.floor(percentageReduction)
 
-  const [futureDate, setFutureDate] = useState(null);
+  const [futureDate, setFutureDate] = useState(null)
 
   useEffect(() => {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate);
-    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
-
-    setFutureDate(futureDate);
-  }, []);
+    const currentDate = new Date()
+    const futureDate = new Date(currentDate)
+    futureDate.setDate(currentDate.getDate() + 3) // Add 10 days
+    setFutureDate(futureDate)
+  }, [])
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice)
+    setQuantity((prevQuantity) => prevQuantity + 1)
+  }
 
   // Function to decrease the price
   const handleDecreasePrice = () => {
     if (data?.salePrice < calculatePrice) {
-      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice)
+      setQuantity((prevQuantity) => prevQuantity - 1)
     }
-  };
-
-  const [getSize, setGetSize] = useState(null);
-  const [getColor, setGetColor] = useState(null);
-
-  // console.log(getSize, getColor);
+  }
 
   const handleAddToCart = () => {
-    const jsonStr = getCookie("userAuthCredential");
+    const jsonStr = getCookie('userAuthCredential')
     if (jsonStr && getColor && getSize) {
-      const obj = JSON.parse(jsonStr);
+      const obj = JSON.parse(jsonStr)
       const cartData = {
         product: data?._id,
         user: obj._id,
         quantity,
         color: getColor,
         size: getSize,
-      };
-      dispatch(addItemToCart(cartData));
-      console.log("Dispatched addItemToCart action:", cartData);
+        variantId: `${data?._id}-${getColor}-${getSize}`,
+      }
+      dispatch(addItemToCart(cartData))
+      const check = cartItems.find(
+        (item) => item.variantId === cartData.variantId,
+      )
+      if (check) {
+        axios
+          .patch(`${process.env.API_URL}/api/v1/cart`, {
+            user: cartData.user,
+            variantId: cartData.variantId,
+            quantity: check.quantity + cartData.quantity, // previous quantity added with current quantity
+          })
+          .then((response) => {
+            toast.success(`${cartData.quantity} new product added to cart`)
+            console.log(response)
+          })
+          .catch((error) => {
+            toast.error(`Something went wrong!`)
+            console.error(error)
+          })
+      } else {
+        axios
+          .post(`${process.env.API_URL}/api/v1/cart`, cartData)
+          .then((response) => {
+            toast.success(`${cartData.quantity} product added to cart`)
+            console.log(response)
+          })
+          .catch((error) => {
+            toast.error(`Something went wrong!`)
+            console.error(error)
+          })
+      }
     } else {
       if (!jsonStr) {
-        toast.error("please Login First");
-      } else if (!getColor || !getSize) {
-        toast.error("please select a color and a size");
+        toast.error('Please Login First!')
+      } else {
+        toast.error('Something went wrong!')
       }
     }
-  };
+  }
 
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
@@ -80,14 +110,17 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         <>
           <h3 className="font-bold text-2xl lg:text-xl">{data?.productName}</h3>
           <p className="text-gray-500">{data?.sku}</p>
-          <p className="flex items-center -ml-1 text-sm font-medium">
-            <RxDotFilled size={30} color="green" />
-            In Stock
-          </p>
-          {/* <p className="flex items-center -ml-1 text-sm">
+          {data?.stock > 0 ? (
+            <p className="flex items-center -ml-1 text-sm font-medium">
+              <RxDotFilled size={30} color="green" />
+              In Stock
+            </p>
+          ) : (
+            <p className="flex items-center -ml-1 text-sm">
               <RxDotFilled size={30} color="#820000" />
               Out of Stock
-            </p> */}
+            </p>
+          )}
           <div className="flex items-center gap-2">
             <p className="font-bold text-bold text-xl">
               BDT {calculatePrice}/-
@@ -111,7 +144,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                 onClick={() => setGetSize(data)}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getSize === data &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
                 }`}
               >
                 {data}
@@ -127,7 +160,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                 onClick={() => setGetColor(data?.color)}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getColor === data?.color &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
                 }`}
               >
                 {data?.color}
@@ -140,7 +173,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <button
               onClick={handleDecreasePrice}
               className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && "cursor-not-allowed"
+                calculatePrice == data?.salePrice && 'cursor-not-allowed'
               }`}
             >
               -
@@ -170,7 +203,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ProductDetailsComponent;
+export default ProductDetailsComponent

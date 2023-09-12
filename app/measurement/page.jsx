@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import Navigation from "@/components/Navigation/Navigation";
+import Navigation from "@/components/paymentNav/Navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineRollback } from "react-icons/ai";
@@ -26,44 +26,44 @@ const Measurement = () => {
               TOPS (IN INCH)
             </h3>
             <div className="flex gap-6 items-center justify-center">
-              <div class="flex items-center ">
+              <div className="flex items-center ">
                 <input
                   id="blouse"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <label
                   htmlFor="blouse"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Blouse
                 </label>
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="kameez"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
                 <label
                   htmlFor="kameez"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Kameez
                 </label>
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="gown"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
                 <label
                   htmlFor="gown"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Gown
                 </label>
@@ -221,58 +221,58 @@ const Measurement = () => {
               BOTTOM (IN INCH)
             </h3>
             <div className="flex gap-6 items-center justify-center">
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="Skirt"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <label
                   htmlFor="Skirt"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Skirt
                 </label>
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="Palazzo"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
                 <label
                   htmlFor="Palazzo"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Palazzo
                 </label>
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="Pant"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
                 <label
                   htmlFor="Pant"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Pant
                 </label>
               </div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <input
                   id="Gharara"
                   type="checkbox"
                   value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
                 <label
                   htmlFor="Gharara"
-                  class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
                 >
                   Gharara
                 </label>

@@ -1,53 +1,52 @@
 import {
   useGetUserAddressByIDQuery,
   useUpdateUserAddressByIdMutation,
-} from "@/services/userApi";
-import { useMemo } from "react";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { IoCloseSharp } from "react-icons/io5";
+} from '@/services/userApi'
+import { useMemo } from 'react'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { IoCloseSharp } from 'react-icons/io5'
 
 const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
-  const { data, isLoading } = useGetUserAddressByIDQuery(addressEditId);
-  const addressData = data?.data;
+  const { data, isLoading } = useGetUserAddressByIDQuery(addressEditId)
+  const addressData = data?.data
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    mobile: "",
-    street: "",
-    city: "",
-    country: "",
-    zip: "",
-    addressType: "",
-  });
+    fullName: '',
+    phone: '',
+    street: '',
+    city: '',
+    country: '',
+    zip: '',
+    addressType: '',
+  })
 
-  const [updateUserAddress, { isLoading: isUpdating }] =
-    useUpdateUserAddressByIdMutation();
+  const [updateUserAddress] = useUpdateUserAddressByIdMutation()
 
   useMemo(() => {
     if (addressData !== undefined) {
-      setFormData({ ...addressData });
+      setFormData({ ...addressData })
     }
-  }, [addressData]);
+  }, [addressData])
 
   if (isLoading) {
-    return <></>;
+    return <></>
   }
 
-  const id = addressData?._id;
+  const id = addressData?._id
 
   const handleSubmit = async (event) => {
     try {
-      event.preventDefault();
-      const updateAddress = await updateUserAddress({ id, payload: formData });
+      event.preventDefault()
+      const updateAddress = await updateUserAddress({ id, payload: formData })
       if (updateAddress.data.success) {
-        setAddressBookModalOpen(false);
-        toast.success("Address updated successfully", { duration: 3000 });
+        setAddressBookModalOpen(false)
+        toast.success('Address updated successfully', { duration: 3000 })
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   return (
     <>
@@ -89,20 +88,20 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
                     </div>
                     <div className="mb-3">
                       <label
-                        htmlFor="mobile"
+                        htmlFor="phone"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Mobile Number
+                        Phone Number
                       </label>
                       <input
                         type="text"
-                        id="mobile"
+                        id="phone"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Mobile"
-                        name="mobile"
-                        value={formData?.mobile}
+                        placeholder="phone"
+                        name="phone"
+                        value={formData?.phone}
                         onChange={(e) =>
-                          setFormData({ ...formData, mobile: e.target.value })
+                          setFormData({ ...formData, phone: e.target.value })
                         }
                         required
                       />
@@ -244,7 +243,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default EditAddressBook;
+export default EditAddressBook

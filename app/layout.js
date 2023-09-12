@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }) {
   const router = usePathname();
+
   return (
     <html lang="en">
       <title>Nazara</title>

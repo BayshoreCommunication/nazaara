@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import ToogleButton from "./ToogleButton";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
+import React, { useState } from 'react'
+import ToogleButton from './ToogleButton'
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css'
 
 const Price = ({ priceRange, setPriceRange }) => {
   const handlePriceChange = (newPriceRange) => {
-    setPriceRange(newPriceRange);
-  };
+    setPriceRange(newPriceRange)
+  }
 
-  const minPrice = priceRange?.[0] ?? 0;
-  const maxPrice = priceRange?.[1] ?? 0;
+  const minPrice = priceRange?.[0] ?? 0
+  const maxPrice = priceRange?.[1] ?? 0
 
   return (
     <div className="group relative z-10">
-      <ToogleButton title="Price" />
+      <ToogleButton
+        title={
+          minPrice != 0 || maxPrice != 100000
+            ? `BDT. ${minPrice.toLocaleString()} - BDT. ${maxPrice.toLocaleString()}`
+            : 'Price'
+        }
+      />
       <div className="h-2 w-24"></div>
       <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Price</h4>
@@ -47,7 +53,7 @@ const Price = ({ priceRange, setPriceRange }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Price;
+export default Price

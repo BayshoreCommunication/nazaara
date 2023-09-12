@@ -1,52 +1,17 @@
 import { removeItemFromCart, updateQuantity } from "@/services/cartSlice";
 import axios from "axios";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { MdDeleteForever } from "react-icons/md";
 import Button from "../Button";
 import Link from "next/link";
 
-const Cart = ({ setIsCartOpen }) => {
+const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const fetchProductDetails = async (productId) => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/api/v1/product/${productId}`
-  //       );
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error("Error fetching product details:", error);
-  //       return null;
-  //     }
-  //   };
-
-  //   const fetchAllProductDetails = async () => {
-  //     const detailsPromises = cartItems.map((item) =>
-  //       fetchProductDetails(item.product)
-  //     );
-  //     const details = await Promise.all(detailsPromises);
-  //     setProductDetails(
-  //       details
-  //         .filter((detail) => detail !== null)
-  //         .map((detail, index) => ({
-  //           ...detail,
-  //           color: cartItems[index].color,
-  //           size: cartItems[index].size,
-  //           quantity: cartItems[index].quantity,
-  //         }))
-  //     );
-  //   };
-
-  //   if (cartItems.length > 0) {
-  //     fetchAllProductDetails();
-  //   }
-  // }, [cartItems]);
 
   const fetchProductDetails = async (productId) => {
     try {
@@ -59,25 +24,21 @@ const Cart = ({ setIsCartOpen }) => {
       return null;
     }
   };
+  const fetchAllProductDetails = useCallback(async () => {
+    const productDetails = await Promise.all(
+      cartItems.map(async (item) => ({
+        ...item,
+        product: await fetchProductDetails(item.product),
+      }))
+    );
+    setProductDetails(productDetails);
+  }, [cartItems]);
 
   useEffect(() => {
-    const fetchAllProductDetails = async () => {
-      const productDetails = await Promise.all(
-        cartItems.map(async (item) => ({
-          ...item,
-          product: await fetchProductDetails(item.product),
-        }))
-      );
-
-      setProductDetails(productDetails);
-    };
-
     if (cartItems.length > 0) {
       fetchAllProductDetails();
     }
   }, [cartItems]);
-
-  // console.log("product-details", productDetails);
 
   return (
     <>
@@ -92,12 +53,6 @@ const Cart = ({ setIsCartOpen }) => {
                   : `(${cartItems.length} Item)`}
               </span>
             </div>
-            <button
-              onClick={() => setIsCartOpen(false)}
-              className="text-xl font-semibold"
-            >
-              x
-            </button>
           </div>
           {cartItems.length ? (
             <>
@@ -127,7 +82,7 @@ const Cart = ({ setIsCartOpen }) => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-black text-sm">
-                      BDT {detail.product.data.salePrice}/-
+                      BDT {detail.product.data.salePrice * detail.quantity}/-
                     </p>
                     <div className="flex items-center">
                       {detail.quantity > 1 ? (

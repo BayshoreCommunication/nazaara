@@ -139,10 +139,6 @@ const ProductDetails = ({ params }) => {
     }
   }, [allProducts]);
 
-  // {
-  //   data && console.log("Need", data.data.data);
-  // }
-
   return (
     <div>
       <div className="lg:flex gap-8 container my-4 md:my-6 lg:my-10">

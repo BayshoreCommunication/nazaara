@@ -9,6 +9,7 @@ const nextConfig = {
     MESSAGEING_SENDER_ID: process.env.MESSAGEING_SENDER_ID,
     APP_ID: process.env.APP_ID,
     MEASURMENT_ID: process.env.MEASURMENT_ID,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   images: {
     domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
