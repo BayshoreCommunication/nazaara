@@ -3,6 +3,9 @@ import ToogleButton from "./ToogleButton";
 import axios from "axios";
 
 const ColorAttribute = ({ elem, active, onClick }) => {
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   return (
     <>
       <button
@@ -13,7 +16,7 @@ const ColorAttribute = ({ elem, active, onClick }) => {
         }`}
         onClick={() => onClick(elem)}
       >
-        {elem}
+        {capitalizeFirstLetter(elem)}
       </button>
     </>
   );
@@ -37,19 +40,21 @@ const Color = ({ setCurrentColor }) => {
 
   useEffect(() => {
     fetchData();
-  }, [apiUrl]);
+  }, [apiUrl, fetchData]);
 
   const [activeColor, setActiveColor] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   const handleSizeSelection = (elem) => {
+    setIsActive(true);
     setCurrentColor(elem);
     setActiveColor(elem);
   };
   return (
-    <div className="group relative z-10">
-      <ToogleButton title={`Color ${activeColor ? `(${activeColor})` : ""}`} />
+    <div className="group lg:relative">
+      <ToogleButton title={`Color`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
+      <div className="hidden group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Color</h4>
         <hr />
         <div className="py-3 px-4 flex flex-col gap-y-3">

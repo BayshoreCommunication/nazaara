@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <title>Nazara</title>
+      <title>Nazaara Exclusive Women Wear</title>
       <body>
         <Provider store={store}>
           <Toaster position="top-center" reverseOrder={false} />
