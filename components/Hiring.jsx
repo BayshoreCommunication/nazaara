@@ -31,7 +31,7 @@ function Icon({ id, open }) {
 }
 
 const HiringComponent = ({ data }) => {
-  console.log("data from hiring", data);
+  // console.log("data from hiring", data);
   const [openAccordion, setOpenAccordion] = useState(null); // Initialize as null or some default value
   const [loading, setLoading] = useState(true);
 

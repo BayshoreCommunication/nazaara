@@ -7,7 +7,7 @@ const HiringPage = async () => {
   const url = `${process.env.API_URL}/api/v1/hiring-customization`;
   const data = await FetchServerSideData(url);
   const hiringData = data.data;
-  console.log("hello", hiringData);
+  // console.log("hello", hiringData);
   return (
     <>
       {/* <TopBar /> */}
