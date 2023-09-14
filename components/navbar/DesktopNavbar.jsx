@@ -215,7 +215,7 @@ const DesktopNavbar = () => {
               type="search"
               id="default-search"
               className="w-28 lg:w-32 xl:w-full p-2 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 outline-none h-8"
-              placeholder="Search on Nazara"
+              placeholder="Search on Nazaara"
               required
             />
           </div>

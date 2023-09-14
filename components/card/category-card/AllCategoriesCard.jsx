@@ -47,18 +47,12 @@ const AllCategoriesCard = () => {
           modules={[Scrollbar]}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <SingleCard />
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-            <SingleCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SingleCard />
-            <SingleCard />
-          </SwiperSlide>
+          {categories &&
+            categories.map((elem, i) => (
+              <SwiperSlide key={i}>
+                <SingleCard categoryData={elem} />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
       {categories && (

@@ -1,6 +1,6 @@
 import FetchServerSideData from "@/components/DataFetchingComponent/ServerSideDataFetching";
 import HiringComponent from "@/components/Hiring";
-import TopBar from "@/components/TopBar";
+// import TopBar from "@/components/TopBar";
 import React from "react";
 
 const HiringPage = async () => {

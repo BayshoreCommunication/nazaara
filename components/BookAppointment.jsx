@@ -9,10 +9,10 @@ const BookAppointment = () => {
         <div className="flex justify-center">
           <div className="xl:w-3/4">
             <h2 className="font-semibold tracking-[4px] text-2xl lg:text-4xl text-primary-color">
-              Contuct Us
+              Contact Us
             </h2>
-            <p className="my-6 tracking-[4px] font-semibold">
-              WE ARE AVAILABLE TO WORK ON YOUR CUSTOMIZED ORDER.
+            <p className="my-6 text-sm lg:text-base tracking-[4px] font-semibold">
+              WE ARE ALWAYS AVAILABLE TO WORK ON YOUR CUSTOMIZED ORDER.
             </p>
             <Link href="/contact-us">
               <Button text="CONTACT NOW" />
@@ -25,7 +25,7 @@ const BookAppointment = () => {
             alt="Book Appointment"
             width={500}
             height={500}
-            className="border-4 border-primary-color rounded-3xl"
+            className="border-4 border-primary-color rounded-[1.6rem]"
           />
         </div>
       </div>

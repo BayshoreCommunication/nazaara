@@ -282,8 +282,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                   </table>
                 )}
               </div>
-              <hr />
-              <div>
+              {/* <div>
                 <h2 className="text-lg font-semibold my-2">How to Measure</h2>
                 <Image
                   src="/images/measurement-chart.png"
@@ -292,7 +291,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                   height={300}
                   className="w-full"
                 />
-              </div>
+              </div> */}
             </div>
           )}
           {toggle === "measure" && (

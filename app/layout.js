@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
             <>
               <Navbar />
               {children}
-              <ModalPopup />
+              {/* <ModalPopup /> */}
               <Footer />
             </>
           )}
