@@ -84,7 +84,7 @@ const DesktopFooter = () => {
           <div>
             <ul className="flex flex-col gap-y-1 lg:gap-y-3">
               <p className="text-white text-sm font-medium mb-2">
-                MORE FROM NAZARA
+                MORE FROM NAZAARA
               </p>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/e-gift">E-Gift Cards</Link>

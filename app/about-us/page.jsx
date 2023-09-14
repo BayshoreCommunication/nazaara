@@ -1,20 +1,20 @@
-import FetchServerSideData from '@/components/DataFetchingComponent/ServerSideDataFetching'
-import Loader from '@/components/Loader'
-import TopBar from '@/components/TopBar'
+import FetchServerSideData from "@/components/DataFetchingComponent/ServerSideDataFetching";
+import Loader from "@/components/Loader";
+import TopBar from "@/components/TopBar";
 // import CustomizeData from "@/components/customizeData/CustomizeData";
-import Image from 'next/image'
-import React, { useCallback } from 'react'
+import Image from "next/image";
+import React, { useCallback } from "react";
 
 const Page = async () => {
-  const url = `${process.env.API_URL}/api/v1/customization/64d9fb77f3a7ce9915b44b6f`
-  const data = await FetchServerSideData(url)
-  const aboutData = data?.data?.aboutUs
+  const url = `${process.env.API_URL}/api/v1/customization/64d9fb77f3a7ce9915b44b6f`;
+  const data = await FetchServerSideData(url);
+  const aboutData = data?.data?.aboutUs;
 
   return (
     <>
       <TopBar />
       {!data ? (
-        <Loader height={'h-[90vh]'} />
+        <Loader height={"h-[90vh]"} />
       ) : (
         <div className="my-10 container">
           <h2 className="heading-3 text-center mb-10 text-gray-700">
@@ -49,7 +49,7 @@ const Page = async () => {
                 <div key={index} className="flex items-center flex-col">
                   <Image
                     src={data?.image}
-                    alt="Nazara employee data"
+                    alt="Nazaara employee data"
                     width={260}
                     height={300}
                   />
@@ -64,7 +64,7 @@ const Page = async () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

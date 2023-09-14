@@ -78,7 +78,7 @@ const MobileFooter = () => {
               className="flex items-center"
               onClick={() => setMoreToogleArrow(!moreToogleArrow)}
             >
-              MORE FROM NAZARA
+              MORE FROM NAZAARA
               {moreToogleArrow ? (
                 <FaAngleUp size={20} />
               ) : (
