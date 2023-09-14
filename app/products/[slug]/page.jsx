@@ -31,7 +31,6 @@ import axios from "axios";
 
 const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState(null);
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
@@ -111,13 +110,6 @@ const ProductDetails = ({ params }) => {
 
   SwiperCore.use([Autoplay]);
 
-  if (openModal) {
-    typeof document !== "undefined" &&
-      (document.body.style.overflow = "hidden");
-  } else {
-    typeof document !== "undefined" && (document.body.style.overflow = "auto");
-  }
-
   //generate random array from an array
   const numberOfArraysToSelect = 8;
   const [randomArrays, setRandomArrays] = useState([]);
@@ -148,13 +140,7 @@ const ProductDetails = ({ params }) => {
             isScrollingUp ? "scroll-up" : ""
           }`}
         >
-          {data && (
-            <DetailImage
-              productData={data?.data?.data}
-              setOpenModal={setOpenModal}
-              openModal={openModal}
-            />
-          )}
+          {data && <DetailImage productData={data?.data?.data} />}
           <div className="block lg:hidden h-96 sm:h-[30rem]">
             <Swiper
               modules={[Pagination]}
@@ -177,6 +163,7 @@ const ProductDetails = ({ params }) => {
             </Swiper>
           </div>
         </div>
+
         <div className="w-full lg:w-[40%] sticky top-0 h-max">
           <ProductDetailsComponent
             data={data?.data?.data}
@@ -185,6 +172,7 @@ const ProductDetails = ({ params }) => {
           <Accordion data={data?.data?.data} />
         </div>
       </div>
+
       <Drawer
         open={isOpen}
         size={width < 640 ? 350 : 500}

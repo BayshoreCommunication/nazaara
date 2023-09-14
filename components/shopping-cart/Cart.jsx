@@ -1,4 +1,4 @@
-import { removeItemFromCart, updateQuantity } from "@/services/cartSlice";
+import { removeItemFromCart, updateQuantity } from "@/store/cartSlice";
 import axios from "axios";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";

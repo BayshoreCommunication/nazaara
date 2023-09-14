@@ -4,9 +4,10 @@ import "./globals.css";
 import Footer from "@/components/footer/Footer";
 import ModalPopup from "@/components/modal/ModalPopup";
 import { usePathname } from "next/navigation";
-import { store } from "./store";
+// import { store } from "../store/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { store } from "@/store/store";
 
 export default function RootLayout({ children }) {
   const router = usePathname();

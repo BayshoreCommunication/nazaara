@@ -4,7 +4,7 @@ import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import { useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
-import { addItemToCart } from "@/services/cartSlice";
+import { addItemToCart } from "@/store/cartSlice";
 
 const Navbar = () => {
   // add cart items to redux store from database
