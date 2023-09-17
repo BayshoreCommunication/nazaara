@@ -76,21 +76,23 @@ const DesktopNavbar = () => {
                   />
                 </Link>
               ) : (
-                <Image
-                  src="/images/logo/user.svg"
-                  alt="logo"
-                  width={23}
-                  height={23}
-                  className="cursor-pointer"
-                />
+                <Link href="/user-authentication">
+                  <Image
+                    src="/images/logo/user.svg"
+                    alt="logo"
+                    width={23}
+                    height={23}
+                    className="cursor-pointer"
+                  />
+                </Link>
               )}
               {/* User Authentication Content */}
-              {!imgUrl && (
+              {/* {!imgUrl && (
                 <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-1000">
                   {auth === "signIn" && <SignIn setAuth={setAuth} />}
                   {auth === "signUp" && <SignUp setAuth={setAuth} />}
                 </div>
-              )}
+              )} */}
             </div>
             {/* shopping cart  */}
             <div className="relative group">

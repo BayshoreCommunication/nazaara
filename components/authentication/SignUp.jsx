@@ -1,29 +1,29 @@
-import { useState } from 'react'
-import { AiOutlineGoogle } from 'react-icons/ai'
-import { BsFacebook } from 'react-icons/bs'
-import { FcGoogle } from 'react-icons/fc'
+import { useState } from "react";
+import { AiOutlineGoogle } from "react-icons/ai";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from 'firebase/auth'
-import usefetch from '@/customhooks/usefetch'
-import axios from 'axios'
-import firebase_app from '@/firebase/config'
-import { toast } from 'react-hot-toast'
+} from "firebase/auth";
+import usefetch from "@/customhooks/usefetch";
+import axios from "axios";
+import firebase_app from "@/firebase/config";
+import { toast } from "react-hot-toast";
 
 const SignUp = ({ setAuth }) => {
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [authCheck, setAuthCheck] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [authCheck, setAuthCheck] = useState("");
   const [user, setUser] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-  })
-  const auth = getAuth(firebase_app)
-  const googleProvider = new GoogleAuthProvider()
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const auth = getAuth(firebase_app);
+  const googleProvider = new GoogleAuthProvider();
   // const facebookProvider = new FacebookAuthProvider();
 
   const googleSignIn = () => {
@@ -33,52 +33,52 @@ const SignUp = ({ setAuth }) => {
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;
         // The signed-in user info.
-        const userGoogle = result.user
-        const dataCheck = userGoogle.providerData.map((elem) => elem.email)
-        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`
-        const userAuthCheck = await usefetch(url)
+        const userGoogle = result.user;
+        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
+        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
+        const userAuthCheck = await usefetch(url);
 
         const formData = {
           fullName: userGoogle.providerData.map((elem) => elem.displayName)[0],
           email: userGoogle.providerData.map((elem) => elem.email)[0],
           password: Math.random().toString(36).slice(-8),
-          phone: '',
-          gender: '',
+          phone: "",
+          gender: "",
           refund: 0,
           addressBook: [],
           imageUrl: userGoogle.providerData.map((elem) => elem.photoURL)[0],
-        }
+        };
 
-        if (userAuthCheck.status === 'Not matched') {
+        if (userAuthCheck.status === "Not matched") {
           axios
             .post(`${process.env.API_URL}/api/v1/user`, formData)
             .then((response) => {
-              toast.success('Successfully registered.')
-              setAuth('signIn')
-              console.log(response)
+              toast.success("Successfully registered.");
+              setAuth("signIn");
+              console.log(response);
             })
             .catch((error) => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         } else {
-          toast.error('Already heve an account!')
-          setAuthCheck('Already registered!')
+          toast.error("Already heve an account!");
+          setAuthCheck("Already registered!");
         }
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log('errorMessage', error)
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("errorMessage", error);
         // The email of the user's account used.
-        const email = error.customData.email
+        const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error)
+        const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
-      })
-  }
+      });
+  };
 
   // const facebookSignIn = () => {
   //   signInWithPopup(auth, facebookProvider)
@@ -107,13 +107,13 @@ const SignUp = ({ setAuth }) => {
   // };
 
   const handleInput = (input) => {
-    setUser({ ...user, ...input })
-  }
+    setUser({ ...user, ...input });
+  };
 
   const handleSignUp = async (event) => {
-    event.preventDefault()
-    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`
-    const userAuthCheck = await usefetch(url)
+    event.preventDefault();
+    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
+    const userAuthCheck = await usefetch(url);
 
     const formData = {
       fullName: user.fullName,
@@ -121,26 +121,26 @@ const SignUp = ({ setAuth }) => {
       password: user.password,
       phone: user.phone,
       refund: 0,
-      addressBook: '',
-      imageUrl: '/images/user.png',
-    }
+      addressBook: "",
+      imageUrl: "/images/user.png",
+    };
 
-    if (userAuthCheck.status === 'Not matched') {
+    if (userAuthCheck.status === "Not matched") {
       axios
         .post(`${process.env.API_URL}/api/v1/user`, formData)
         .then((response) => {
-          console.log(response)
+          console.log(response);
         })
         .catch((error) => {
-          console.log('error', error)
-        })
+          console.log("error", error);
+        });
     } else {
-      setAuthCheck('Already registered.')
+      setAuthCheck("Already registered.");
     }
-  }
+  };
 
   return (
-    <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
+    <div className=" max-w-[30rem] mx-auto py-[3rem]">
       <div className="flex flex-col">
         <div className="p-6">
           <div className="space-y-5">
@@ -157,11 +157,11 @@ const SignUp = ({ setAuth }) => {
                   name="fullName"
                   type="text"
                   onChange={(event) => {
-                    handleInput({ fullName: event.target.value })
+                    handleInput({ fullName: event.target.value });
                   }}
                   placeholder="Enter Your Name"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -178,11 +178,11 @@ const SignUp = ({ setAuth }) => {
                   name="email"
                   type="email"
                   onChange={(event) => {
-                    handleInput({ email: event.target.value })
+                    handleInput({ email: event.target.value });
                   }}
                   placeholder="Enter Email"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -199,11 +199,11 @@ const SignUp = ({ setAuth }) => {
                   name="phone"
                   type="text"
                   onChange={(event) => {
-                    handleInput({ phone: event.target.value })
+                    handleInput({ phone: event.target.value });
                   }}
                   placeholder="Enter Phone Number"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -220,11 +220,11 @@ const SignUp = ({ setAuth }) => {
                   name="password"
                   type="password"
                   onChange={(event) => {
-                    handleInput({ password: event.target.value })
+                    handleInput({ password: event.target.value });
                   }}
                   placeholder="Enter Password"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -241,11 +241,11 @@ const SignUp = ({ setAuth }) => {
                   name="confirmPassword"
                   type="password"
                   onChange={(event) => {
-                    setConfirmPassword(event.target.value)
+                    setConfirmPassword(event.target.value);
                   }}
                   placeholder="Confirm Your Password"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -274,7 +274,7 @@ const SignUp = ({ setAuth }) => {
               )}
             </div>
           </div>
-          {authCheck === 'Already registered.' && (
+          {authCheck === "Already registered." && (
             <p className="mt-4 text-center text-xl text-emerald-800">
               Already registered an account.
             </p>
@@ -282,7 +282,7 @@ const SignUp = ({ setAuth }) => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Already a member?
             <button
-              onClick={() => setAuth('signIn')}
+              onClick={() => setAuth("signIn")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2 ml-1"
             >
               Sign In
@@ -324,7 +324,7 @@ const SignUp = ({ setAuth }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
