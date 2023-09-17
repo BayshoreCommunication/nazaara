@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
+// import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithPopup,
@@ -14,8 +15,10 @@ import { setCookie } from "cookies-next";
 import Link from "next/link";
 import firebase_app from "@/firebase/config";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const SignIn = ({ setAuth }) => {
+  const router = useRouter();
   const [authCheck, setAuthCheck] = useState();
   const [user, setUser] = useState({
     email: "",
@@ -28,16 +31,15 @@ const SignIn = ({ setAuth }) => {
   const googleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        const userGoogle = result.user;
-        const dataCheck = userGoogle.providerData.map((elem) => elem.email);
+        const userData = result.user;
+        console.log("result", userData);
+        const userGoogle = result.user.email;
+        // console.log("google email", userGoogle);
 
-        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`;
+        const url = `${process.env.API_URL}/api/v1/auth/user/${userGoogle}`;
+        console.log("url", url);
         const userAuthCredential = await usefetch(url);
-        // console.log("userAuthCredential", userAuthCredential);
+        console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
@@ -47,14 +49,45 @@ const SignIn = ({ setAuth }) => {
               maxAge: 24 * 60 * 60 * 1000,
             }
           );
-          toast.success("Sign in Successfull.");
+          router.push("/");
+          toast.success("Sign in Successfully.");
           setAuthCheck("Sign in complete.");
         } else {
-          toast.error("Please sign up first!");
-          setAuthCheck("Please sign up first!");
+          // toast.error("Please sign up first!");
+          // setAuthCheck("Please sign up first!");
+          const formData = {
+            fullName: userData.displayName,
+            email: userGoogle,
+            password: Math.random().toString(36).slice(-8),
+            phone: "",
+            gender: "",
+            refund: 0,
+            addressBook: [],
+            imageUrl: userData.photoURL,
+          };
+          if (userAuthCredential.status === "Not matched") {
+            axios
+              .post(`${process.env.API_URL}/api/v1/user`, formData)
+              .then((response) => {
+                console.log("response", response);
+                if (response.status === 200 || response.status === 201) {
+                  setAuth("signIn");
+                  setCookie("userAuthCredential", JSON.stringify(formData), {
+                    maxAge: 24 * 60 * 60 * 1000,
+                  });
+                  router.push("/");
+                  setAuthCheck("Sign in complete.");
+                  toast.success("Successfully registered.");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            toast.error("Already heve an account!");
+            setAuthCheck("Already registered!");
+          }
         }
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
       })
       .catch((error) => {
         // Handle Errors here.
@@ -98,18 +131,58 @@ const SignIn = ({ setAuth }) => {
     setUser({ ...user, ...input });
   };
 
+  console.log("user", user);
+
   const handleSignIn = async (event) => {
     event.preventDefault();
-    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`;
-    const userAuthCredential = await usefetch(url);
-    if (userAuthCredential.user) {
-      setCookie("userAuthCredential", JSON.stringify(userAuthCredential.user), {
-        maxAge: 24 * 60 * 60 * 1000,
+    const authBody = {
+      email: user.email,
+      password: user.password,
+    };
+    const url = `${process.env.API_URL}/api/v1/auth/user`;
+    axios
+      .post(`${url}`, authBody)
+      .then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          setCookie("userAuthCredential", JSON.stringify(response.data.user), {
+            maxAge: 24 * 60 * 60 * 1000,
+          });
+          router.push("/");
+          setAuthCheck("Sign in complete.");
+          setAuth("signIn");
+          toast.success("Successfully Logged In.");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
       });
-      setAuthCheck("Sign in complete.");
-    } else {
-      setAuthCheck("Please sign up first.");
-    }
+
+    // const userAuthCredential = await usefetch(url);
+    // console.log("userCreadefsfdsfs", userAuthCredential);
+    // if (userAuthCredential.user) {
+    //   const inputPassword = user.password; // Replace with the user's input password
+    //   const storedPassword = userAuthCredential.user.password;
+    //   // setCookie("userAuthCredential", JSON.stringify(userAuthCredential.user), {
+    //   //   maxAge: 24 * 60 * 60 * 1000,
+    //   // });
+    //   if (comparePasswords(inputPassword, storedPassword)) {
+    //     // Passwords match, sign in successfully
+    //     setCookie(
+    //       "userAuthCredential",
+    //       JSON.stringify(userAuthCredential.user),
+    //       {
+    //         maxAge: 24 * 60 * 60 * 1000,
+    //       }
+    //     );
+    //     setAuthCheck("Sign in complete.");
+    //   } else {
+    //     // Passwords do not match
+    //     setAuthCheck("Incorrect password.");
+    //   }
+    //   // setAuthCheck("Sign in complete.");
+    // } else {
+    //   setAuthCheck("Please sign up first.");
+    // }
   };
 
   return (
