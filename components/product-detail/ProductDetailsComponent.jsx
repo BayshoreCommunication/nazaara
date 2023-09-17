@@ -11,7 +11,10 @@ import { addItemToCart } from "@/store/cartSlice";
 import axios from "axios";
 import { currentColor } from "@/store/imgFilterSlice";
 
+import { useRouter } from "next/navigation";
+
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
+  const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const [getSize, setGetSize] = useState(null);
@@ -99,8 +102,11 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     } else {
       if (!jsonStr) {
         toast.error("Please Login First!");
+        router.push("/user-authentication");
+      } else if (!getColor) {
+        toast.error("Please select the color");
       } else {
-        toast.error("Something went wrong!");
+        toast.error("Something went wrong");
       }
     }
   };
