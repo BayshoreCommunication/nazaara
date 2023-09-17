@@ -1,119 +1,122 @@
-'use client'
-import Button from '@/components/Button'
-import Navigation from '@/components/paymentNav/Navigation'
-import axios from 'axios'
-import { getCookie } from 'cookies-next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+"use client";
+import Button from "@/components/Button";
+import Navigation from "@/components/paymentNav/Navigation";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
-  const cartItems = useSelector((state) => state.cart.items)
-  const [countries, setCountries] = useState([])
-  const [cartData, setCartData] = useState()
-  const [subtotal, setSubtotal] = useState(0)
-  const [userData, setUserData] = useState()
-  const [addressIndex, setAddressIndex] = useState(0)
+  const cartItems = useSelector((state) => state.cart.items);
+  const [countries, setCountries] = useState([]);
+  const [cartData, setCartData] = useState();
+  const [subtotal, setSubtotal] = useState(0);
+  const [userData, setUserData] = useState();
+  const [addressIndex, setAddressIndex] = useState(0);
 
+  console.log(cartItems, cartData);
   const fetchCountries = async () => {
     try {
-      const response = await fetch('https://restcountries.com/v2/all')
-      const data = await response.json()
+      const response = await fetch("https://restcountries.com/v2/all");
+      const data = await response.json();
       const countryList = data.map((country) => ({
         code: `+${country.callingCodes[0]}-${country.name}`,
         name: country.name,
-      }))
-      setCountries(countryList)
+      }));
+      setCountries(countryList);
     } catch (error) {
-      console.error('Error fetching countries:', error)
+      console.error("Error fetching countries:", error);
     }
-  }
+  };
   const fetchProductDetails = useCallback(async (productId) => {
     try {
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productId}`,
-      )
-      return response.data.data
+        `${process.env.API_URL}/api/v1/product/${productId}`
+      );
+      return response.data.data;
     } catch (error) {
-      console.error('Error fetching product details:', error)
-      return null
+      console.error("Error fetching product details:", error);
+      return null;
     }
-  }, [])
+  }, []);
+
   const fetchData = useCallback(async () => {
-    const jsonStr = getCookie('userAuthCredential')
+    const jsonStr = getCookie("userAuthCredential");
     try {
       if (jsonStr) {
-        const obj = JSON.parse(jsonStr)
+        const obj = JSON.parse(jsonStr);
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
-        )
-        const data = await response.json()
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
+        );
+        const data = await response.json();
 
         // Fetch product details for each cart item
         const updatedCartData = await Promise.all(
           data.data.map(async (cart) => {
             const productDetails = await fetchProductDetails(
-              cart.product, // Assuming cartItem.product is the product Id
-            )
+              cart.product // Assuming cartItem.product is the product Id
+            );
             return {
               ...cart,
               productDetails, // Include product details in cart item
-            }
-          }),
-        )
+            };
+          })
+        );
 
-        setCartData(updatedCartData)
+        setCartData(updatedCartData);
 
-        let total = 0
+        let total = 0;
         updatedCartData.forEach((cartItem, index) => {
-          total += cartItem.productDetails.salePrice * cartItem.quantity
-        })
-        setSubtotal(total)
+          total += cartItem.productDetails.salePrice * cartItem.quantity;
+        });
+        setSubtotal(total);
       }
     } catch (error) {
-      console.error('Error fetching cart data:', error)
+      console.error("Error fetching cart data:", error);
     }
-  }, [fetchProductDetails])
+  }, [fetchProductDetails]);
+
   const fetchUserData = useCallback(async () => {
-    const jsonStr = getCookie('userAuthCredential')
+    const jsonStr = getCookie("userAuthCredential");
     try {
       if (jsonStr) {
-        const obj = JSON.parse(jsonStr)
+        const obj = JSON.parse(jsonStr);
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/user/${obj._id}`,
-        )
-        const data = await response.json()
-        setUserData(data?.data)
+          `${process.env.API_URL}/api/v1/user/${obj._id}`
+        );
+        const data = await response.json();
+        setUserData(data?.data);
       }
     } catch (error) {
-      console.error('Error fetching cart data:', error)
+      console.error("Error fetching cart data:", error);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    fetchCountries()
-    fetchData()
-    fetchUserData()
-  }, [fetchData, cartItems, fetchUserData])
+    fetchCountries();
+    fetchData();
+    fetchUserData();
+  }, [fetchData, cartItems, fetchUserData]);
 
   const handleChange = (event) => {
-    setUserData({ ...userData, [event.target.name]: event.target.value })
-  }
+    setUserData({ ...userData, [event.target.name]: event.target.value });
+  };
 
   const handleChangeAddress = (event) => {
-    const updatedUserData = { ...userData }
+    const updatedUserData = { ...userData };
     updatedUserData.addressBook[addressIndex][event.target.name] =
-      event.target.value
-    setUserData(updatedUserData)
-  }
+      event.target.value;
+    setUserData(updatedUserData);
+  };
 
   const handleClick = (index, event) => {
-    event.preventDefault()
-    setAddressIndex(index)
-  }
+    event.preventDefault();
+    setAddressIndex(index);
+  };
 
-  console.log('test', userData?.addressBook)
+  // console.log("test", userData?.addressBook);
 
   return (
     <div className="payment-container flex gap-10">
@@ -174,7 +177,7 @@ const Payment = () => {
                       >
                         {elem.addressType}
                       </button>
-                    )
+                    );
                   } else {
                     return (
                       <button
@@ -185,7 +188,7 @@ const Payment = () => {
                       >
                         {elem.addressType}
                       </button>
-                    )
+                    );
                   }
                 })}
               </div>
@@ -349,11 +352,11 @@ const Payment = () => {
                   </div>
                 </div>
                 <p>
-                  BDT{' '}
+                  BDT{" "}
                   {data.productDetails.salePrice * cartItems[index]?.quantity}/-
                 </p>
               </div>
-            )
+            );
           })}
 
           <div className="flex gap-x-4 border-b border-gray-600 pb-7">
@@ -385,7 +388,7 @@ const Payment = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Payment
+export default Payment;

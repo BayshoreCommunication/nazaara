@@ -18,18 +18,10 @@ export default function RootLayout({ children }) {
       <body>
         <Provider store={store}>
           <Toaster position="top-center" reverseOrder={false} />
-          {router === "/information" ||
-          router === "/measurement" ||
-          router === "/payment" ? (
-            children
-          ) : (
-            <>
-              <Navbar />
-              {children}
-              {/* <ModalPopup /> */}
-              <Footer />
-            </>
-          )}
+          <Navbar />
+          {children}
+          {/* <ModalPopup /> */}
+          <Footer />
         </Provider>
       </body>
     </html>
