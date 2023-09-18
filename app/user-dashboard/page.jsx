@@ -1,39 +1,55 @@
-'use client'
-import Loader from '@/components/Loader'
-import DashboardUtil from '@/components/user-dashboard/DashboardUtil'
-import EditUserProfile from '@/components/user-dashboard/EditUserProfileModal'
+"use client";
+import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
+import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
+import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
 // import usefetch from "@/customhooks/usefetch";
-import { useGetUserByIDQuery } from '@/services/userApi'
-import { getCookie } from 'cookies-next'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { useGetUserByIDQuery } from "@/services/userApi";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const UserDashboard = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
 
   //get authenticate user id using cookie
-  let getUserIdFromCookie
-  const cookie = getCookie('userAuthCredential')
+  let getUserIdFromCookie;
+  const cookie = getCookie("userAuthCredential");
   if (cookie != null) {
-    const obj = JSON.parse(cookie)
-    getUserIdFromCookie = obj._id
+    const obj = JSON.parse(cookie);
+    getUserIdFromCookie = obj._id;
   }
 
   //fetch specific user data using rtk query
-  const { data, isLoading } = useGetUserByIDQuery(getUserIdFromCookie)
+  const { data, isLoading } = useGetUserByIDQuery(getUserIdFromCookie);
 
   // when isLoading is false show loading spinner
   if (isLoading) {
-    return <Loader height="h-[90vh]" />
+    return <Loader height="h-[90vh]" />;
   }
-  const authUserData = data?.data
+  const authUserData = data?.data;
 
-  const date = new Date(authUserData?.createdAt)
-  const day = date.getDate().toString().padStart(2, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0') // Months are 0-indexed
-  const year = date.getFullYear()
-  const formattedDate = `${day}-${month}-${year}`
+  const date = new Date(authUserData?.createdAt);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+  const year = date.getFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
+
+  const handleLogout = () => {
+    deleteCookie("userAuthCredential");
+
+    const cookieValue = getCookie("userAuthCredential");
+    if (!cookieValue) {
+      toast.success("Successfully Logout");
+      router.push("/");
+    } else {
+      toast.error("Failed to Logout.");
+    }
+  };
 
   return (
     <>
@@ -41,9 +57,17 @@ const UserDashboard = () => {
         <Loader height="h-[90vh]" />
       ) : (
         <div className="container my-10 flex flex-col gap-y-4">
-          <h2 className="text-xl font-semibold">
-            Hello, {authUserData?.fullName}
-          </h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold">
+              Hello, {authUserData?.fullName}
+            </h2>
+            <button
+              onClick={handleLogout}
+              className="bg-primary-color py-1 px-2 text-white rounded-lg hover:bg-primary-hover-color"
+            >
+              Logout
+            </button>
+          </div>
           <DashboardUtil />
           <div>
             <div className="text-gray-600 flex flex-col lg:flex-row gap-4 items-start">
@@ -61,10 +85,10 @@ const UserDashboard = () => {
                 <p>Name: {authUserData?.fullName}</p>
                 <p>Email: {authUserData?.email}</p>
                 <p>
-                  Phone: {authUserData?.phone ? authUserData?.phone : 'None'}
+                  Phone: {authUserData?.phone ? authUserData?.phone : "None"}
                 </p>
                 <p>
-                  Gender: {authUserData?.gender ? authUserData?.gender : 'None'}
+                  Gender: {authUserData?.gender ? authUserData?.gender : "None"}
                 </p>
                 <p>Refund: {authUserData?.refund}</p>
                 <p>Joined Science: {formattedDate}</p>
@@ -90,7 +114,7 @@ const UserDashboard = () => {
                         </p>
                         <p>{`${data?.street}, ${data?.zip}`}</p>
                         <p>{`${data?.city}, ${data?.country}`}</p>
-                        <p>{data?.mobile}</p>
+                        <p>{data?.phone}</p>
                       </div>
                     ))}
                   </div>
@@ -218,7 +242,7 @@ const UserDashboard = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default UserDashboard
+export default UserDashboard;

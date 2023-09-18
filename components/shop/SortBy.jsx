@@ -3,12 +3,12 @@ import ShopButton from "./ShopButton";
 
 const SortBy = () => {
   return (
-    <div className="group relative z-10">
-      <button className="flex gap-1 items-center bg-gray-200 py-2 lg:px-4 rounded-full font-medium min-w-full justify-center">
+    <div className="group relative">
+      <button className="flex gap-1 items-center  bg-gray-200 py-2  lg:px-4 rounded-full font-medium min-w-full justify-center">
         <BiSort size={20} /> Sort By
       </button>
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute top-11 right-0 bg-white w-96 rounded-lg box-shadow">
+      <div className="hidden group-hover:block absolute z-10 top-11 lg:right-0 bg-white w-80 left-0 lg:left-auto lg:w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">SortBy</h4>
         <hr />
         <div className="py-3 px-4 flex flex-col gap-y-3">

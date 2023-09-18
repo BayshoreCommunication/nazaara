@@ -19,7 +19,7 @@ const EGift = () => {
           src="/images/career-nazara.png"
           width={613}
           height={278}
-          alt="career nazara"
+          alt="career nazaara"
         />
       </div>
     </div>

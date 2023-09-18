@@ -32,17 +32,19 @@ const SizeAttribute = ({ elem, active, onClick }) => {
 
 const Size = ({ setCurrentSize }) => {
   const [activeSize, setActiveSize] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   const handleSizeSelection = (elem) => {
+    setIsActive(true);
     setCurrentSize(elem);
     setActiveSize(elem);
   };
 
   return (
-    <div className="group relative z-10">
-      <ToogleButton title={`Size ${activeSize ? `(${activeSize})` : ""}`} />
+    <div className="group relative">
+      <ToogleButton title={`Size`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
+      <div className="hidden group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Size</h4>
         <hr />
         <div className="py-3 px-4 flex gap-2 flex-wrap">

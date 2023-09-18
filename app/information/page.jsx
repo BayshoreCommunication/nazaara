@@ -13,6 +13,10 @@ const Payment = () => {
   const [countries, setCountries] = useState([]);
   const [cartData, setCartData] = useState();
   const [subtotal, setSubtotal] = useState(0);
+  const [userData, setUserData] = useState();
+  const [addressIndex, setAddressIndex] = useState(0);
+
+  console.log(cartItems, cartData);
   const fetchCountries = async () => {
     try {
       const response = await fetch("https://restcountries.com/v2/all");
@@ -26,7 +30,6 @@ const Payment = () => {
       console.error("Error fetching countries:", error);
     }
   };
-
   const fetchProductDetails = useCallback(async (productId) => {
     try {
       const response = await axios.get(
@@ -75,10 +78,45 @@ const Payment = () => {
     }
   }, [fetchProductDetails]);
 
+  const fetchUserData = useCallback(async () => {
+    const jsonStr = getCookie("userAuthCredential");
+    try {
+      if (jsonStr) {
+        const obj = JSON.parse(jsonStr);
+        const response = await fetch(
+          `${process.env.API_URL}/api/v1/user/${obj._id}`
+        );
+        const data = await response.json();
+        setUserData(data?.data);
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchCountries();
     fetchData();
-  }, [fetchData, cartItems]);
+    fetchUserData();
+  }, [fetchData, cartItems, fetchUserData]);
+
+  const handleChange = (event) => {
+    setUserData({ ...userData, [event.target.name]: event.target.value });
+  };
+
+  const handleChangeAddress = (event) => {
+    const updatedUserData = { ...userData };
+    updatedUserData.addressBook[addressIndex][event.target.name] =
+      event.target.value;
+    setUserData(updatedUserData);
+  };
+
+  const handleClick = (index, event) => {
+    event.preventDefault();
+    setAddressIndex(index);
+  };
+
+  // console.log("test", userData?.addressBook);
 
   return (
     <div className="payment-container flex gap-10">
@@ -93,21 +131,16 @@ const Payment = () => {
         <div>
           <form className="w-full flex flex-col gap-y-9">
             <div className="w-full mt-6 flex flex-col gap-y-3">
-              <div className="flex justify-between">
-                <p className="text-lg font-medium text-gray-800">
-                  Contact Information
-                </p>
-                {/* <div className="flex gap-x-1 text-sm">
-                  <p>Already have an account?</p>
-                  <Link className="text-red-400" href="/">
-                    Login
-                  </Link>
-                </div> */}
-              </div>
+              <p className="text-lg font-medium text-gray-800">
+                Contact Information
+              </p>
 
               <input
                 className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="email"
+                name="email"
+                value={userData?.email}
+                onChange={handleChange}
                 placeholder="Enter Your Email"
               />
               <div className="flex items-center">
@@ -133,70 +166,80 @@ const Payment = () => {
                 Shipping address
               </p>
               <div className="flex gap-4">
-                <input
-                  className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text"
-                  placeholder="Enter First Name"
-                />
-                <input
-                  className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text"
-                  placeholder="Enter Last Name"
-                />
+                {userData?.addressBook.map((elem, index) => {
+                  if (index === addressIndex) {
+                    return (
+                      <button
+                        className="border text-white rounded-md px-2 py-1 bg-primary-color"
+                        key={index}
+                        type="button"
+                        onClick={(event) => handleClick(index, event)}
+                      >
+                        {elem.addressType}
+                      </button>
+                    );
+                  } else {
+                    return (
+                      <button
+                        className="border rounded-md px-2 py-1"
+                        key={index}
+                        type="button"
+                        onClick={(event) => handleClick(index, event)}
+                      >
+                        {elem.addressType}
+                      </button>
+                    );
+                  }
+                })}
               </div>
               <input
                 className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="text"
-                placeholder="Enter Address"
+                name="fullName"
+                value={userData?.addressBook[addressIndex]?.fullName}
+                onChange={handleChangeAddress}
+                placeholder="Enter Full Name"
               />
               <input
                 className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="text"
-                placeholder="Enter Apartment, suite, etc. (optional)"
+                name="street"
+                onChange={handleChangeAddress}
+                value={userData?.addressBook[addressIndex]?.street}
+                placeholder="Enter Apartment, suite, etc."
               />
               <div className="flex gap-4">
                 <input
                   className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
+                  name="city"
+                  onChange={handleChangeAddress}
+                  value={userData?.addressBook[addressIndex]?.city}
                   placeholder="Enter Your City"
                 />
                 <input
                   className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
+                  name="zip"
+                  onChange={handleChangeAddress}
+                  value={userData?.addressBook[addressIndex]?.zip}
                   placeholder="Enter City Zip Code"
                 />
               </div>
-
-              <div className="relative">
-                <select
-                  className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-state"
-                >
-                  <option value="">Select A Country</option>
-                  {countries.map((country, index) => (
-                    <option key={index}>{country.name}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="flex gap-x-4 ">
+              <div className="flex gap-4">
                 <div className="relative flex-1">
                   <select
-                    className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="block appearance-none border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
+                    name="country"
+                    onChange={handleChangeAddress}
+                    value={userData?.addressBook[addressIndex]?.country}
                   >
-                    <option selected>Select Country Code</option>
+                    <option value="">Select A Country</option>
                     {countries.map((country, index) => (
-                      <option key={index}>{country.code}</option>
+                      <option key={index} value={country.name}>
+                        {country.name}
+                      </option>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -210,8 +253,11 @@ const Payment = () => {
                   </div>
                 </div>
                 <input
-                  className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 flex-1"
+                  className="appearance-none block flex-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
+                  name="phone"
+                  onChange={handleChangeAddress}
+                  value={userData?.addressBook[addressIndex]?.phone}
                   placeholder="Enter Phone Number"
                 />
               </div>
@@ -219,7 +265,6 @@ const Payment = () => {
                 <input
                   id="link-checkbox-bottom"
                   type="checkbox"
-                  value=""
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label

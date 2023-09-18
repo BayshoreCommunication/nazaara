@@ -1,73 +1,106 @@
-import { useState } from 'react'
-import { AiOutlineGoogle } from 'react-icons/ai'
-import { BsFacebook } from 'react-icons/bs'
-import { FcGoogle } from 'react-icons/fc'
-import { initializeApp } from 'firebase/app'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { AiOutlineGoogle } from "react-icons/ai";
+// import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+// import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   // FacebookAuthProvider,
-} from 'firebase/auth'
-import usefetch from '@/customhooks/usefetch'
-import { setCookie } from 'cookies-next'
-import Link from 'next/link'
-import firebase_app from '@/firebase/config'
-import { toast } from 'react-hot-toast'
+} from "firebase/auth";
+import usefetch from "@/customhooks/usefetch";
+import { setCookie } from "cookies-next";
+import Link from "next/link";
+import firebase_app from "@/firebase/config";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const SignIn = ({ setAuth }) => {
-  const [authCheck, setAuthCheck] = useState()
+  const router = useRouter();
+  const [authCheck, setAuthCheck] = useState();
   const [user, setUser] = useState({
-    email: '',
-    password: '',
-  })
-  const auth = getAuth(firebase_app)
-  const googleProvider = new GoogleAuthProvider()
+    email: "",
+    password: "",
+  });
+  const auth = getAuth(firebase_app);
+  const googleProvider = new GoogleAuthProvider();
   // const facebookProvider = new FacebookAuthProvider();
 
   const googleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        const userGoogle = result.user
-        const dataCheck = userGoogle.providerData.map((elem) => elem.email)
+        const userData = result.user;
+        console.log("result", userData);
+        const userGoogle = result.user.email;
+        // console.log("google email", userGoogle);
 
-        const url = `${process.env.API_URL}/api/v1/auth/user/${dataCheck}`
-        const userAuthCredential = await usefetch(url)
-        // console.log("userAuthCredential", userAuthCredential);
+        const url = `${process.env.API_URL}/api/v1/auth/user/${userGoogle}`;
+        console.log("url", url);
+        const userAuthCredential = await usefetch(url);
+        console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
-            'userAuthCredential',
+            "userAuthCredential",
             JSON.stringify(userAuthCredential.user),
             {
               maxAge: 24 * 60 * 60 * 1000,
-            },
-          )
-          toast.success('Sign in Successfull.')
-          setAuthCheck('Sign in complete.')
+            }
+          );
+          router.push("/");
+          toast.success("Sign in Successfully.");
+          setAuthCheck("Sign in complete.");
         } else {
-          toast.error('Please sign up first!')
-          setAuthCheck('Please sign up first!')
+          // toast.error("Please sign up first!");
+          // setAuthCheck("Please sign up first!");
+          const formData = {
+            fullName: userData.displayName,
+            email: userGoogle,
+            password: Math.random().toString(36).slice(-8),
+            phone: "",
+            gender: "",
+            refund: 0,
+            addressBook: [],
+            imageUrl: userData.photoURL,
+          };
+          if (userAuthCredential.status === "Not matched") {
+            axios
+              .post(`${process.env.API_URL}/api/v1/user`, formData)
+              .then((response) => {
+                console.log("response", response);
+                if (response.status === 200 || response.status === 201) {
+                  setAuth("signIn");
+                  setCookie("userAuthCredential", JSON.stringify(formData), {
+                    maxAge: 24 * 60 * 60 * 1000,
+                  });
+                  router.push("/");
+                  setAuthCheck("Sign in complete.");
+                  toast.success("Successfully registered.");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            toast.error("Already heve an account!");
+            setAuthCheck("Already registered!");
+          }
         }
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log('errorMessage', error)
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("errorMessage", error);
         // The email of the user's account used.
         // const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error)
+        const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
-      })
-  }
+      });
+  };
 
   // const facebookSignIn = () => {
   //   signInWithPopup(auth, facebookProvider)
@@ -95,25 +128,65 @@ const SignIn = ({ setAuth }) => {
   // };
 
   const handleInput = (input) => {
-    setUser({ ...user, ...input })
-  }
+    setUser({ ...user, ...input });
+  };
+
+  console.log("user", user);
 
   const handleSignIn = async (event) => {
-    event.preventDefault()
-    const url = `${process.env.API_URL}/api/v1/auth/user/${user.email}`
-    const userAuthCredential = await usefetch(url)
-    if (userAuthCredential.user) {
-      setCookie('userAuthCredential', JSON.stringify(userAuthCredential.user), {
-        maxAge: 24 * 60 * 60 * 1000,
+    event.preventDefault();
+    const authBody = {
+      email: user.email,
+      password: user.password,
+    };
+    const url = `${process.env.API_URL}/api/v1/auth/user`;
+    axios
+      .post(`${url}`, authBody)
+      .then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          setCookie("userAuthCredential", JSON.stringify(response.data.user), {
+            maxAge: 24 * 60 * 60 * 1000,
+          });
+          router.push("/");
+          setAuthCheck("Sign in complete.");
+          setAuth("signIn");
+          toast.success("Successfully Logged In.");
+        }
       })
-      setAuthCheck('Sign in complete.')
-    } else {
-      setAuthCheck('Please sign up first.')
-    }
-  }
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+
+    // const userAuthCredential = await usefetch(url);
+    // console.log("userCreadefsfdsfs", userAuthCredential);
+    // if (userAuthCredential.user) {
+    //   const inputPassword = user.password; // Replace with the user's input password
+    //   const storedPassword = userAuthCredential.user.password;
+    //   // setCookie("userAuthCredential", JSON.stringify(userAuthCredential.user), {
+    //   //   maxAge: 24 * 60 * 60 * 1000,
+    //   // });
+    //   if (comparePasswords(inputPassword, storedPassword)) {
+    //     // Passwords match, sign in successfully
+    //     setCookie(
+    //       "userAuthCredential",
+    //       JSON.stringify(userAuthCredential.user),
+    //       {
+    //         maxAge: 24 * 60 * 60 * 1000,
+    //       }
+    //     );
+    //     setAuthCheck("Sign in complete.");
+    //   } else {
+    //     // Passwords do not match
+    //     setAuthCheck("Incorrect password.");
+    //   }
+    //   // setAuthCheck("Sign in complete.");
+    // } else {
+    //   setAuthCheck("Please sign up first.");
+    // }
+  };
 
   return (
-    <div className="absolute bg-white w-max h-max right-0 z-50 top-9 rounded-lg shadow-xl">
+    <div className=" max-w-[30rem] mx-auto py-[3rem]">
       <div className="flex flex-col">
         <div className="p-6">
           <div className="space-y-5">
@@ -130,11 +203,11 @@ const SignIn = ({ setAuth }) => {
                   name="email"
                   type="email"
                   onChange={(event) => {
-                    handleInput({ email: event.target.value })
+                    handleInput({ email: event.target.value });
                   }}
                   placeholder="Enter email"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -151,11 +224,11 @@ const SignIn = ({ setAuth }) => {
                   name="password"
                   type="password"
                   onChange={(event) => {
-                    handleInput({ password: event.target.value })
+                    handleInput({ password: event.target.value });
                   }}
                   placeholder="Enter Password"
                   required
-                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-[22rem]"
+                  className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 outline-none placeholder:text-gray-400 pl-3 w-full"
                 />
               </div>
             </div>
@@ -178,7 +251,7 @@ const SignIn = ({ setAuth }) => {
               Forgot password?
             </Link>
           </div>
-          {authCheck === 'Please sign up first.' && (
+          {authCheck === "Please sign up first." && (
             <p className="mt-4 text-center text-xl text-red-800">
               Please sign up first.
             </p>
@@ -187,7 +260,7 @@ const SignIn = ({ setAuth }) => {
             Not a member?
             <button
               href="#"
-              onClick={() => setAuth('signUp')}
+              onClick={() => setAuth("signUp")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2 ml-1"
             >
               Sign Up
@@ -227,7 +300,7 @@ const SignIn = ({ setAuth }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

@@ -98,7 +98,7 @@ const AddressBook = ({ params }) => {
                           }
                      </div>
                     </div>
-                    <p>{data?.mobile}</p>
+                    <p>{data?.phone}</p>
                     <div>
                       {/* province, city, area  */}
                       <p>{`${data?.street}, ${data?.zip}`}</p>

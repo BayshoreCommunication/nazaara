@@ -16,6 +16,7 @@ const DesktopNavbar = () => {
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
+  const [cookieData, setCookieData] = useState(null);
 
   const { isCartOpen, setIsCartOpen, cartRef } = useGlobalCart();
 
@@ -25,8 +26,17 @@ const DesktopNavbar = () => {
     if (jsonStr != null) {
       const obj = JSON.parse(jsonStr);
       setImgUrl(obj.imageUrl);
+      setCookieData(obj);
     }
   }, [jsonStr]);
+  // console.log("Cookie DAta", cookieData.fullName.slice(0, 1));
+
+  // const name = cookieData.fullName;
+  // const split = name.split(" ");
+  // const takeword = split.map((data) => data.slice(0, 1));
+  // const addword = takeword.join("");
+  // const slice = addword.slice(0, 2);
+  // console.log("split", slice);
 
   const fetchData = useCallback(async () => {
     try {
@@ -54,7 +64,7 @@ const DesktopNavbar = () => {
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">
         <div className="w-1/4">
-          <Link href="/" className="bg-[#910000] px-2 py-1 text-base">
+          <Link href="/" className=" px-2 py-1 text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
         </div>
@@ -72,40 +82,50 @@ const DesktopNavbar = () => {
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
             <div className="relative group">
-              {imgUrl != null ? (
+              {cookieData && imgUrl ? (
                 <Link href="/user-dashboard">
                   <Image
                     src={imgUrl}
                     alt="logo"
                     width={23}
                     height={23}
-                    className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2 border-red-800 outline outline-1 outline-white"
+                    className="cursor-pointer rounded-full h-8 w-8 shadow-md border-2"
                   />
                 </Link>
+              ) : cookieData && !imgUrl ? (
+                <Link href="/user-dashboard">
+                  <div className="border-2 w-8 h-8 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
+                    <p className="">{cookieData.fullName.slice(0, 1)}</p>
+                    {/* <p className="text-sm">{slice}</p> */}
+                  </div>
+                </Link>
               ) : (
-                <Image
-                  src="/images/logo/user.svg"
-                  alt="logo"
-                  width={23}
-                  height={23}
-                  className="cursor-pointer"
-                />
+                <Link href="/user-authentication">
+                  <Image
+                    src="/images/logo/user.svg"
+                    alt="logo"
+                    width={25}
+                    height={25}
+                    className="cursor-pointer"
+                  />
+                </Link>
               )}
+
               {/* User Authentication Content */}
-              {!imgUrl && (
+              {/* {!imgUrl && (
                 <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-1000">
                   {auth === "signIn" && <SignIn setAuth={setAuth} />}
                   {auth === "signUp" && <SignUp setAuth={setAuth} />}
                 </div>
-              )}
+              )} */}
             </div>
             {/* shopping cart  */}
             <div className="relative group" ref={cartRef}>
               <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
-                width={23}
-                height={23}
+                width={25}
+                height={25}
                 className="cursor-pointer"
                 onClick={handleCartToggle} //  Handle cart toggle on click
               />
@@ -219,7 +239,7 @@ const DesktopNavbar = () => {
               type="search"
               id="default-search"
               className="w-28 lg:w-32 xl:w-full p-2 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 outline-none h-8"
-              placeholder="Search on Nazara"
+              placeholder="Search on Nazaara"
               required
             />
           </div>

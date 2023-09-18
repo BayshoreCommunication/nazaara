@@ -1,61 +1,65 @@
-import { BsBoxArrowUp, BsShield } from 'react-icons/bs'
-import { HiShoppingBag } from 'react-icons/hi'
-import { TbTruckDelivery } from 'react-icons/tb'
-import PendingShipBadge from '../PendingShipBadge'
-import { RxDotFilled } from 'react-icons/rx'
-import { useEffect, useState } from 'react'
-import { getCookie } from 'cookies-next'
-import { toast } from 'react-hot-toast'
-import { useDispatch, useSelector } from 'react-redux'
-import { addItemToCart } from '@/services/cartSlice'
-import axios from 'axios'
+import { BsBoxArrowUp, BsShield } from "react-icons/bs";
+import { HiShoppingBag } from "react-icons/hi";
+import { TbTruckDelivery } from "react-icons/tb";
+import PendingShipBadge from "../PendingShipBadge";
+import { RxDotFilled } from "react-icons/rx";
+import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "@/store/cartSlice";
+import axios from "axios";
+import { currentColor } from "@/store/imgFilterSlice";
+
+import { useRouter } from "next/navigation";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  const cartItems = useSelector((state) => state.cart.items)
-  const dispatch = useDispatch()
-  const [getSize, setGetSize] = useState(null)
-  const [getColor, setGetColor] = useState(null)
-  const [calculatePrice, setCalculatePrice] = useState(0)
-  const [quantity, setQuantity] = useState(1)
+  const router = useRouter();
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+  const [getSize, setGetSize] = useState(null);
+  const [getColor, setGetColor] = useState(null);
+  const [calculatePrice, setCalculatePrice] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice)
-    setGetSize(data?.size[0])
-    setGetColor(data?.variant[0].color)
-  }, [data?.salePrice, data?.size, data?.variant])
+    setCalculatePrice(data?.salePrice);
+    setGetSize(data?.size[0]);
+    // setGetColor(data?.variant[0].color);
+  }, [data?.salePrice, data?.size, data?.variant]);
 
   const percentageReduction =
-    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100
+    ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
 
-  const percentageFloor = Math.floor(percentageReduction)
+  const percentageFloor = Math.floor(percentageReduction);
 
-  const [futureDate, setFutureDate] = useState(null)
+  const [futureDate, setFutureDate] = useState(null);
 
   useEffect(() => {
-    const currentDate = new Date()
-    const futureDate = new Date(currentDate)
-    futureDate.setDate(currentDate.getDate() + 3) // Add 10 days
-    setFutureDate(futureDate)
-  }, [])
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
+    setFutureDate(futureDate);
+  }, []);
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice)
-    setQuantity((prevQuantity) => prevQuantity + 1)
-  }
+    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
 
   // Function to decrease the price
   const handleDecreasePrice = () => {
     if (data?.salePrice < calculatePrice) {
-      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice)
-      setQuantity((prevQuantity) => prevQuantity - 1)
+      setCalculatePrice((prevPrice) => prevPrice - data?.salePrice);
+      setQuantity((prevQuantity) => prevQuantity - 1);
     }
-  }
+  };
 
   const handleAddToCart = () => {
-    const jsonStr = getCookie('userAuthCredential')
+    const jsonStr = getCookie("userAuthCredential");
     if (jsonStr && getColor && getSize) {
-      const obj = JSON.parse(jsonStr)
+      const obj = JSON.parse(jsonStr);
       const cartData = {
         product: data?._id,
         user: obj._id,
@@ -63,11 +67,11 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         color: getColor,
         size: getSize,
         variantId: `${data?._id}-${getColor}-${getSize}`,
-      }
-      dispatch(addItemToCart(cartData))
+      };
+      dispatch(addItemToCart(cartData));
       const check = cartItems.find(
-        (item) => item.variantId === cartData.variantId,
-      )
+        (item) => item.variantId === cartData.variantId
+      );
       if (check) {
         axios
           .patch(`${process.env.API_URL}/api/v1/cart`, {
@@ -76,41 +80,44 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             quantity: check.quantity + cartData.quantity, // previous quantity added with current quantity
           })
           .then((response) => {
-            toast.success(`${cartData.quantity} new product added to cart`)
-            console.log(response)
+            toast.success(`${cartData.quantity} new product added to cart`);
+            console.log(response);
           })
           .catch((error) => {
-            toast.error(`Something went wrong!`)
-            console.error(error)
-          })
+            toast.error(`Something went wrong!`);
+            console.error(error);
+          });
       } else {
         axios
           .post(`${process.env.API_URL}/api/v1/cart`, cartData)
           .then((response) => {
-            toast.success(`${cartData.quantity} product added to cart`)
-            console.log(response)
+            toast.success(`${cartData.quantity} product added to cart`);
+            console.log(response);
           })
           .catch((error) => {
-            toast.error(`Something went wrong!`)
-            console.error(error)
-          })
+            toast.error(`Something went wrong!`);
+            console.error(error);
+          });
       }
     } else {
       if (!jsonStr) {
-        toast.error('Please Login First!')
+        toast.error("Please Login First!");
+        router.push("/user-authentication");
+      } else if (!getColor) {
+        toast.error("Please select the color");
       } else {
-        toast.error('Something went wrong!')
+        toast.error("Something went wrong");
       }
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
       {data && (
         <>
-          <h3 className="font-bold text-2xl lg:text-xl">{data?.productName}</h3>
-          <p className="text-gray-500">{data?.sku}</p>
-          {data?.stock > 0 ? (
+          <h3 className="font-bold text-2xl lg:text-xl">{data.productName}</h3>
+          <p className="text-gray-500">{data.sku}</p>
+          {data.stock > 0 ? (
             <p className="flex items-center -ml-1 text-sm font-medium">
               <RxDotFilled size={30} color="green" />
               In Stock
@@ -144,7 +151,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                 onClick={() => setGetSize(data)}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getSize === data &&
-                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
+                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
                 }`}
               >
                 {data}
@@ -154,13 +161,16 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <h2 className="font-medium">Color</h2>
           <div className="flex items-center gap-2">
-            {data?.variant?.map((data, i) => (
+            {[...data.variant].map((data, i) => (
               <button
                 key={i}
-                onClick={() => setGetColor(data?.color)}
+                onClick={() => {
+                  setGetColor(data?.color);
+                  dispatch(currentColor(data.color));
+                }}
                 className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
                   getColor === data?.color &&
-                  'bg-primary-color text-white hover:bg-primary-color hover:text-white'
+                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
                 }`}
               >
                 {data?.color}
@@ -173,7 +183,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <button
               onClick={handleDecreasePrice}
               className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && 'cursor-not-allowed'
+                calculatePrice == data?.salePrice && "cursor-not-allowed"
               }`}
             >
               -
@@ -203,7 +213,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetailsComponent
+export default ProductDetailsComponent;

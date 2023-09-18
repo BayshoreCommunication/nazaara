@@ -87,6 +87,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     className="flex items-center gap-1"
                   >
                     <input
+                      checked={size == "cm"}
                       id="cm"
                       type="radio"
                       name="radio-1"
@@ -100,6 +101,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     className="flex items-center gap-1"
                   >
                     <input
+                      checked={size == "in"}
                       id="in"
                       type="radio"
                       name="radio-1"
@@ -215,82 +217,81 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     <tbody>
                       {/* row */}
                       <tr>
-                        <th>Length</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th>LENGTH</th>
+                        <td>36</td>
+                        <td>36</td>
+                        <td>37</td>
+                        <td>38</td>
+                        <td>38</td>
                       </tr>
                       {/* row */}
                       <tr>
-                        <th>Bust</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th>CHEST</th>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>20</td>
+                        <td>22</td>
+                        <td>23 </td>
                       </tr>
                       {/* row */}
                       <tr>
-                        <th>Waist</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th> WAIST</th>
+                        <td>16</td>
+                        <td>17</td>
+                        <td>18.5</td>
+                        <td>19.5</td>
+                        <td>20.5</td>
                       </tr>
                       {/* row */}
                       <tr>
-                        <th>Hip shirt</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th>ARMS</th>
+                        <td>20</td>
+                        <td>21</td>
+                        <td>22</td>
+                        <td>22.5</td>
+                        <td>23</td>
                       </tr>
                       {/* row */}
                       <tr>
-                        <th>Daman</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th>HIP</th>
+                        <td>20</td>
+                        <td>20.5</td>
+                        <td>21.5</td>
+                        <td>22.5</td>
+                        <td>23.5</td>
                       </tr>
                       {/* row */}
                       <tr>
-                        <th>Arm Length</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
+                        <th>SHOULDERS</th>
+                        <td>14</td>
+                        <td>14.5</td>
+                        <td>15</td>
+                        <td>16</td>
+                        <td>17</td>
                       </tr>
                       {/* row */}
-                      <tr>
+                      {/* <tr>
                         <th>Arm Hole</th>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
-                      </tr>
+                      </tr> */}
                       {/* row */}
-                      <tr>
+                      {/* <tr>
                         <th>Bicep</th>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
                         <td>50</td>
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 )}
               </div>
-              <hr />
-              <div>
+              {/* <div>
                 <h2 className="text-lg font-semibold my-2">How to Measure</h2>
                 <Image
                   src="/images/measurement-chart.png"
@@ -299,7 +300,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                   height={300}
                   className="w-full"
                 />
-              </div>
+              </div> */}
             </div>
           )}
           {toggle === "measure" && (

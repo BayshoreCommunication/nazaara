@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { contactsApi } from "@/services/contactApi";
 import { usersApi } from "@/services/userApi";
-import cartReducer from "@/services/cartSlice";
+import cartReducer from "@/store/cartSlice";
+import imgFilterReducer from "@/store/imgFilterSlice";
+import { contactsApi } from "@/services/contactApi";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
+    imgFilter: imgFilterReducer,
     // Add the generated reducer as a specific top-level slice
     [contactsApi.reducerPath]: contactsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
