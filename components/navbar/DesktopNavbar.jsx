@@ -2,8 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
-import SignIn from "../authentication/SignIn";
-import SignUp from "../authentication/SignUp";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
