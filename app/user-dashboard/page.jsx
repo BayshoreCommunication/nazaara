@@ -14,8 +14,6 @@ import toast from "react-hot-toast";
 const UserDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const router = useRouter();
-
   //get authenticate user id using cookie
   let getUserIdFromCookie;
   const cookie = getCookie("userAuthCredential");
@@ -61,18 +59,6 @@ const UserDashboard = () => {
   const monthName = monthNames[date.getMonth()]; // Get the month name
   const year = date.getFullYear();
   const formattedDate = `${day}, ${monthName} - ${year}`;
-
-  const handleLogout = () => {
-    deleteCookie("userAuthCredential");
-
-    const cookieValue = getCookie("userAuthCredential");
-    if (!cookieValue) {
-      toast.success("Successfully Logout");
-      router.push("/");
-    } else {
-      toast.error("Failed to Logout.");
-    }
-  };
 
   return (
     <>

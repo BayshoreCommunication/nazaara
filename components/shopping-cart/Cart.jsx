@@ -136,9 +136,11 @@ const Cart = () => {
               ))}
             </>
           ) : (
-            <p className="text-black text-center">No Product Available</p>
+            <>
+              <p className="text-black text-center">🥺 No Product Available!</p>
+            </>
           )}
-          {cartItems.length && (
+          {cartItems.length > 0 && (
             <Link
               href="/information"
               className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color"

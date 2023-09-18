@@ -7,6 +7,7 @@ import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useGlobalCart from "@/customhooks/useGlobalCart";
+import { BsBagXFill, BsFillBagCheckFill } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserCart from "../user-dashboard/UserCart";
 
@@ -95,29 +96,33 @@ const DesktopNavbar = () => {
             {/* User Authentication  */}
             <div className="relative" ref={userDescriptionRef}>
               {cookieData ? (
-                <button onClick={handleUserToggle}>
-                  {imgUrl ? (
-                    <Image
-                      src={imgUrl}
-                      alt="logo"
-                      width={23}
-                      height={23}
-                      className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2"
-                    />
-                  ) : (
-                    <div className="border-2 w-7 h-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
-                      <p className="">{cookieData.fullName.slice(0, 1)}</p>
-                    </div>
+                <>
+                  <div className="cursor-pointer" onClick={handleUserToggle}>
+                    {imgUrl ? (
+                      <Image
+                        src={imgUrl}
+                        alt="logo"
+                        width={23}
+                        height={23}
+                        className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2"
+                      />
+                    ) : (
+                      <div className="border-2 w-7 h-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
+                        <p className="">{cookieData.fullName.slice(0, 1)}</p>
+                      </div>
+                    )}
+                  </div>
+                  {isUserDashboardOpen && (
+                    <UserCart userName={cookieData?.fullName} />
                   )}
-                  {isUserDashboardOpen && <UserCart />}
-                </button>
+                </>
               ) : (
                 <Link href="/user-authentication">
                   <Image
                     src="/images/logo/user.svg"
                     alt="logo"
-                    width={25}
-                    height={25}
+                    width={23}
+                    height={23}
                     className="cursor-pointer"
                   />
                 </Link>
@@ -133,18 +138,27 @@ const DesktopNavbar = () => {
                 className="cursor-pointer"
                 onClick={handleCartToggle} //  Handle cart toggle on click
               /> */}
-              <AiOutlineShoppingCart
-                className="cursor-pointer"
-                size={27}
-                onClick={handleCartToggle}
-              />
-              <div className="bg-white flex justify-center items-center rounded-full absolute bottom-7 left-5 w-[16px] h-[16px]">
-                <p className="text-primary-color text-xs font-semibold">
-                  {cartQuantity}
-                </p>
-              </div>
+
+              {cookieData ? (
+                <AiOutlineShoppingCart
+                  className="cursor-pointer"
+                  size={27}
+                  onClick={handleCartToggle}
+                />
+              ) : (
+                <Link href={"/user-authentication"}>
+                  <AiOutlineShoppingCart className="cursor-pointer" size={27} />
+                </Link>
+              )}
+              {cartQuantity > 0 && (
+                <div className="bg-white flex justify-center items-center rounded-full absolute bottom-7 left-5 w-[16px] h-[16px]">
+                  <p className="text-primary-color text-xs font-semibold">
+                    {cartQuantity}
+                  </p>
+                </div>
+              )}
               {/* shopping cart content*/}
-              {isAddToCartOpen && <Cart />}{" "}
+              {isAddToCartOpen && <Cart />}
               {/* Render cart if isCartOpen is true */}
             </div>
           </div>
