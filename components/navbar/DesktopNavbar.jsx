@@ -7,6 +7,8 @@ import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import useGlobalCart from "@/customhooks/useGlobalCart";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import UserCart from "../user-dashboard/UserCart";
 
 const DesktopNavbar = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -16,7 +18,16 @@ const DesktopNavbar = () => {
   const [imgUrl, setImgUrl] = useState(null);
   const [cookieData, setCookieData] = useState(null);
 
-  const { isCartOpen, setIsCartOpen, cartRef } = useGlobalCart();
+  const {
+    isCartOpen: isAddToCartOpen,
+    setIsCartOpen: setIsAddToCartOpen,
+    cartRef: addToCartRef,
+  } = useGlobalCart();
+  const {
+    isCartOpen: isUserDashboardOpen,
+    setIsCartOpen: setisUserDashboardOpen,
+    cartRef: userDescriptionRef,
+  } = useGlobalCart();
 
   const jsonStr = getCookie("userAuthCredential");
 
@@ -55,7 +66,10 @@ const DesktopNavbar = () => {
   const cartQuantity = cartItems.length;
 
   const handleCartToggle = () => {
-    setIsCartOpen(!isCartOpen); // Toggle the cart open/close state
+    setIsAddToCartOpen(!isAddToCartOpen); // Toggle the cart open/close state
+  };
+  const handleUserToggle = () => {
+    setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
   };
 
   return (
@@ -79,24 +93,24 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-            <div className="relative group">
-              {cookieData && imgUrl ? (
-                <Link href="/user-dashboard">
-                  <Image
-                    src={imgUrl}
-                    alt="logo"
-                    width={23}
-                    height={23}
-                    className="cursor-pointer rounded-full h-8 w-8 shadow-md border-2"
-                  />
-                </Link>
-              ) : cookieData && !imgUrl ? (
-                <Link href="/user-dashboard">
-                  <div className="border-2 w-8 h-8 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
-                    <p className="">{cookieData.fullName.slice(0, 1)}</p>
-                    {/* <p className="text-sm">{slice}</p> */}
-                  </div>
-                </Link>
+            <div className="relative" ref={userDescriptionRef}>
+              {cookieData ? (
+                <button onClick={handleUserToggle}>
+                  {imgUrl ? (
+                    <Image
+                      src={imgUrl}
+                      alt="logo"
+                      width={23}
+                      height={23}
+                      className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2"
+                    />
+                  ) : (
+                    <div className="border-2 w-7 h-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
+                      <p className="">{cookieData.fullName.slice(0, 1)}</p>
+                    </div>
+                  )}
+                  {isUserDashboardOpen && <UserCart />}
+                </button>
               ) : (
                 <Link href="/user-authentication">
                   <Image
@@ -108,32 +122,30 @@ const DesktopNavbar = () => {
                   />
                 </Link>
               )}
-
-              {/* User Authentication Content */}
-              {/* {!imgUrl && (
-                <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-1000">
-                  {auth === "signIn" && <SignIn setAuth={setAuth} />}
-                  {auth === "signUp" && <SignUp setAuth={setAuth} />}
-                </div>
-              )} */}
             </div>
             {/* shopping cart  */}
-            <div className="relative group" ref={cartRef}>
-              <Image
+            <div className="relative" ref={addToCartRef}>
+              {/* <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
                 width={25}
-                height={25}
+                height={30}
                 className="cursor-pointer"
                 onClick={handleCartToggle} //  Handle cart toggle on click
+              /> */}
+              <AiOutlineShoppingCart
+                className="cursor-pointer"
+                size={27}
+                onClick={handleCartToggle}
               />
-              <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
-                <p className="text-black text-xs font-semibold">
+              <div className="bg-white flex justify-center items-center rounded-full absolute bottom-7 left-5 w-[16px] h-[16px]">
+                <p className="text-primary-color text-xs font-semibold">
                   {cartQuantity}
                 </p>
               </div>
               {/* shopping cart content*/}
-              {isCartOpen && <Cart />} {/* Render cart if isCartOpen is true */}
+              {isAddToCartOpen && <Cart />}{" "}
+              {/* Render cart if isCartOpen is true */}
             </div>
           </div>
         </div>

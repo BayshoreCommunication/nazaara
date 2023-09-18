@@ -33,11 +33,34 @@ const UserDashboard = () => {
   }
   const authUserData = data?.data;
 
+  // const date = new Date(authUserData?.createdAt);
+  // const day = date.getDate().toString().padStart(2, "0");
+  // const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  // const year = date.getFullYear();
+  // const formattedDate = `${day}-${month}-${year}`;
+
   const date = new Date(authUserData?.createdAt);
   const day = date.getDate().toString().padStart(2, "0");
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+
+  // Array of month names
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const monthName = monthNames[date.getMonth()]; // Get the month name
   const year = date.getFullYear();
-  const formattedDate = `${day}-${month}-${year}`;
+  const formattedDate = `${day}, ${monthName} - ${year}`;
 
   const handleLogout = () => {
     deleteCookie("userAuthCredential");
@@ -57,23 +80,17 @@ const UserDashboard = () => {
         <Loader height="h-[90vh]" />
       ) : (
         <div className="container my-10 flex flex-col gap-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">
-              Hello, {authUserData?.fullName}
-            </h2>
-            <button
-              onClick={handleLogout}
-              className="bg-primary-color py-1 px-2 text-white rounded-lg hover:bg-primary-hover-color"
-            >
-              Logout
-            </button>
-          </div>
+          <h2 className="text-xl font-semibold text-primary-color">
+            Hello, {authUserData?.fullName}
+          </h2>
           <DashboardUtil />
           <div>
             <div className="text-gray-600 flex flex-col lg:flex-row gap-4 items-start">
-              <div className="border rounded-lg py-2 px-4 flex-1">
+              <div className="border rounded-lg py-3 px-4 flex-1">
                 <div className="flex gap-2 mb-2">
-                  <p className="text-lg font-medium">Personal Profile</p>
+                  <p className="text-lg font-medium text-gray-700">
+                    Personal Profile
+                  </p>
                   <p> | </p>
                   <button
                     onClick={() => setIsModalOpen(true)}
@@ -82,20 +99,43 @@ const UserDashboard = () => {
                     Edit
                   </button>
                 </div>
-                <p>Name: {authUserData?.fullName}</p>
-                <p>Email: {authUserData?.email}</p>
-                <p>
-                  Phone: {authUserData?.phone ? authUserData?.phone : "None"}
-                </p>
-                <p>
-                  Gender: {authUserData?.gender ? authUserData?.gender : "None"}
-                </p>
-                <p>Refund: {authUserData?.refund}</p>
-                <p>Joined Science: {formattedDate}</p>
+                <div className="flex flex-col gap-y-1 text-sm">
+                  <p>
+                    <span className="font-semibold">Name: </span>
+                    {authUserData?.fullName}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Email: </span>{" "}
+                    {authUserData?.email}
+                  </p>
+                  {authUserData?.phone && (
+                    <p>
+                      <span className="font-semibold">Phone: </span>
+                      {authUserData?.phone}
+                    </p>
+                  )}
+                  {authUserData?.gender && (
+                    <p>
+                      <span className="font-semibold">Gender: </span>
+                      {authUserData?.gender}
+                    </p>
+                  )}
+
+                  <p>
+                    <span className="font-semibold"> Refund: </span>
+                    {authUserData?.refund}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Joined Science: </span>
+                    {formattedDate}
+                  </p>
+                </div>
               </div>
-              <div className="border rounded-lg py-2 px-4 flex-[2]">
-                <div className="flex gap-2 mb-2">
-                  <p className="text-lg font-medium">Address Book</p>
+              <div className="border rounded-lg py-3 px-4 flex-[2]">
+                <div className="flex gap-2 mb-2 items-center">
+                  <p className="text-lg font-medium text-gray-700">
+                    Address Book
+                  </p>
                   <p> | </p>
                   <Link href={`/user-dashboard/${authUserData?._id}`}>
                     <button className="text-primary-color">More</button>
@@ -105,11 +145,14 @@ const UserDashboard = () => {
                 {authUserData?.addressBook && (
                   <div className="flex gap-3">
                     {authUserData?.addressBook.map((data) => (
-                      <div key={data._id} className="border-e-2 flex-1">
-                        <p className="text-md text-green-700 bg-slate-200 px-2 py-1 w-max text-xs">
+                      <div
+                        key={data._id}
+                        className="border-e-2 flex-1 text-sm flex flex-col gap-y-2"
+                      >
+                        <p className="text-md text-green-800 bg-slate-200 px-2 py-1 w-max text-xs rounded-sm bg-gray-200">
                           {data?.addressType}
                         </p>
-                        <p className="my-2 font-semibold text-gray-700">
+                        <p className=" font-medium text-gray-700">
                           {data?.fullName}
                         </p>
                         <p>{`${data?.street}, ${data?.zip}`}</p>

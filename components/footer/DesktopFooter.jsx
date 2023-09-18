@@ -25,28 +25,28 @@ const DesktopFooter = () => {
             </div>
             <div className="text-color-cus flex justify-center gap-x-6 mb-3 lg:mb-0 ml-24 xl:ml-40">
               <Link
-                href="https://www.facebook.com/EliteSpaFlorida/"
+                href="https://www.facebook.com/nazaara.official/"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaFacebook size={25} color="white" />
               </Link>
               <Link
-                href="https://www.youtube.com/"
+                href="https://www.youtube.com/nazaara.official?fbclid=IwAR3axfJUOdbHRfuR93fXm-NNLaLK7n4CO0yEEpkHxD8Rzb00ko8yhVZlj-s"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaYoutube size={25} color="white" />
               </Link>
               <Link
-                href="https://www.instagram.com/Elite_spa7/"
+                href="https://www.instagram.com/nazaara.official/?fbclid=IwAR305164AqRBu_pOQIImJKLP6poo2C_Ii4KH43lc9_BHr_PDGfQagzPZP9U"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaInstagram size={25} color="white" />
               </Link>
               <Link
-                href="https://www.instagram.com/Elite_spa7/"
+                href="https://www.tiktok.com/@nazaara.official?fbclid=IwAR0rkTpZgt_8CGnL3K5ubsS_xXsfapdV7B9VPS-5TO0J_XS-EAx5tiIh4Iw"
                 target="_blank"
               >
                 <FaTiktok size={25} color="white" />
@@ -106,15 +106,15 @@ const DesktopFooter = () => {
           <ul className="flex flex-col gap-y-1 lg:gap-y-3">
             <p className="text-white text-sm font-medium mb-2">OUR COMPANY</p>
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/contact-us">Contact us</Link>
+              <Link href="/contact-us">Contact Us</Link>
             </li>
 
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/about-us">About us</Link>
+              <Link href="/about-us">About Us</Link>
             </li>
 
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-              <Link href="/terms-of-use">Terms of use</Link>
+              <Link href="/terms-of-use">Terms Of Use</Link>
             </li>
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
               <Link href="/privacy-policy">Privacy Policy</Link>
