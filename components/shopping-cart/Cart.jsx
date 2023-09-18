@@ -38,7 +38,7 @@ const Cart = () => {
     if (cartItems.length > 0) {
       fetchAllProductDetails();
     }
-  }, [cartItems]);
+  }, [cartItems, fetchAllProductDetails]);
 
   return (
     <>

@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import useGlobalCart from "@/customhooks/useGlobalCart";
 
 const DesktopNavbar = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -15,6 +16,8 @@ const DesktopNavbar = () => {
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
+
+  const { isCartOpen, setIsCartOpen, cartRef } = useGlobalCart();
 
   const jsonStr = getCookie("userAuthCredential");
 
@@ -42,6 +45,10 @@ const DesktopNavbar = () => {
   }, [getCookieData, jsonStr, apiUrl, fetchData]);
 
   const cartQuantity = cartItems.length;
+
+  const handleCartToggle = () => {
+    setIsCartOpen(!isCartOpen); // Toggle the cart open/close state
+  };
 
   return (
     <div className="hidden lg:block container py-4">
@@ -93,25 +100,22 @@ const DesktopNavbar = () => {
               )}
             </div>
             {/* shopping cart  */}
-            <div className="relative group">
+            <div className="relative group" ref={cartRef}>
               <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
                 width={23}
                 height={23}
                 className="cursor-pointer"
-                onClick={() => handleCartOpen()}
+                onClick={handleCartToggle} //  Handle cart toggle on click
               />
               <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
                 <p className="text-black text-xs font-semibold">
                   {cartQuantity}
                 </p>
               </div>
-
               {/* shopping cart content*/}
-              <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-700">
-                <Cart />
-              </div>
+              {isCartOpen && <Cart />} {/* Render cart if isCartOpen is true */}
             </div>
           </div>
         </div>
