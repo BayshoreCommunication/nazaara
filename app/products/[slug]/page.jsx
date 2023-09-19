@@ -28,6 +28,7 @@ import { useCallback, useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
 import { ProductData } from "@/data/product";
 import axios from "axios";
+import Loader from "@/components/Loader";
 
 const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
@@ -130,6 +131,9 @@ const ProductDetails = ({ params }) => {
       setRandomArrays(selectedArrays);
     }
   }, [allProducts]);
+
+  // console.log("data", data);
+  if (!data) return <Loader height="h-[70vh]" />;
 
   return (
     <div>

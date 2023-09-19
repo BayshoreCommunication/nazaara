@@ -139,7 +139,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <p className="line-through text-sm font-medium">
               BDT {data?.regularPrice}/-
             </p>
-            <PendingShipBadge text={`${percentageFloor}%`} />
+            <PendingShipBadge text={`-${percentageFloor}%`} />
           </div>
           <button
             className="text-blue-500 flex items-center gap-1"
@@ -205,7 +205,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
             <TbTruckDelivery /> Estimated Shipping Date:
-            {` ${futureDate.toDateString()}`}
+            {` ${futureDate?.toDateString()}`}
           </p>
 
           <button

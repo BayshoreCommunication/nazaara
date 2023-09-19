@@ -15,7 +15,6 @@ const DetailImage = ({ productData }) => {
       (el) => el.color === currentColor
     );
   else currentProduct = productData.variant;
-  console.log("cur product ", currentProduct);
 
   return (
     <>
