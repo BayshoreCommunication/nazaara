@@ -135,7 +135,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <p className="line-through text-sm font-medium">
               BDT {data?.regularPrice}/-
             </p>
-            <PendingShipBadge text={`${percentageFloor}%`} />
+            <PendingShipBadge text={`-${percentageFloor}%`} />
           </div>
           <button
             className="text-blue-500 flex items-center gap-1"
