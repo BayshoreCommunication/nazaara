@@ -158,7 +158,7 @@ const DesktopNavbar = () => {
                 </div>
               )}
               {/* shopping cart content*/}
-              {isAddToCartOpen && <Cart />}
+              {isAddToCartOpen && <Cart cookieData={cookieData} />}
               {/* Render cart if isCartOpen is true */}
             </div>
           </div>

@@ -12,6 +12,10 @@ import axios from "axios";
 import { currentColor } from "@/store/imgFilterSlice";
 
 import { useRouter } from "next/navigation";
+import {
+  useCreateNewCartMutation,
+  useUpdateCartByUserIdMutation,
+} from "@/services/cartApi";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
   const router = useRouter();
@@ -21,6 +25,12 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
   const [getColor, setGetColor] = useState(null);
   const [calculatePrice, setCalculatePrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
+
+  const [updateCart, { isLoading, isError, isSuccess }] =
+    useUpdateCartByUserIdMutation();
+
+  const [createCart] = useCreateNewCartMutation();
+
   //set initial price
   useEffect(() => {
     setCalculatePrice(data?.salePrice);
@@ -56,7 +66,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const jsonStr = getCookie("userAuthCredential");
     if (jsonStr && getColor && getSize) {
       const obj = JSON.parse(jsonStr);
@@ -72,32 +82,26 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
       const check = cartItems.find(
         (item) => item.variantId === cartData.variantId
       );
+      console.log("check", check);
       if (check) {
-        axios
-          .patch(`${process.env.API_URL}/api/v1/cart`, {
-            user: cartData.user,
-            variantId: cartData.variantId,
-            quantity: check.quantity + cartData.quantity, // previous quantity added with current quantity
-          })
-          .then((response) => {
-            toast.success(`${cartData.quantity} new product added to cart`);
-            console.log(response);
-          })
-          .catch((error) => {
-            toast.error(`Something went wrong!`);
-            console.error(error);
-          });
+        const result = await updateCart({
+          user: cartData.user,
+          variantId: cartData.variantId,
+          quantity: check.quantity + cartData.quantity,
+        });
+        if (result.data.status === "success") {
+          toast.success(`${cartData.quantity} new product added to cart`);
+        } else {
+          toast.error(`Something went wrong!`);
+        }
       } else {
-        axios
-          .post(`${process.env.API_URL}/api/v1/cart`, cartData)
-          .then((response) => {
-            toast.success(`${cartData.quantity} product added to cart`);
-            console.log(response);
-          })
-          .catch((error) => {
-            toast.error(`Something went wrong!`);
-            console.error(error);
-          });
+        const result = await createCart(cartData);
+        console.log("result", result);
+        if (result.data.status === "success") {
+          toast.success(`${cartData.quantity} new product added to cart`);
+        } else {
+          toast.error(`Something went wrong!`);
+        }
       }
     } else {
       if (!jsonStr) {

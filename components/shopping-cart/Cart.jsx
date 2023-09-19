@@ -5,13 +5,43 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { MdDeleteForever } from "react-icons/md";
-import Button from "../Button";
 import Link from "next/link";
+import {
+  useDeleteCartByUserIdAndVariantIdMutation,
+  useGetProductDetailsQuery,
+  useUpdateCartByUserIdMutation,
+} from "@/services/cartApi";
 
-const Cart = () => {
+const Cart = ({ cookieData }) => {
+  console.log("cookie from cart", cookieData);
   const cartItems = useSelector((state) => state.cart.items);
+  console.log("cartItemsss", cartItems);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
+
+  const [updateCart] = useUpdateCartByUserIdMutation();
+  const [deleteCart, { isLoading }] =
+    useDeleteCartByUserIdAndVariantIdMutation();
+
+  const { data: productDetailsData, isLoading: isLoadingProductDetails } =
+    useGetProductDetailsQuery();
+
+  // useEffect(() => {
+  //   const fetchAllProductDetails = async () => {
+  //     if (cartItems.length > 0) {
+  //       const productIds = cartItems.map((item) => item.product);
+  //       // Use the new query to fetch product details for all productIds
+  //       const productDetails = await Promise.all(
+  //         productIds.map((productId) => useGetProductDetailsQuery(productId))
+  //       );
+  //       setProductDetails(productDetails);
+  //     }
+  //   };
+
+  //   if (cartItems.length > 0) {
+  //     fetchAllProductDetails();
+  //   }
+  // }, [cartItems]);
 
   const fetchProductDetails = async (productId) => {
     try {
@@ -39,6 +69,61 @@ const Cart = () => {
       fetchAllProductDetails();
     }
   }, [cartItems, fetchAllProductDetails]);
+
+  const handleDecreaseQuantity = async (variantId, quantity) => {
+    try {
+      const result = await updateCart({
+        user: cookieData._id,
+        variantId: variantId,
+        quantity: quantity - 1,
+      });
+      if (result?.data?.status === "success") {
+        dispatch(
+          updateQuantity({
+            variantId: variantId,
+            newQuantity: quantity - 1,
+          })
+        );
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  };
+  const handleIncreaseQuantity = async (variantId, quantity) => {
+    try {
+      const result = await updateCart({
+        user: cookieData._id,
+        variantId: variantId,
+        quantity: quantity + 1,
+      });
+      if (result?.data?.status === "success") {
+        dispatch(
+          updateQuantity({
+            variantId: variantId,
+            newQuantity: quantity + 1,
+          })
+        );
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  };
+  const handleDeleteCartItem = async (variantId) => {
+    try {
+      const result = await deleteCart({
+        user: cookieData._id,
+        variantId: variantId,
+      });
+      // console.log("result::::", result);
+      if (result?.data?.status === "success") {
+        dispatch(
+          removeItemFromCart(detail.variantId) // Use the variantId here
+        );
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  };
 
   return (
     <>
@@ -90,11 +175,9 @@ const Cart = () => {
                       {detail.quantity > 1 ? (
                         <button
                           onClick={() =>
-                            dispatch(
-                              updateQuantity({
-                                variantId: detail.variantId, // Use the variantId re
-                                newQuantity: detail.quantity - 1,
-                              })
+                            handleDecreaseQuantity(
+                              detail.variantId,
+                              detail.quantity
                             )
                           }
                           className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
@@ -103,11 +186,7 @@ const Cart = () => {
                         </button>
                       ) : (
                         <button
-                          onClick={() =>
-                            dispatch(
-                              removeItemFromCart(detail.variantId) // Use the variantId here
-                            )
-                          }
+                          onClick={() => handleDeleteCartItem(detail.variantId)}
                           className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
                         >
                           <MdDeleteForever />
@@ -119,11 +198,9 @@ const Cart = () => {
                       </p>
                       <button
                         onClick={() =>
-                          dispatch(
-                            updateQuantity({
-                              variantId: detail.variantId, // Use the variantId here
-                              newQuantity: detail.quantity + 1,
-                            })
+                          handleIncreaseQuantity(
+                            detail.variantId,
+                            detail.quantity
                           )
                         }
                         className="flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl"
