@@ -201,7 +201,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
             <TbTruckDelivery /> Estimated Shipping Date:
-            {` ${futureDate.toDateString()}`}
+            {` ${futureDate?.toDateString()}`}
           </p>
 
           <button

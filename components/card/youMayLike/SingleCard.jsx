@@ -12,7 +12,6 @@ const SingleCard = ({ data }) => {
 
   const percentageFloor = Math.floor(percentageReduction);
   // console.log("pp", percentageFloor);
-  console.log("data", data);
   return (
     <div>
       <Link href={`/products/${data?.slug}`}>
