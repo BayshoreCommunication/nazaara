@@ -38,15 +38,17 @@ const Cart = () => {
     if (cartItems.length > 0) {
       fetchAllProductDetails();
     }
-  }, [cartItems]);
+  }, [cartItems, fetchAllProductDetails]);
 
   return (
     <>
       {productDetails && (
-        <div className="flex flex-col gap-5 bg-white w-96 h-min absolute top-8 right-0 z-50 rounded-xl p-4 shadow-xl">
+        <div className="flex flex-col gap-5 bg-white w-96 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">
           <div className="text-black flex justify-between border-b pb-2">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-black">Shopping Cart</h2>
+              <h2 className="text-lg font-semibold text-primary-color">
+                Shopping Cart
+              </h2>
               <span className="text-gray-500">
                 {cartItems.length > 1
                   ? `(${cartItems.length} Items)`
@@ -134,9 +136,11 @@ const Cart = () => {
               ))}
             </>
           ) : (
-            <p className="text-black text-center">No Product Available</p>
+            <>
+              <p className="text-black text-center">🥺 No Product Available!</p>
+            </>
           )}
-          {cartItems.length && (
+          {cartItems.length > 0 && (
             <Link
               href="/information"
               className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color"

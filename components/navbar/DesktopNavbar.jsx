@@ -2,12 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
-import SignIn from "../authentication/SignIn";
-import SignUp from "../authentication/SignUp";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import useGlobalCart from "@/customhooks/useGlobalCart";
+import { BsBagXFill, BsFillBagCheckFill } from "react-icons/bs";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import UserCart from "../user-dashboard/UserCart";
 
 const DesktopNavbar = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -15,6 +17,18 @@ const DesktopNavbar = () => {
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
+  const [cookieData, setCookieData] = useState(null);
+
+  const {
+    isCartOpen: isAddToCartOpen,
+    setIsCartOpen: setIsAddToCartOpen,
+    cartRef: addToCartRef,
+  } = useGlobalCart();
+  const {
+    isCartOpen: isUserDashboardOpen,
+    setIsCartOpen: setisUserDashboardOpen,
+    cartRef: userDescriptionRef,
+  } = useGlobalCart();
 
   const jsonStr = getCookie("userAuthCredential");
 
@@ -22,8 +36,17 @@ const DesktopNavbar = () => {
     if (jsonStr != null) {
       const obj = JSON.parse(jsonStr);
       setImgUrl(obj.imageUrl);
+      setCookieData(obj);
     }
   }, [jsonStr]);
+  // console.log("Cookie DAta", cookieData.fullName.slice(0, 1));
+
+  // const name = cookieData.fullName;
+  // const split = name.split(" ");
+  // const takeword = split.map((data) => data.slice(0, 1));
+  // const addword = takeword.join("");
+  // const slice = addword.slice(0, 2);
+  // console.log("split", slice);
 
   const fetchData = useCallback(async () => {
     try {
@@ -43,11 +66,18 @@ const DesktopNavbar = () => {
 
   const cartQuantity = cartItems.length;
 
+  const handleCartToggle = () => {
+    setIsAddToCartOpen(!isAddToCartOpen); // Toggle the cart open/close state
+  };
+  const handleUserToggle = () => {
+    setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
+  };
+
   return (
     <div className="hidden lg:block container py-4">
       <div className="flex justify-between items-center relative">
         <div className="w-1/4">
-          <Link href="/" className="bg-[#910000] px-2 py-1 text-base">
+          <Link href="/" className=" px-2 py-1 text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
         </div>
@@ -64,17 +94,28 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-6 justify-end">
             {/* User Authentication  */}
-            <div className="relative group">
-              {imgUrl != null ? (
-                <Link href="/user-dashboard">
-                  <Image
-                    src={imgUrl}
-                    alt="logo"
-                    width={23}
-                    height={23}
-                    className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2 border-red-800 outline outline-1 outline-white"
-                  />
-                </Link>
+            <div className="relative" ref={userDescriptionRef}>
+              {cookieData ? (
+                <>
+                  <div className="cursor-pointer" onClick={handleUserToggle}>
+                    {imgUrl ? (
+                      <Image
+                        src={imgUrl}
+                        alt="logo"
+                        width={23}
+                        height={23}
+                        className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2"
+                      />
+                    ) : (
+                      <div className="border-2 w-7 h-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
+                        <p className="">{cookieData.fullName.slice(0, 1)}</p>
+                      </div>
+                    )}
+                  </div>
+                  {isUserDashboardOpen && (
+                    <UserCart userName={cookieData?.fullName} />
+                  )}
+                </>
               ) : (
                 <Link href="/user-authentication">
                   <Image
@@ -86,34 +127,39 @@ const DesktopNavbar = () => {
                   />
                 </Link>
               )}
-              {/* User Authentication Content */}
-              {/* {!imgUrl && (
-                <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-1000">
-                  {auth === "signIn" && <SignIn setAuth={setAuth} />}
-                  {auth === "signUp" && <SignUp setAuth={setAuth} />}
-                </div>
-              )} */}
             </div>
             {/* shopping cart  */}
-            <div className="relative group">
-              <Image
+            <div className="relative" ref={addToCartRef}>
+              {/* <Image
                 src="/images/logo/shopping-card.svg"
                 alt="logo"
-                width={23}
-                height={23}
+                width={25}
+                height={30}
                 className="cursor-pointer"
-                onClick={() => handleCartOpen()}
-              />
-              <div className="bg-white flex justify-center items-center rounded-full absolute top-0 right-0 -mt-3 -mr-4 w-[18px] h-[18px]">
-                <p className="text-black text-xs font-semibold">
-                  {cartQuantity}
-                </p>
-              </div>
+                onClick={handleCartToggle} //  Handle cart toggle on click
+              /> */}
 
+              {cookieData ? (
+                <AiOutlineShoppingCart
+                  className="cursor-pointer"
+                  size={27}
+                  onClick={handleCartToggle}
+                />
+              ) : (
+                <Link href={"/user-authentication"}>
+                  <AiOutlineShoppingCart className="cursor-pointer" size={27} />
+                </Link>
+              )}
+              {cartQuantity > 0 && (
+                <div className="bg-white flex justify-center items-center rounded-full absolute bottom-7 left-5 w-[16px] h-[16px]">
+                  <p className="text-primary-color text-xs font-semibold">
+                    {cartQuantity}
+                  </p>
+                </div>
+              )}
               {/* shopping cart content*/}
-              <div className="absolute hidden group-hover:block px-4 py-6 -mt-6 transition ease-in-out duration-700">
-                <Cart />
-              </div>
+              {isAddToCartOpen && <Cart />}
+              {/* Render cart if isCartOpen is true */}
             </div>
           </div>
         </div>
