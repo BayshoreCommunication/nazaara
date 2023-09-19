@@ -12,10 +12,10 @@ const SingleCard = ({ data }) => {
 
   const percentageFloor = Math.floor(percentageReduction);
   // console.log("pp", percentageFloor);
-
+  console.log("data", data);
   return (
     <div>
-      <Link href={`/products/${data?._id}`}>
+      <Link href={`/products/${data?.slug}`}>
         <div className="relative">
           <Image
             src={data?.variant[0]?.imageUrl[0]}
