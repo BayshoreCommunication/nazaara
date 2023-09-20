@@ -21,6 +21,11 @@ const BestSellingCard = ({ elem }) => {
     fetchData();
   }, [apiUrl, fetchData]);
 
+<<<<<<< HEAD
+=======
+  // console.log("elem", data);
+
+>>>>>>> c9ed2e7625d4182ccd8e63c6e53c170131384019
   return (
     <div className="border-4 border-secondary-color transition-all duration-500  hover:shadow-[#d6bc67] hover:shadow-lg">
       <Link className="" href={`/products/${data.slug}`}>

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
+<<<<<<< HEAD
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.API_URL}` }),
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -68,3 +69,18 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
 } = productsApi;
+=======
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL }),
+
+  endpoints: (builder) => ({
+    getProducts: builder.query({
+      query: () => `/api/v1/product`,
+    }),
+    getProductByID: builder.query({
+      query: (id) => `/api/v1/product/${id}`,
+    }),
+  }),
+});
+
+export const { useGetProductByIDQuery, useGetProductsQuery } = productsApi;
+>>>>>>> c9ed2e7625d4182ccd8e63c6e53c170131384019

@@ -68,7 +68,7 @@ const ProductDetails = ({ params }) => {
   const fetchAllProductData = useCallback(async () => {
     try {
       const response = await axios.get(allProductUrl);
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setAllProducts(response.data.product);
       }
     } catch (error) {
@@ -78,7 +78,7 @@ const ProductDetails = ({ params }) => {
 
   const handleScroll = () => {
     const div = document.getElementById("leftDiv");
-    if (div.scrollTop === div.scrollHeight - div.offsetHeight) {
+    if (div?.scrollTop === div?.scrollHeight - div?.offsetHeight) {
       setIsScrollingUp(true);
     } else {
       setIsScrollingUp(false);
@@ -89,9 +89,9 @@ const ProductDetails = ({ params }) => {
     fetchData();
     fetchCategoryData();
     fetchAllProductData();
-    window.addEventListener("scroll", handleScroll);
+    window?.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window?.removeEventListener("scroll", handleScroll);
     };
   }, [
     apiUrl,

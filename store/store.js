@@ -4,6 +4,7 @@ import cartReducer from "@/store/cartSlice";
 import imgFilterReducer from "@/store/imgFilterSlice";
 import searchProductReducer from "@/store/serachProductSlice";
 import { contactsApi } from "@/services/contactApi";
+import { cartApi } from "@/services/cartApi";
 import { productsApi } from "@/services/productApi";
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     // Add the generated reducer as a specific top-level slice
     [contactsApi.reducerPath]: contactsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
@@ -21,6 +23,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(contactsApi.middleware)
+      .concat(cartApi.middleware)
       .concat(usersApi.middleware)
       .concat(productsApi.middleware),
 });
