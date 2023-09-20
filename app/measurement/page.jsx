@@ -6,16 +6,14 @@ import { AiOutlineRollback } from "react-icons/ai";
 
 const Measurement = () => {
   return (
-    <div className="w-[90%] lg:w-[80%] mx-auto flex flex-col gap-y-6 my-20">
-      <div className="">
-        <Image
+    <div className="container flex flex-col gap-y-6 my-6 lg:my-20">
+      {/* <Image
           src="/images/payment-logo.png"
           alt="My Image"
           width={260}
           height={200}
-        />
-        <Navigation />
-      </div>
+        /> */}
+      <Navigation />
       <p className="text-center text-gray-600">
         ***All measurements should be taken in inch
       </p>
@@ -78,7 +76,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="chest"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -88,7 +86,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="waist"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -98,7 +96,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Hip"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -108,7 +106,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="End"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -118,7 +116,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Shoulder"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -128,7 +126,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Arm Hole"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -138,7 +136,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Sleeve Length"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -148,7 +146,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Muscle"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -158,7 +156,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Hand Opening"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -168,7 +166,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Length"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -178,7 +176,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Slit"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -188,7 +186,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Neck Deep F"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -198,7 +196,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Neck Deep B"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -208,7 +206,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Half Body"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
           </div>
@@ -287,7 +285,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Length"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -297,7 +295,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="waist"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -307,7 +305,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Hip"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -317,7 +315,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="End"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -327,7 +325,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Thigh"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -337,7 +335,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Knee"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
@@ -347,7 +345,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Leg Opening"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5"
+                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
           </div>
@@ -376,8 +374,8 @@ const Measurement = () => {
           Terms & Conditions
         </Link>
       </p>
-      <div className="flex items-center justify-between">
-        <div className="flex gap-5 items-center">
+      <div className="flex flex-col lg:flex-row items-center justify-between w-full">
+        <div className="flex flex-col lg:flex-row gap-5 items-center justify-center lg:justify-start flex-1">
           <Link href={`/payment`}>
             <Button text={`Continue to Payment`} />
           </Link>
@@ -385,16 +383,16 @@ const Measurement = () => {
             <AiOutlineRollback /> Return to Information
           </Link>
         </div>
-        <Link className="text-gray-500 font-medium" href={`payment`}>
-          Skip Now
-        </Link>
+        <div className="flex flex-1 justify-center lg:justify-end mt-2 lg:mt-0 text-gray-500 font-medium">
+          <Link href={`payment`}>Skip Now</Link>
+        </div>
       </div>
-      <div className="pt-4 border-t-2 border-gray-200 mt-4 flex gap-x-4 text-gray-500 text-sm">
+      {/* <div className="pt-4 border-t-2 border-gray-200 mt-4 flex gap-x-4 text-gray-500 text-sm">
         <Link href="/return-exchange">Refund Policy</Link>
         <Link href="/shipping">Shipping Policy</Link>
         <Link href="/privacy-policy">Privacy Policy</Link>
         <Link href="/terms-of-use">Terms of use</Link>
-      </div>
+      </div> */}
     </div>
   );
 };

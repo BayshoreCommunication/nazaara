@@ -251,7 +251,10 @@ html {
   background-color: #820000 !important;
 }
 
-/* .fix .swiper-slide-active {
-  top: 50%;
-  transform: translateY(50%);
-} */
+/* Remove the spinner arrows from number input fields */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}

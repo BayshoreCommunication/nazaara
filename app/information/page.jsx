@@ -119,14 +119,14 @@ const Payment = () => {
   // console.log("test", userData?.addressBook);
 
   return (
-    <div className="payment-container flex gap-10">
-      <div className="py-20 flex-1">
-        <Image
+    <div className="container flex py-20">
+      <div className="flex-1 border-e pe-10">
+        {/* <Image
           src="/images/payment-logo.png"
           alt="My Image"
           width={260}
           height={200}
-        />
+        /> */}
         <Navigation />
         <div>
           <form className="w-full flex flex-col gap-y-9">
@@ -170,7 +170,7 @@ const Payment = () => {
                   if (index === addressIndex) {
                     return (
                       <button
-                        className="border text-white rounded-md px-2 py-1 bg-primary-color"
+                        className="border text-white rounded-md px-2 py-1 bg-primary-color text-sm"
                         key={index}
                         type="button"
                         onClick={(event) => handleClick(index, event)}
@@ -315,16 +315,16 @@ const Payment = () => {
             </div>
           </form>
 
-          <div className="pt-4 border-t-2 border-gray-200 mt-10 flex gap-x-4 text-gray-500 text-sm">
+          {/* <div className="pt-4 border-t-2 border-gray-200 mt-10 flex gap-x-4 text-gray-500 text-sm">
             <Link href="/return-exchange">Refund Policy</Link>
             <Link href="/shipping">Shipping Policy</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/terms-of-use">Terms of use</Link>
-          </div>
+          </div> */}
         </div>
       </div>
-      <div className="flex-1 bg-primary-color">
-        <div className="text-white payment-container-end mt-20 ml-10 text-sm">
+      <div className="flex-1 ms-10">
+        <div className="text-black payment-container-end text-sm">
           {cartData?.map((data, index) => {
             return (
               <div
@@ -339,9 +339,9 @@ const Payment = () => {
                     alt="bridal_top"
                     width={60}
                     height={40}
-                    className="rounded-sm w-[4rem] h-[4.8rem]"
+                    className="rounded-sm w-[4rem] h-[4.8rem] border-2 border-secondary-color"
                   />
-                  <div className="flex justify-center items-center bg-white rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
+                  <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">
                     <p className="text-primary-color text-xs font-semibold">
                       {cartItems[index]?.quantity}
                     </p>
@@ -359,18 +359,18 @@ const Payment = () => {
             );
           })}
 
-          <div className="flex gap-x-4 border-b border-gray-600 pb-7">
+          <div className="flex gap-x-4 border-b pb-7">
             <input
-              className="appearance-none bg-transparent block text-white border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-white w-4/5"
+              className="appearance-none bg-transparent block text-gray-500 border border-gray-400 rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500 w-4/5"
               type="text"
               placeholder="Apply Discount Coupon"
             />
-            <button className="text-gray-600 bg-white px-2 py-1 rounded-md w-1/5">
+            <button className="text-white bg-primary-color px-2 py-1 rounded-md w-1/5">
               Apply
             </button>
           </div>
 
-          <div className="mt-7 border-b border-gray-600 pb-7">
+          <div className="mt-7 border-b pb-7">
             <div className="flex justify-between items-center mb-3">
               <p>Sub Total</p>
               <p>BDT {subtotal}/-</p>

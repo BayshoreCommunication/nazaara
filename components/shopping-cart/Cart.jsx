@@ -8,23 +8,24 @@ import { MdDeleteForever } from "react-icons/md";
 import Link from "next/link";
 import {
   useDeleteCartByUserIdAndVariantIdMutation,
-  useGetProductDetailsQuery,
+  // useGetCartByUserIdQuery,
+  // useGetProductDetailsQuery,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
+import { BeatLoader } from "react-spinners";
 
-const Cart = ({ cookieData }) => {
-  console.log("cookie from cart", cookieData);
+const Cart = ({ cookieData, setIsAddToCartOpen }) => {
+  // console.log("cookie from cart", cookieData);
   const cartItems = useSelector((state) => state.cart.items);
-  console.log("cartItemsss", cartItems);
+  // console.log("cartItemsss", cartItems);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
 
   const [updateCart] = useUpdateCartByUserIdMutation();
-  const [deleteCart, { isLoading }] =
-    useDeleteCartByUserIdAndVariantIdMutation();
+  const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
 
-  const { data: productDetailsData, isLoading: isLoadingProductDetails } =
-    useGetProductDetailsQuery();
+  // const { data: productDetailsData, isLoading: isLoadingProductDetails } =
+  //   useGetProductDetailsQuery();
 
   // useEffect(() => {
   //   const fetchAllProductDetails = async () => {
@@ -48,12 +49,16 @@ const Cart = ({ cookieData }) => {
       const response = await axios.get(
         `${process.env.API_URL}/api/v1/product/${productId}`
       );
+      // const {data} = useGetCartByUserIdQuery(productId)
       return response.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
       return null;
     }
   };
+  // const products = fetchProductDetails()
+  // console.log("product details", productDetails);
+
   const fetchAllProductDetails = useCallback(async () => {
     const productDetails = await Promise.all(
       cartItems.map(async (item) => ({
@@ -70,56 +75,77 @@ const Cart = ({ cookieData }) => {
     }
   }, [cartItems, fetchAllProductDetails]);
 
-  const handleDecreaseQuantity = async (variantId, quantity) => {
+  const [updateCartLoading, setUpdateCartLoading] = useState([]);
+
+  const handleDecreaseQuantity = async (variantId, quantity, index) => {
     try {
-      const result = await updateCart({
+      setUpdateCartLoading((prevLoading) => {
+        const newLoading = [...prevLoading];
+        newLoading[index] = true;
+        return newLoading;
+      });
+
+      dispatch(
+        updateQuantity({
+          variantId: variantId,
+          newQuantity: quantity - 1,
+        })
+      );
+      await updateCart({
         user: cookieData._id,
         variantId: variantId,
         quantity: quantity - 1,
       });
-      if (result?.data?.status === "success") {
-        dispatch(
-          updateQuantity({
-            variantId: variantId,
-            newQuantity: quantity - 1,
-          })
-        );
-      }
+
+      setUpdateCartLoading((prevLoading) => {
+        const newLoading = [...prevLoading];
+        newLoading[index] = false;
+        return newLoading;
+      });
     } catch (err) {
       console.error("Update error:", err);
     }
   };
-  const handleIncreaseQuantity = async (variantId, quantity) => {
+  const handleIncreaseQuantity = async (variantId, quantity, index) => {
     try {
-      const result = await updateCart({
+      setUpdateCartLoading((prevLoading) => {
+        const newLoading = [...prevLoading];
+        newLoading[index] = true;
+        return newLoading;
+      });
+      dispatch(
+        updateQuantity({
+          variantId: variantId,
+          newQuantity: quantity + 1,
+        })
+      );
+      await updateCart({
         user: cookieData._id,
         variantId: variantId,
         quantity: quantity + 1,
       });
-      if (result?.data?.status === "success") {
-        dispatch(
-          updateQuantity({
-            variantId: variantId,
-            newQuantity: quantity + 1,
-          })
-        );
-      }
+      setUpdateCartLoading((prevLoading) => {
+        const newLoading = [...prevLoading];
+        newLoading[index] = false;
+        return newLoading;
+      });
     } catch (err) {
       console.error("Update error:", err);
     }
   };
   const handleDeleteCartItem = async (variantId) => {
     try {
-      const result = await deleteCart({
+      dispatch(
+        removeItemFromCart(variantId) // Use the variantId here
+      );
+      await deleteCart({
         user: cookieData._id,
         variantId: variantId,
       });
       // console.log("result::::", result);
-      if (result?.data?.status === "success") {
-        dispatch(
-          removeItemFromCart(detail.variantId) // Use the variantId here
-        );
-      }
+      // if (result?.data?.status === "success") {
+
+      // }
     } catch (err) {
       console.error("Update error:", err);
     }
@@ -177,7 +203,8 @@ const Cart = ({ cookieData }) => {
                           onClick={() =>
                             handleDecreaseQuantity(
                               detail.variantId,
-                              detail.quantity
+                              detail.quantity,
+                              index
                             )
                           }
                           className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
@@ -193,14 +220,22 @@ const Cart = ({ cookieData }) => {
                         </button>
                       )}
 
-                      <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
-                        {detail.quantity}
-                      </p>
+                      {updateCartLoading[index] ? (
+                        <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
+                          <BeatLoader color="#820000" size={3} />
+                        </p>
+                      ) : (
+                        <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
+                          {detail.quantity}
+                        </p>
+                      )}
+
                       <button
                         onClick={() =>
                           handleIncreaseQuantity(
                             detail.variantId,
-                            detail.quantity
+                            detail.quantity,
+                            index
                           )
                         }
                         className="flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl"
@@ -218,12 +253,14 @@ const Cart = ({ cookieData }) => {
             </>
           )}
           {cartItems.length > 0 && (
-            <Link
-              href="/information"
-              className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color"
-            >
-              Proceed to Checkout
-            </Link>
+            <button onClick={() => setIsAddToCartOpen(false)}>
+              <Link
+                href="/information"
+                className="py-1 px-4 rounded-lg bg-primary-color flex justify-center hover:bg-primary-hover-color proceed-to-checkout"
+              >
+                Proceed to Checkout
+              </Link>
+            </button>
           )}
         </div>
       )}
