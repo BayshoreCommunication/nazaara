@@ -5,19 +5,48 @@ import Cart from "../shopping-cart/Cart";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import { BsBagXFill, BsFillBagCheckFill } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserCart from "../user-dashboard/UserCart";
+import { useGetProductsQuery } from "@/services/productApi";
+import Fuse from "fuse.js";
+import { addProduct } from "@/store/serachProductSlice";
+import { useRouter } from "next/navigation";
 
 const DesktopNavbar = () => {
+  const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
   const [categories, setCategories] = useState(null);
   const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
   const [cookieData, setCookieData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+  // fetching all the products for showing on search bar
+
+  const { data: allProducts } = useGetProductsQuery();
+
+  let filteredData;
+  if (allProducts) {
+    const fuse = new Fuse(allProducts?.product, {
+      keys: ["productName", "category", "subCategory"],
+    });
+
+    // Filter the data based on the search term
+    filteredData = fuse.search(searchTerm);
+  }
+
+  const [searchIsShown, setSearchIsShown] = useState(false);
+  const searchFormHandler = (e) => {
+    e.preventDefault();
+    dispatch(addProduct(filteredData));
+    setSearchIsShown(false);
+    // setSearchTerm("");
+    router.push("/products");
+  };
 
   const {
     isCartOpen: isAddToCartOpen,
@@ -39,6 +68,7 @@ const DesktopNavbar = () => {
       setCookieData(obj);
     }
   }, [jsonStr]);
+
   // console.log("Cookie DAta", cookieData.fullName.slice(0, 1));
 
   // const name = cookieData.fullName;
@@ -240,7 +270,7 @@ const DesktopNavbar = () => {
             </ul>
           )}
         </div>
-        <form className="">
+        <form onSubmit={searchFormHandler} className="">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -259,13 +289,38 @@ const DesktopNavbar = () => {
                 ></path>
               </svg>
             </div>
-            <input
-              type="search"
-              id="default-search"
-              className="w-28 lg:w-32 xl:w-full p-2 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 outline-none h-8"
-              placeholder="Search on Nazaara"
-              required
-            />
+            <div className="relative ">
+              <input
+                type="search"
+                id="default-search"
+                className="w-28 lg:w-32 xl:w-full p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
+                placeholder="Search on Nazaara"
+                required
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setSearchIsShown(true);
+                }}
+                value={searchTerm}
+              />
+              {searchTerm && searchIsShown && (
+                <div className="absolute h-fit w-[20rem] z-10 bg-white right-0 top-9 shadow-xl rounded-md">
+                  <ul className="px-4 py-8 flex flex-col gap-[0.7rem]">
+                    {filteredData &&
+                      filteredData.map((result) => (
+                        <li
+                          className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
+                          key={result.item._id}
+                          onClick={() => {
+                            setSearchTerm(result.item.productName);
+                          }}
+                        >
+                          {result.item.productName} by {result.item.category}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </form>
       </div>
