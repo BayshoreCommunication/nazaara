@@ -12,11 +12,12 @@ import Filter from "@/components/shop/Filter";
 import Price from "@/components/shop/Price";
 import Size from "@/components/shop/Size";
 import SortBy from "@/components/shop/SortBy";
+import { addProduct } from "@/store/serachProductSlice";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -32,21 +33,45 @@ const Products = () => {
   const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
   // http://localhost:8000/api/v1/product?page=1&limit=5&sort=asc&sortBy=salePrice
 
-  const fetchData = useCallback(async () => {
+  // const fetchData = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get(apiUrl);
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [apiUrl]);
+
+  // useEffect(() => {
+  //   fetchData();
+  //   let dataUpdate = searchProduct?.map((el) => el.item);
+  //   setData({ product: dataUpdate });
+  //   console.log("data", data);
+  // }, [apiUrl, fetchData]);
+
+  const fetchData = async () => {
     try {
       const response = await axios.get(apiUrl);
-      setData(response.data);
+      return response.data;
     } catch (error) {
       console.error(error);
+      return null;
     }
-  }, [apiUrl]);
+  };
 
   useEffect(() => {
-    fetchData();
+    if (searchProduct && searchProduct.length > 0) {
+      // Display filtered data from Redux
+      setData({ product: searchProduct.map((el) => el.item) });
+    } else {
+      // Fetch data from the API
+      fetchData().then((apiData) => {
+        setData(apiData);
+      });
+    }
+  }, [searchProduct, apiUrl]);
 
-    let data = searchProduct?.map((el) => el.item);
-    console.log("data", data);
-  }, [apiUrl, fetchData]);
+  console.log("data", data);
 
   const totalPages = Math.ceil(data?.total / 12);
 
@@ -138,6 +163,18 @@ const Products = () => {
     }
     return pageNumbers;
   };
+  const dispatch = useDispatch();
+  // Reset the Redux data when navigating away from the /products page
+  const resetReduxData = () => {
+    dispatch(addProduct(null));
+  };
+
+  // Add a cleanup effect when leaving the page
+  useEffect(() => {
+    return () => {
+      resetReduxData();
+    };
+  }, []);
 
   return (
     <>
@@ -218,10 +255,10 @@ const Products = () => {
               <div className="w-full text-left bg-white my-4 ">
                 <div className="flex items-center gap-2">
                   <p className="text-md font-bold text-gray-700">
-                    BDT {data?.regularPrice}/-
+                    BDT {data?.salePrice}/-
                   </p>
                   <p className="text-sm font-semibold line-through text-gray-500">
-                    BDT {data?.salePrice}/-
+                    BDT {data?.regularPrice}/-
                   </p>
                 </div>
                 <p className="text-xs font-semibold my-2 text-gray-500">
