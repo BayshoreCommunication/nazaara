@@ -154,7 +154,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   return (
     <>
       {productDetails && (
-        <div className="flex flex-col gap-5 bg-white w-96 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">
+        <div className="flex flex-col gap-5 bg-white w-80 lg:w-96 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">
           <div className="text-black flex justify-between border-b pb-2">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-semibold text-primary-color">

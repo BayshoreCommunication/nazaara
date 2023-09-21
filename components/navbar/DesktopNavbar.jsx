@@ -106,14 +106,14 @@ const DesktopNavbar = () => {
   };
 
   return (
-    <div className="container py-4">
+    <div className="container lg:py-4">
       <div className="flex justify-between items-center relative">
         <div className="hidden lg:block w-1/4">
-          <Link href="/" className=" px-2 py-1 text-base">
+          <Link href="/" className="px-2 py-1 text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
         </div>
-        <div className="w-1/4">
+        <div className="lg:hidden w-1/4">
           <button
             onClick={() => setToogle(!toogle)}
             className="text-3xl font-bold flex lg:hidden"
@@ -133,7 +133,7 @@ const DesktopNavbar = () => {
           </Link>
         </div>
         <div className="w-1/4">
-          <div className="flex gap-x-6 justify-end">
+          <div className="flex gap-x-1 lg:gap-x-6 justify-end">
             {/* User Authentication  */}
             <div className="relative" ref={userDescriptionRef}>
               {cookieData ? (
@@ -145,10 +145,10 @@ const DesktopNavbar = () => {
                         alt="logo"
                         width={23}
                         height={23}
-                        className="cursor-pointer rounded-full h-7 w-7 shadow-md border-2"
+                        className="cursor-pointer rounded-full h-6 w-6 lg:h-7 lg:w-7 shadow-md border-2"
                       />
                     ) : (
-                      <div className="border-2 w-7 h-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
+                      <div className="border-2 h-6 w-6 lg:h-7 lg:w-7 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
                         <p className="">{cookieData.fullName.slice(0, 1)}</p>
                       </div>
                     )}
@@ -192,7 +192,7 @@ const DesktopNavbar = () => {
                 </Link>
               )}
               {cartQuantity > 0 && (
-                <div className="bg-white flex justify-center items-center rounded-full absolute bottom-7 left-5 w-[16px] h-[16px]">
+                <div className="bg-white flex justify-center items-center rounded-full absolute bottom-5 left-[1.2rem] w-[16px] h-[16px]">
                   <p className="text-primary-color text-xs font-semibold">
                     {cartQuantity}
                   </p>
@@ -212,81 +212,89 @@ const DesktopNavbar = () => {
         {/*  */}
       </div>
 
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center lg:mt-2">
         <div className="hidden lg:block">
-          {categories && (
-            <ul className="flex gap-2 2xl:gap-4">
-              <div>
-                <li className="font-medium relative bg-base-100 text-primary-color cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                  <Link href="/products">ALL PRODUCTS</Link>
+          <ul className="flex gap-2 2xl:gap-4">
+            <div>
+              <li className="font-medium relative bg-base-100 text-primary-color cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                <Link href="/products">ALL PRODUCTS</Link>
+              </li>
+            </div>
+            <div className="group">
+              <div className="flex gap-x-2">
+                <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                  REGULAR WEAR
+                  <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
+                </li>
+                <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                  PARTY WEAR
+                  <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
+                </li>
+                <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                  BRIDAL WEAR
+                  <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
                 </li>
               </div>
-              {categories.map((elem, index) => {
-                if (index < 3) {
-                  return (
-                    <div className="group" key={index}>
-                      <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                        {elem.category}
-                        <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-                      </li>
-                      <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
-                        <div className="flex justify-between w-2/3 mx-auto py-6">
-                          <ul className="flex flex-col gap-y-2">
-                            <li className="text-primary-color font-semibold">
-                              SALE
-                            </li>
-                            <li>NEW ARRIVALS</li>
-                            <li>READY TO SHIP</li>
-                            <li>LIMITED STOCK</li>
-                            <li>DISCOUNT</li>
-                          </ul>
-                          <ul className="flex flex-col gap-y-2">
-                            <li className="text-primary-color font-semibold">
-                              SHOP BY CATEGORY
-                            </li>
-                            {categories.map((elem, index) => {
-                              if (index < 5) {
-                                return (
-                                  <li key={index}>
-                                    <Link
-                                      href={`/products/categories/${elem.category}`}
-                                    >
-                                      {elem.category}
-                                    </Link>
-                                  </li>
-                                );
-                              }
-                            })}
-                          </ul>
-                          <Image
-                            src={categories[3].url}
-                            alt="logo"
-                            width={180}
-                            height={64}
-                            className="rounded-md border-2 border-[#d4af37]"
-                          />
-                          <Image
-                            src={categories[5].url}
-                            alt="logo"
-                            width={180}
-                            height={64}
-                            className="rounded-md border-2 border-[#d4af37]"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-              })}
-              <div>
-                <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                  <Link href="/location">OUR LOCATIONS</Link>
-                </li>
+              <div className="hidden text-text-color group-hover:block bg-base-100 absolute left-0 top-[148px] z-20 shadow-xl w-full">
+                <div className="flex justify-between w-2/3 mx-auto py-6">
+                  <ul className="flex flex-col gap-y-2">
+                    <li className="text-primary-color font-semibold">SALE</li>
+                    <li>NEW ARRIVALS</li>
+                    <li>READY TO SHIP</li>
+                    <li>LIMITED STOCK</li>
+                    <li>DISCOUNT</li>
+                  </ul>
+                  <ul className="flex flex-col gap-y-2">
+                    <li className="text-primary-color font-semibold">
+                      SHOP BY CATEGORY
+                    </li>
+                    <li>
+                      <Link href={``}>DESIGNER WEAR</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>SEMI-BRIDAL LEHENGA</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>BRIDAL SHARARA</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>BRIDAL GHARARA</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>BRIDAL GOWN</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>BRIDAL GOWN</Link>
+                    </li>
+                    <li>
+                      <Link href={``}>BRIDAL PAMPLOOM</Link>
+                    </li>
+                  </ul>
+                  <Image
+                    src={"/images/dress/dress-1.png"}
+                    alt="logo"
+                    width={180}
+                    height={64}
+                    className="rounded-md border-2 border-[#d4af37]"
+                  />
+                  <Image
+                    src={"/images/dress/dress.png"}
+                    alt="logo"
+                    width={180}
+                    height={64}
+                    className="rounded-md border-2 border-[#d4af37]"
+                  />
+                </div>
               </div>
-            </ul>
-          )}
+            </div>
+            <div>
+              <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                <Link href="/location">OUR LOCATIONS</Link>
+              </li>
+            </div>
+          </ul>
         </div>
-        <form onSubmit={searchFormHandler} className="">
+        <form onSubmit={searchFormHandler} className="hidden lg:block">
           <div className="relative w-full">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -309,7 +317,7 @@ const DesktopNavbar = () => {
               <input
                 type="search"
                 id="default-search"
-                className="w-full lg:w-32 xl:w-full p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
+                className="w-full lg:w-52 p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
                 placeholder="Search on Nazaara"
                 required
                 onChange={(e) => {
@@ -343,6 +351,94 @@ const DesktopNavbar = () => {
           </div>
         </form>
       </div>
+
+      {toogle && (
+        <div className="block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0">
+          <div className="container ">
+            <form onSubmit={searchFormHandler} className="">
+              <div className="relative w-full">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <div className="relative w-full">
+                  <input
+                    type="search"
+                    id="default-search"
+                    className="w-full lg:w-32 xl:w-full p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
+                    placeholder="Search on Nazaara"
+                    required
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setSearchIsShown(true);
+                    }}
+                    value={searchTerm}
+                  />
+                  {searchTerm && searchIsShown && (
+                    <div className="absolute h-fit w-[20rem] z-10 bg-white right-0 top-9 shadow-xl rounded-md">
+                      <ul className="px-4 py-8 flex flex-col gap-[0.7rem]">
+                        {filteredData &&
+                          filteredData.map((result) => (
+                            <li
+                              className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
+                              key={result.item._id}
+                              onClick={() => {
+                                setSearchTerm(result.item.productName);
+                                dispatch(addProduct(filteredData));
+                                setSearchIsShown(false);
+                                router.push("/products");
+                              }}
+                            >
+                              {result.item.productName} by{" "}
+                              {result.item.category}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </form>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/">HOME</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/">EXCLUSIVE WOMAN WEAR</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/packages">NEW ARRIVALS</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/membership">PARTY WEAR</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/about-us">REGULAR WEAR</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/contact-us">BRIDAL WEAR</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/contact-us">BOOK AN APPOINTMENT</Link>
+            </li>
+            <li className="block py-2 text-white text-sm cursor-pointer">
+              <Link href="/contact-us">OUR LOCATIONS</Link>
+            </li>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
