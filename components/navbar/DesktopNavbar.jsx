@@ -47,7 +47,6 @@ const DesktopNavbar = () => {
     e.preventDefault();
     dispatch(addProduct(filteredData));
     setSearchIsShown(false);
-    // setSearchTerm("");
     router.push("/products");
   };
 
@@ -329,6 +328,9 @@ const DesktopNavbar = () => {
                           key={result.item._id}
                           onClick={() => {
                             setSearchTerm(result.item.productName);
+                            dispatch(addProduct(filteredData));
+                            setSearchIsShown(false);
+                            router.push("/products");
                           }}
                         >
                           {result.item.productName} by {result.item.category}

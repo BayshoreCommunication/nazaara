@@ -43,6 +43,9 @@ const Products = () => {
 
   useEffect(() => {
     fetchData();
+
+    let data = searchProduct?.map((el) => el.item);
+    console.log("data", data);
   }, [apiUrl, fetchData]);
 
   const totalPages = Math.ceil(data?.total / 12);
@@ -190,89 +193,47 @@ const Products = () => {
         </div>
         {/* products  */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6 my-6">
-          {searchProduct?.length > 1
-            ? searchProduct.map((data, i) => (
-                <div key={i}>
-                  <Link href={`/products/${data.item._id}`}>
-                    <div className="relative">
-                      <Image
-                        src={data.item.variant[0]?.imageUrl[0]}
-                        alt="bridal_top"
-                        width={326}
-                        height={461}
-                        className="w-full h-full rounded-[4px] border"
-                      />
-                      <div className="absolute top-2 left-2">
-                        <PercentageBadge
-                          text={`-${Math.ceil(
-                            ((data.item.regularPrice - data.item.salePrice) /
-                              data.item.regularPrice) *
-                              100
-                          )}%`}
-                        />
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="w-full text-left bg-white my-4 ">
-                    <div className="flex items-center gap-2">
-                      <p className="text-md font-bold text-gray-700">
-                        BDT {data.item.regularPrice}/-
-                      </p>
-                      <p className="text-sm font-semibold line-through text-gray-500">
-                        BDT {data.item.salePrice}/-
-                      </p>
-                    </div>
-                    <p className="text-xs font-semibold my-2 text-gray-500">
-                      {data.item.productName}
-                    </p>
-                    <div className="flex gap-2 items-center">
-                      <ReadyToShipBadge text="Ready to Ship" />
-                      {/* <PendingShipBadge text="Up to 2 weeks" /> */}
-                    </div>
+          {data?.product?.map((data, i) => (
+            <div key={i}>
+              <Link href={`/products/${data?._id}`}>
+                <div className="relative">
+                  <Image
+                    src={data?.variant[0]?.imageUrl[0]}
+                    alt="bridal_top"
+                    width={326}
+                    height={461}
+                    className="w-full h-full rounded-[4px] border"
+                  />
+                  <div className="absolute top-2 left-2">
+                    <PercentageBadge
+                      text={`-${Math.ceil(
+                        ((data?.regularPrice - data?.salePrice) /
+                          data?.regularPrice) *
+                          100
+                      )}%`}
+                    />
                   </div>
                 </div>
-              ))
-            : data?.product?.map((data, i) => (
-                <div key={i}>
-                  <Link href={`/products/${data?._id}`}>
-                    <div className="relative">
-                      <Image
-                        src={data?.variant[0]?.imageUrl[0]}
-                        alt="bridal_top"
-                        width={326}
-                        height={461}
-                        className="w-full h-full rounded-[4px] border"
-                      />
-                      <div className="absolute top-2 left-2">
-                        <PercentageBadge
-                          text={`-${Math.ceil(
-                            ((data?.regularPrice - data?.salePrice) /
-                              data?.regularPrice) *
-                              100
-                          )}%`}
-                        />
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="w-full text-left bg-white my-4 ">
-                    <div className="flex items-center gap-2">
-                      <p className="text-md font-bold text-gray-700">
-                        BDT {data?.regularPrice}/-
-                      </p>
-                      <p className="text-sm font-semibold line-through text-gray-500">
-                        BDT {data?.salePrice}/-
-                      </p>
-                    </div>
-                    <p className="text-xs font-semibold my-2 text-gray-500">
-                      {data?.productName}
-                    </p>
-                    <div className="flex gap-2 items-center">
-                      <ReadyToShipBadge text="Ready to Ship" />
-                      {/* <PendingShipBadge text="Up to 2 weeks" /> */}
-                    </div>
-                  </div>
+              </Link>
+              <div className="w-full text-left bg-white my-4 ">
+                <div className="flex items-center gap-2">
+                  <p className="text-md font-bold text-gray-700">
+                    BDT {data?.regularPrice}/-
+                  </p>
+                  <p className="text-sm font-semibold line-through text-gray-500">
+                    BDT {data?.salePrice}/-
+                  </p>
                 </div>
-              ))}
+                <p className="text-xs font-semibold my-2 text-gray-500">
+                  {data?.productName}
+                </p>
+                <div className="flex gap-2 items-center">
+                  <ReadyToShipBadge text="Ready to Ship" />
+                  {/* <PendingShipBadge text="Up to 2 weeks" /> */}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
         {totalPages > 1 && (
           <div className="">

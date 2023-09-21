@@ -3,7 +3,7 @@ import SignIn from "@/components/authentication/SignIn";
 import SignUp from "@/components/authentication/SignUp";
 import React, { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [auth, setAuth] = useState("signIn");
 
   return (
@@ -14,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
