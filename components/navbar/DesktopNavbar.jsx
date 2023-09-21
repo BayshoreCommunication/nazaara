@@ -14,6 +14,7 @@ import { useGetProductsQuery } from "@/services/productApi";
 import Fuse from "fuse.js";
 import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const DesktopNavbar = () => {
   const router = useRouter();
@@ -25,6 +26,8 @@ const DesktopNavbar = () => {
   const [cookieData, setCookieData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+  const [toogle, setToogle] = useState(false);
+
   // fetching all the products for showing on search bar
 
   const { data: allProducts } = useGetProductsQuery();
@@ -104,12 +107,21 @@ const DesktopNavbar = () => {
   };
 
   return (
-    <div className="hidden lg:block container py-4">
+    <div className="container py-4">
       <div className="flex justify-between items-center relative">
-        <div className="w-1/4">
+        <div className="hidden lg:block w-1/4">
           <Link href="/" className=" px-2 py-1 text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
+        </div>
+        <div className="w-1/4">
+          <button
+            onClick={() => setToogle(!toogle)}
+            className="text-3xl font-bold flex lg:hidden"
+          >
+            {toogle === false && <FaBars size={20} />}
+            {toogle && <FaTimes size={20} />}
+          </button>
         </div>
         <div className="w-2/4 flex justify-center">
           <Link className="w-max" href="/">
@@ -202,7 +214,7 @@ const DesktopNavbar = () => {
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <div>
+        <div className="hidden lg:block">
           {categories && (
             <ul className="flex gap-2 2xl:gap-4">
               <div>
@@ -276,7 +288,7 @@ const DesktopNavbar = () => {
           )}
         </div>
         <form onSubmit={searchFormHandler} className="">
-          <div className="relative">
+          <div className="relative w-full">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
@@ -294,11 +306,11 @@ const DesktopNavbar = () => {
                 ></path>
               </svg>
             </div>
-            <div className="relative ">
+            <div className="relative w-full">
               <input
                 type="search"
                 id="default-search"
-                className="w-28 lg:w-32 xl:w-full p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
+                className="w-full lg:w-32 xl:w-full p-2 pl-4 text-sm text-gray-900 rounded-md bg-gray-50 outline-none h-8"
                 placeholder="Search on Nazaara"
                 required
                 onChange={(e) => {
