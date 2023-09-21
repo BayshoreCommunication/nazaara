@@ -40,9 +40,9 @@ const Navbar = () => {
       </div>
 
       {/* mobile and tab view  */}
-      <div className="relative z-50">
+      {/* <div className="relative z-50">
         <MobileNavbar />
-      </div>
+      </div> */}
     </div>
   );
 };
