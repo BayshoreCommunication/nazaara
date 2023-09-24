@@ -258,3 +258,25 @@ input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
   margin: 0;
 }
+
+/* Image slider on individual image page */
+
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  height: 60px !important;
+  width: 30px !important;
+}
+
+.image-gallery-image {
+  border: 2px solid #d4af37 !important;
+}
+
+@media (min-width: 1201px) {
+  .image-gallery-right-nav {
+    right: 5% !important;
+  }
+
+  .image-gallery-left-nav {
+    left: 5% !important;
+  }
+}
