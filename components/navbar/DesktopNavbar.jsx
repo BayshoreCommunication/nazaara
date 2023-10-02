@@ -18,6 +18,7 @@ import Fuse from "fuse.js";
 import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useGetNavDataQuery } from "@/services/navApi";
 
 const DesktopNavbar = () => {
   const router = useRouter();
@@ -30,6 +31,16 @@ const DesktopNavbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const [toogle, setToogle] = useState(false);
+
+  //fetching nav data using rtk query
+  const { data: navData, isLoading: isNavDataLoading } = useGetNavDataQuery();
+
+  const getNavCategory = navData?.saleData?.map((data) =>
+    data?.navCategoryTitle?.toUpperCase()
+  );
+  const getDistinctNav = [...new Set(getNavCategory)];
+
+  console.log("navdatassss", navData?.saleData);
 
   // fetching all the products for showing on search bar
 
@@ -108,28 +119,15 @@ const DesktopNavbar = () => {
     setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
   };
 
-  const [category, setCategory] = useState();
   const { data: productsCategories, isLoading } =
     useGetProductsCategoriesQuery();
 
-  // Calculate the size of each part
-  const partSize = Math.ceil(productsCategories?.length / 3);
-
-  // Split the array into parts
-  const regularWear = productsCategories?.newData.slice(0, partSize);
-  const partyWear = productsCategories?.newData.slice(partSize, partSize * 2);
-  const BridalWear = productsCategories?.newData.slice(partSize * 2);
-
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     const newCategory = productsCategories.newData.map(
-  //       (data) => data.category
-  //     );
-  //     setCategory(newCategory);
-  //   }
-  // }, [isLoading, productsCategories]);
-
-  console.log("regularWear", regularWear);
+  const filterSales = (cateogry) => {
+    const filteredSales = navData.saleData.filter(
+      (sale) => sale.navCategoryTitle === cateogry
+    );
+    return filteredSales;
+  };
 
   return (
     <div className="container lg:py-4">
@@ -246,157 +244,94 @@ const DesktopNavbar = () => {
                 <Link href="/products">ALL PRODUCTS</Link>
               </li>
             </div>
-            <div className="">
-              <div className="flex gap-x-2">
-                <div className="group">
-                  <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                    REGULAR WEAR
-                    <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-                  </li>
-                  <div className="hidden text-text-color group-hover:block bg-base-100 absolute left-0 top-[148px] z-20 shadow-xl w-full text-sm">
-                    <div className="flex justify-between w-2/3 mx-auto py-6">
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SALE
-                        </li>
-                        <li>NEW ARRIVALS</li>
-                        <li>READY TO SHIP</li>
-                        <li>LIMITED STOCK</li>
-                        <li>DISCOUNT</li>
-                      </ul>
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SHOP BY CATEGORY
-                        </li>
 
-                        {regularWear &&
-                          regularWear.map((data) => (
-                            <Link
-                              className="hover:text-primary-color hover:underline underline-offset-2"
-                              key={data.category}
-                              href={`/products/categories/${data.category}`}
-                            >
-                              {data.category}
-                            </Link>
-                          ))}
-                      </ul>
-                      <Image
-                        src={"/images/dress/dress-1.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                      <Image
-                        src={"/images/dress/dress.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="group">
-                  <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                    PARTY WEAR
-                    <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-                  </li>
-                  <div className="hidden text-text-color group-hover:block bg-base-100 absolute left-0 top-[148px] z-20 shadow-xl w-full text-sm">
-                    <div className="flex justify-between w-2/3 mx-auto py-6">
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SALE
+            {navData && productsCategories && (
+              <>
+                {navData.saleData.map((elem, index) => {
+                  if (index < 3) {
+                    const portionSize = Math.ceil(
+                      productsCategories.newData.length / 3
+                    );
+                    const start = index * portionSize;
+                    const end = start + portionSize;
+                    const portion = productsCategories.newData.slice(
+                      start,
+                      end
+                    );
+
+                    return (
+                      <div className="group" key={index}>
+                        <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                          {elem.navCategoryTitle.toUpperCase()}
+                          {/* {elem.category} */}
+                          <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
                         </li>
-                        <li>NEW ARRIVALS</li>
-                        <li>READY TO SHIP</li>
-                        <li>LIMITED STOCK</li>
-                        <li>DISCOUNT</li>
-                      </ul>
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SHOP BY CATEGORY
-                        </li>
-                        {partyWear &&
-                          partyWear.map((data) => (
-                            <Link
-                              className="hover:text-primary-color hover:underline underline-offset-2"
-                              key={data.category}
-                              href={`/products/categories/${data.category}`}
-                            >
-                              {data.category}
-                            </Link>
-                          ))}
-                      </ul>
-                      <Image
-                        src={"/images/dress/dress-1.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                      <Image
-                        src={"/images/dress/dress.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="group">
-                  <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                    BRIDAL WEAR
-                    <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-                  </li>
-                  <div className="hidden text-text-color group-hover:block bg-base-100 absolute left-0 top-[148px] z-20 shadow-xl w-full text-sm">
-                    <div className="flex justify-between w-2/3 mx-auto py-6">
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SALE
-                        </li>
-                        <li>NEW ARRIVALS</li>
-                        <li>READY TO SHIP</li>
-                        <li>LIMITED STOCK</li>
-                        <li>DISCOUNT</li>
-                      </ul>
-                      <ul className="flex flex-col gap-y-2">
-                        <li className="text-primary-color font-semibold">
-                          SHOP BY CATEGORY
-                        </li>
-                        {BridalWear &&
-                          BridalWear.map((data) => (
-                            <Link
-                              className="hover:text-primary-color hover:underline underline-offset-2"
-                              key={data.category}
-                              href={`/products/categories/${data.category}`}
-                            >
-                              {data.category}
-                            </Link>
-                          ))}
-                      </ul>
-                      <Image
-                        src={"/images/dress/dress-1.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                      <Image
-                        src={"/images/dress/dress.png"}
-                        alt="logo"
-                        width={180}
-                        height={64}
-                        className="rounded-md border-2 border-[#d4af37]"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                        <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
+                          <div className="flex justify-between w-2/3 mx-auto py-6">
+                            <ul className="flex flex-col gap-y-2">
+                              <li className="text-primary-color font-semibold">
+                                SALE
+                              </li>
+                              {filterSales(elem.navCategoryTitle).map(
+                                (sale, index) => (
+                                  <Link
+                                    href={`/recommended-products/${elem.navCategoryTitle}/${sale.saleTitle}`}
+                                    key={index}
+                                  >
+                                    {sale.saleTitle.toUpperCase()}
+                                  </Link>
+                                )
+                              )}
+
+                              {/* <li>LIMITED STOCK</li>
+                              <li>DISCOUNT</li> */}
+                            </ul>
+                            <ul className="flex flex-col gap-y-2">
+                              <li className="text-primary-color font-semibold">
+                                SHOP BY CATEGORY
+                              </li>
+                              <ul key={index}>
+                                {portion.map((category, categoryIndex) => (
+                                  <li key={categoryIndex}>
+                                    <Link
+                                      className="hover:text-primary-color hover:underline underline-offset-2"
+                                      href={`/products/categories/${category.category}`}
+                                    >
+                                      {category.category}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </ul>
+                            <Image
+                              src={"/images/dress/dress-1.png"}
+                              alt="logo"
+                              width={180}
+                              height={64}
+                              className="rounded-md border-2 border-[#d4af37]"
+                            />
+                            <Image
+                              src={"/images/dress/dress.png"}
+                              alt="logo"
+                              width={180}
+                              height={64}
+                              className="rounded-md border-2 border-[#d4af37]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </>
+            )}
+            <div>
+              <li className="font-medium cursor-pointer text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4">
+                <Link href="/contact-us">CONTACT US</Link>
+              </li>
             </div>
             <div>
-              <li className="font-medium cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+              <li className="font-medium cursor-pointer text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4">
                 <Link href="/location">OUR LOCATIONS</Link>
               </li>
             </div>

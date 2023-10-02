@@ -6,6 +6,7 @@ import searchProductReducer from "@/store/serachProductSlice";
 import { contactsApi } from "@/services/contactApi";
 import { cartApi } from "@/services/cartApi";
 import { productsApi } from "@/services/productApi";
+import { navApi } from "@/services/navApi";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [contactsApi.reducerPath]: contactsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
+    [navApi.reducerPath]: navApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
@@ -25,5 +27,6 @@ export const store = configureStore({
       .concat(contactsApi.middleware)
       .concat(cartApi.middleware)
       .concat(usersApi.middleware)
+      .concat(navApi.middleware)
       .concat(productsApi.middleware),
 });
