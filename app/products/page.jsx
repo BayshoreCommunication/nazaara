@@ -71,7 +71,7 @@ const Products = () => {
     }
   }, [searchProduct, apiUrl]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   const totalPages = Math.ceil(data?.total / 12);
 

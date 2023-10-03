@@ -16,7 +16,7 @@ const Payment = () => {
   const [userData, setUserData] = useState();
   const [addressIndex, setAddressIndex] = useState(0);
 
-  console.log(cartItems, cartData);
+  // console.log(cartItems, cartData);
   const fetchCountries = async () => {
     try {
       const response = await fetch("https://restcountries.com/v2/all");

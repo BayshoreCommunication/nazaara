@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const BestSellingCard = ({ elem }) => {
-  console.log("elem from single cart", elem);
+  // console.log("elem from single cart", elem);
   // console.log("test", );
   const [data, setData] = useState({});
   const apiUrl = `${process.env.API_URL}/api/v1/product/${elem.product_id}`;

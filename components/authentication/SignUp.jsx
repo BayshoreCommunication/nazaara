@@ -83,14 +83,14 @@ const SignUp = ({ setAuth }) => {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
         const userData = result.user;
-        console.log("result", userData);
+        // console.log("result", userData);
         const userGoogle = result.user.email;
         // console.log("google email", userGoogle);
 
         const url = `${process.env.API_URL}/api/v1/auth/user/${userGoogle}`;
-        console.log("url", url);
+        // console.log("url", url);
         const userAuthCredential = await usefetch(url);
-        console.log("userAuthCredential", userAuthCredential);
+        // console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
@@ -120,7 +120,7 @@ const SignUp = ({ setAuth }) => {
             axios
               .post(`${process.env.API_URL}/api/v1/user`, formData)
               .then((response) => {
-                console.log("response", response);
+                // console.log("response", response);
                 if (response.status === 200 || response.status === 201) {
                   setAuth("signIn");
                   setCookie("userAuthCredential", JSON.stringify(formData), {
@@ -132,7 +132,7 @@ const SignUp = ({ setAuth }) => {
                 }
               })
               .catch((error) => {
-                console.log(error);
+                console.error(error);
               });
           } else {
             toast.error("Already heve an account!");
@@ -144,7 +144,7 @@ const SignUp = ({ setAuth }) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("errorMessage", error);
+        console.error("errorMessage", error);
         // The email of the user's account used.
         // const email = error.customData.email;
         // The AuthCredential type that was used.
@@ -202,10 +202,10 @@ const SignUp = ({ setAuth }) => {
       axios
         .post(`${process.env.API_URL}/api/v1/user`, formData)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
-          console.log("error", error);
+          console.error("error", error);
         });
     } else {
       setAuthCheck("Already registered.");

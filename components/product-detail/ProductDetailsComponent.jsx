@@ -82,7 +82,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
       const check = cartItems.find(
         (item) => item.variantId === cartData.variantId
       );
-      console.log("check", check);
+      // console.log("check", check);
       if (check) {
         const result = await updateCart({
           user: cartData.user,
@@ -96,7 +96,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         }
       } else {
         const result = await createCart(cartData);
-        console.log("result", result);
+        // console.log("result", result);
         if (result.data.status === "success") {
           toast.success(`${cartData.quantity} new product added to cart`);
         } else {

@@ -67,7 +67,7 @@ const AllBestSellingCard = () => {
           const productApiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
           try {
             const response = await axios.get(productApiUrl);
-            console.log("response for product", response);
+            // console.log("response for product", response);
             if (response.status === 200) {
               return response.data.data;
             } else {
@@ -93,7 +93,7 @@ const AllBestSellingCard = () => {
       });
   }, []);
 
-  console.log("products data", products);
+  // console.log("products data", products);
 
   const apiUrl = `${process.env.API_URL}/api/v1/product/productByOrders`;
 
@@ -114,7 +114,7 @@ const AllBestSellingCard = () => {
 
   const sliceData = data.slice(0, 8);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
@@ -140,7 +140,7 @@ const AllBestSellingCard = () => {
           <>
             {products.map((elem, i) => (
               <>
-                {console.log("elem", elem)}
+                {/* {console.log("elem", elem)} */}
                 <BestSellingCard key={i} elem={elem} />
               </>
             ))}
