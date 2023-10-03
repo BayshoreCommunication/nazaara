@@ -33,14 +33,17 @@ const DesktopNavbar = () => {
   const [toogle, setToogle] = useState(false);
 
   //fetching nav data using rtk query
-  const { data: navData, isLoading: isNavDataLoading } = useGetNavDataQuery();
+  const { data: navData, isLoading: isNavDataLoading } = useGetNavDataQuery({
+    saleTitle: "",
+    navCategoryTitle: "",
+  });
 
-  const getNavCategory = navData?.saleData?.map((data) =>
-    data?.navCategoryTitle?.toUpperCase()
-  );
-  const getDistinctNav = [...new Set(getNavCategory)];
+  // const getNavCategory = navData?.saleData?.map((data) =>
+  //   data?.navCategoryTitle?.toUpperCase()
+  // );
+  // const getDistinctNav = [...new Set(getNavCategory)];
 
-  console.log("navdatassss", navData?.saleData);
+  // console.log("navdatassss", navData?.saleData);
 
   // fetching all the products for showing on search bar
 
@@ -122,12 +125,27 @@ const DesktopNavbar = () => {
   const { data: productsCategories, isLoading } =
     useGetProductsCategoriesQuery();
 
+  const [salesFiltered, setSalesFiltered] = useState([]);
+
   const filterSales = (cateogry) => {
-    const filteredSales = navData.saleData.filter(
+    const filteredSales = navData?.saleData?.filter(
       (sale) => sale.navCategoryTitle === cateogry
     );
+    // setSalesFiltered(filteredSales);
+    // console.log("filterSales", filteredSales);
     return filteredSales;
   };
+
+  // useEffect(() => {
+  //   filterSales();
+  // }, []);
+
+  // console.log("salesFiltered", salesFiltered);
+
+  // console.log(
+  //   "navdata",
+  //   navData?.saleData?.map((data) => data?.productSlug?.map((img) => img))
+  // );
 
   return (
     <div className="container lg:py-4">
@@ -266,23 +284,23 @@ const DesktopNavbar = () => {
                           {/* {elem.category} */}
                           <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
                         </li>
-                        <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl">
+                        <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl text-[15px]">
                           <div className="flex justify-between w-2/3 mx-auto py-6">
                             <ul className="flex flex-col gap-y-2">
                               <li className="text-primary-color font-semibold">
                                 SALE
                               </li>
-                              {filterSales(elem.navCategoryTitle).map(
+                              {filterSales(elem.navCategoryTitle)?.map(
                                 (sale, index) => (
                                   <Link
-                                    href={`/recommended-products/${elem.navCategoryTitle}/${sale.saleTitle}`}
+                                    href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
                                     key={index}
+                                    className="hover:text-primary-color hover:underline underline-offset-2"
                                   >
                                     {sale.saleTitle.toUpperCase()}
                                   </Link>
                                 )
                               )}
-
                               {/* <li>LIMITED STOCK</li>
                               <li>DISCOUNT</li> */}
                             </ul>
@@ -290,7 +308,7 @@ const DesktopNavbar = () => {
                               <li className="text-primary-color font-semibold">
                                 SHOP BY CATEGORY
                               </li>
-                              <ul key={index}>
+                              <ul key={index} className="flex flex-col gap-y-2">
                                 {portion.map((category, categoryIndex) => (
                                   <li key={categoryIndex}>
                                     <Link
@@ -317,6 +335,7 @@ const DesktopNavbar = () => {
                               height={64}
                               className="rounded-md border-2 border-[#d4af37]"
                             />
+                            <p>slug: {}</p>
                           </div>
                         </div>
                       </div>

@@ -54,7 +54,6 @@ const AllBestSellingCard = () => {
   // }, [slugData]);
 
   useEffect(() => {
-    // Fetch slug data
     const slugApiUrl = `${process.env.API_URL}/api/v1/best-selling-product`;
     axios
       .get(slugApiUrl)

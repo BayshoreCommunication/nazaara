@@ -5,8 +5,13 @@ export const navApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL }),
 
   endpoints: (builder) => ({
+    // getNavData: builder.query({
+    //   query: () => `/api/v1/nav-sale`,
+    // }),
     getNavData: builder.query({
-      query: () => `/api/v1/nav-sale`,
+      query: ({ saleTitle, navCategoryTitle }) => {
+        return `/api/v1/nav-sale?saleTitle=${saleTitle}&navCategoryTitle=${navCategoryTitle}`;
+      },
     }),
     getProductBySlug: builder.query({
       query: (slug) => `/api/v1/product/${slug}`,
