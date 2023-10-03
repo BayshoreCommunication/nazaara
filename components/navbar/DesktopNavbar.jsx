@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,11 +32,40 @@ const DesktopNavbar = () => {
   const dispatch = useDispatch();
   const [toogle, setToogle] = useState(false);
 
+  const [products, setProducts] = useState([]);
+
   //fetching nav data using rtk query
   const { data: navData, isLoading: isNavDataLoading } = useGetNavDataQuery({
     saleTitle: "",
     navCategoryTitle: "",
   });
+
+  // console.log("dataa", data);
+
+  // const [navData, setNavData] = useState(null);
+
+  // const fetchDatas = useCallback(async () => {
+  //   try {
+  //     const apiUrl = `${process.env.API_URL}/api/v1/nav-sale`;
+  //     const response = await axios.get(apiUrl);
+  //     setNavData(response.data);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }, []); // Empty dependency array means this function will not change across re-renders
+
+  // // Memoize the fetchData function using useCallback
+  // const memoizedFetchData = useCallback(fetchDatas, [fetchDatas]);
+
+  // // Use useMemo to memoize the navData value
+  // const memoizedNavData = useMemo(() => navData, [navData]);
+
+  // useEffect(() => {
+  //   // Call the memoizedFetchData function
+  //   memoizedFetchData();
+  // }, [memoizedFetchData]);
+
+  // console.log("navvv data", navData);
 
   // const getNavCategory = navData?.saleData?.map((data) =>
   //   data?.navCategoryTitle?.toUpperCase()
@@ -125,27 +154,28 @@ const DesktopNavbar = () => {
   const { data: productsCategories, isLoading } =
     useGetProductsCategoriesQuery();
 
-  const [salesFiltered, setSalesFiltered] = useState([]);
-
   const filterSales = (cateogry) => {
-    const filteredSales = navData?.saleData?.filter(
-      (sale) => sale.navCategoryTitle === cateogry
-    );
-    // setSalesFiltered(filteredSales);
-    // console.log("filterSales", filteredSales);
-    return filteredSales;
+    if (navData && cateogry) {
+      const filteredSales = navData?.saleData?.filter(
+        (sale) => sale.navCategoryTitle === cateogry
+      );
+      return filteredSales;
+    }
   };
 
+  // console.log("salesFiltered", salesFiltered);
   // useEffect(() => {
   //   filterSales();
-  // }, []);
-
-  // console.log("salesFiltered", salesFiltered);
+  // }, [filterSales]);
 
   // console.log(
   //   "navdata",
   //   navData?.saleData?.map((data) => data?.productSlug?.map((img) => img))
   // );
+
+  // {
+  //   navData && console.log("navData", navData);
+  // }
 
   return (
     <div className="container lg:py-4">
@@ -266,6 +296,7 @@ const DesktopNavbar = () => {
             {navData && productsCategories && (
               <>
                 {navData.saleData.map((elem, index) => {
+                  // console.log("elem", elem);
                   if (index < 3) {
                     const portionSize = Math.ceil(
                       productsCategories.newData.length / 3
@@ -276,6 +307,39 @@ const DesktopNavbar = () => {
                       start,
                       end
                     );
+                    const slughola = elem.productSlug.slice(0, 2);
+                    // console.log("slug", elem);
+                    // console.log("slugHolaaa", elem);
+
+                    const fetchProducts = async () => {
+                      try {
+                        const productRequests = slughola.map((slug) =>
+                          axios.get(
+                            `${process.env.API_URL}/api/v1/product/${slug}`
+                          )
+                        );
+                        // Use axios.all to perform multiple requests in parallel
+                        const responses = await axios.all(productRequests);
+
+                        // Extract product data from responses
+                        const productsData = responses.map(
+                          (response) => response.data
+                        );
+
+                        // Update state with products data
+                        setProducts(productsData);
+                      } catch (error) {
+                        console.error("Error fetching products:", error);
+                      }
+                    };
+
+                    // Call the fetchProducts function
+                    fetchProducts();
+
+                    // console.log(
+                    //   "products",
+                    //   products.map((data) => data.data.variant[0].imageUrl[0])
+                    // );
 
                     return (
                       <div className="group" key={index}>
@@ -290,16 +354,24 @@ const DesktopNavbar = () => {
                               <li className="text-primary-color font-semibold">
                                 SALE
                               </li>
-                              {filterSales(elem.navCategoryTitle)?.map(
-                                (sale, index) => (
-                                  <Link
-                                    href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                                    key={index}
-                                    className="hover:text-primary-color hover:underline underline-offset-2"
-                                  >
-                                    {sale.saleTitle.toUpperCase()}
-                                  </Link>
-                                )
+                              {elem?.navCategoryTitle && (
+                                <>
+                                  {filterSales(elem.navCategoryTitle)?.map(
+                                    (sale, index) => {
+                                      // console.log("sale", sale.saleTitle); // Move the console.log outside JSX
+                                      return (
+                                        <div key={index}>
+                                          <Link
+                                            href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
+                                            className="hover:text-primary-color hover:underline underline-offset-2"
+                                          >
+                                            {sale.saleTitle.toUpperCase()}
+                                          </Link>
+                                        </div>
+                                      );
+                                    }
+                                  )}
+                                </>
                               )}
                               {/* <li>LIMITED STOCK</li>
                               <li>DISCOUNT</li> */}
@@ -321,21 +393,30 @@ const DesktopNavbar = () => {
                                 ))}
                               </ul>
                             </ul>
-                            <Image
-                              src={"/images/dress/dress-1.png"}
-                              alt="logo"
-                              width={180}
-                              height={64}
-                              className="rounded-md border-2 border-[#d4af37]"
-                            />
-                            <Image
+
+                            {products && (
+                              <>
+                                {products.map((data, index) => (
+                                  <Image
+                                    key={index}
+                                    src={`${data.data.variant[0].imageUrl[0]}`}
+                                    alt="logo"
+                                    width={180}
+                                    height={64}
+                                    className="rounded-md border-2 border-[#d4af37]"
+                                  />
+                                ))}
+                              </>
+                            )}
+
+                            {/* <Image
                               src={"/images/dress/dress.png"}
                               alt="logo"
                               width={180}
                               height={64}
                               className="rounded-md border-2 border-[#d4af37]"
-                            />
-                            <p>slug: {}</p>
+                            /> */}
+                            {/* <p>slug: {slughola}</p> */}
                           </div>
                         </div>
                       </div>
