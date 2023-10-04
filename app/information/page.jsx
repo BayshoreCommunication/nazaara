@@ -30,15 +30,15 @@ const Payment = () => {
       console.error("Error fetching countries:", error);
     }
   };
-  const fetchProductDetails = useCallback(async (productId) => {
+  const fetchProductDetails = useCallback(async (productSlug) => {
     try {
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productId}`
+        `${process.env.API_URL}/api/v1/product/${productSlug}`
       );
       return response.data.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
-      return null;
+      console.log("error rerendering", error);
     }
   }, []);
 
@@ -51,6 +51,8 @@ const Payment = () => {
           `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
         );
         const data = await response.json();
+
+        console.log("test product", data?.data);
 
         // Fetch product details for each cart item
         const updatedCartData = await Promise.all(

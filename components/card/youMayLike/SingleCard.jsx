@@ -17,9 +17,12 @@ const SingleCard = ({ data }) => {
       <Link href={`/products/${data?.slug}`}>
         <div className="relative">
           <Image
-            src={data?.variant[0]?.imageUrl[0]}
-            // src={""}
-            alt="bridal_top"
+            src={
+              data?.variant[0]?.imageUrl[0]
+                ? data?.variant[0]?.imageUrl[0]
+                : "/images/products/details.png"
+            }
+            alt="bridal_top_product"
             width={326}
             height={461}
             className="w-full rounded-[4px] border h-full"

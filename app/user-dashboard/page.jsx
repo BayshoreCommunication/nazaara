@@ -9,7 +9,6 @@ import { useGetUserByIDQuery } from "@/services/userApi";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 
 const UserDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -267,7 +266,12 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-          {isModalOpen && <EditUserProfile setIsModalOpen={setIsModalOpen} />}
+          {isModalOpen && (
+            <EditUserProfile
+              authUserData={authUserData}
+              setIsModalOpen={setIsModalOpen}
+            />
+          )}
         </div>
       )}
     </>

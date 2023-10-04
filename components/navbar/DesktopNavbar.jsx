@@ -236,7 +236,7 @@ const DesktopNavbar = () => {
                     alt="logo"
                     width={23}
                     height={23}
-                    className="cursor-pointer"
+                    className="cursor-pointer h-auto"
                   />
                 </Link>
               )}
@@ -330,6 +330,7 @@ const DesktopNavbar = () => {
                         setProducts(productsData);
                       } catch (error) {
                         console.error("Error fetching products:", error);
+                        console.log("uuuuuu la la ");
                       }
                     };
 

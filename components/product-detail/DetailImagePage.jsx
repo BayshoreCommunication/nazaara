@@ -43,7 +43,7 @@ const DetailImage = ({ productData }) => {
     }))
   );
 
-  console.log("images", images);
+  // console.log("images", images);
   return (
     <>
       <ImageGallery thumbnailPosition={"left"} items={images} />

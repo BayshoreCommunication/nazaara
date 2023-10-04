@@ -40,7 +40,7 @@ const RecommendedProductsPage = () => {
       const productApiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
       try {
         const response = await axios.get(productApiUrl);
-        console.log("response for product", response);
+        // console.log("response for product", response);
         if (response.status === 200) {
           return response.data.data;
         } else {

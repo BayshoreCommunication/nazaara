@@ -3,19 +3,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL }),
-  tagTypes: ['Address'],
+  tagTypes: ["Address"],
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => `/api/v1/user`,
-      providesTags: ['Address'],
+      providesTags: ["Address"],
     }),
     getUserByID: builder.query({
       query: (id) => `/api/v1/user/${id}`,
-      providesTags: ['Address'],
+      providesTags: ["Address"],
     }),
+
     getUserAddressByID: builder.query({
       query: (id) => `/api/v1/user-addressbook/${id}`,
-      providesTags: ['Address'],
+      providesTags: ["Address"],
     }),
     createAddress: builder.mutation({
       query: (payload) => ({
@@ -27,8 +28,18 @@ export const usersApi = createApi({
         },
       }),
       // invalidate the cache after successful creation
-      invalidatesTags: ['Address'],
+      invalidatesTags: ["Address"],
     }),
+
+    updateUserByID: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `/api/v1/user/${id}`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["Address"],
+    }),
+
     updateUserAddressById: builder.mutation({
       query: ({ id, payload }) => ({
         url: `/api/v1/user-addressbook/${id}`,
@@ -38,14 +49,14 @@ export const usersApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
-      invalidatesTags: ['Address'],
+      invalidatesTags: ["Address"],
     }),
     deleteUserAddressById: builder.mutation({
       query: (id) => ({
         url: `/api/v1/user-addressbook/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ['Address'],
+      invalidatesTags: ["Address"],
     }),
   }),
 });
@@ -55,6 +66,7 @@ export const {
   useGetUserByIDQuery,
   useGetUserAddressByIDQuery,
   useCreateAddressMutation,
+  useUpdateUserByIDMutation,
   useUpdateUserAddressByIdMutation,
-  useDeleteUserAddressByIdMutation
+  useDeleteUserAddressByIdMutation,
 } = usersApi;

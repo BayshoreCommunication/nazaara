@@ -210,7 +210,7 @@ const Categories = ({ params }) => {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6 my-6">
                 {data?.product?.map((data, i) => (
                   <div key={i}>
-                    <Link href={`/products/${data?._id}`}>
+                    <Link href={`/products/${data?.slug}`}>
                       <div className="relative">
                         <Image
                           src={data?.variant[0]?.imageUrl[0]}
