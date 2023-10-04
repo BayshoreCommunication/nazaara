@@ -33,48 +33,13 @@ const DesktopNavbar = () => {
   const [toogle, setToogle] = useState(false);
 
   const [products, setProducts] = useState([]);
+  // console.log("first", products);
 
   //fetching nav data using rtk query
   const { data: navData, isLoading: isNavDataLoading } = useGetNavDataQuery({
     saleTitle: "",
     navCategoryTitle: "",
   });
-
-  // console.log("dataa", data);
-
-  // const [navData, setNavData] = useState(null);
-
-  // const fetchDatas = useCallback(async () => {
-  //   try {
-  //     const apiUrl = `${process.env.API_URL}/api/v1/nav-sale`;
-  //     const response = await axios.get(apiUrl);
-  //     setNavData(response.data);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // }, []); // Empty dependency array means this function will not change across re-renders
-
-  // // Memoize the fetchData function using useCallback
-  // const memoizedFetchData = useCallback(fetchDatas, [fetchDatas]);
-
-  // // Use useMemo to memoize the navData value
-  // const memoizedNavData = useMemo(() => navData, [navData]);
-
-  // useEffect(() => {
-  //   // Call the memoizedFetchData function
-  //   memoizedFetchData();
-  // }, [memoizedFetchData]);
-
-  // console.log("navvv data", navData);
-
-  // const getNavCategory = navData?.saleData?.map((data) =>
-  //   data?.navCategoryTitle?.toUpperCase()
-  // );
-  // const getDistinctNav = [...new Set(getNavCategory)];
-
-  // console.log("navdatassss", navData?.saleData);
-
-  // fetching all the products for showing on search bar
 
   const { data: allProducts } = useGetProductsQuery();
 
@@ -117,15 +82,6 @@ const DesktopNavbar = () => {
     }
   }, [jsonStr]);
 
-  // console.log("Cookie DAta", cookieData.fullName.slice(0, 1));
-
-  // const name = cookieData.fullName;
-  // const split = name.split(" ");
-  // const takeword = split.map((data) => data.slice(0, 1));
-  // const addword = takeword.join("");
-  // const slice = addword.slice(0, 2);
-  // console.log("split", slice);
-
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(apiUrl);
@@ -163,19 +119,38 @@ const DesktopNavbar = () => {
     }
   };
 
-  // console.log("salesFiltered", salesFiltered);
-  // useEffect(() => {
-  //   filterSales();
-  // }, [filterSales]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log("first", navData);
+        const productRequests = navData.saleData.map((elem) => {
+          // console.log("elem", elem);
+          const slughola = elem.productSlug;
+          console.log("slug", slughola);
+          return axios.get(
+            `${process.env.API_URL}/api/v1/product/${slughola[0]}`
+          );
+        });
 
-  // console.log(
-  //   "navdata",
-  //   navData?.saleData?.map((data) => data?.productSlug?.map((img) => img))
-  // );
+        // Use axios.all to perform multiple requests in parallel
+        console.log("Before Request");
+        console.log("product request", productRequests);
+        const responses = await axios.all(productRequests);
+        console.log("After Request");
 
-  // {
-  //   navData && console.log("navData", navData);
-  // }
+        // Extract product data from responses
+        const productsData = responses.map((response) => response.data);
+
+        // Update state with products data
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, [navData?.saleData]);
+
+  console.log("Productssss", products);
 
   return (
     <div className="container lg:py-4">
@@ -307,41 +282,6 @@ const DesktopNavbar = () => {
                       start,
                       end
                     );
-                    const slughola = elem.productSlug.slice(0, 2);
-                    // console.log("slug", elem);
-                    // console.log("slugHolaaa", elem);
-
-                    const fetchProducts = async () => {
-                      try {
-                        const productRequests = slughola.map((slug) =>
-                          axios.get(
-                            `${process.env.API_URL}/api/v1/product/${slug}`
-                          )
-                        );
-                        // Use axios.all to perform multiple requests in parallel
-                        const responses = await axios.all(productRequests);
-
-                        // Extract product data from responses
-                        const productsData = responses.map(
-                          (response) => response.data
-                        );
-
-                        // Update state with products data
-                        setProducts(productsData);
-                      } catch (error) {
-                        console.error("Error fetching products:", error);
-                        console.log("uuuuuu la la ");
-                      }
-                    };
-
-                    // Call the fetchProducts function
-                    fetchProducts();
-
-                    // console.log(
-                    //   "products",
-                    //   products.map((data) => data.data.variant[0].imageUrl[0])
-                    // );
-
                     return (
                       <div className="group" key={index}>
                         <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
