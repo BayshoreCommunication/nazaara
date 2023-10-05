@@ -122,24 +122,28 @@ const DesktopNavbar = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log("first", navData);
-        const productRequests = navData.saleData.map((elem) => {
-          // console.log("elem", elem);
-          const slughola = elem.productSlug;
-          console.log("slug", slughola);
-          return axios.get(
-            `${process.env.API_URL}/api/v1/product/${slughola[0]}`
-          );
+        // navData.saleData.map(
+        //   (elem, index) =>
+        //     index < 4 &&
+        //     console.log(
+        //       `productSlug: ${elem.productSlug[0]} saleTitle: ${elem.saleTitle}`
+        //     )
+        // );
+        const productRequests = navData.saleData.slice(0, 6).map((elem) => {
+          const slughola = elem.productSlug[0];
+          // console.log("test product", elem);
+          return axios.get(`${process.env.API_URL}/api/v1/product/${slughola}`);
         });
 
         // Use axios.all to perform multiple requests in parallel
-        console.log("Before Request");
-        console.log("product request", productRequests);
         const responses = await axios.all(productRequests);
-        console.log("After Request");
 
         // Extract product data from responses
         const productsData = responses.map((response) => response.data);
+        // console.log(
+        //   "After Request productsData",
+        //   productsData.map((item) => item.data)
+        // );
 
         // Update state with products data
         setProducts(productsData);
@@ -150,7 +154,19 @@ const DesktopNavbar = () => {
     fetchProducts();
   }, [navData?.saleData]);
 
-  console.log("Productssss", products);
+  // console.log(
+  //   "Productssss",
+  //   products.map((item) => item.data.category)
+  // );
+
+  const calculateSliceRange = (index) => {
+    if (!products) return [];
+
+    const startIndex = index * 2;
+    const endIndex = startIndex + 2;
+
+    return products.slice(startIndex, endIndex);
+  };
 
   return (
     <div className="container lg:py-4">
@@ -289,7 +305,7 @@ const DesktopNavbar = () => {
                           {/* {elem.category} */}
                           <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
                         </li>
-                        <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl text-[15px]">
+                        <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl text-sm">
                           <div className="flex justify-between w-2/3 mx-auto py-6">
                             <ul className="flex flex-col gap-y-2">
                               <li className="text-primary-color font-semibold">
@@ -299,7 +315,6 @@ const DesktopNavbar = () => {
                                 <>
                                   {filterSales(elem.navCategoryTitle)?.map(
                                     (sale, index) => {
-                                      // console.log("sale", sale.saleTitle); // Move the console.log outside JSX
                                       return (
                                         <div key={index}>
                                           <Link
@@ -337,27 +352,24 @@ const DesktopNavbar = () => {
 
                             {products && (
                               <>
-                                {products.map((data, index) => (
-                                  <Image
-                                    key={index}
-                                    src={`${data.data.variant[0].imageUrl[0]}`}
-                                    alt="logo"
-                                    width={180}
-                                    height={64}
-                                    className="rounded-md border-2 border-[#d4af37]"
-                                  />
-                                ))}
+                                {calculateSliceRange(index).map(
+                                  (data, mapIndex) => (
+                                    <Link
+                                      key={mapIndex}
+                                      href={`/products/${data.data.slug}`}
+                                    >
+                                      <Image
+                                        src={`${data.data.variant[0].imageUrl[0]}`}
+                                        alt="product"
+                                        width={180}
+                                        height={64}
+                                        className="rounded-md border-2 border-[#d4af37]"
+                                      />
+                                    </Link>
+                                  )
+                                )}
                               </>
                             )}
-
-                            {/* <Image
-                              src={"/images/dress/dress.png"}
-                              alt="logo"
-                              width={180}
-                              height={64}
-                              className="rounded-md border-2 border-[#d4af37]"
-                            /> */}
-                            {/* <p>slug: {slughola}</p> */}
                           </div>
                         </div>
                       </div>
