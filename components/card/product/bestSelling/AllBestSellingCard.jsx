@@ -111,9 +111,9 @@ const AllBestSellingCard = () => {
     fetchData();
   }, [apiUrl, fetchData]);
 
-  const sliceData = data.slice(0, 8);
+  // const sliceData = data.slice(0, 8);
 
-  // console.log("data", data);
+  // console.log("products", products);
 
   return (
     <>
@@ -127,9 +127,9 @@ const AllBestSellingCard = () => {
           modules={[Scrollbar]}
           className="mySwiper"
         >
-          {products.map((elem, i) => (
-            <SwiperSlide key={i}>
-              <BestSellingCard elem={elem} />
+          {products.map((elem) => (
+            <SwiperSlide key={elem._id}>
+              <BestSellingCard key={elem._id} elem={elem} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -137,11 +137,8 @@ const AllBestSellingCard = () => {
       <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
         {products && (
           <>
-            {products.map((elem, i) => (
-              <>
-                {/* {console.log("elem", elem)} */}
-                <BestSellingCard key={i} elem={elem} />
-              </>
+            {products.map((elem) => (
+              <BestSellingCard key={elem._id} elem={elem} />
             ))}
           </>
         )}

@@ -41,6 +41,8 @@ const DesktopNavbar = () => {
     navCategoryTitle: "",
   });
 
+  // console.log("navData", navData);
+
   const { data: allProducts } = useGetProductsQuery();
 
   let filteredData;
@@ -129,30 +131,34 @@ const DesktopNavbar = () => {
         //       `productSlug: ${elem.productSlug[0]} saleTitle: ${elem.saleTitle}`
         //     )
         // );
-        const productRequests = navData.saleData.slice(0, 6).map((elem) => {
-          const slughola = elem.productSlug[0];
-          // console.log("test product", elem);
-          return axios.get(`${process.env.API_URL}/api/v1/product/${slughola}`);
-        });
+        if (navData) {
+          const productRequests = navData?.saleData?.slice(0, 6).map((elem) => {
+            const slughola = elem.productSlug[0];
+            // console.log("test product", elem);
+            return axios.get(
+              `${process.env.API_URL}/api/v1/product/${slughola}`
+            );
+          });
 
-        // Use axios.all to perform multiple requests in parallel
-        const responses = await axios.all(productRequests);
+          // Use axios.all to perform multiple requests in parallel
+          const responses = await Promise.all(productRequests);
 
-        // Extract product data from responses
-        const productsData = responses.map((response) => response.data);
-        // console.log(
-        //   "After Request productsData",
-        //   productsData.map((item) => item.data)
-        // );
+          // Extract product data from responses
+          const productsData = responses.map((response) => response.data);
+          // console.log(
+          //   "After Request productsData",
+          //   productsData.map((item) => item.data)
+          // );
 
-        // Update state with products data
-        setProducts(productsData);
+          // Update state with products data
+          setProducts(productsData);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
     fetchProducts();
-  }, [navData?.saleData]);
+  }, [navData, navData?.saleData]);
 
   // console.log(
   //   "Productssss",
@@ -286,7 +292,7 @@ const DesktopNavbar = () => {
 
             {navData && productsCategories && (
               <>
-                {navData.saleData.map((elem, index) => {
+                {navData?.saleData?.map((elem, index) => {
                   // console.log("elem", elem);
                   if (index < 3) {
                     const portionSize = Math.ceil(

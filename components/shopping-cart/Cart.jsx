@@ -1,3 +1,4 @@
+"use client";
 import { removeItemFromCart, updateQuantity } from "@/store/cartSlice";
 import axios from "axios";
 import Image from "next/image";
@@ -50,6 +51,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
         `${process.env.API_URL}/api/v1/product/${productId}`
       );
       // const {data} = useGetCartByUserIdQuery(productId)
+      // console.log("Product Details API Response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
@@ -60,6 +62,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   // console.log("product details", productDetails);
 
   const fetchAllProductDetails = useCallback(async () => {
+    // console.log("Fetching all product details...");
     const productDetails = await Promise.all(
       cartItems.map(async (item) => ({
         ...item,
@@ -151,6 +154,8 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
     }
   };
 
+  // console.log("productDetails", productDetails);
+
   return (
     <>
       {productDetails && (
@@ -167,7 +172,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
               </span>
             </div>
           </div>
-          {cartItems.length ? (
+          {cartItems ? (
             <>
               {productDetails.map((detail, index) => (
                 <div

@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useEffect } from "react";
 import DesktopNavbar from "./DesktopNavbar";
-import MobileNavbar from "./MobileNavbar";
 import { useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { addItemToCart } from "@/store/cartSlice";

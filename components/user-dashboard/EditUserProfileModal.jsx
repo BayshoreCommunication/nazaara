@@ -26,19 +26,19 @@ const EditUserProfile = ({ setIsModalOpen, authUserData }) => {
     setFile(URL.createObjectURL(selectedFile));
   };
 
-  console.log("auth user data", authUserData._id);
+  // console.log("auth user data", authUserData._id);
   const id = authUserData._id;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updateUserData = await updateUserById({ id, payload: formData });
-    console.log("update user data", updateUserData);
+    // console.log("update user data", updateUserData);
     if (updateUserData.data.success) {
       setIsModalOpen(false);
       toast.success("Address updated successfully", { duration: 3000 });
     }
-    console.log("Form Data:", formData);
-    console.log("Image File:", file);
+    // console.log("Form Data:", formData);
+    // console.log("Image File:", file);
   };
 
   return (

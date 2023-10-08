@@ -87,7 +87,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     className="flex items-center gap-1"
                   >
                     <input
-                      checked={size == "cm"}
+                      defaultChecked={size == "cm"}
                       id="cm"
                       type="radio"
                       name="radio-1"
@@ -101,7 +101,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     className="flex items-center gap-1"
                   >
                     <input
-                      checked={size == "in"}
+                      defaultChecked={size == "in"}
                       id="in"
                       type="radio"
                       name="radio-1"

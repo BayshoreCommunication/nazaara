@@ -38,7 +38,7 @@ const Payment = () => {
       return response.data.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
-      console.log("error rerendering", error);
+      console.error("error rerendering", error);
     }
   }, []);
 
@@ -52,7 +52,7 @@ const Payment = () => {
         );
         const data = await response.json();
 
-        console.log("test product", data?.data);
+        // console.log("test product", data?.data);
 
         // Fetch product details for each cart item
         const updatedCartData = await Promise.all(
