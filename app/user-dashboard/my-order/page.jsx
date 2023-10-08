@@ -5,10 +5,11 @@ import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import MyOrder from "@/components/user-dashboard/MyOrder";
 import React, { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
+import Loader from "@/components/Loader";
 
 const MyOrders = () => {
   const [userData, setUserData] = useState();
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     const jsonStr = getCookie("userAuthCredential");
     try {
       if (jsonStr) {
@@ -23,7 +24,7 @@ const MyOrders = () => {
     } catch (error) {
       console.error("Error fetching countries:", error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchData();
@@ -33,12 +34,14 @@ const MyOrders = () => {
 
   return (
     <>
-      {userData && (
+      {userData ? (
         <div className="container my-10 flex flex-col gap-y-4">
           <h2 className="text-xl font-semibold">Hello, {userData.fullName}</h2>
           <DashboardUtil />
           <MyOrder userData={userData} />
         </div>
+      ) : (
+        <Loader height="h-[90vh]" />
       )}
     </>
   );
