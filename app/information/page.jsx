@@ -394,3 +394,5 @@ const Payment = () => {
 };
 
 export default Payment;
+
+import React from "react";

@@ -17,7 +17,7 @@ import {
 import Fuse from "fuse.js";
 import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaMinus, FaPlus, FaTimes } from "react-icons/fa";
 import { useGetNavDataQuery } from "@/services/navApi";
 
 const DesktopNavbar = () => {
@@ -31,6 +31,7 @@ const DesktopNavbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const [toogle, setToogle] = useState(false);
+  const [mobileLinkToggle, setMobileLinkToggle] = useState("");
 
   const [products, setProducts] = useState([]);
   // console.log("first", products);
@@ -514,30 +515,82 @@ const DesktopNavbar = () => {
                 </div>
               </div>
             </form>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/">HOME</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/">EXCLUSIVE WOMAN WEAR</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/packages">NEW ARRIVALS</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/membership">PARTY WEAR</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/about-us">REGULAR WEAR</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/contact-us">BRIDAL WEAR</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/contact-us">BOOK AN APPOINTMENT</Link>
-            </li>
-            <li className="block py-2 text-white text-sm cursor-pointer">
-              <Link href="/contact-us">OUR LOCATIONS</Link>
-            </li>
+            <div className="flex flex-col gap-y-2 mt-3">
+              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
+                <Link href="/">HOME</Link>
+              </li>
+              <div className="border px-2 rounded-md">
+                <div className="flex items-center justify-between">
+                  <li className="block py-2 text-white text-sm cursor-pointer">
+                    <Link href="/packages">PARTY WEAR</Link>
+                  </li>
+                  {mobileLinkToggle === "party" ? (
+                    <FaMinus
+                      color="white"
+                      onClick={() => setMobileLinkToggle("")}
+                    />
+                  ) : (
+                    <FaPlus
+                      color="white"
+                      onClick={() => setMobileLinkToggle("party")}
+                    />
+                  )}
+                </div>
+                {mobileLinkToggle === "party" && <div>party wear content</div>}
+              </div>
+              <div className="border px-2 rounded-md">
+                <div className="flex items-center justify-between">
+                  <li className="block py-2 text-white text-sm cursor-pointer">
+                    <Link href="/packages">REGULAR WEAR</Link>
+                  </li>
+                  {mobileLinkToggle === "regular" ? (
+                    <FaMinus
+                      color="white"
+                      onClick={() => setMobileLinkToggle("")}
+                    />
+                  ) : (
+                    <FaPlus
+                      color="white"
+                      onClick={() => setMobileLinkToggle("regular")}
+                    />
+                  )}
+                </div>
+                {mobileLinkToggle === "regular" && (
+                  <div>regular wear content</div>
+                )}
+              </div>
+              <div className="border px-2 rounded-md">
+                <ul className="flex items-center">
+                  <li className="flex-none block py-2 text-white text-sm cursor-pointer">
+                    <Link href="/packages">BRIDAL WEAR</Link>
+                  </li>
+                  <div className="flex-grow flex justify-end">
+                    {mobileLinkToggle === "bridal" ? (
+                      <FaMinus
+                        color="white"
+                        onClick={() => setMobileLinkToggle("")}
+                        className=""
+                      />
+                    ) : (
+                      <FaPlus
+                        color="white"
+                        onClick={() => setMobileLinkToggle("bridal")}
+                      />
+                    )}
+                  </div>
+                </ul>
+
+                {mobileLinkToggle === "bridal" && (
+                  <div>bridal wear content</div>
+                )}
+              </div>
+              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
+                <Link href="/contact-us">Contact Us</Link>
+              </li>
+              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
+                <Link href="/locations">OUR LOCATIONS</Link>
+              </li>
+            </div>
           </div>
         </div>
       )}
