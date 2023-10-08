@@ -1,34 +1,34 @@
-'use client'
-import { deleteCookie, getCookie } from 'cookies-next'
-import { useRouter } from 'next/navigation'
-import Loader from '@/components/Loader'
-import DashboardUtil from '@/components/user-dashboard/DashboardUtil'
-import EditUserProfile from '@/components/user-dashboard/EditUserProfileModal'
+"use client";
+import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
+import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
+import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
 // import usefetch from "@/customhooks/usefetch";
-import { useGetUserByIDQuery } from '@/services/userApi'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useState } from 'react'
+import { useGetUserByIDQuery } from "@/services/userApi";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
 
 const UserDashboard = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //get authenticate user id using cookie
-  let getUserIdFromCookie
-  const cookie = getCookie('userAuthCredential')
+  let getUserIdFromCookie;
+  const cookie = getCookie("userAuthCredential");
   if (cookie != null) {
-    const obj = JSON.parse(cookie)
-    getUserIdFromCookie = obj._id
+    const obj = JSON.parse(cookie);
+    getUserIdFromCookie = obj._id;
   }
 
   //fetch specific user data using rtk query
-  const { data, isLoading } = useGetUserByIDQuery(getUserIdFromCookie)
+  const { data, isLoading } = useGetUserByIDQuery(getUserIdFromCookie);
 
   // when isLoading is false show loading spinner
   if (isLoading) {
-    return <Loader height="h-[90vh]" />
+    return <Loader height="h-[90vh]" />;
   }
-  const authUserData = data?.data
+  const authUserData = data?.data;
 
   // const date = new Date(authUserData?.createdAt);
   // const day = date.getDate().toString().padStart(2, "0");
@@ -36,28 +36,28 @@ const UserDashboard = () => {
   // const year = date.getFullYear();
   // const formattedDate = `${day}-${month}-${year}`;
 
-  const date = new Date(authUserData?.createdAt)
-  const day = date.getDate().toString().padStart(2, '0')
+  const date = new Date(authUserData?.createdAt);
+  const day = date.getDate().toString().padStart(2, "0");
 
   // Array of month names
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-  const monthName = monthNames[date.getMonth()] // Get the month name
-  const year = date.getFullYear()
-  const formattedDate = `${day}, ${monthName} - ${year}`
+  const monthName = monthNames[date.getMonth()]; // Get the month name
+  const year = date.getFullYear();
+  const formattedDate = `${day}, ${monthName} - ${year}`;
 
   return (
     <>
@@ -89,7 +89,7 @@ const UserDashboard = () => {
                   {authUserData?.fullName}
                 </p>
                 <p>
-                  <span className="font-semibold">Email: </span>{' '}
+                  <span className="font-semibold">Email: </span>{" "}
                   {authUserData?.email}
                 </p>
                 {authUserData?.phone && (
@@ -120,7 +120,9 @@ const UserDashboard = () => {
               <p className="text-lg font-medium text-gray-700">Address Book</p>
               <p> | </p>
               <Link href={`/user-dashboard/${authUserData?._id}`}>
-                <button className="text-primary-color">More</button>
+                <button className="text-primary-color">
+                  {authUserData?.addressBook.length > 1 ? "More" : "Add New"}
+                </button>
               </Link>
             </div>
 
@@ -131,7 +133,7 @@ const UserDashboard = () => {
                     key={index}
                     className={`flex-1 text-sm flex flex-col gap-y-2 ${
                       index < authUserData?.addressBook.length - 1 &&
-                      'border-e-2'
+                      "border-e-2"
                     }`}
                   >
                     <p className="text-md text-green-800 bg-slate-200 px-2 py-1 w-max text-xs rounded-sm bg-gray-200">
@@ -147,6 +149,11 @@ const UserDashboard = () => {
                 ))}
               </div>
             )}
+            {authUserData?.addressBook.length < 1 && (
+              <div className="text-md text-green-800 bg-slate-200 px-2 py-1 w-max text-xs rounded-sm ">
+                No Adress Book Found ! Please Add a New One
+              </div>
+            )}
           </div>
           {isModalOpen && (
             <EditUserProfile
@@ -157,7 +164,7 @@ const UserDashboard = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default UserDashboard
+export default UserDashboard;
