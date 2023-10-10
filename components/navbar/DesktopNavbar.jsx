@@ -7,7 +7,6 @@ import { getCookie } from "cookies-next";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import useGlobalCart from "@/customhooks/useGlobalCart";
-import { BsBagXFill, BsFillBagCheckFill } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import UserCart from "../user-dashboard/UserCart";
 import {
@@ -17,7 +16,7 @@ import {
 import Fuse from "fuse.js";
 import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
-import { FaBars, FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import { useGetNavDataQuery } from "@/services/navApi";
 
 const DesktopNavbar = () => {
@@ -25,13 +24,16 @@ const DesktopNavbar = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
   const [categories, setCategories] = useState(null);
-  const [auth, setAuth] = useState("signIn");
+  // const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
   const [cookieData, setCookieData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const [toogle, setToogle] = useState(false);
-  const [mobileLinkToggle, setMobileLinkToggle] = useState("");
+  // const [mobileLinkToggle, setMobileLinkToggle] = useState("");
+  const [mobilePartyLink, setMobilePartyLink] = useState(false);
+  const [mobileRegularLink, setMobileRegularLink] = useState(false);
+  const [mobileBridalLink, setMobileBridalLink] = useState(false);
 
   const [products, setProducts] = useState([]);
   // console.log("first", products);
@@ -125,13 +127,6 @@ const DesktopNavbar = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // navData.saleData.map(
-        //   (elem, index) =>
-        //     index < 4 &&
-        //     console.log(
-        //       `productSlug: ${elem.productSlug[0]} saleTitle: ${elem.saleTitle}`
-        //     )
-        // );
         if (navData) {
           const productRequests = navData?.saleData?.slice(0, 6).map((elem) => {
             const slughola = elem.productSlug[0];
@@ -174,6 +169,15 @@ const DesktopNavbar = () => {
 
     return products.slice(startIndex, endIndex);
   };
+
+  const portionSize = Math.ceil(productsCategories?.newData?.length / 3);
+  const part1 = productsCategories?.newData?.slice(0, portionSize);
+  const part2 = productsCategories?.newData?.slice(
+    portionSize,
+    2 * portionSize
+  );
+  const part3 = productsCategories?.newData?.slice(2 * portionSize);
+  console.log("portion", part1, part2, part3);
 
   return (
     <div className="container lg:py-4">
@@ -305,6 +309,7 @@ const DesktopNavbar = () => {
                       start,
                       end
                     );
+                    // console.log("portion", portion);
                     return (
                       <div className="group" key={index}>
                         <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
@@ -455,6 +460,7 @@ const DesktopNavbar = () => {
         </form>
       </div>
 
+      {/* mobile navbar start  */}
       {toogle && (
         <div className="block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0">
           <div className="container ">
@@ -516,79 +522,116 @@ const DesktopNavbar = () => {
               </div>
             </form>
             <div className="flex flex-col gap-y-2 mt-3">
-              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
-                <Link href="/">HOME</Link>
+              <li className="border-b block py-2 text-white text-sm cursor-pointer">
+                <Link href="/" onClick={() => setToogle(false)}>
+                  HOME
+                </Link>
               </li>
-              <div className="border px-2 rounded-md">
-                <div className="flex items-center justify-between">
+              <div className="border-b">
+                <div
+                  onClick={() => setMobilePartyLink(!mobilePartyLink)}
+                  className="flex items-center justify-between"
+                >
                   <li className="block py-2 text-white text-sm cursor-pointer">
-                    <Link href="/packages">PARTY WEAR</Link>
+                    <p>PARTY WEAR</p>
                   </li>
-                  {mobileLinkToggle === "party" ? (
-                    <FaMinus
-                      color="white"
-                      onClick={() => setMobileLinkToggle("")}
-                    />
+                  {mobilePartyLink ? (
+                    <FaAngleUp size={18} color="white" />
                   ) : (
-                    <FaPlus
-                      color="white"
-                      onClick={() => setMobileLinkToggle("party")}
-                    />
+                    <FaAngleDown size={18} color="white" />
                   )}
                 </div>
-                {mobileLinkToggle === "party" && <div>party wear content</div>}
-              </div>
-              <div className="border px-2 rounded-md">
-                <div className="flex items-center justify-between">
-                  <li className="block py-2 text-white text-sm cursor-pointer">
-                    <Link href="/packages">REGULAR WEAR</Link>
-                  </li>
-                  {mobileLinkToggle === "regular" ? (
-                    <FaMinus
-                      color="white"
-                      onClick={() => setMobileLinkToggle("")}
-                    />
-                  ) : (
-                    <FaPlus
-                      color="white"
-                      onClick={() => setMobileLinkToggle("regular")}
-                    />
-                  )}
-                </div>
-                {mobileLinkToggle === "regular" && (
-                  <div>regular wear content</div>
-                )}
-              </div>
-              <div className="border px-2 rounded-md">
-                <ul className="flex items-center">
-                  <li className="flex-none block py-2 text-white text-sm cursor-pointer">
-                    <Link href="/packages">BRIDAL WEAR</Link>
-                  </li>
-                  <div className="flex-grow flex justify-end">
-                    {mobileLinkToggle === "bridal" ? (
-                      <FaMinus
-                        color="white"
-                        onClick={() => setMobileLinkToggle("")}
-                        className=""
-                      />
-                    ) : (
-                      <FaPlus
-                        color="white"
-                        onClick={() => setMobileLinkToggle("bridal")}
-                      />
+                {mobilePartyLink && (
+                  <>
+                    {part1 && (
+                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
+                        {part1.map((data) => (
+                          <Link
+                            key={data.categories}
+                            href={`/products/categories/${data.category}`}
+                            onClick={() => setToogle(false)}
+                          >
+                            {data.category}
+                          </Link>
+                        ))}
+                      </div>
                     )}
-                  </div>
-                </ul>
-
-                {mobileLinkToggle === "bridal" && (
-                  <div>bridal wear content</div>
+                  </>
                 )}
               </div>
-              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
-                <Link href="/contact-us">Contact Us</Link>
+              <div className="border-b">
+                <div
+                  onClick={() => setMobileRegularLink(!mobileRegularLink)}
+                  className="flex items-center justify-between"
+                >
+                  <li className="block py-2 text-white text-sm cursor-pointer">
+                    <p>REGULAR WEAR</p>
+                  </li>
+                  {mobileRegularLink ? (
+                    <FaAngleUp size={18} color="white" />
+                  ) : (
+                    <FaAngleDown size={18} color="white" />
+                  )}
+                </div>
+                {mobileRegularLink && (
+                  <>
+                    {part2 && (
+                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
+                        {part2.map((data) => (
+                          <Link
+                            key={data.categories}
+                            href={`/products/categories/${data.category}`}
+                            onClick={() => setToogle(false)}
+                          >
+                            {data.category}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+              <div className="border-b">
+                <div
+                  onClick={() => setMobileBridalLink(!mobileBridalLink)}
+                  className="flex items-center justify-between"
+                >
+                  <li className="block py-2 text-white text-sm cursor-pointer">
+                    <p>BRIDAL WEAR</p>
+                  </li>
+                  {mobileBridalLink ? (
+                    <FaAngleUp size={18} color="white" />
+                  ) : (
+                    <FaAngleDown size={18} color="white" />
+                  )}
+                </div>
+                {mobileBridalLink && (
+                  <>
+                    {part3 && (
+                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
+                        {part3.map((data) => (
+                          <Link
+                            key={data.categories}
+                            href={`/products/categories/${data.category}`}
+                            onClick={() => setToogle(false)}
+                          >
+                            {data.category}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+              <li className="border-b block py-2 text-white text-sm cursor-pointer">
+                <Link href="/contact-us" onClick={() => setToogle(false)}>
+                  CONTACT US
+                </Link>
               </li>
-              <li className="border px-2 rounded-md block py-2 text-white text-sm cursor-pointer">
-                <Link href="/locations">OUR LOCATIONS</Link>
+              <li className="border-b block py-2 text-white text-sm cursor-pointer">
+                <Link href="/location" onClick={() => setToogle(false)}>
+                  OUR LOCATIONS
+                </Link>
               </li>
             </div>
           </div>
