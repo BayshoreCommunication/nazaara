@@ -50,6 +50,11 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
           product: await fetchProductDetails(item.product),
         }))
       );
+      if (!productDetails) {
+        console.log("inside down");
+      }
+      console.log("inside down2");
+      // console.log("productDetailsss", productDetails);
       setProductDetails(productDetails);
       setLoading(false);
     };

@@ -28,9 +28,9 @@ const MyOrders = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
-  console.log("user data", userData);
+  // console.log("user data", userData);
 
   return (
     <>
