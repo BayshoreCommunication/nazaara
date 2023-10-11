@@ -177,7 +177,7 @@ const DesktopNavbar = () => {
     2 * portionSize
   );
   const part3 = productsCategories?.newData?.slice(2 * portionSize);
-  console.log("portion", part1, part2, part3);
+  // console.log("portion", part1, part2, part3);
 
   return (
     <div className="container lg:py-4">
