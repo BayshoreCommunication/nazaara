@@ -122,6 +122,8 @@ const Payment = () => {
 
   const handleSubmit = () => {};
 
+  console.log("user data", userData);
+
   return (
     <div className="container flex py-20">
       <div className="flex-1 border-e pe-10">

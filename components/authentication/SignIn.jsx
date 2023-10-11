@@ -81,7 +81,7 @@ const SignIn = ({ setAuth }) => {
                 }
               })
               .catch((error) => {
-                console.error(error);
+                console.error("Sign in error", error);
               });
           } else {
             toast.error("Already heve an account!");

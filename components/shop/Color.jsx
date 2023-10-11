@@ -34,7 +34,7 @@ const Color = ({ setCurrentColor }) => {
         setColorData(response.data.allColors);
       }
     } catch (error) {
-      console.error(error);
+      console.error("product color fetching error", error);
     }
   }, [apiUrl]);
 

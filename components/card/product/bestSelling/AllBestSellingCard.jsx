@@ -103,7 +103,7 @@ const AllBestSellingCard = () => {
       const response = await axios.get(apiUrl);
       setData(response.data.result);
     } catch (error) {
-      console.error(error);
+      console.error("product productByOrders fetching error", error);
     }
   }, [apiUrl]);
 

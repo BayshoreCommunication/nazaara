@@ -26,7 +26,7 @@ const AllCategoriesCard = () => {
           setCategories(response.data.newData);
         }
       } catch (error) {
-        console.error(error);
+        console.error("product categories fetching error", error);
       }
     };
 

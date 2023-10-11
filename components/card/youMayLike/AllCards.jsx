@@ -26,7 +26,7 @@ const AllCards = () => {
           setData(response.data);
         }
       } catch (error) {
-        console.error(error);
+        console.error("product fetching error", error);
       }
     };
 

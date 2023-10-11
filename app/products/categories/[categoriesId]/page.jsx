@@ -36,7 +36,7 @@ const Categories = ({ params }) => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error(error);
+      console.error("product fetching error", error);
     }
   }, [apiUrl, data]);
 
