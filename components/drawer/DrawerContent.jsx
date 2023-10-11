@@ -1,13 +1,13 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import PendingShipBadge from "../PendingShipBadge";
-import { RxDotFilled } from "react-icons/rx";
+'use client'
+import Image from 'next/image'
+import React, { useState } from 'react'
+import PendingShipBadge from '../PendingShipBadge'
+import { RxDotFilled } from 'react-icons/rx'
 
 const DrawerContent = ({ data, setIsOpen }) => {
   // button toogle
-  const [toggle, setToggle] = useState("size");
-  const [size, setSize] = useState("cm");
+  const [toggle, setToggle] = useState('size')
+  const [size, setSize] = useState('cm')
 
   return (
     <div className="relative overflow-y-auto">
@@ -61,33 +61,33 @@ const DrawerContent = ({ data, setIsOpen }) => {
           <div className="flex justify-around py-1">
             <button
               className={`text-gray-500 font-medium ${
-                toggle === "size" && "underline underline-offset-8"
+                toggle === 'size' && 'underline underline-offset-8'
               }`}
-              onClick={() => setToggle("size")}
+              onClick={() => setToggle('size')}
             >
               SIZE CHART
             </button>
             <button
               className={`text-gray-500 font-medium ${
-                toggle === "measure" && "underline underline-offset-8"
+                toggle === 'measure' && 'underline underline-offset-8'
               }`}
-              onClick={() => setToggle("measure")}
+              onClick={() => setToggle('measure')}
             >
               HOW TO MEASURE
             </button>
           </div>
           <hr />
-          {toggle === "size" && (
+          {toggle === 'size' && (
             <div className="my-4">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="font-semibold text-xl">Shirt</h2>
                 <div className="flex gap-2">
                   <div
-                    onClick={() => setSize("cm")}
+                    onClick={() => setSize('cm')}
                     className="flex items-center gap-1"
                   >
                     <input
-                      defaultChecked={size == "cm"}
+                      checked={size == 'cm'}
                       id="cm"
                       type="radio"
                       name="radio-1"
@@ -97,11 +97,11 @@ const DrawerContent = ({ data, setIsOpen }) => {
                   </div>
 
                   <div
-                    onClick={() => setSize("in")}
+                    onClick={() => setSize('in')}
                     className="flex items-center gap-1"
                   >
                     <input
-                      defaultChecked={size == "in"}
+                      checked={size == 'in'}
                       id="in"
                       type="radio"
                       name="radio-1"
@@ -112,7 +112,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                 </div>
               </div>
               <div className="overflow-x-scroll">
-                {size === "cm" && (
+                {size === 'cm' && (
                   <table className="table w-full">
                     {/* head */}
                     <thead>
@@ -201,7 +201,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     </tbody>
                   </table>
                 )}
-                {size === "in" && (
+                {size === 'in' && (
                   <table className="table w-full">
                     {/* head */}
                     <thead>
@@ -303,7 +303,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
               </div> */}
             </div>
           )}
-          {toggle === "measure" && (
+          {toggle === 'measure' && (
             <div>
               <div>
                 <h2 className="text-lg font-semibold my-2">How to Measure</h2>
@@ -320,7 +320,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DrawerContent;
+export default DrawerContent
