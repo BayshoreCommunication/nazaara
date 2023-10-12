@@ -1,13 +1,13 @@
-'use client'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import PendingShipBadge from '../PendingShipBadge'
-import { RxDotFilled } from 'react-icons/rx'
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
+import PendingShipBadge from "../PendingShipBadge";
+import { RxDotFilled } from "react-icons/rx";
 
 const DrawerContent = ({ data, setIsOpen }) => {
   // button toogle
-  const [toggle, setToggle] = useState('size')
-  const [size, setSize] = useState('cm')
+  const [toggle, setToggle] = useState("size");
+  const [size, setSize] = useState("cm");
 
   return (
     <div className="relative overflow-y-auto">
@@ -61,33 +61,33 @@ const DrawerContent = ({ data, setIsOpen }) => {
           <div className="flex justify-around py-1">
             <button
               className={`text-gray-500 font-medium ${
-                toggle === 'size' && 'underline underline-offset-8'
+                toggle === "size" && "underline underline-offset-8"
               }`}
-              onClick={() => setToggle('size')}
+              onClick={() => setToggle("size")}
             >
               SIZE CHART
             </button>
             <button
               className={`text-gray-500 font-medium ${
-                toggle === 'measure' && 'underline underline-offset-8'
+                toggle === "measure" && "underline underline-offset-8"
               }`}
-              onClick={() => setToggle('measure')}
+              onClick={() => setToggle("measure")}
             >
               HOW TO MEASURE
             </button>
           </div>
           <hr />
-          {toggle === 'size' && (
+          {toggle === "size" && (
             <div className="my-4">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="font-semibold text-xl">Shirt</h2>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                   <div
-                    onClick={() => setSize('cm')}
+                    onClick={() => setSize("cm")}
                     className="flex items-center gap-1"
                   >
                     <input
-                      checked={size == 'cm'}
+                      checked={size == "cm"}
                       id="cm"
                       type="radio"
                       name="radio-1"
@@ -97,11 +97,11 @@ const DrawerContent = ({ data, setIsOpen }) => {
                   </div>
 
                   <div
-                    onClick={() => setSize('in')}
+                    onClick={() => setSize("in")}
                     className="flex items-center gap-1"
                   >
                     <input
-                      checked={size == 'in'}
+                      checked={size == "in"}
                       id="in"
                       type="radio"
                       name="radio-1"
@@ -109,187 +109,93 @@ const DrawerContent = ({ data, setIsOpen }) => {
                     />
                     <label htmlFor="in">In</label>
                   </div>
-                </div>
+                </div> */}
               </div>
-              <div className="overflow-x-scroll">
-                {size === 'cm' && (
-                  <table className="table w-full">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th>Sizes</th>
-                        <th>XS (Cm)</th>
-                        <th>S (Cm)</th>
-                        <th>M (Cm)</th>
-                        <th>L (Cm)</th>
-                        <th>XL (Cm)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* row */}
-                      <tr>
-                        <th>Length</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Bust</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Waist</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Hip shirt</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Daman</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Arm Length</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Arm Hole</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>Bicep</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                )}
-                {size === 'in' && (
-                  <table className="table w-full">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th>Sizes</th>
-                        <th>XS (In)</th>
-                        <th>S (In)</th>
-                        <th>M (In)</th>
-                        <th>L (In)</th>
-                        <th>XL (In)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* row */}
-                      <tr>
-                        <th>LENGTH</th>
-                        <td>36</td>
-                        <td>36</td>
-                        <td>37</td>
-                        <td>38</td>
-                        <td>38</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>CHEST</th>
-                        <td>17</td>
-                        <td>18</td>
-                        <td>20</td>
-                        <td>22</td>
-                        <td>23 </td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th> WAIST</th>
-                        <td>16</td>
-                        <td>17</td>
-                        <td>18.5</td>
-                        <td>19.5</td>
-                        <td>20.5</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>ARMS</th>
-                        <td>20</td>
-                        <td>21</td>
-                        <td>22</td>
-                        <td>22.5</td>
-                        <td>23</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>HIP</th>
-                        <td>20</td>
-                        <td>20.5</td>
-                        <td>21.5</td>
-                        <td>22.5</td>
-                        <td>23.5</td>
-                      </tr>
-                      {/* row */}
-                      <tr>
-                        <th>SHOULDERS</th>
-                        <td>14</td>
-                        <td>14.5</td>
-                        <td>15</td>
-                        <td>16</td>
-                        <td>17</td>
-                      </tr>
-                      {/* row */}
-                      {/* <tr>
-                        <th>Arm Hole</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr> */}
-                      {/* row */}
-                      {/* <tr>
-                        <th>Bicep</th>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr> */}
-                    </tbody>
-                  </table>
-                )}
+              <div className="text-left">
+                {/* {size === "in" && ( */}
+                <table className="table w-full">
+                  <thead>
+                    <tr>
+                      <th>Sizes</th>
+                      <th>XS (In)</th>
+                      <th>S (In)</th>
+                      <th>M (In)</th>
+                      <th>L (In)</th>
+                      <th>XL (In)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>LENGTH</th>
+                      <td>36</td>
+                      <td>36</td>
+                      <td>37</td>
+                      <td>38</td>
+                      <td>38</td>
+                    </tr>
+                    <tr>
+                      <th>CHEST</th>
+                      <td>17</td>
+                      <td>18</td>
+                      <td>20</td>
+                      <td>22</td>
+                      <td>23 </td>
+                    </tr>
+                    <tr>
+                      <th> WAIST</th>
+                      <td>16</td>
+                      <td>17</td>
+                      <td>18.5</td>
+                      <td>19.5</td>
+                      <td>20.5</td>
+                    </tr>
+                    <tr>
+                      <th>ARMS</th>
+                      <td>20</td>
+                      <td>21</td>
+                      <td>22</td>
+                      <td>22.5</td>
+                      <td>23</td>
+                    </tr>
+                    <tr>
+                      <th>HIP</th>
+                      <td>20</td>
+                      <td>20.5</td>
+                      <td>21.5</td>
+                      <td>22.5</td>
+                      <td>23.5</td>
+                    </tr>
+                    <tr>
+                      <th>SHOULDERS</th>
+                      <td>14</td>
+                      <td>14.5</td>
+                      <td>15</td>
+                      <td>16</td>
+                      <td>17</td>
+                    </tr>
+                    <tr>
+                      <th>Arm Hole</th>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                    </tr>
+                    <tr>
+                      <th>Bicep</th>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                      <td>50</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {/* )} */}
+                {/* {size === "cm" && (
+                  
+                {/* )
+                }  */}
               </div>
               {/* <div>
                 <h2 className="text-lg font-semibold my-2">How to Measure</h2>
@@ -303,7 +209,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
               </div> */}
             </div>
           )}
-          {toggle === 'measure' && (
+          {toggle === "measure" && (
             <div>
               <div>
                 <h2 className="text-lg font-semibold my-2">How to Measure</h2>
@@ -320,7 +226,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DrawerContent
+export default DrawerContent;

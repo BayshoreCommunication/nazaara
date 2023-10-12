@@ -13,10 +13,15 @@ const Payment = () => {
   const [countries, setCountries] = useState([]);
   const [cartData, setCartData] = useState();
   const [subtotal, setSubtotal] = useState(0);
+  const [totalPay, setTotalPay] = useState(0);
   const [userData, setUserData] = useState();
   const [addressIndex, setAddressIndex] = useState(0);
   const [emailCheck, setEmailCheck] = useState(false);
   const [addressCheck, setAddressCheck] = useState(false);
+  const [paymentCheck, setPaymentCheck] = useState({
+    paymentMethod: "inside dhaka",
+    paymentStatus: "pending",
+  });
 
   const fetchCountries = async () => {
     try {
@@ -72,11 +77,12 @@ const Payment = () => {
           total += cartItem.productDetails.salePrice * cartItem.quantity;
         });
         setSubtotal(total);
+        setTotalPay(total);
       }
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
-  }, [fetchProductDetails]);
+  }, [fetchProductDetails, paymentCheck.paymentStatus]);
 
   const fetchUserData = useCallback(async () => {
     const jsonStr = getCookie("userAuthCredential");
@@ -116,13 +122,13 @@ const Payment = () => {
     setAddressIndex(index);
   };
 
-  console.log("user", userData);
-  console.log("email check", emailCheck);
-  console.log("address check", addressCheck);
+  // console.log("user", userData);
+  // console.log("email check", emailCheck);
+  // console.log("address check", addressCheck);
+  // console.log("user data", userData);
+  // console.log("user paymentCheck", paymentCheck);
 
   const handleSubmit = () => {};
-
-  console.log("user data", userData);
 
   return (
     <div className="container flex py-20">
@@ -295,11 +301,16 @@ const Payment = () => {
               <div className="relative">
                 <select
                   className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-state"
+                  onClick={(event) =>
+                    setPaymentCheck({
+                      ...paymentCheck,
+                      paymentMethod: event.target.value,
+                    })
+                  }
                 >
-                  <option>Shop pickup</option>
-                  <option>Inside Dhaka</option>
-                  <option>Outside Dhaka</option>
+                  <option value="inside dhaka">Inside Dhaka</option>
+                  <option value="outside dhaka">Outside Dhaka</option>
+                  <option value="shop pickup">Shop pickup</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg
@@ -309,6 +320,67 @@ const Payment = () => {
                   >
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                   </svg>
+                </div>
+              </div>
+              {paymentCheck.paymentMethod === "inside dhaka" && (
+                <h3 className="text-primary-color">
+                  *Delivary inside dhaka will charge BDT 100/- only
+                </h3>
+              )}
+              {paymentCheck.paymentMethod === "outside dhaka" && (
+                <h3 className="text-primary-color">
+                  *Delivary outside dhaka will charge BDT 250/- only
+                </h3>
+              )}
+            </div>
+
+            <div className="w-full flex flex-col gap-y-3">
+              <div className="flex justify-between">
+                <p className="text-lg font-medium text-gray-800">PAYMENT</p>
+              </div>
+              <div className="flex flex-wrap  md:flex-nowrap gap-4">
+                <div class="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="partial payment"
+                    onClick={(event) => {
+                      setPaymentCheck({
+                        ...paymentCheck,
+                        paymentStatus: event.target.value,
+                      });
+                      let totalData = subtotal * 0.2;
+                      setTotalPay(totalData);
+                    }}
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="bordered-radio-1"
+                    class="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    CASH ON DELIVERY(ADVANCED PAYMENT 20%)
+                  </label>
+                </div>
+                <div class="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="full payment"
+                    onClick={(event) => {
+                      setPaymentCheck({
+                        ...paymentCheck,
+                        paymentStatus: event.target.value,
+                      });
+                      setTotalPay(subtotal);
+                    }}
+                    class="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="bordered-radio-2"
+                    class="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    DEBIT/CREDIT CARDS AND MOBILE BANKING
+                  </label>
                 </div>
               </div>
             </div>
@@ -371,17 +443,31 @@ const Payment = () => {
           <div className="mt-7 border-b pb-7">
             <div className="flex justify-between items-center mb-3">
               <p>Sub Total</p>
-              <p>BDT {subtotal}/-</p>
+              <p>BDT {totalPay}/-</p>
             </div>
             <div className="flex justify-between items-center">
               <p>Shipping</p>
-              <p>BDT 50/-</p>
+              {paymentCheck.paymentMethod === "inside dhaka" && (
+                <p>BDT 100/-</p>
+              )}
+              {paymentCheck.paymentMethod === "outside dhaka" && (
+                <p>BDT 250/-</p>
+              )}
+              {paymentCheck.paymentMethod === "shop pickup" && <p>BDT 00/-</p>}
             </div>
           </div>
 
           <div className="flex justify-between items-center mt-3">
             <p>Total</p>
-            <p>BDT {subtotal + 50}/-</p>
+            {paymentCheck.paymentMethod === "inside dhaka" && (
+              <p>BDT {totalPay + 100}/-</p>
+            )}
+            {paymentCheck.paymentMethod === "outside dhaka" && (
+              <p>BDT {totalPay + 250}/-</p>
+            )}
+            {paymentCheck.paymentMethod === "shop pickup" && (
+              <p>BDT {totalPay}/-</p>
+            )}
           </div>
         </div>
       </div>
@@ -390,5 +476,3 @@ const Payment = () => {
 };
 
 export default Payment;
-
-import React from "react";
