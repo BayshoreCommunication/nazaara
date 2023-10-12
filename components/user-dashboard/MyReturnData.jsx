@@ -9,7 +9,7 @@ const MyReturnData = () => {
   const id = data?._id;
   console.log("dataaaa", id);
 
-  const [returnData, setReturnData] = useState();
+  const [returnData, setReturnData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,98 +34,63 @@ const MyReturnData = () => {
     fetchData();
   }, [data, id]);
 
-  console.log("retrn data", returnData);
+  console.log("return data", returnData);
 
   return (
-    // <p className="my-[20vh] text-center text-primary-color">
-    //       No Return Found!😟
-    //     </p>
-
     <div className="flex flex-col gap-y-6 text-gray-600">
-      <div className="rounded-lg border">
-        <div className="py-1 border-b">
-          <div className="px-4">
-            <p>
-              Order <span className="text-sky-500">#3423438438473</span>
-            </p>
-            <p>
-              Place on <span>4 jun 2023</span>
-            </p>
+      {returnData.length > 0 ? (
+        returnData.map((el, i) => (
+          <div key={i} className="rounded-lg border border-gray-300">
+            <div className="py-1 border-b border-gray-300">
+              <div className="px-4 flex gap-x-6 py-1">
+                <p className="border-r pr-6 border-gray-400">
+                  <span className="text-gray-700 ">Order No :</span>{" "}
+                  <span className="">{el.order.paymentId}</span>
+                </p>
+                <p className="border-r pr-6 border-gray-400">
+                  <span className="text-gray-700">Payment Method :</span>{" "}
+                  <span className="">{el.order.paymentMethod}</span>
+                </p>
+                <p className="border-r pr-6 border-gray-400">
+                  <span className="text-gray-700">Payment Status :</span>{" "}
+                  <span className="">{el.order.paymentStatus}</span>
+                </p>
+                <p className="">
+                  <span className="text-gray-700">Issue :</span>{" "}
+                  <span className="">{el.issue}</span>
+                </p>
+                {/* <p className="">
+                  <span className="text-gray-700">Place on :</span>{" "}
+                  <span>{formatDate(el.createdAt)}</span>
+                </p> */}
+              </div>
+            </div>
+            {el.order.product.map((data, i) => (
+              <div
+                key={i}
+                className="flex justify-around items-center my-4 w-full lg:w-4/5 border-b pb-3 border-gray-300"
+              >
+                <p>{i + 1}.</p>
+                <Image
+                  src={data.imageUrl}
+                  alt="My Image"
+                  width={60}
+                  height={60}
+                  className="rounded-lg"
+                />
+                <p>{data.slug}</p>
+                <p>Color: {data.color}</p>
+                <p>Quantity: {data.size}</p>
+                <p>Price: {data.price}</p>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="flex justify-around items-center my-4 w-full lg:w-4/5">
-          <div className="flex gap-6 items-center">
-            <Image
-              src="/images/category/bridal_top.png"
-              alt="My Image"
-              width={70}
-              height={60}
-              className="rounded-lg"
-            />
-            <p>Panache Apparel - BLUEBELL</p>
-          </div>
-          <p>QTY: 1</p>
-          <button className="bg-gray-300 rounded-full py-1 text-sm px-2">
-            Cancelled
-          </button>
-        </div>
-      </div>
-      <div className="rounded-lg border">
-        <div className="py-1 border-b">
-          <div className="px-4">
-            <p>
-              Order <span className="text-sky-500">#3423438438473</span>
-            </p>
-            <p>
-              Place on <span>4 jun 2023</span>
-            </p>
-          </div>
-        </div>
-        <div className="flex justify-around items-center my-4 w-full lg:w-4/5">
-          <div className="flex gap-6 items-center">
-            <Image
-              src="/images/category/bridal_top.png"
-              alt="My Image"
-              width={70}
-              height={60}
-              className="rounded-lg"
-            />
-            <p>Panache Apparel - BLUEBELL</p>
-          </div>
-          <p>QTY: 1</p>
-          <button className="bg-gray-300 rounded-full py-1 text-sm px-2">
-            Cancelled
-          </button>
-        </div>
-      </div>
-      <div className="rounded-lg border">
-        <div className="py-1 border-b">
-          <div className="px-4">
-            <p>
-              Order <span className="text-sky-500">#3423438438473</span>
-            </p>
-            <p>
-              Place on <span>4 jun 2023</span>
-            </p>
-          </div>
-        </div>
-        <div className="flex justify-around items-center my-4 w-full lg:w-4/5">
-          <div className="flex gap-6 items-center">
-            <Image
-              src="/images/category/bridal_top.png"
-              alt="My Image"
-              width={70}
-              height={60}
-              className="rounded-lg"
-            />
-            <p>Panache Apparel - BLUEBELL</p>
-          </div>
-          <p>QTY: 1</p>
-          <button className="bg-gray-300 rounded-full py-1 text-sm px-2">
-            Cancelled
-          </button>
-        </div>
-      </div>
+        ))
+      ) : (
+        <p className="my-[20vh] text-center text-primary-color">
+          No Return Product Found!😟
+        </p>
+      )}
     </div>
   );
 };

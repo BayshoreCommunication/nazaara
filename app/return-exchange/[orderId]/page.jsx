@@ -1,10 +1,10 @@
 "use client";
 import { Util } from "@/util";
-import Image from "next/image";
+// import Image from "next/image";
 import { TbArrowsExchange } from "react-icons/tb";
-import ImageUploading from "react-images-uploading";
-import { SlCloudUpload } from "react-icons/sl";
-import { IoIosRemoveCircleOutline } from "react-icons/io";
+// import ImageUploading from "react-images-uploading";
+// import { SlCloudUpload } from "react-icons/sl";
+// import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -69,6 +69,9 @@ const ReturnAndExchange = ({ params }) => {
         "Your issue is recorded. Our authority will reach you soon."
       );
     } catch (error) {
+      toast.error(
+        "Return exchange with the same user id and order already exists."
+      );
       console.error("Error:", error);
     }
   };
