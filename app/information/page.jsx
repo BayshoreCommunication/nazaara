@@ -456,7 +456,6 @@ const Payment = () => {
               {paymentCheck.paymentMethod === "shop pickup" && <p>BDT 00/-</p>}
             </div>
           </div>
-
           <div className="flex justify-between items-center mt-3">
             <p>Total</p>
             {paymentCheck.paymentMethod === "inside dhaka" && (
