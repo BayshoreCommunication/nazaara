@@ -26,26 +26,6 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
 
-  // const { data: productDetailsData, isLoading: isLoadingProductDetails } =
-  //   useGetProductDetailsQuery();
-
-  // useEffect(() => {
-  //   const fetchAllProductDetails = async () => {
-  //     if (cartItems.length > 0) {
-  //       const productIds = cartItems.map((item) => item.product);
-  //       // Use the new query to fetch product details for all productIds
-  //       const productDetails = await Promise.all(
-  //         productIds.map((productId) => useGetProductDetailsQuery(productId))
-  //       );
-  //       setProductDetails(productDetails);
-  //     }
-  //   };
-
-  //   if (cartItems.length > 0) {
-  //     fetchAllProductDetails();
-  //   }
-  // }, [cartItems]);
-
   const fetchProductDetails = async (productId) => {
     try {
       // console.log("top console");
@@ -74,13 +54,13 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
         console.log("inside down");
       }
       console.log("inside down2");
-      console.log("productDetailsss", productDetails);
+      // console.log("productDetailsss", productDetails);
       setProductDetails(productDetails);
       setLoading(false);
     };
-    if (cartItems.length > 0) {
-      fetchAllProductDetails();
-    }
+    // if (cartItems.length > 0) {
+    fetchAllProductDetails();
+    // }
   }, [cartItems]);
 
   const [updateCartLoading, setUpdateCartLoading] = useState([]);

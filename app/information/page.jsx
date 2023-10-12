@@ -15,8 +15,9 @@ const Payment = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [userData, setUserData] = useState();
   const [addressIndex, setAddressIndex] = useState(0);
+  const [emailCheck, setEmailCheck] = useState(false);
+  const [addressCheck, setAddressCheck] = useState(false);
 
-  // console.log(cartItems, cartData);
   const fetchCountries = async () => {
     try {
       const response = await fetch("https://restcountries.com/v2/all");
@@ -38,7 +39,6 @@ const Payment = () => {
       return response.data.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
-      console.error("error rerendering", error);
     }
   }, []);
 
@@ -51,8 +51,6 @@ const Payment = () => {
           `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
         );
         const data = await response.json();
-
-        // console.log("test product", data?.data);
 
         // Fetch product details for each cart item
         const updatedCartData = await Promise.all(
@@ -70,7 +68,7 @@ const Payment = () => {
         setCartData(updatedCartData);
 
         let total = 0;
-        updatedCartData.forEach((cartItem, index) => {
+        updatedCartData.forEach((cartItem) => {
           total += cartItem.productDetails.salePrice * cartItem.quantity;
         });
         setSubtotal(total);
@@ -100,7 +98,7 @@ const Payment = () => {
     fetchCountries();
     fetchData();
     fetchUserData();
-  }, [fetchData, cartItems, fetchUserData]);
+  }, [cartItems, fetchUserData]);
 
   const handleChange = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -118,17 +116,17 @@ const Payment = () => {
     setAddressIndex(index);
   };
 
-  // console.log("test", userData?.addressBook);
+  console.log("user", userData);
+  console.log("email check", emailCheck);
+  console.log("address check", addressCheck);
+
+  const handleSubmit = () => {};
+
+  console.log("user data", userData);
 
   return (
     <div className="container flex py-20">
       <div className="flex-1 border-e pe-10">
-        {/* <Image
-          src="/images/payment-logo.png"
-          alt="My Image"
-          width={260}
-          height={200}
-        /> */}
         <Navigation />
         <div>
           <form className="w-full flex flex-col gap-y-9">
@@ -136,7 +134,6 @@ const Payment = () => {
               <p className="text-lg font-medium text-gray-800">
                 Contact Information
               </p>
-
               <input
                 className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="email"
@@ -149,7 +146,7 @@ const Payment = () => {
                 <input
                   id="link-checkbox"
                   type="checkbox"
-                  value=""
+                  onClick={(event) => setEmailCheck(event.target.checked)}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
                 />
                 <label
@@ -263,11 +260,20 @@ const Payment = () => {
                   placeholder="Enter Phone Number"
                 />
               </div>
+              <textarea
+                rows={3}
+                placeholder="Enter details about location"
+                className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="details"
+                onChange={handleChangeAddress}
+                value={userData?.addressBook[addressIndex]?.details}
+              />
               <div className="flex items-center">
                 <input
                   id="link-checkbox-bottom"
                   type="checkbox"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-xl cursor-pointer"
+                  onClick={(event) => setAddressCheck(event.target.checked)}
                 />
                 <label
                   htmlFor="link-checkbox-bottom"
@@ -291,9 +297,9 @@ const Payment = () => {
                   className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
-                  <option>Standard Shipping</option>
-                  <option>Premium Shipping</option>
-                  <option>Ultra Premium Shipping</option>
+                  <option>Shop pickup</option>
+                  <option>Inside Dhaka</option>
+                  <option>Outside Dhaka</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg
@@ -308,21 +314,11 @@ const Payment = () => {
             </div>
 
             <div className="flex gap-5 items-center">
-              <Link href={`/measurement`}>
+              <Link href={`/measurement`} onClick={handleSubmit}>
                 <Button text="Continue to Measurement" />
               </Link>
-              {/* <button className="flex gap-1 items-center">
-                <AiOutlineRollback /> Return to Cart
-              </button> */}
             </div>
           </form>
-
-          {/* <div className="pt-4 border-t-2 border-gray-200 mt-10 flex gap-x-4 text-gray-500 text-sm">
-            <Link href="/return-exchange">Refund Policy</Link>
-            <Link href="/shipping">Shipping Policy</Link>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/terms-of-use">Terms of use</Link>
-          </div> */}
         </div>
       </div>
       <div className="flex-1 ms-10">

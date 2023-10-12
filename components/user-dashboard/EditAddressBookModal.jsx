@@ -1,52 +1,52 @@
 import {
   useGetUserAddressByIDQuery,
   useUpdateUserAddressByIdMutation,
-} from '@/services/userApi'
-import { useMemo } from 'react'
-import { useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { IoCloseSharp } from 'react-icons/io5'
+} from "@/services/userApi";
+import { useMemo } from "react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { IoCloseSharp } from "react-icons/io5";
 
 const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
-  const { data, isLoading } = useGetUserAddressByIDQuery(addressEditId)
-  const addressData = data?.data
+  const { data, isLoading } = useGetUserAddressByIDQuery(addressEditId);
+  const addressData = data?.data;
 
   const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    street: '',
-    city: '',
-    country: '',
-    zip: '',
-    addressType: '',
-  })
+    fullName: "",
+    phone: "",
+    street: "",
+    city: "",
+    country: "",
+    zip: "",
+    addressType: "",
+  });
 
-  const [updateUserAddress] = useUpdateUserAddressByIdMutation()
+  const [updateUserAddress] = useUpdateUserAddressByIdMutation();
 
   useMemo(() => {
     if (addressData !== undefined) {
-      setFormData({ ...addressData })
+      setFormData({ ...addressData });
     }
-  }, [addressData])
+  }, [addressData]);
 
   if (isLoading) {
-    return <></>
+    return <></>;
   }
 
-  const id = addressData?._id
+  const id = addressData?._id;
 
   const handleSubmit = async (event) => {
     try {
-      event.preventDefault()
-      const updateAddress = await updateUserAddress({ id, payload: formData })
+      event.preventDefault();
+      const updateAddress = await updateUserAddress({ id, payload: formData });
       if (updateAddress.data.success) {
-        setAddressBookModalOpen(false)
-        toast.success('Address updated successfully', { duration: 3000 })
+        setAddressBookModalOpen(false);
+        toast.success("Address updated successfully", { duration: 3000 });
       }
     } catch (error) {
-      console.error(error)
+      console.error("update error", error);
     }
-  }
+  };
 
   return (
     <>
@@ -243,7 +243,7 @@ const EditAddressBook = ({ setAddressBookModalOpen, addressEditId }) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default EditAddressBook
+export default EditAddressBook;
