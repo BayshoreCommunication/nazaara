@@ -57,9 +57,9 @@ const MobileFooter = () => {
                   <Link href="/">Shipping & Delivery</Link>
                 </li>
 
-                <li className="text-white hover:underline underline-offset-2 text-base font-normal">
+                {/* <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                   <Link href="/">Return & Exchange</Link>
-                </li>
+                </li> */}
                 <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                   <Link href="/">Book an Appointment</Link>
                 </li>

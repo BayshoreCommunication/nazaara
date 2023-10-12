@@ -68,9 +68,9 @@ const DesktopFooter = () => {
                 <Link href="/shipping">Shipping & Delivery</Link>
               </li>
 
-              <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
+              {/* <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/return-exchange">Return & Exchange</Link>
-              </li>
+              </li> */}
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/">Book an Appointment</Link>
               </li>

@@ -1,4 +1,6 @@
+import { Util } from "@/util";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function formatDate(inputDateString) {
@@ -31,8 +33,18 @@ function formatDate(inputDateString) {
   return formattedDateString;
 }
 
+//hide return button after 7 days
+const shouldHideReturnButton = (createdAt) => {
+  const updatedDate = new Date(createdAt);
+  const sevenDaysLater = new Date(updatedDate);
+  sevenDaysLater.setDate(updatedDate.getDate() + 7);
+  const currentDate = new Date();
+  return currentDate >= sevenDaysLater;
+};
+
 const MyOrder = ({ orderData }) => {
   console.log("orderData", orderData);
+
   return (
     <div className="flex flex-col gap-y-6 text-gray-600">
       {orderData?.orders.length > 0 ? (
@@ -79,6 +91,14 @@ const MyOrder = ({ orderData }) => {
                 <button className="bg-gray-300 rounded-full py-1 text-sm px-3">
                   {el.deliveryStatus}
                 </button>
+                {!shouldHideReturnButton(el.createdAt) && (
+                  <Link
+                    href={`/return-exchange/${el._id}`}
+                    className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80"
+                  >
+                    Return Order
+                  </Link>
+                )}
               </div>
             ))}
           </div>
