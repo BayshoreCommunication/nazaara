@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const page = ({ params }) => {
+const ResetPassword = ({ params }) => {
   const router = useRouter();
 
   const [password, setPassword] = useState();
@@ -82,4 +82,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default ResetPassword;

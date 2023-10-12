@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const page = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -69,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ForgotPassword;
