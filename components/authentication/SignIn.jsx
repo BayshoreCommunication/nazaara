@@ -245,7 +245,7 @@ const SignIn = ({ setAuth }) => {
           </div>
           <div className="text-sm text-end mt-1">
             <Link
-              href="#"
+              href="/forgotPassword"
               className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline underline-offset-2"
             >
               Forgot password?
