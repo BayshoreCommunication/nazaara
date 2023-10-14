@@ -71,27 +71,27 @@ const MyOrder = ({ orderData }) => {
             {el.product.map((data, i) => (
               <div
                 key={i}
-                className="flex justify-around items-center my-4 w-full border-b pb-3 border-gray-300 gap-3 px-5"
+                className="flex justify-around items-center my-4 w-full border-b pb-3 border-gray-300 gap-8 px-5"
               >
                 <Image
                   src={data.imageUrl}
                   alt="My Image"
                   width={60}
                   height={60}
-                  className="rounded-lg flex-1"
+                  className="rounded-lg"
                 />
-                <p className="flex-1">{data.slug}</p>
-                <p className="flex-1">Color: {data.color}</p>
-                <p className="flex-1">Quantity: {data.size}</p>
-                <p className="flex-1">Price: {data.price}</p>
-                {/* <p>Quantity: {data.quantity}</p> */}
-                <button className="bg-gray-300 rounded-full py-1 text-sm px-3 flex-1">
+                <p>{data.slug}</p>
+                <p>Color: {data.color}</p>
+                <p>Size: {data.size}</p>
+                <p>Price: {data.price}</p>
+                <p>Quantity: {data.quantity}</p>
+                <p className="bg-gray-300 rounded-full py-1 text-sm px-3 capitalize">
                   {el.deliveryStatus}
-                </button>
+                </p>
                 {!shouldHideReturnButton(el.createdAt) && (
                   <Link
                     href={`/return-exchange/${el._id}`}
-                    className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80 flex-1"
+                    className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80 "
                   >
                     Return Order
                   </Link>
