@@ -1,71 +1,69 @@
-import { Util } from "@/util";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { Util } from '@/util'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
 
 function formatDate(inputDateString) {
-  const date = new Date(inputDateString);
+  const date = new Date(inputDateString)
 
   // Define an array of month names
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
 
   // Extract the day, month, and year from the date
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
+  const day = date.getDate()
+  const month = monthNames[date.getMonth()]
+  const year = date.getFullYear()
 
   // Create the formatted date string
-  const formattedDateString = `${day} ${month} ${year}`;
+  const formattedDateString = `${day} ${month} ${year}`
 
-  return formattedDateString;
+  return formattedDateString
 }
 
 //hide return button after 7 days
 const shouldHideReturnButton = (createdAt) => {
-  const updatedDate = new Date(createdAt);
-  const sevenDaysLater = new Date(updatedDate);
-  sevenDaysLater.setDate(updatedDate.getDate() + 7);
-  const currentDate = new Date();
-  return currentDate >= sevenDaysLater;
-};
+  const updatedDate = new Date(createdAt)
+  const sevenDaysLater = new Date(updatedDate)
+  sevenDaysLater.setDate(updatedDate.getDate() + 7)
+  const currentDate = new Date()
+  return currentDate >= sevenDaysLater
+}
 
 const MyOrder = ({ orderData }) => {
-  console.log("orderData", orderData);
-
   return (
     <div className="flex flex-col gap-y-6 text-gray-600">
-      {orderData?.orders.length > 0 ? (
-        orderData?.orders.map((el, i) => (
+      {orderData?.length > 0 ? (
+        orderData?.map((el, i) => (
           <div key={i} className="rounded-lg border border-gray-300">
             <div className="py-1 border-b border-gray-300">
               <div className="px-4 flex gap-x-6 py-1">
                 <p className="border-r pr-6 border-gray-400">
-                  <span className="text-gray-700 ">Order No :</span>{" "}
+                  <span className="text-gray-700 ">Order No :</span>{' '}
                   <span className="">{el.paymentId}</span>
                 </p>
                 <p className="border-r pr-6 border-gray-400">
-                  <span className="text-gray-700">Payment Method :</span>{" "}
+                  <span className="text-gray-700">Payment Method :</span>{' '}
                   <span className="">{el.paymentMethod}</span>
                 </p>
                 <p className="border-r pr-6 border-gray-400">
-                  <span className="text-gray-700">Payment Status :</span>{" "}
+                  <span className="text-gray-700">Payment Status :</span>{' '}
                   <span className="">{el.paymentStatus}</span>
                 </p>
                 <p className="">
-                  <span className="text-gray-700">Place on :</span>{" "}
+                  <span className="text-gray-700">Place on :</span>{' '}
                   <span>{formatDate(el.createdAt)}</span>
                 </p>
               </div>
@@ -73,28 +71,27 @@ const MyOrder = ({ orderData }) => {
             {el.product.map((data, i) => (
               <div
                 key={i}
-                className="flex justify-around items-center my-4 w-full lg:w-4/5 border-b pb-3 border-gray-300"
+                className="flex justify-around items-center my-4 w-full border-b pb-3 border-gray-300 gap-3 px-5"
               >
-                <p>{i + 1}.</p>
                 <Image
                   src={data.imageUrl}
                   alt="My Image"
                   width={60}
                   height={60}
-                  className="rounded-lg"
+                  className="rounded-lg flex-1"
                 />
-                <p>{data.slug}</p>
-                <p>Color: {data.color}</p>
-                <p>Quantity: {data.size}</p>
-                <p>Price: {data.price}</p>
+                <p className="flex-1">{data.slug}</p>
+                <p className="flex-1">Color: {data.color}</p>
+                <p className="flex-1">Quantity: {data.size}</p>
+                <p className="flex-1">Price: {data.price}</p>
                 {/* <p>Quantity: {data.quantity}</p> */}
-                <button className="bg-gray-300 rounded-full py-1 text-sm px-3">
+                <button className="bg-gray-300 rounded-full py-1 text-sm px-3 flex-1">
                   {el.deliveryStatus}
                 </button>
                 {!shouldHideReturnButton(el.createdAt) && (
                   <Link
                     href={`/return-exchange/${el._id}`}
-                    className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80"
+                    className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80 flex-1"
                   >
                     Return Order
                   </Link>
@@ -154,7 +151,7 @@ const MyOrder = ({ orderData }) => {
             </div>
         </div> */}
     </div>
-  );
-};
+  )
+}
 
-export default MyOrder;
+export default MyOrder
