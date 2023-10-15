@@ -49,19 +49,19 @@ const MobileFooter = () => {
             </li>
             {serviceToogleArrow && (
               <>
-                <li className="text-white hover:underline underline-offset-2 text-base font-normal">
+                {/* <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                   <Link href="/">Track Your Order</Link>
-                </li>
+                </li> */}
 
                 <li className="text-white hover:underline underline-offset-2 text-base font-normal">
-                  <Link href="/">Shipping & Delivery</Link>
+                  <Link href="/shipping">Shipping & Delivery</Link>
                 </li>
 
                 {/* <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                   <Link href="/">Return & Exchange</Link>
                 </li> */}
                 <li className="text-white hover:underline underline-offset-2 text-base font-normal">
-                  <Link href="/">Book an Appointment</Link>
+                  <Link href="/contact-us">Contact Us</Link>
                 </li>
                 <li className="text-white hover:underline underline-offset-2 text-sm font-normal mb-4">
                   <Link href="/faq">FAQ’S</Link>
@@ -89,11 +89,11 @@ const MobileFooter = () => {
           {moreToogleArrow && (
             <>
               <li className="text-white hover:underline underline-offset-2 text-base font-normal">
-                <Link href="/">E-Gift Cards</Link>
+                <Link href="/e-gift">E-Gift Cards</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-base font-normal">
-                <Link href="/">We’re Hiring!</Link>
+                <Link href="/career">We’re Hiring!</Link>
               </li>
 
               <li className="text-white hover:underline underline-offset-2 text-base font-normal mb-4">
@@ -120,9 +120,9 @@ const MobileFooter = () => {
           </li>
           {companyToogleArrow && (
             <>
-              <li className="text-white hover:underline underline-offset-2 text-base font-normal">
+              {/* <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                 <Link href="/contact-us">Contact us</Link>
-              </li>
+              </li> */}
 
               <li className="text-white hover:underline underline-offset-2 text-base font-normal">
                 <Link href="/about-us">About us</Link>
@@ -198,7 +198,7 @@ const MobileFooter = () => {
         <div>
           <span className="text-sm text-white">
             <div className="text-white mb-1">
-              © Copyright 2022 ANZARA LIFESTYLE LTD. All rights Reserved.
+              © Copyright 2023 NAZAARA LIFESTYLE LTD. All rights Reserved.
             </div>
             <div className="text-white">
               Design & Development by

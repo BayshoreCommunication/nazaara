@@ -163,7 +163,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
             </div>
           ) : (
             <>
-              {cartItems ? (
+              {cartItems.length > 0 ? (
                 <>
                   {productDetails.map((detail, index) => (
                     <div

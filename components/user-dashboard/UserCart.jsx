@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { BsBagCheck, BsFillBagCheckFill } from "react-icons/bs";
@@ -19,7 +21,9 @@ const UserCart = (props) => {
     } else {
       toast.error("Failed to Logout.");
     }
+    location.reload();
   };
+
   return (
     <>
       <div className="flex flex-col text-start gap-4 bg-white text-black w-80 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">
@@ -55,7 +59,6 @@ const UserCart = (props) => {
         >
           <TbLogout2 size={20} /> Logout
         </button>
-        {/* </div> */}
       </div>
     </>
   );

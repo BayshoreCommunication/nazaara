@@ -60,9 +60,9 @@ const DesktopFooter = () => {
               <p className="text-white text-sm font-medium mb-2">
                 CUSTOMER SERVICE
               </p>
-              <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
+              {/* <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/order-track">Track Your Order</Link>
-              </li>
+              </li> */}
 
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/shipping">Shipping & Delivery</Link>
@@ -72,7 +72,7 @@ const DesktopFooter = () => {
                 <Link href="/return-exchange">Return & Exchange</Link>
               </li> */}
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
-                <Link href="/">Book an Appointment</Link>
+                <Link href="/contact-us">Contact Us</Link>
               </li>
               <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
                 <Link href="/faq">FAQ’S</Link>
@@ -105,9 +105,9 @@ const DesktopFooter = () => {
           {/* service 3 */}
           <ul className="flex flex-col gap-y-1 lg:gap-y-3">
             <p className="text-white text-sm font-medium mb-2">OUR COMPANY</p>
-            <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
+            {/* <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
               <Link href="/contact-us">Contact Us</Link>
-            </li>
+            </li> */}
 
             <li className="text-white hover:underline underline-offset-2 text-[13px] font-normal">
               <Link href="/about-us">About Us</Link>
@@ -129,7 +129,7 @@ const DesktopFooter = () => {
           <div>
             <span className="text-[13px] text-white">
               <div className="text-white mb-1">
-                © Copyright 2022 ANZARA LIFESTYLE LTD. All rights Reserved.
+                © Copyright 2023 NAZAARA LIFESTYLE LTD. All rights Reserved.
               </div>
               <div className="text-white">
                 Design & Development by

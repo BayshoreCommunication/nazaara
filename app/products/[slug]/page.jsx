@@ -1,135 +1,138 @@
-'use client'
-import Image from 'next/image'
+"use client";
+// import Image from 'next/image'
 
 //swiper import here
-import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Pagination, Autoplay } from 'swiper'
-import { getCookie } from 'cookies-next'
-import 'swiper/css'
-import 'swiper/css/pagination'
+// import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, { Pagination, Autoplay } from "swiper";
+// import { getCookie } from 'cookies-next'
+import "swiper/css";
+import "swiper/css/pagination";
 
 //drawer import here
 // import Drawer from "react-modern-drawer";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
-const Drawer = dynamic(() => import('react-modern-drawer'), {
+const Drawer = dynamic(() => import("react-modern-drawer"), {
   ssr: false,
-})
+});
 
-import 'react-modern-drawer/dist/index.css'
-import DrawerContent from '@/components/drawer/DrawerContent'
+import "react-modern-drawer/dist/index.css";
+import DrawerContent from "@/components/drawer/DrawerContent";
 
 // component import here
-import SimilarProductsCarosel from '@/components/similar-products/SimilarProductsCarosel'
-import useWindowDimensions from '@/customhooks/useDimensionWindow'
-import ProductDetailsComponent from '@/components/product-detail/ProductDetailsComponent'
-import DetailImage from '@/components/product-detail/DetailImagePage'
-import { useCallback, useEffect, useState } from 'react'
-import Accordion from '@/components/Accordion'
-import axios from 'axios'
-import Loader from '@/components/Loader'
+import SimilarProductsCarosel from "@/components/similar-products/SimilarProductsCarosel";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
+import ProductDetailsComponent from "@/components/product-detail/ProductDetailsComponent";
+import DetailImage from "@/components/product-detail/DetailImagePage";
+import { useCallback, useEffect, useState } from "react";
+import Accordion from "@/components/Accordion";
+import axios from "axios";
+import Loader from "@/components/Loader";
 
 const ProductDetails = ({ params }) => {
-  const [isScrollingUp, setIsScrollingUp] = useState(false)
-  const [data, setData] = useState(null)
-  const [category, setCategory] = useState(null)
-  const [categoryData, setCategoryData] = useState(null)
-  const [allProducts, setAllProducts] = useState(null)
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
+  const [data, setData] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [categoryData, setCategoryData] = useState(null);
+  const [allProducts, setAllProducts] = useState(null);
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product/${params.slug}`
-  const categoryApiUrl = `${process.env.API_URL}/api/v1/product?category=${category}`
-  const allProductUrl = `${process.env.API_URL}/api/v1/product`
+  const apiUrl = `${process.env.API_URL}/api/v1/product/${params.slug}`;
+  const categoryApiUrl = `${process.env.API_URL}/api/v1/product?category=${category}`;
+  const allProductUrl = `${process.env.API_URL}/api/v1/product`;
 
   //get single product details
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl)
+      const response = await axios.get(apiUrl);
       if (response.status === 200) {
-        setData(response)
-        setCategory(response.data.data.category)
+        setData(response);
+        setCategory(response.data.data.category);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [apiUrl])
+  }, [apiUrl]);
 
   const fetchCategoryData = useCallback(async () => {
     try {
-      const response = await axios.get(categoryApiUrl)
+      const response = await axios.get(categoryApiUrl);
       if (response.status === 200) {
-        setCategoryData(response.data.product)
+        setCategoryData(response.data.product);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [categoryApiUrl])
+  }, [categoryApiUrl]);
 
   const fetchAllProductData = useCallback(async () => {
     try {
-      const response = await axios.get(allProductUrl)
+      const response = await axios.get(allProductUrl);
       if (response?.status === 200) {
-        setAllProducts(response.data.product)
+        setAllProducts(response.data.product);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [allProductUrl])
+  }, [allProductUrl]);
 
   const handleScroll = () => {
-    const div = document.getElementById('leftDiv')
+    const div = document.getElementById("leftDiv");
     if (div?.scrollTop === div?.scrollHeight - div?.offsetHeight) {
-      setIsScrollingUp(true)
+      setIsScrollingUp(true);
     } else {
-      setIsScrollingUp(false)
+      setIsScrollingUp(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-    fetchCategoryData()
-    fetchAllProductData()
-    window?.addEventListener('scroll', handleScroll)
+    fetchData();
+    fetchCategoryData();
+    fetchAllProductData();
+    window?.addEventListener("scroll", handleScroll);
     return () => {
-      window?.removeEventListener('scroll', handleScroll)
-    }
+      window?.removeEventListener("scroll", handleScroll);
+    };
   }, [
     apiUrl,
     categoryApiUrl,
     fetchAllProductData,
     fetchCategoryData,
     fetchData,
-  ])
+  ]);
 
   //drawer
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
-    setIsOpen((prevState) => !prevState)
-  }
+    setIsOpen((prevState) => !prevState);
+  };
 
-  const { width } = useWindowDimensions()
+  const { width } = useWindowDimensions();
 
-  SwiperCore.use([Autoplay])
+  SwiperCore.use([Autoplay]);
 
   //generate random array from an array
-  const numberOfArraysToSelect = 8
-  const [randomArrays, setRandomArrays] = useState([])
+  const numberOfArraysToSelect = 8;
+  const [randomArrays, setRandomArrays] = useState([]);
   useEffect(() => {
     if (allProducts) {
-      const copyOfListOfArrays = [...allProducts]
+      const copyOfListOfArrays = [...allProducts];
       for (let i = copyOfListOfArrays.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[copyOfListOfArrays[i], copyOfListOfArrays[j]] = [
+        const j = Math.floor(Math.random() * (i + 1));
+        [copyOfListOfArrays[i], copyOfListOfArrays[j]] = [
           copyOfListOfArrays[j],
           copyOfListOfArrays[i],
-        ]
+        ];
       }
-      const selectedArrays = copyOfListOfArrays.slice(0, numberOfArraysToSelect)
-      setRandomArrays(selectedArrays)
+      const selectedArrays = copyOfListOfArrays.slice(
+        0,
+        numberOfArraysToSelect
+      );
+      setRandomArrays(selectedArrays);
     }
-  }, [allProducts])
+  }, [allProducts]);
 
   // console.log("data", data);
-  if (!data) return <Loader height="h-[70vh]" />
+  if (!data) return <Loader height="h-[70vh]" />;
 
   return (
     <div>
@@ -137,7 +140,7 @@ const ProductDetails = ({ params }) => {
         <div
           id="leftDiv"
           className={`flex-1 w-full lg:w-[60%] overflow-y-scroll scrollbar-none bg-white ${
-            isScrollingUp ? 'scroll-up' : ''
+            isScrollingUp ? "scroll-up" : ""
           }`}
         >
           {data && <DetailImage productData={data?.data?.data} />}
@@ -181,7 +184,7 @@ const ProductDetails = ({ params }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

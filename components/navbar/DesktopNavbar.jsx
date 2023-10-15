@@ -154,7 +154,7 @@ const DesktopNavbar = () => {
       }
     };
     fetchProducts();
-  }, [navData, navData?.saleData]);
+  }, [navData]);
 
   // console.log(
   //   "Productssss",
@@ -209,7 +209,10 @@ const DesktopNavbar = () => {
         <div className="w-1/4">
           <div className="flex gap-x-1 lg:gap-x-6 justify-end">
             {/* User Authentication  */}
-            <div className="relative" ref={userDescriptionRef}>
+            <div
+              className="relative flex items-center"
+              ref={userDescriptionRef}
+            >
               {cookieData ? (
                 <>
                   <div className="cursor-pointer" onClick={handleUserToggle}>
@@ -236,8 +239,8 @@ const DesktopNavbar = () => {
                   <Image
                     src="/images/logo/user.svg"
                     alt="logo"
-                    width={23}
-                    height={23}
+                    width={21}
+                    height={21}
                     className="cursor-pointer h-auto"
                   />
                 </Link>
