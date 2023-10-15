@@ -1,60 +1,22 @@
 "use client";
 import { Util } from "@/util";
-// import Image from "next/image";
 import { TbArrowsExchange } from "react-icons/tb";
-// import ImageUploading from "react-images-uploading";
-// import { SlCloudUpload } from "react-icons/sl";
-// import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const ReturnAndExchange = ({ params }) => {
   const [issue, setIssue] = useState("");
-  // const [images, setImages] = useState([]);
 
   const user = Util();
   const userId = user?._id;
-  // const orderId = params?.orderId;
-
-  //image uploading
-  // const maxNumber = 6;
-
-  // const onChangeHandle = (imageList) => {
-  //   // Handle image list change if needed
-  //   setImages(imageList);
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Upload images to Cloudinary
-      // const formData = new FormData();
-      // images.forEach((image) => {
-      //   formData.append("file", image.file);
-      //   formData.append("upload_preset", process.env.UPLOAD_PRESET);
-      // });
-
-      // const cloudinaryResponse = await axios.post(
-      //   process.env.API_BASE_URL,
-      //   formData
-      // );
-
-      // // Extract image URLs from Cloudinary response
-      // const imageUrls = cloudinaryResponse.data.resources.map(
-      //   (resource) => resource.secure_url
-      // );
-
-      // Send form data along with image URLs to your server-side API
       const response = await axios.post(
         `${process.env.API_URL}/api/v1/return-exchange`,
-        // {
-        //   user_id: userId,
-        //   order: orderId,
-        //   issue,
-        //   // imageUrl: imageUrls,
-        // }
         {
           user_id: userId,
           order: params.orderId,
@@ -62,12 +24,11 @@ const ReturnAndExchange = ({ params }) => {
         }
       );
 
-      // Handle your API response as needed
-      // console.log("data", { userId, orderId, issue });
-      // console.log("API Response:", response.data);
-      toast.success(
-        "Your issue is recorded. Our authority will reach you soon."
-      );
+      if (response) {
+        toast.success(
+          "Your issue is recorded. Our authority will reach you soon."
+        );
+      }
     } catch (error) {
       toast.error(
         "Return exchange with the same user id and order already exists."
@@ -76,7 +37,10 @@ const ReturnAndExchange = ({ params }) => {
     }
   };
 
-  // console.log("data", { userId, orderId, issue });
+  console.log(
+    "data",
+    user?.orders?.map((elam) => elam?.product?.map((item) => item))[0]
+  );
 
   return (
     <div>
