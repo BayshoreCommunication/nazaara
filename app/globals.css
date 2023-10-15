@@ -19,7 +19,7 @@
     @apply tracking-[5px] font-semibold text-2xl lg:text-3xl text-text-color mb-10;
   } */
   .heading-3 {
-    @apply text-3xl font-medium;
+    @apply text-2xl lg:text-3xl font-medium;
   }
 
   .heading-4 {

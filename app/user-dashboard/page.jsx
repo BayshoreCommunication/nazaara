@@ -6,7 +6,7 @@ import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditUserProfile from "@/components/user-dashboard/EditUserProfileModal";
 // import usefetch from "@/customhooks/usefetch";
 import { useGetUserByIDQuery } from "@/services/userApi";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 

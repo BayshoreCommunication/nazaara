@@ -11,7 +11,7 @@ const HiringPage = async () => {
   return (
     <>
       {/* <TopBar /> */}
-      <div className="my-10 container">
+      <div className="container">
         {/* <h2 className="heading-3 text-center mb-10 text-gray-700">
           FREQUENTLY ASKED QUESTIONS BY CUSTOMERS
         </h2> */}

@@ -13,7 +13,7 @@ import {
   // useGetProductDetailsQuery,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
-import { BeatLoader, ScaleLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   const [loading, setLoading] = useState(true);

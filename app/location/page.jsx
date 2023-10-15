@@ -1,6 +1,6 @@
 import TopBar from "@/components/TopBar";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <TopBar />
@@ -92,4 +92,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

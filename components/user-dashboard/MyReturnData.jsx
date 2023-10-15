@@ -34,7 +34,7 @@ const MyReturnData = () => {
     fetchData();
   }, [data, id]);
 
-  console.log("return data", returnData);
+  // console.log("return data", returnData);
 
   return (
     <div className="flex flex-col gap-y-6 text-gray-600">
@@ -45,19 +45,19 @@ const MyReturnData = () => {
               <div className="px-4 flex gap-x-6 py-1">
                 <p className="border-r pr-6 border-gray-400">
                   <span className="text-gray-700 ">Order No :</span>{" "}
-                  <span className="">{el.order.paymentId}</span>
+                  <span className="">{el?.order?.paymentId}</span>
                 </p>
                 <p className="border-r pr-6 border-gray-400">
                   <span className="text-gray-700">Payment Method :</span>{" "}
-                  <span className="">{el.order.paymentMethod}</span>
+                  <span className="">{el?.order?.paymentMethod}</span>
                 </p>
                 <p className="border-r pr-6 border-gray-400">
                   <span className="text-gray-700">Payment Status :</span>{" "}
-                  <span className="">{el.order.paymentStatus}</span>
+                  <span className="">{el?.order?.paymentStatus}</span>
                 </p>
                 <p className="">
                   <span className="text-gray-700">Issue :</span>{" "}
-                  <span className="">{el.issue}</span>
+                  <span className="">{el?.issue}</span>
                 </p>
                 {/* <p className="">
                   <span className="text-gray-700">Place on :</span>{" "}
@@ -65,12 +65,11 @@ const MyReturnData = () => {
                 </p> */}
               </div>
             </div>
-            {el.order.product.map((data, i) => (
+            {el?.order?.product.map((data, i) => (
               <div
                 key={i}
-                className="flex justify-around items-center my-4 w-full lg:w-4/5 border-b pb-3 border-gray-300"
+                className="flex justify-around items-center my-4 w-full border-b pb-3 border-gray-300 gap-8 px-5"
               >
-                <p>{i + 1}.</p>
                 <Image
                   src={data.imageUrl}
                   alt="My Image"

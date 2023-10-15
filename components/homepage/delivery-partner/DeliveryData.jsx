@@ -11,7 +11,7 @@ import { Scrollbar } from "swiper";
 const DeliveryData = ({ data }) => {
   return (
     <>
-      <div className="hidden lg:grid grid-cols-5">
+      <div className="hidden lg:grid grid-cols-5 gap-x-4">
         {data.map((data, index) => (
           <Image
             key={index}

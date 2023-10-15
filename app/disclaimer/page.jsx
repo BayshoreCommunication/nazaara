@@ -6,9 +6,9 @@ const page = () => {
   return (
     <>
       <TopBar />
-      <div className="my-20">
-        <h2 className="heading-4">DISCLAIMER for Anzara Lifestyle Ltd.</h2>
+      <div className="my-10">
         <div className="container text-gray-700">
+          <h2 className="heading-4">DISCLAIMER for Anzara Lifestyle Ltd.</h2>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">Interpretation</p>
             <p>

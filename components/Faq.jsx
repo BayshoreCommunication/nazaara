@@ -13,22 +13,25 @@ const Faq = ({ data }) => {
   };
 
   return (
-    <div className="w-4/5 mx-auto flex flex-col gap-y-8">
+    <div className="lg:w-4/5 lg:mx-auto flex flex-col gap-y-8">
       {data?.map((data, index) => (
         <div
           key={index}
           className="bg-primary-color text-white px-2 py-4 rounded-lg"
         >
-          <button
-            className="flex items-center"
-            onClick={() => toggleItem(data._id)}
-          >
-            {openItemId === data._id ? <FaMinus /> : <FaPlus />}
-            <span className="ml-3">{data?.title}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => toggleItem(data._id)}>
+              {openItemId === data._id ? (
+                <FaMinus size={17} className="w-[17px]" />
+              ) : (
+                <FaPlus size={17} className="w-[17px]" />
+              )}
+            </button>
+            <span>{data?.title}</span>
+          </div>
 
           {openItemId === data._id && (
-            <div className="ml-7 mt-6">{data?.answer}</div>
+            <div className="ml-6 mt-4">{data?.answer}</div>
           )}
         </div>
       ))}
