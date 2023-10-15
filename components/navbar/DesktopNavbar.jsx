@@ -183,7 +183,7 @@ const DesktopNavbar = () => {
     <div className="container lg:py-4">
       <div className="flex justify-between items-center relative">
         <div className="hidden lg:block w-1/4">
-          <Link href="/" className="px-2 py-1 text-base">
+          <Link href="/" className="text-base">
             EXCLUSIVE WOMAN WEAR
           </Link>
         </div>
