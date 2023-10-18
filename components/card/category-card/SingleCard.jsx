@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 const SingleCard = ({ categoryData }) => {
-  console.log("image url test", categoryData.url);
+  // console.log("image url test", categoryData.url);
   return (
     <>
       {categoryData && (

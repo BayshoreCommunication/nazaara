@@ -1,28 +1,22 @@
-"use client";
+// "use client";
 import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import Footer from "@/components/footer/Footer";
-import ModalPopup from "@/components/modal/ModalPopup";
-import { usePathname } from "next/navigation";
-// import { store } from "../store/store";
-import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import { store } from "@/store/store";
+import { Providers } from "@/store/provider";
 
 export default function RootLayout({ children }) {
-  const router = usePathname();
-
   return (
     <html lang="en">
       <title>Nazaara Exclusive Women Wear</title>
       <body>
-        <Provider store={store}>
+        <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Navbar />
           {children}
           {/* <ModalPopup /> */}
           <Footer />
-        </Provider>
+        </Providers>
       </body>
     </html>
   );
