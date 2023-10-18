@@ -36,13 +36,15 @@ const DeliveryData = ({ data }) => {
         >
           {data.map((image) => (
             <SwiperSlide key={image}>
-              <Image
-                src={image}
-                alt="bridal_top"
-                width={233}
-                height={103}
-                className="w-full"
-              />
+              {image && (
+                <Image
+                  src={image}
+                  alt="bridal_top"
+                  width={233}
+                  height={103}
+                  className="w-full"
+                />
+              )}
             </SwiperSlide>
           ))}
         </Swiper>

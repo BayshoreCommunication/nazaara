@@ -26,13 +26,15 @@ const BestSellingCard = ({ elem }) => {
     <div className="border-4 border-secondary-color transition-all duration-500  hover:shadow-[#d6bc67] hover:shadow-lg">
       <Link className="" href={`/products/${elem.slug}`}>
         <div>
-          <Image
-            src={`${elem.variant[0].imageUrl[0]}`}
-            alt="bridal_top"
-            width={326}
-            height={461}
-            className="w-full"
-          />
+          {elem.variant[0].imageUrl[0] && (
+            <Image
+              src={`${elem.variant[0].imageUrl[0]}`}
+              alt="bridal_top"
+              width={326}
+              height={461}
+              className="w-full"
+            />
+          )}
         </div>
         <div className="w-full text-center text-primary-color bg-white py-4">
           <p className="text-lg font-semibold">{elem.category}</p>

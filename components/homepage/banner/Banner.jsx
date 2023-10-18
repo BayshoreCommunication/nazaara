@@ -9,13 +9,16 @@ const Banner = async () => {
   const data = allData?.data?.bannerSection;
   return (
     <div className="relative">
-      <Image
-        src={data?.image}
-        alt="bridal_top"
-        width={1860}
-        height={681}
-        className="w-full h-40 lg:h-auto"
-      />
+      {data?.image && (
+        <Image
+          src={data?.image}
+          alt="bridal_top"
+          width={1860}
+          height={681}
+          className="w-full h-40 lg:h-auto"
+        />
+      )}
+
       <div className="text-primary-color absolute top-1/2 -translate-y-1/2 right-5 lg:right-28">
         <p className="text-xs lg:text-base font-medium">{data?.topHeading}</p>
         <p className="text-lg lg:text-4xl font-bold lg:mt-1 mb-1 lg:mb-4">

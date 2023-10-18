@@ -29,13 +29,15 @@ const RightCarosel = ({ data }) => {
             <SwiperSlide key={i}>
               <div className="flex lg:block lg:relative gap-x-4 bg-white lg:bg-transparent items-center">
                 <div className="flex-1">
-                  <Image
-                    src={slide?.image}
-                    alt="My Image"
-                    width={320}
-                    height={600}
-                    className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
-                  />
+                  {slide?.image && (
+                    <Image
+                      src={slide?.image}
+                      alt="My Image"
+                      width={320}
+                      height={600}
+                      className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
+                    />
+                  )}
                 </div>
                 <div className="block lg:flex flex-col items-center flex-1 lg:absolute w-full  bg-white lg:bg-transparent lg:bottom-16  text-black lg:text-white">
                   <p className="text-[17px] lg:text-lg font-medium lg:font-semibold">

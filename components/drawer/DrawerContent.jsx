@@ -22,13 +22,16 @@ const DrawerContent = ({ data, setIsOpen }) => {
         <hr />
         {data && (
           <div className="flex gap-2 my-4">
-            <Image
-              src={data.variant[0].imageUrl[0]}
-              alt="bridal_top"
-              width={600}
-              height={300}
-              className="w-[40%]"
-            />
+            {data.variant[0].imageUrl[0] && (
+              <Image
+                src={data.variant[0].imageUrl[0]}
+                alt="bridal_top"
+                width={600}
+                height={300}
+                className="w-[40%]"
+              />
+            )}
+
             <div>
               <h3 className="font-bold text-xl">{data.productName}</h3>
               <p className="text-gray-500">{data.sku}</p>

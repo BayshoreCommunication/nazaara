@@ -1,10 +1,9 @@
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const SingleCard = ({ categoryData }) => {
-  // console.log(categoryData);
+  console.log("image url test", categoryData.url);
   return (
     <>
       {categoryData && (
@@ -13,13 +12,24 @@ const SingleCard = ({ categoryData }) => {
             href={`/products/categories/${categoryData.category}`}
             className="relative"
           >
-            <Image
-              src={`${categoryData.url}`}
-              alt="bridal_top"
-              width={338}
-              height={438}
-              className="border-4 border-secondary-color brightness-75 hover:brightness-100 transition-all duration-500 w-full"
-            />
+            {categoryData?.url ? (
+              <Image
+                src={`${categoryData?.url}`}
+                alt="bridal_top"
+                width={338}
+                height={438}
+                className="border-4 border-secondary-color brightness-75 hover:brightness-100 transition-all duration-500 w-full"
+              />
+            ) : (
+              <Image
+                src={`/images/image-not-found.jpg`}
+                alt="bridal_top"
+                width={338}
+                height={438}
+                className="border-4 border-secondary-color brightness-75 hover:brightness-100 transition-all duration-500 w-full"
+              />
+            )}
+
             <div className="absolute bottom-10 w-full text-center">
               <p className="text-secondary-color text-lg font-semibold">
                 {categoryData.category}

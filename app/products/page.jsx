@@ -234,17 +234,16 @@ const Products = () => {
             <div key={i}>
               <Link href={`/products/${data?.slug}`}>
                 <div className="relative">
-                  <Image
-                    src={
-                      data?.variant[0]?.imageUrl[0]
-                        ? data?.variant[0]?.imageUrl[0]
-                        : "/"
-                    }
-                    alt="bridal_top"
-                    width={326}
-                    height={461}
-                    className="w-full h-full rounded-[4px] border"
-                  />
+                  {data?.variant[0]?.imageUrl[0] && (
+                    <Image
+                      src={data?.variant[0]?.imageUrl[0]}
+                      alt="bridal_top"
+                      width={326}
+                      height={461}
+                      className="w-full h-full rounded-[4px] border"
+                    />
+                  )}
+
                   <div className="absolute top-2 left-2">
                     <PercentageBadge
                       text={`-${Math.ceil(

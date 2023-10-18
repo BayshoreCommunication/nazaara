@@ -23,14 +23,17 @@ const LeftCarosel = ({ data }) => {
         <div className="relative">
           {data.map((slide, index) => (
             <SwiperSlide key={index}>
-              <Image
-                src={slide?.image}
-                alt="My Image"
-                width={1000}
-                height={600}
-                // h-[32rem] lg:h-[36rem] xl:h-[42rem]
-                className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
-              />
+              {slide?.image && (
+                <Image
+                  src={slide?.image}
+                  alt="My Image"
+                  width={1000}
+                  height={600}
+                  // h-[32rem] lg:h-[36rem] xl:h-[42rem]
+                  className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
+                />
+              )}
+
               <div className="absolute bottom-10 sm:bottom-16 left-10 sm:left-16 text-white">
                 <p className="text-xl font-normal">{slide?.topHeading}</p>
                 <h2 className="my-4 font-bold text-4xl lg:text-6xl">

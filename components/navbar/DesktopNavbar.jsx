@@ -26,6 +26,7 @@ const DesktopNavbar = () => {
   const [categories, setCategories] = useState(null);
   // const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
+  // console.log("imgUrll", imgUrl);
   const [cookieData, setCookieData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
@@ -218,7 +219,7 @@ const DesktopNavbar = () => {
                   <div className="cursor-pointer" onClick={handleUserToggle}>
                     {imgUrl ? (
                       <Image
-                        src={imgUrl}
+                        src={`${imgUrl}`}
                         alt="logo"
                         width={23}
                         height={23}
