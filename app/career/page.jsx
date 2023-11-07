@@ -1,22 +1,32 @@
-import FetchServerSideData from "@/components/DataFetchingComponent/ServerSideDataFetching";
 import HiringComponent from "@/components/Hiring";
 // import TopBar from "@/components/TopBar";
 import React from "react";
+import { FaUserCircle } from "react-icons/fa";
+
+async function getData() {
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/hiring-customization`,
+    { cache: "no-store" }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
 
 const HiringPage = async () => {
-  const url = `${process.env.API_URL}/api/v1/hiring-customization`;
-  const data = await FetchServerSideData(url);
+  const data = await getData();
   const hiringData = data.data;
-  // console.log("hello", hiringData);
   return (
     <>
-      {/* <TopBar /> */}
       <div className="container">
-        {/* <h2 className="heading-3 text-center mb-10 text-gray-700">
-          FREQUENTLY ASKED QUESTIONS BY CUSTOMERS
-        </h2> */}
-        {/* component for data to use useState  */}
-        <HiringComponent data={hiringData} />
+        <div>
+          <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-xl font-medium text-gray-600">
+            <FaUserCircle />
+            WE ARE HIRING
+          </h1>
+          <HiringComponent data={hiringData} />
+        </div>
       </div>
     </>
   );

@@ -1,13 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 const parse = require("html-react-parser");
 import {
   Accordion,
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import { FaUserCircle } from "react-icons/fa";
-import Loader from "./Loader";
 
 function Icon({ id, open }) {
   return (
@@ -31,16 +29,7 @@ function Icon({ id, open }) {
 }
 
 const HiringComponent = ({ data }) => {
-  // console.log("data from hiring", data);
   const [openAccordion, setOpenAccordion] = useState(null); // Initialize as null or some default value
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate a data fetching delay (you can replace this with your actual data fetching logic)
-    setTimeout(() => {
-      setLoading(false); // Set loading state to false when data is fetched (or when an error occurs)
-    }, 1500); // Simulate a 2-second delay for demonstration purposes
-  }, []);
 
   const handleOpen = (id) => {
     if (openAccordion === id) {
@@ -51,34 +40,22 @@ const HiringComponent = ({ data }) => {
   };
 
   return (
-    <div>
-      <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-xl font-medium text-gray-600">
-        <FaUserCircle />
-        WE ARE HIRING
-      </h1>
-      <div className=" my-10">
-        {loading ? (
-          <Loader height={"h-[50vh]"} />
-        ) : (
-          <>
-            {data.map((item) => (
-              <Accordion
-                key={item._id}
-                open={openAccordion === item._id}
-                icon={<Icon id={item._id} open={openAccordion} />}
-              >
-                <AccordionHeader
-                  className="font-normal"
-                  onClick={() => handleOpen(item._id)}
-                >
-                  {item.title}
-                </AccordionHeader>
-                <AccordionBody>{parse(item.description)}</AccordionBody>
-              </Accordion>
-            ))}
-          </>
-        )}
-      </div>
+    <div className="my-10">
+      {data.map((item) => (
+        <Accordion
+          key={item._id}
+          open={openAccordion === item._id}
+          icon={<Icon id={item._id} open={openAccordion} />}
+        >
+          <AccordionHeader
+            className="font-normal"
+            onClick={() => handleOpen(item._id)}
+          >
+            {item.title}
+          </AccordionHeader>
+          <AccordionBody>{parse(item.description)}</AccordionBody>
+        </Accordion>
+      ))}
     </div>
   );
 };

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: true,
+  },
   env: {
     API_URL: process.env.API_URL,
     API_KEY: process.env.API_KEY,
@@ -12,7 +15,7 @@ const nextConfig = {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   images: {
-    domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
+    domains: ["lh3.googleusercontent.com", "res.cloudinary.com", "example.com"],
   },
 };
 
