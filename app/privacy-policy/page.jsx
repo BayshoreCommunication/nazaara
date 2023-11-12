@@ -1,10 +1,10 @@
 import TopBar from "@/components/TopBar";
-import Link from "next/link";
+import { MdPrivacyTip } from "react-icons/md";
 
 const Privacy = () => {
   return (
-    <>
-      <TopBar />
+    <main>
+      <TopBar icon={<MdPrivacyTip />} title={"Privacy Policy"} />
       <div className="my-10">
         <div className="container text-gray-700">
           <h2 className="heading-4">
@@ -278,7 +278,7 @@ const Privacy = () => {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

@@ -20,12 +20,11 @@ export const handleContact = async (formData) => {
 
     if (response.ok) {
       return {
-        message: `${data.name} successfully added your contact message`,
+        message: `Successfully received your message. We contact with you ASAP!`,
       };
+    } else {
+      throw new Error("Contact form submission failed.");
     }
-    //else {
-    //   throw new Error("Contact form submission failed.");
-    // }
   } catch (error) {
     return {
       error: error.message,

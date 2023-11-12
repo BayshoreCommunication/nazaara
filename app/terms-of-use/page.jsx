@@ -1,10 +1,11 @@
-import TopBar from "@/components/TopBar";
 import React from "react";
+import TopBar from "@/components/TopBar";
+import { BsFillClipboardCheckFill } from "react-icons/bs";
 
-const page = () => {
+const TermsOfUsePage = () => {
   return (
-    <>
-      <TopBar />
+    <main>
+      <TopBar icon={<BsFillClipboardCheckFill />} title={"terms of use"} />
       <div className="my-10">
         <div className="container text-gray-700">
           <h2 className="heading-4">Website Terms and Conditions of Use</h2>
@@ -128,8 +129,8 @@ const page = () => {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 
-export default page;
+export default TermsOfUsePage;

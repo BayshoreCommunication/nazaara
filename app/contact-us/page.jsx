@@ -1,10 +1,11 @@
 import ContactForm from "@/components/contact/ContactForm";
 import TopBar from "@/components/TopBar";
+import { AiFillMessage } from "react-icons/ai";
 
 const Contact = () => {
   return (
     <div>
-      <TopBar />
+      <TopBar icon={<AiFillMessage />} title={"CONTACT US"} />
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
           <h2 className="mb-4 text-2xl tracking-tight font-semibold text-center text-gray-900 dark:text-white">

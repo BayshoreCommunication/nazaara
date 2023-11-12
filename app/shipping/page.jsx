@@ -1,15 +1,13 @@
+import TopBar from "@/components/TopBar";
 import React from "react";
 import { FaTruck } from "react-icons/fa";
 
 const ShippingDelivery = () => {
   return (
-    <div>
-      <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-xl font-medium text-gray-600">
-        <FaTruck />
-        SHIPPING & DELIVERY
-      </h1>
+    <main>
+      <TopBar icon={<FaTruck />} title={"SHIPPING & DELIVERY"} />
       <div className="container mt-10 text-center flex flex-col items-center gap-y-6">
-        <h1 className="text-2xl font-medium text-gray-600">Delivery Time</h1>
+        <h1 className="text-xl font-medium text-gray-600">Delivery Time</h1>
         <div className="flex gap-4 justify-center flex-wrap">
           <button className="bg-gray-300 py-1 px-8 text-sm">
             <p className="font-medium">Ready Size</p>
@@ -35,7 +33,7 @@ const ShippingDelivery = () => {
           availability of slots, nature of order (normal/fast track) <br /> and
           season of order placement, the delivery time frame can vary.
         </p>
-        <h2 className="text-lg font-medium text-gray-600">Customs & Duties</h2>
+        <h2 className="text-xl font-medium text-gray-600">Customs & Duties</h2>
       </div>
       <div className="container mt-4">
         <p>
@@ -47,13 +45,13 @@ const ShippingDelivery = () => {
           are still subject to an import procedure to clear the shipment through
           customs. Clearance depends on:`}
         </p>
-        <ul className="mb-10 mt-4 ml-10">
+        <ul className="mb-10 mt-4 ml-10 list-disc">
           <li>The country of origin</li>
           <li>The value including transport charges</li>
           <li>The quantity of goods</li>
         </ul>
       </div>
-    </div>
+    </main>
   );
 };
 

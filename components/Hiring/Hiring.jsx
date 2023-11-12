@@ -48,7 +48,7 @@ const HiringComponent = ({ data }) => {
           icon={<Icon id={item._id} open={openAccordion} />}
         >
           <AccordionHeader
-            className="font-normal"
+            className="font-normal text-lg"
             onClick={() => handleOpen(item._id)}
           >
             {item.title}

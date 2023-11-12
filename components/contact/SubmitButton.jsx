@@ -7,7 +7,7 @@ const SubmitButton = () => {
   return (
     <button
       type="submit"
-      // aria-disabled={pending}
+      aria-disabled={pending}
       className={`py-2 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-color w-full`}
     >
       {pending ? <BeatLoader color="#FFFFFF" size={10} /> : "SEND MESSAGE"}
