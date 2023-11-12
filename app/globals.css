@@ -27,7 +27,7 @@
   }
 
   .card-title {
-    @apply tracking-wide lg:tracking-[5px] font-semibold text-2xl lg:text-3xl text-text-color mb-6 lg:mb-10;
+    @apply tracking-wide lg:tracking-[5px] font-bold text-2xl text-text-color mb-6 lg:mb-10 text-center;
   }
 }
 

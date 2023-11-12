@@ -4,6 +4,7 @@ import DesktopNavbar from "./DesktopNavbar";
 import { useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { addItemToCart } from "@/store/cartSlice";
+import NavBarUpdate from "./NavBarUpdate";
 
 const Navbar = () => {
   // add cart items to redux store from database
@@ -32,9 +33,10 @@ const Navbar = () => {
   }, [fetchData]);
 
   return (
-    <div className="bg-primary-color text-base-100 relative">
+    <div className="bg-primary-color text-base-100 sticky top-0 z-50">
       <div id="navBar">
-        <DesktopNavbar />
+        {/* <DesktopNavbar /> */}
+        <NavBarUpdate />
       </div>
     </div>
   );
