@@ -36,7 +36,7 @@ const SignIn = ({ setAuth }) => {
         const userGoogle = result.user.email;
         // console.log("google email", userGoogle);
 
-        const url = `${process.env.API_URL}/api/v1/auth/user/${userGoogle}`;
+        const url = `${process.env.API_URL}/api/v1/auth/${userGoogle}`;
         // console.log("url", url);
         const userAuthCredential = await usefetch(url);
         // console.log("userAuthCredential", userAuthCredential);
@@ -139,7 +139,7 @@ const SignIn = ({ setAuth }) => {
       email: user.email,
       password: user.password,
     };
-    const url = `${process.env.API_URL}/api/v1/auth/user`;
+    const url = `${process.env.API_URL}/api/v1/user/login`;
     axios
       .post(`${url}`, authBody)
       .then((response) => {

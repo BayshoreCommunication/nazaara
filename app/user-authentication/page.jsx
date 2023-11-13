@@ -7,7 +7,7 @@ const Page = () => {
   const [auth, setAuth] = useState("signIn");
 
   return (
-    <div className="container">
+    <div className="main-container">
       {auth === "signIn" && <SignIn setAuth={setAuth} />}
       {auth === "signUp" && <SignUp setAuth={setAuth} />}
     </div>

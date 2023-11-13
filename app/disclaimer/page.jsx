@@ -1,14 +1,15 @@
 import TopBar from "@/components/TopBar";
 import Link from "next/link";
 import React from "react";
+import { AiFillExclamationCircle } from "react-icons/ai";
 
-const page = () => {
+const DisclaimerPage = () => {
   return (
-    <>
-      <TopBar />
+    <main>
+      <TopBar icon={<AiFillExclamationCircle />} title={"DISCLAIMER"} />
       <div className="my-10">
-        <div className="container text-gray-700">
-          <h2 className="heading-4">DISCLAIMER for Anzara Lifestyle Ltd.</h2>
+        <div className="main-container text-gray-700">
+          <h2 className="heading-4">Disclaimer for Anzara Lifestyle Ltd.</h2>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">Interpretation</p>
             <p>
@@ -189,8 +190,8 @@ const page = () => {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 
-export default page;
+export default DisclaimerPage;

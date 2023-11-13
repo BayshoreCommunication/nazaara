@@ -29,7 +29,7 @@ const Subscribe = () => {
     }
   };
   return (
-    <div className="container text-white flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-10 py-6">
+    <div className="main-container text-white flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-10 py-6">
       <div className="lg:w-3/5">
         <p className="text-xl font-semibold mb-4">JOIN ON OUR LIST TODAY!</p>
         <p className="text-base text-center lg:text-left">

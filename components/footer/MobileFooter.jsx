@@ -16,7 +16,7 @@ const MobileFooter = () => {
   const [moreToogleArrow, setMoreToogleArrow] = useState(false);
   const [companyToogleArrow, setCompanyToogleArrow] = useState(false);
   return (
-    <div className="lg:hidden container text-white text-center flex flex-col gap-y-10">
+    <div className="lg:hidden main-container text-white text-center flex flex-col gap-y-10">
       <div className="">
         <Link href="/" className="flex items-center justify-center">
           <Image

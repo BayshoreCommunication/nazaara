@@ -1,11 +1,12 @@
 import TopBar from "@/components/TopBar";
+import { IoLocationSharp } from "react-icons/io5";
 
-const Page = () => {
+const LocationPage = () => {
   return (
     <div>
-      <TopBar />
+      <TopBar icon={<IoLocationSharp />} title={"OUR LOCATION"} />
       <div className="my-10 lg:w-2/3 xl:w-1/2 mx-auto">
-        <h2 className="heading-3 text-center mb-16 text-gray-700 w-[90%] mx-auto">
+        <h2 className="heading-4 text-center mb-16 text-gray-700 mx-auto">
           VISIT OUR STORE DIRECTLY TODAY!
         </h2>
         <div className="flex flex-col gap-y-10">
@@ -92,4 +93,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default LocationPage;

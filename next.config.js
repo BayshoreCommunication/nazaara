@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: true,
+  },
   env: {
     API_URL: process.env.API_URL,
     API_KEY: process.env.API_KEY,

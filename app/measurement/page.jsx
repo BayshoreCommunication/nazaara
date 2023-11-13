@@ -6,7 +6,7 @@ import { AiOutlineRollback } from "react-icons/ai";
 
 const Measurement = () => {
   return (
-    <div className="container flex flex-col gap-y-6 my-6 lg:my-20">
+    <div className="main-container flex flex-col gap-y-6 my-6 lg:my-20">
       {/* <Image
           src="/images/payment-logo.png"
           alt="My Image"

@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 const DesktopFooter = () => {
   return (
     <div>
-      <div className="hidden lg:block container text-white text-center lg:text-left">
+      <div className="hidden lg:block main-container text-white text-center lg:text-left">
         <div className="lg:flex lg:items-start lg:justify-between">
           <div>
             <div>

@@ -48,7 +48,7 @@ const ReturnAndExchange = ({ params }) => {
         <TbArrowsExchange />
         RETURN & EXCHANGE
       </h1>
-      <div className="container mt-10 flex flex-col items-center gap-y-6">
+      <div className="main-container mt-10 flex flex-col items-center gap-y-6">
         <h1 className="text-2xl font-medium text-gray-600">
           ELIGIBILITY CRITERIA
         </h1>
@@ -75,7 +75,7 @@ const ReturnAndExchange = ({ params }) => {
           </ol>
         </div>
       </div>
-      <div className="container my-10">
+      <div className="main-container my-10">
         <form
           onSubmit={handleSubmit}
           className="lg:w-[60%] mx-auto text-gray-700"

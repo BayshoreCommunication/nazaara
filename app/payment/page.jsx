@@ -139,7 +139,7 @@ const Payment = () => {
     //     </div>
     //   </div>
     // </div>
-    <div className="container my-10">
+    <div className="main-container my-10">
       <Navigation />
       <div className="w-full h-[60vh] flex justify-center items-center text-2xl font-semibold">
         Coming Soon! Waiting for Payment Gateway...

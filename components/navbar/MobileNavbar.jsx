@@ -14,7 +14,7 @@ const MobileNavbar = () => {
   const [toogle, setToogle] = useState(false);
   return (
     <div className="lg:hidden">
-      <div className="container flex items-center">
+      <div className="main-container flex items-center">
         <div className="w-1/4">
           <button
             onClick={() => setToogle(!toogle)}
@@ -47,7 +47,7 @@ const MobileNavbar = () => {
 
       {toogle && (
         <div className="block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="container ">
+          <div className="main-container ">
             <form className="">
               <div className="relative ">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

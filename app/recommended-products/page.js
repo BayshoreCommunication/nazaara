@@ -73,7 +73,7 @@ const RecommendedProductsPage = () => {
       {products && (
         <>
           <TopBar />/
-          <div className="container my-10">
+          <div className="main-container my-10">
             {/* products  */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6 my-6">
               {products?.map((data, i) => (
