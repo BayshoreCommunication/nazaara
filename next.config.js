@@ -12,7 +12,7 @@ const nextConfig = {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   images: {
-    domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
+    domains: ["lh3.googleusercontent.com", "res.cloudinary.com", "example.com"],
   },
 };
 
