@@ -32,7 +32,7 @@ const MyOrders = () => {
   return (
     <>
       {userData ? (
-        <div className="container my-10 flex flex-col gap-y-4">
+        <div className="main-container my-10 flex flex-col gap-y-4">
           <h2 className="text-xl font-semibold">Hello, {userData.fullName}</h2>
           <DashboardUtil />
           <MyOrder orderData={userData?.orders} />

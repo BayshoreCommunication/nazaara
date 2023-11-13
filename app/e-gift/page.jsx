@@ -6,7 +6,7 @@ const EGift = () => {
   return (
     <main>
       <TopBar icon={<FaGift />} title={"EGift Cards"} />
-      <div className="container">
+      <div className="main-container">
         <div className="my-10 flex flex-col lg:flex-row items-center gap-y-10">
           <div className="flex-1">
             <Image

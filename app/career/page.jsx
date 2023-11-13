@@ -9,7 +9,7 @@ const HiringPage = () => {
     <main>
       <TopBar icon={<FaUserCircle />} title={"WE ARE HIRING"} />
       <Suspense fallback={<Loading />}>
-        <div className="container">
+        <div className="main-container">
           <HiringData />
         </div>
       </Suspense>

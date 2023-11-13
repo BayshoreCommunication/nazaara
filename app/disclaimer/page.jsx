@@ -8,7 +8,7 @@ const DisclaimerPage = () => {
     <main>
       <TopBar icon={<AiFillExclamationCircle />} title={"DISCLAIMER"} />
       <div className="my-10">
-        <div className="container text-gray-700">
+        <div className="main-container text-gray-700">
           <h2 className="heading-4">Disclaimer for Anzara Lifestyle Ltd.</h2>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">Interpretation</p>

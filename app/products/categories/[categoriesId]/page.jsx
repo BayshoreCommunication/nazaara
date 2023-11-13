@@ -142,7 +142,7 @@ const Categories = ({ params }) => {
         title="Designer Wear"
         desc="All collection of new products, exclusive collections, the latest trends, and more."
       />
-      <div className="container my-4 lg:my-10">
+      <div className="main-container my-4 lg:my-10">
         {isLoading ? (
           <Loader height={"h-[60vh]"} />
         ) : (

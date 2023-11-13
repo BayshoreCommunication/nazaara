@@ -4,7 +4,7 @@ import { GiBinoculars } from "react-icons/gi";
 
 const OrderTrack = () => {
   return (
-    <div className="container h-[50vh]">
+    <div className="main-container h-[50vh]">
       <h1 className="flex items-center justify-center gap-x-2 h-28 border-b-2 text-2xl font-medium">
         <FaTruck />
         TRACK YOUR ORDER

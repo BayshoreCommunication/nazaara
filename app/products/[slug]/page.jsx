@@ -136,7 +136,7 @@ const ProductDetails = ({ params }) => {
 
   return (
     <div>
-      <div className="lg:flex gap-8 container my-4 md:my-6 lg:my-10">
+      <div className="lg:flex gap-8 main-container my-4 md:my-6 lg:my-10">
         <div
           id="leftDiv"
           className={`flex-1 w-full lg:w-[60%] overflow-y-scroll scrollbar-none bg-white ${
@@ -168,7 +168,7 @@ const ProductDetails = ({ params }) => {
       {/* similar products section  */}
 
       {categoryData && (
-        <div className="container">
+        <div className="main-container">
           <h2 className="card-title">Similar Products</h2>
           <div className="carosel">
             <SimilarProductsCarosel categoryData={categoryData} />
@@ -177,7 +177,7 @@ const ProductDetails = ({ params }) => {
       )}
 
       {/* More From the collections  */}
-      <div className="container my-6">
+      <div className="main-container my-6">
         <h2 className="card-title">More From The Collections</h2>
         <div className="carosel">
           <SimilarProductsCarosel categoryData={randomArrays} />

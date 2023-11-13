@@ -6,7 +6,7 @@ const ShippingDelivery = () => {
   return (
     <main>
       <TopBar icon={<FaTruck />} title={"SHIPPING & DELIVERY"} />
-      <div className="container mt-10 text-center flex flex-col items-center gap-y-6">
+      <div className="main-container mt-10 text-center flex flex-col items-center gap-y-6">
         <h1 className="text-xl font-medium text-gray-600">Delivery Time</h1>
         <div className="flex gap-4 justify-center flex-wrap">
           <button className="bg-gray-300 py-1 px-8 text-sm">
@@ -35,7 +35,7 @@ const ShippingDelivery = () => {
         </p>
         <h2 className="text-xl font-medium text-gray-600">Customs & Duties</h2>
       </div>
-      <div className="container mt-4">
+      <div className="main-container mt-4">
         <p>
           {`Customs Duty is a tariff or tax imposed on goods when transported
           across international borders. The purpose of Customs Duty is to

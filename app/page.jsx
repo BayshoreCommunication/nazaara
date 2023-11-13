@@ -9,7 +9,7 @@ import TinySlider from "@/components/tiny-carosel/TinySlider";
 
 const Home = () => {
   return (
-    <div className="container my-4 lg:my-10 flex flex-col gap-y-10 lg:gap-y-16">
+    <main className="main-container my-4 lg:my-10 flex flex-col gap-y-10 lg:gap-y-16">
       {/* top carosel start */}
       <div className="flex flex-col lg:flex-row gap-x-10 gap-y-4 lg:gap-6">
         <div className="lg:w-[70%] 2xl:w-3/4 z-0">
@@ -62,7 +62,7 @@ const Home = () => {
         <DeliveryDesktop />
       </div>
       {/* Our Delivery Partner end */}
-    </div>
+    </main>
   );
 };
 

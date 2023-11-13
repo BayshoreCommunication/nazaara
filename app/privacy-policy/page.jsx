@@ -6,7 +6,7 @@ const Privacy = () => {
     <main>
       <TopBar icon={<MdPrivacyTip />} title={"Privacy Policy"} />
       <div className="my-10">
-        <div className="container text-gray-700">
+        <div className="main-container text-gray-700">
           <h2 className="heading-4">
             Privacy Policy for nazaara Lifestyle Ltd.
           </h2>

@@ -131,7 +131,7 @@ const Payment = () => {
   const handleSubmit = () => {};
 
   return (
-    <div className="container flex py-20">
+    <div className="main-container flex py-20">
       <div className="flex-1 border-e pe-10">
         <Navigation />
         <div>

@@ -6,7 +6,7 @@ const AboutUsPage = async () => {
   return (
     <main>
       <TopBar icon={<BsFillPersonFill />} title={"ABOUT US"} />
-      <div className="my-10 container">
+      <div className="my-10 main-container">
         <AboutUs />
       </div>
     </main>

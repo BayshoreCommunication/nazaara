@@ -179,7 +179,7 @@ const Products = () => {
   return (
     <>
       <TopBar />/
-      <div className="container my-10">
+      <div className="main-container my-10">
         <div>
           <div className="block lg:hidden card-mobile mt-6">
             <Swiper

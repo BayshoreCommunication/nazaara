@@ -181,7 +181,7 @@ const DesktopNavbar = () => {
   // console.log("portion", part1, part2, part3);
 
   return (
-    <div className="container lg:py-4">
+    <div className="main-container lg:py-4">
       <div className="flex justify-between items-center relative">
         {/* <div className="hidden lg:block w-1/4">
           <Link href="/" className="text-base">
@@ -468,7 +468,7 @@ const DesktopNavbar = () => {
       {/* mobile navbar start  */}
       {toogle && (
         <div className="block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0">
-          <div className="container ">
+          <div className="main-container ">
             <form onSubmit={searchFormHandler} className="">
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
