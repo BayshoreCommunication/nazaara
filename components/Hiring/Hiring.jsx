@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-const parse = require("html-react-parser");
 import {
   Accordion,
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
+import parse from 'html-react-parser';
 
 function Icon({ id, open }) {
   return (
@@ -41,9 +41,10 @@ const HiringComponent = ({ data }) => {
 
   return (
     <div className="my-10">
-      {data.map((item) => (
+      {
+        data && data.map((item,index) => (
         <Accordion
-          key={item._id}
+          key={index}
           open={openAccordion === item._id}
           icon={<Icon id={item._id} open={openAccordion} />}
         >

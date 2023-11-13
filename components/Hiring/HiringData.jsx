@@ -3,11 +3,7 @@ import HiringComponent from "./Hiring";
 
 async function getData() {
   const res = await fetch(
-    `${process.env.API_URL}/api/v1/hiring-customization`,
-    {
-      next: { revalidate: 300 },
-    }
-  );
+    `${process.env.API_URL}/api/v1/hiring-customization`);
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
@@ -16,7 +12,7 @@ async function getData() {
 
 const HiringData = async () => {
   const data = await getData();
-  const hiringData = data.data;
+  const hiringData = data?.data;
   return (
     <div>
       <HiringComponent data={hiringData} />

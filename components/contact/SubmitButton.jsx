@@ -1,5 +1,5 @@
 import React from "react";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
+import { useFormStatus } from 'react-dom'
 import { BeatLoader } from "react-spinners";
 
 const SubmitButton = () => {

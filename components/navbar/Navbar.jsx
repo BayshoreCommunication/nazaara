@@ -1,6 +1,7 @@
 "use client";
 import { useDispatch } from "react-redux";
 import NavBarContent from "./NavBarContent";
+import { addItemToCart } from "@/store/cartSlice";
 
 const Navbar = ({ data }) => {
   // add cart items to redux store from database
