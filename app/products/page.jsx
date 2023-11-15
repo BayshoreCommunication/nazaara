@@ -17,6 +17,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -178,7 +179,7 @@ const Products = () => {
 
   return (
     <>
-      <TopBar />/
+      <TopBar title={"PRODUCTS"} icon={<FaBox />} />
       <div className="main-container my-10">
         <div>
           <div className="block lg:hidden card-mobile mt-6">

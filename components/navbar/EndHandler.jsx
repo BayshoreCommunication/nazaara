@@ -5,51 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import UserCart from "../user-dashboard/UserCart";
 import useGlobalCart from "@/customhooks/useGlobalCart";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { useGetProductsQuery } from "@/services/productApi";
+import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
-import Fuse from "fuse.js";
-import { addProduct } from "@/store/serachProductSlice";
+import SearchComponent from "./PartsOfHandler/Search";
 
-const EndHandler = () => {
-  const router = useRouter();
+const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
   const [categories, setCategories] = useState(null);
-  // const [auth, setAuth] = useState("signIn");
   const [imgUrl, setImgUrl] = useState(null);
-  // console.log("imgUrll", imgUrl);
   const [cookieData, setCookieData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch();
-
-  const { data: allProducts } = useGetProductsQuery();
-
-  let filteredData;
-  if (allProducts) {
-    const fuse = new Fuse(allProducts?.product, {
-      keys: ["productName", "category", "subCategory"],
-    });
-
-    // Filter the data based on the search term
-    filteredData = fuse.search(searchTerm);
-  }
-
-  const [searchIsShown, setSearchIsShown] = useState(false);
-
-  const searchFormHandler = async (e) => {
-    e.preventDefault();
-    // Assuming this is an asynchronous operation, such as an API request
-    try {
-      // Perform your search operation here
-      dispatch(addProduct(filteredData));
-      router.push("/products");
-    } catch (error) {
-      // Handle any errors that may occur during the search
-      console.error("Search error:", error);
-    }
-  };
   const {
     isCartOpen: isAddToCartOpen,
     setIsCartOpen: setIsAddToCartOpen,
@@ -60,11 +25,10 @@ const EndHandler = () => {
     setIsCartOpen: setisUserDashboardOpen,
     cartRef: userDescriptionRef,
   } = useGlobalCart();
-  const {
-    isCartOpen: isSearchOpen,
-    setIsCartOpen: setIsSearchOpen,
-    cartRef: searchRef,
-  } = useGlobalCart();
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen); // Toggle the cart open/close state
+  };
 
   const jsonStr = getCookie("userAuthCredential");
 
@@ -100,90 +64,23 @@ const EndHandler = () => {
   const handleUserToggle = () => {
     setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
   };
-  const handleSearchToggle = () => {
-    setIsSearchOpen(!isSearchOpen); // Toggle the cart open/close state
-  };
 
   return (
     <div className="flex items-center gap-x-4 w-max">
-      <div className="relative" ref={searchRef}>
+      <div ref={searchRef}>
         <AiOutlineSearch
           size={26}
           onClick={handleSearchToggle}
-          className="cursor-pointer mt-1"
+          className="cursor-pointer mt-1 hidden lg:block"
         />
+        {/* <AiOutlineSearch
+          size={26}
+          onClick={handleSearchToggle}
+          className="cursor-pointer mt-1"
+        /> */}
 
         {/* search form */}
-        <form onSubmit={searchFormHandler} className="hidden lg:block">
-          {isSearchOpen && (
-            <div
-              className={`absolute transition-all duration-500 ease-in-out ${
-                scrollY > 100 ? "-bottom-[4.8rem]" : "-bottom-[5.30rem]"
-              } right-0`}
-            >
-              <div className="relative drop-shadow-lg">
-                <div className="absolute inset-y-0 right-4 flex items-center pl-3 pointer-events-none">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
-                  </svg>
-                </div>
-                <input
-                  id="default-search"
-                  className="w-full lg:w-72 rounded-sm p-2 h-14 pl-4 text-sm text-gray-900 bg-gray-50 outline-none"
-                  placeholder="Search on Nazaara"
-                  required
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setSearchIsShown(true);
-                  }}
-                  value={searchTerm}
-                />
-              </div>
-            </div>
-          )}
-          {searchTerm && searchIsShown && isSearchOpen && (
-            <div
-              className={`absolute transition-all duration-500 ease-in-out w-72 rounded-sm bg-white right-0 ${
-                scrollY > 100 ? "top-[6.4rem]" : "top-28"
-              } shadow-xl`}
-            >
-              <ul className="p-4 flex flex-col gap-[0.7rem]">
-                {filteredData && filteredData.length > 0 ? (
-                  filteredData.map((result) => (
-                    <li
-                      className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
-                      key={result.item._id}
-                      onClick={() => {
-                        setSearchTerm(result.item.productName);
-                        dispatch(addProduct(filteredData));
-                        setSearchIsShown(false);
-                        router.push("/products");
-                      }}
-                    >
-                      {result.item.productName} by {result.item.category}
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-700 text-sm">
-                    {`No products found with ${searchTerm}`}
-                  </li>
-                )}
-              </ul>
-            </div>
-          )}
-        </form>
+        {isSearchOpen && <SearchComponent />}
       </div>
 
       {/* User Authentication  */}
