@@ -7,8 +7,10 @@ import EndHandler from "./EndHandler";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import SearchComponent from "./PartsOfHandler/Search";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/store/cartSlice";
 
-const NavBarUpdate = () => {
+const NavBarContent = ({ data, sales }) => {
   const [mobileNavToggle, setMobileNavToggle] = useState(false);
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
@@ -37,9 +39,21 @@ const NavBarUpdate = () => {
     cartRef: searchRef,
   } = useGlobalCart();
 
+  const dispatch = useDispatch();
+  if (data) {
+    data.data.map((elem) => dispatch(addItemToCart(elem)));
+  }
+
+  const saleData = (slug) => {
+    const data = sales.data.filter((elem) => elem.category.slug === slug);
+    return data;
+  };
+
+  // console.log("regular sale data", saleData("regular-wear"));
+
   return (
     <div
-      className={`relative transition-all duration-500 ease-in-out ${
+      className={`text-base-100 relative transition-all duration-500 ease-in-out ${
         scrollY > 100
           ? "lg:py-1  backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
           : "lg:py-3 bg-primary-color"
@@ -97,45 +111,51 @@ const NavBarUpdate = () => {
                   <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
                     <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
                       {/* SALE  */}
-                      <ul className="flex flex-col gap-y-2">
-                        <p className="text-primary-color font-semibold">SALE</p>
-                        <div className="flex flex-col gap-y-2">
-                          <Link
-                            href={`/recommended-products`}
-                            // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                          >
-                            NEW ARRIVALS
-                          </Link>
-                          <Link
-                            href={`/recommended-products`}
-                            // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                          >
-                            READY TO SHIP
-                          </Link>
-                        </div>
-                      </ul>
+                      {sales.data && (
+                        <ul className="flex flex-col gap-y-2">
+                          <p className="text-primary-color font-semibold">
+                            SALE
+                          </p>
+                          <div>
+                            {saleData("regular-wear").map((data, index) => (
+                              <div
+                                key={index}
+                                className="flex flex-col gap-y-2"
+                              >
+                                {data.sales.map((sale) => (
+                                  <Link
+                                    key={sale._id}
+                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                  >
+                                    {sale.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </ul>
+                      )}
+
                       {/* SUBCATEGORY  */}
                       <ul className="flex flex-col gap-y-2">
                         <li className="text-primary-color font-semibold">
                           SHOP BY CATEGORY
                         </li>
-                        <ul className="flex flex-col gap-y-2">
-                          <Link
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                            href={`/products/categories`}
-                            // href={`/products/categories/${category.category}`}
-                          >
-                            DESIGNER WEAR
-                          </Link>
-                          <Link
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                            href={`/products/categories`}
-                            // href={`/products/categories/${category.category}`}
-                          >
-                            READY TO SHAREE
-                          </Link>
+                        <ul>
+                          {saleData("regular-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.subCategories.map((subCategory) => (
+                                <Link
+                                  key={subCategory._id}
+                                  href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {subCategory.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
                         </ul>
                       </ul>
                       {/* FESTIVAL  */}
@@ -143,21 +163,20 @@ const NavBarUpdate = () => {
                         <li className="text-primary-color font-semibold">
                           SHOP BY FESTIVAL
                         </li>
-                        <ul className="flex flex-col gap-y-2">
-                          <Link
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                            href={`/products/categories`}
-                            // href={`/products/categories/${category.category}`}
-                          >
-                            ENGAGEMENT
-                          </Link>
-                          <Link
-                            className="hover:text-primary-color hover:underline underline-offset-2"
-                            href={`/products/categories`}
-                            // href={`/products/categories/${category.category}`}
-                          >
-                            NIKKAH
-                          </Link>
+                        <ul>
+                          {saleData("regular-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.fesivals.map((festival) => (
+                                <Link
+                                  key={festival._id}
+                                  href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {festival.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
                         </ul>
                       </ul>
                     </div>
@@ -177,102 +196,198 @@ const NavBarUpdate = () => {
                 </div>
               </div>
               <div className="group">
-                <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                  PARTY WEAR
-                  <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
+                <li className="flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                  PARTY WEAR{" "}
+                  <FaAngleDown
+                    className={`transform group-hover:rotate-180 transition-all duration-500 ease-in-out`}
+                  />
+                  <div className="h-8 w-full absolute top-full left-0"></div>
                 </li>
-                <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-20 z-20 shadow-xl text-sm">
-                  <div className="flex justify-between w-2/3 mx-auto py-6">
-                    <ul className="flex flex-col gap-y-2">
-                      <li className="text-primary-color font-semibold">SALE</li>
-                      <div>
-                        <Link
-                          href={`/recommended-products`}
-                          // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                        >
-                          NEW ARRIVALS
-                        </Link>
-                        <Link
-                          href={`/recommended-products`}
-                          // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                        >
-                          READY TO SHIP
-                        </Link>
-                      </div>
-                    </ul>
-                    <ul className="flex flex-col gap-y-2">
-                      <li className="text-primary-color font-semibold">
-                        SHOP BY CATEGORY
-                      </li>
+                <div
+                  className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
+                >
+                  <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
+                    <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
+                      {/* SALE  */}
+                      {sales.data && (
+                        <ul className="flex flex-col gap-y-2">
+                          <p className="text-primary-color font-semibold">
+                            SALE
+                          </p>
+                          <div>
+                            {saleData("party-wear").map((data, index) => (
+                              <div
+                                key={index}
+                                className="flex flex-col gap-y-2"
+                              >
+                                {data.sales.map((sale, i) => (
+                                  <Link
+                                    key={i}
+                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                  >
+                                    {sale.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </ul>
+                      )}
+
+                      {/* SUBCATEGORY  */}
                       <ul className="flex flex-col gap-y-2">
-                        <Link
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                          href={`/products/categories`}
-                          // href={`/products/categories/${category.category}`}
-                        >
-                          DESIGNER WEAR
-                        </Link>
-                        <Link
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                          href={`/products/categories`}
-                          // href={`/products/categories/${category.category}`}
-                        >
-                          READY TO SHAREE
-                        </Link>
+                        <li className="text-primary-color font-semibold">
+                          SHOP BY CATEGORY
+                        </li>
+                        <ul>
+                          {saleData("party-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.subCategories.map((subCategory, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {subCategory.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </ul>
                       </ul>
-                    </ul>
+                      {/* FESTIVAL  */}
+                      <ul className="flex flex-col gap-y-2">
+                        <li className="text-primary-color font-semibold">
+                          SHOP BY FESTIVAL
+                        </li>
+                        <ul>
+                          {saleData("party-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.fesivals.map((festival, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {festival.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </ul>
+                      </ul>
+                    </div>
+                    {/* IMAGE  */}
+                    <div className="flex-[1]">
+                      <Link href={`/products`}>
+                        <Image
+                          src="/images/modal.png"
+                          quality={100}
+                          width={1000}
+                          height={400}
+                          alt="Nazaara Promotion"
+                        />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="group">
-                <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
-                  BRIDAL WEAR
-                  <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
+                <li className="flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                  BRIDAL WEAR{" "}
+                  <FaAngleDown
+                    className={`transform group-hover:rotate-180 transition-all duration-500 ease-in-out`}
+                  />
+                  <div className="h-8 w-full absolute top-full left-0"></div>
                 </li>
-                <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-20 z-20 shadow-xl text-sm">
-                  <div className="flex justify-between w-2/3 mx-auto py-6">
-                    <ul className="flex flex-col gap-y-2">
-                      <li className="text-primary-color font-semibold">SALE</li>
-                      <div>
-                        <Link
-                          href={`/recommended-products`}
-                          // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                        >
-                          NEW ARRIVALS
-                        </Link>
-                        <Link
-                          href={`/recommended-products`}
-                          // href={`/recommended-products?category=${elem.navCategoryTitle}&sale=${sale.saleTitle}`}
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                        >
-                          READY TO SHIP
-                        </Link>
-                      </div>
-                    </ul>
-                    <ul className="flex flex-col gap-y-2">
-                      <li className="text-primary-color font-semibold">
-                        SHOP BY CATEGORY
-                      </li>
+                <div
+                  className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
+                >
+                  <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
+                    <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
+                      {/* SALE  */}
+                      {sales.data && (
+                        <ul className="flex flex-col gap-y-2">
+                          <p className="text-primary-color font-semibold">
+                            SALE
+                          </p>
+                          <div>
+                            {saleData("bridal-wear").map((data, index) => (
+                              <div
+                                key={index}
+                                className="flex flex-col gap-y-2"
+                              >
+                                {data.sales.map((sale, i) => (
+                                  <Link
+                                    key={i}
+                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                  >
+                                    {sale.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </ul>
+                      )}
+
+                      {/* SUBCATEGORY  */}
                       <ul className="flex flex-col gap-y-2">
-                        <Link
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                          href={`/products/categories`}
-                          // href={`/products/categories/${category.category}`}
-                        >
-                          DESIGNER WEAR
-                        </Link>
-                        <Link
-                          className="hover:text-primary-color hover:underline underline-offset-2"
-                          href={`/products/categories`}
-                          // href={`/products/categories/${category.category}`}
-                        >
-                          READY TO SHAREE
-                        </Link>
+                        <li className="text-primary-color font-semibold">
+                          SHOP BY CATEGORY
+                        </li>
+                        <ul>
+                          {saleData("bridal-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.subCategories.map((subCategory, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {subCategory.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </ul>
                       </ul>
-                    </ul>
+                      {/* FESTIVAL  */}
+                      <ul className="flex flex-col gap-y-2">
+                        <li className="text-primary-color font-semibold">
+                          SHOP BY FESTIVAL
+                        </li>
+                        <ul>
+                          {saleData("bridal-wear").map((data, index) => (
+                            <div key={index} className="flex flex-col gap-y-2">
+                              {data.fesivals.map((festival, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                  className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                >
+                                  {festival.title}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </ul>
+                      </ul>
+                    </div>
+                    {/* IMAGE  */}
+                    <div className="flex-[1]">
+                      <Link href={`/products`}>
+                        <Image
+                          src="/images/modal.png"
+                          quality={100}
+                          width={1000}
+                          height={400}
+                          alt="Nazaara Promotion"
+                        />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -440,4 +555,4 @@ const NavBarUpdate = () => {
   );
 };
 
-export default NavBarUpdate;
+export default NavBarContent;

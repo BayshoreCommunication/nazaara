@@ -1,6 +1,6 @@
 import React from "react";
 import { cookies } from "next/headers";
-import Navbar from "./Navbar";
+import NavBarContent from "./NavBarContent";
 
 async function getData() {
   const cookieData = cookies();
@@ -18,13 +18,22 @@ async function getData() {
   }
 }
 
+async function getSalesData() {
+  const res = await fetch(`${process.env.API_URL}/api/v1/sale/categoriesSale`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
 const MainNavbar = async () => {
   const data = await getData();
-  // console.log("user Data", data);
+  const sales = await getSalesData();
+  // console.log("Sale", sales);
 
   return (
     <main className="sticky top-0 z-50">
-      <Navbar data={data} />
+      <NavBarContent data={data} sales={sales} />
     </main>
   );
 };

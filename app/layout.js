@@ -1,4 +1,3 @@
-import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "react-hot-toast";
