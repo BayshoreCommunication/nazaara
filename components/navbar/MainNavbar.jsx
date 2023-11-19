@@ -5,7 +5,6 @@ import NavBarContent from "./NavBarContent";
 async function getData() {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
-  // console.log("cookie", userData);
   if (userData) {
     const data = JSON.parse(userData?.value);
     const res = await fetch(
@@ -19,7 +18,7 @@ async function getData() {
 }
 
 async function getSalesData() {
-  const res = await fetch(`${process.env.API_URL}/api/v1/sale/categoriesSale`);
+  const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`);
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
@@ -29,7 +28,6 @@ async function getSalesData() {
 const MainNavbar = async () => {
   const data = await getData();
   const sales = await getSalesData();
-  // console.log("Sale", sales);
 
   return (
     <main className="sticky top-0 z-50">
