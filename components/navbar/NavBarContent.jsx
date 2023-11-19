@@ -10,7 +10,7 @@ import SearchComponent from "./PartsOfHandler/Search";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
 
-const NavBarContent = ({ data, sales }) => {
+const NavBarContent = ({ sales }) => {
   const [mobileNavToggle, setMobileNavToggle] = useState(false);
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
@@ -40,9 +40,9 @@ const NavBarContent = ({ data, sales }) => {
   } = useGlobalCart();
 
   const dispatch = useDispatch();
-  if (data) {
-    data.data.map((elem) => dispatch(addItemToCart(elem)));
-  }
+  // if (data) {
+  //   data.data.map((elem) => dispatch(addItemToCart(elem)));
+  // }
 
   const saleData = (slug) => {
     const data = sales.data.filter((elem) => elem.category.slug === slug);
