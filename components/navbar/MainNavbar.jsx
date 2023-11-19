@@ -2,6 +2,7 @@ import React from "react";
 import { cookies } from "next/headers";
 import NavBarContent from "./NavBarContent";
 
+console.log("bugi chugi");
 async function getData() {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
