@@ -10,7 +10,7 @@ import SearchComponent from "./PartsOfHandler/Search";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
 
-const NavBarContent = ({ data, sales }) => {
+const NavBarContent = ({ data, sales, advertisements }) => {
   const [mobileNavToggle, setMobileNavToggle] = useState(false);
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
@@ -39,6 +39,16 @@ const NavBarContent = ({ data, sales }) => {
     cartRef: searchRef,
   } = useGlobalCart();
 
+  const {
+    isCartOpen: isMobileNavOpen,
+    setIsCartOpen: setIsMobileNavOpen,
+    cartRef: mobileNavRef,
+  } = useGlobalCart();
+
+  const handleMobileNavToggle = () => {
+    setIsMobileNavOpen(!isMobileNavOpen); // Toggle the cart open/close state
+  };
+
   const dispatch = useDispatch();
   if (data) {
     data.data.map((elem) => dispatch(addItemToCart(elem)));
@@ -49,7 +59,27 @@ const NavBarContent = ({ data, sales }) => {
     return data;
   };
 
-  // console.log("regular sale data", saleData("regular-wear"));
+  //advertisement data funcition
+  const advertisementData = (title) => {
+    const data = advertisements.data.filter(
+      (elem) => elem.categoryName === title
+    );
+    return (
+      data[0]?.categoryName === title && (
+        <div className="flex-[1]">
+          <Link href={`${data[0]?.advertisements[0].link}`}>
+            <Image
+              src={`${data[0]?.advertisements[0].imageUrl}`}
+              quality={100}
+              width={1000}
+              height={400}
+              alt="Nazaara Promotion"
+            />
+          </Link>
+        </div>
+      )
+    );
+  };
 
   return (
     <div
@@ -65,7 +95,8 @@ const NavBarContent = ({ data, sales }) => {
           <div className="lg:hidden flex justify-between items-center ">
             <div className="lg:hidden w-1/4">
               <button
-                onClick={() => setMobileNavToggle(!mobileNavToggle)}
+                // onClick={() => setMobileNavToggle(!mobileNavToggle)}
+                onClick={handleMobileNavToggle}
                 className="text-3xl font-bold flex lg:hidden"
               >
                 {!mobileNavToggle && <FaBars size={20} />}
@@ -180,18 +211,8 @@ const NavBarContent = ({ data, sales }) => {
                         </ul>
                       </ul>
                     </div>
-                    {/* IMAGE  */}
-                    <div className="flex-[1]">
-                      <Link href={`/products`}>
-                        <Image
-                          src="/images/modal.png"
-                          quality={100}
-                          width={1000}
-                          height={400}
-                          alt="Nazaara Promotion"
-                        />
-                      </Link>
-                    </div>
+                    {/* render image via function  */}
+                    {advertisementData("Regular Wear")}
                   </div>
                 </div>
               </div>
@@ -279,17 +300,8 @@ const NavBarContent = ({ data, sales }) => {
                       </ul>
                     </div>
                     {/* IMAGE  */}
-                    <div className="flex-[1]">
-                      <Link href={`/products`}>
-                        <Image
-                          src="/images/modal.png"
-                          quality={100}
-                          width={1000}
-                          height={400}
-                          alt="Nazaara Promotion"
-                        />
-                      </Link>
-                    </div>
+                    {/* render image via function  */}
+                    {advertisementData("Party Wear")}
                   </div>
                 </div>
               </div>
@@ -377,17 +389,8 @@ const NavBarContent = ({ data, sales }) => {
                       </ul>
                     </div>
                     {/* IMAGE  */}
-                    <div className="flex-[1]">
-                      <Link href={`/products`}>
-                        <Image
-                          src="/images/modal.png"
-                          quality={100}
-                          width={1000}
-                          height={400}
-                          alt="Nazaara Promotion"
-                        />
-                      </Link>
-                    </div>
+                    {/* render image via function  */}
+                    {advertisementData("Bridal Wear")}
                   </div>
                 </div>
               </div>
@@ -422,8 +425,15 @@ const NavBarContent = ({ data, sales }) => {
         </div>
 
         {/* mobile navbar start  */}
-        {mobileNavToggle && (
-          <div className="block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0">
+        {isMobileNavOpen && (
+          <div
+            ref={mobileNavRef}
+            className={`${
+              scrollY > 100
+                ? "lg:py-1  backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
+                : ""
+            } block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0`}
+          >
             <div className="main-container ">
               <SearchComponent />
               <div className="flex flex-col gap-y-2 mt-3">
@@ -449,22 +459,23 @@ const NavBarContent = ({ data, sales }) => {
                   </div>
                   {mobileRegularLink && (
                     <>
-                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
-                        <Link
-                          // href={`/products/categories/${data.category}`}
-                          href={`/products`}
-                          onClick={() => setToogle(false)}
+                      {saleData("regular-wear").map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
                         >
-                          DESIGNER WEAR
-                        </Link>
-                        <Link
-                          // href={`/products/categories/${data.category}`}
-                          href={`/products`}
-                          onClick={() => setToogle(false)}
-                        >
-                          READY TO SHAREE
-                        </Link>
-                      </div>
+                          {data.subCategories.map((subCategory, i) => (
+                            <Link
+                              key={i}
+                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              onClick={() => setToogle(false)}
+                              className="text-[13px]"
+                            >
+                              {subCategory.title}
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
                     </>
                   )}
                 </div>
@@ -485,20 +496,23 @@ const NavBarContent = ({ data, sales }) => {
                   </div>
                   {mobilePartyLink && (
                     <>
-                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
-                        <Link
-                          href={`/products/categories`}
-                          onClick={() => setToogle(false)}
+                      {saleData("party-wear").map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
                         >
-                          CROP-TOP SKIRT
-                        </Link>
-                        <Link
-                          href={`/products/categories`}
-                          onClick={() => setToogle(false)}
-                        >
-                          PARTY GOWN
-                        </Link>
-                      </div>
+                          {data.subCategories.map((subCategory, i) => (
+                            <Link
+                              key={i}
+                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              onClick={() => setToogle(false)}
+                              className="text-[13px]"
+                            >
+                              {subCategory.title}
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
                     </>
                   )}
                 </div>
@@ -519,20 +533,23 @@ const NavBarContent = ({ data, sales }) => {
                   </div>
                   {mobileBridalLink && (
                     <>
-                      <div className="flex flex-col gap-y-3 text-sm mb-4 mt-2">
-                        <Link
-                          href={`/products/categories`}
-                          onClick={() => setToogle(false)}
+                      {saleData("bridal-wear").map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
                         >
-                          BRIDAL LEHENGA
-                        </Link>
-                        <Link
-                          href={`/products/categories`}
-                          onClick={() => setToogle(false)}
-                        >
-                          BRIDAL SHARARA
-                        </Link>
-                      </div>
+                          {data.subCategories.map((subCategory, i) => (
+                            <Link
+                              key={i}
+                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              onClick={() => setToogle(false)}
+                              className="text-[13px]"
+                            >
+                              {subCategory.title}
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
                     </>
                   )}
                 </div>

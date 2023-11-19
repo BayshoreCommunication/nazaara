@@ -2,7 +2,7 @@
 import { removeItemFromCart, updateQuantity } from "@/store/cartSlice";
 import axios from "axios";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { MdDeleteForever } from "react-icons/md";
@@ -139,7 +139,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
     }
   };
 
-  // console.log("productDetails", productDetails);
+  console.log("productDetails", productDetails);
 
   return (
     <div className="flex flex-col gap-5 bg-white w-80 lg:w-96 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">
@@ -163,7 +163,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
             </div>
           ) : (
             <>
-              {cartItems.length > 0 ? (
+              {cartItems.length > 0 && productDetails ? (
                 <>
                   {productDetails.map((detail, index) => (
                     <div
@@ -171,38 +171,39 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
                       className="flex justify-between items-center border-b"
                     >
                       <Image
-                        src={detail.product.data.variant[0].imageUrl[0]}
+                        src={detail?.product?.data?.variant[0]?.imageUrl[0]}
                         alt="cart"
                         width={90}
                         height={90}
                       />
                       <div className="text-black text-sm flex flex-col gap-1">
-                        <h2>{detail.product.data.productName}</h2>
+                        <h2>{detail?.product?.data?.productName}</h2>
                         <p>
                           <span className="font-medium">Color:</span>{" "}
-                          {detail.color}
+                          {detail?.color}
                         </p>
                         <p>
                           <span className="font-medium">Size:</span>{" "}
-                          {detail.size}
+                          {detail?.size}
                         </p>
                         <p>
                           <span className="font-medium">Quantity:</span>{" "}
-                          {detail.quantity}
+                          {detail?.quantity}
                         </p>
                       </div>
                       <div className="flex flex-col gap-1">
                         <p className="text-black text-sm">
-                          BDT {detail.product.data.salePrice * detail.quantity}
+                          BDT{" "}
+                          {detail?.product?.data?.salePrice * detail?.quantity}
                           /-
                         </p>
                         <div className="flex items-center">
-                          {detail.quantity > 1 ? (
+                          {detail?.quantity > 1 ? (
                             <button
                               onClick={() =>
                                 handleDecreaseQuantity(
-                                  detail.variantId,
-                                  detail.quantity,
+                                  detail?.variantId,
+                                  detail?.quantity,
                                   index
                                 )
                               }
@@ -213,7 +214,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
                           ) : (
                             <button
                               onClick={() =>
-                                handleDeleteCartItem(detail.variantId)
+                                handleDeleteCartItem(detail?.variantId)
                               }
                               className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
                             >
@@ -227,15 +228,15 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
                             </p>
                           ) : (
                             <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
-                              {detail.quantity}
+                              {detail?.quantity}
                             </p>
                           )}
 
                           <button
                             onClick={() =>
                               handleIncreaseQuantity(
-                                detail.variantId,
-                                detail.quantity,
+                                detail?.variantId,
+                                detail?.quantity,
                                 index
                               )
                             }
@@ -257,7 +258,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
               )}
             </>
           )}
-          {cartItems.length > 0 && (
+          {cartItems?.length > 0 && (
             <button onClick={() => setIsAddToCartOpen(false)}>
               <Link
                 href="/information"
