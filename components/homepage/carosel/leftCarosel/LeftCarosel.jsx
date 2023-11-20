@@ -1,52 +1,74 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination, Autoplay } from "swiper";
+import SwiperCore, {
+  Pagination,
+  Autoplay,
+  Navigation,
+  EffectCreative,
+} from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-creative";
 import Image from "next/image";
-import Button from "@/components/Button";
+import Link from "next/link";
 
 const LeftCarosel = ({ data }) => {
   SwiperCore.use([Autoplay]);
   return (
-    <Swiper
-      modules={[Pagination]}
-      loop={true}
-      autoplay={{
-        delay: 3000,
-      }}
-      slidesPerView={1}
-      pagination={{ clickable: true }}
-    >
-      <div className="">
-        <div className="relative">
+    <div className="homeSwiper">
+      <Swiper
+        modules={[Pagination, Navigation, EffectCreative]}
+        loop={true}
+        navigation={true}
+        autoplay={{
+          delay: 3000,
+        }}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        className="mySwiper"
+        speed={600}
+        effect={"creative"}
+        creativeEffect={{
+          prev: {
+            shadow: true,
+            translate: ["-20%", 0, -1],
+          },
+          next: {
+            translate: ["100%", 0, 0],
+          },
+        }}
+      >
+        <div className="">
           {data.map((slide, index) => (
             <SwiperSlide key={index}>
               {slide?.image && (
-                <Image
-                  src={slide?.image}
-                  alt="My Image"
-                  width={1000}
-                  height={600}
-                  // h-[32rem] lg:h-[36rem] xl:h-[42rem]
-                  className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
-                />
+                <Link href={`/products`}>
+                  <Image
+                    src={slide?.image}
+                    alt="My Image"
+                    quality={100}
+                    width={1903}
+                    height={775}
+                    className="w-full h-auto"
+                  />
+                </Link>
               )}
 
-              <div className="absolute bottom-10 sm:bottom-16 left-10 sm:left-16 text-white">
+              {/* <div className="absolute bottom-10 sm:bottom-16 left-10 sm:left-16 text-white">
                 <p className="text-xl font-normal">{slide?.topHeading}</p>
                 <h2 className="my-4 font-bold text-4xl lg:text-6xl">
                   {slide?.mainHeading}
                 </h2>
                 <p className="mb-4 text-xl font-thin">{slide?.bottomHeading}</p>
                 <Button text="Shop Now" />
-              </div>
+              </div> */}
             </SwiperSlide>
           ))}
         </div>
-      </div>
-    </Swiper>
+      </Swiper>
+    </div>
   );
 };
 

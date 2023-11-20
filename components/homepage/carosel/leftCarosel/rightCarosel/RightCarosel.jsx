@@ -35,7 +35,7 @@ const RightCarosel = ({ data }) => {
                       alt="My Image"
                       width={320}
                       height={600}
-                      className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem] border-4 border-secondary-color"
+                      className="w-full h-[20rem] sm:h-[28rem] md:h-[32rem] lg:h-[36rem] xl:h-[42rem]"
                     />
                   )}
                 </div>

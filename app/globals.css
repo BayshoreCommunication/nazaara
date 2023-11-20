@@ -39,14 +39,15 @@ html {
 .swiper-pagination .swiper-pagination-bullet {
   background: transparent;
   border: 1px solid #896e14;
-  height: 10px !important;
+  height: 9px !important;
   opacity: 1;
-  width: 10px !important;
+  width: 9px !important;
 }
 
 .swiper-pagination .swiper-pagination-bullet-active {
-  background: #630303 !important;
+  background: #880202 !important;
   border: none;
+  transform: scale(1.2);
 }
 
 .card-mobile .swiper-slide {
@@ -63,6 +64,11 @@ html {
   margin-top: 20px;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  transform: translateY(-30%);
+}
+
 /* swiper slider style end */
 
 /* hide scrollbar section start  */
@@ -77,12 +83,32 @@ html {
   padding-bottom: 20px;
 }
 
-.carosel .swiper-horizontal > .swiper-pagination-bullets,
+/* .carosel .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
   bottom: var(--swiper-pagination-bottom, 0px);
+} */
+
+/* customize swiper style for homepage start */
+.homeSwiper .swiper-button-prev,
+.homeSwiper .swiper-button-next {
+  color: #fff;
+  /* background: #d4af37; */
+  padding: 40px 20px;
+  /* margin-bottom: 400px !important; */
 }
+
+.homeSwiper .swiper-pagination-bullet {
+  background: #fff;
+  border: none;
+}
+
+.homeSwiper .swiper-button-next:after,
+.homeSwiper .swiper-button-prev:after {
+  font-size: x-large;
+}
+/* customize swiper style for homepage end */
 
 /* Hide scrollbar in Webkit browsers */
 .scrollbar-none::-webkit-scrollbar {
@@ -122,7 +148,7 @@ html {
   max-width: 240px;
 }
 
-.swiper-button-prev {
+/* .swiper-button-prev {
   position: fixed !important;
   left: 37.5% !important;
   transform: translateX(-50%);
@@ -142,9 +168,9 @@ html {
   height: 60px !important;
   border-radius: 10px;
   box-shadow: 0px 0px 6px 2px #6b6b6b2e;
-}
+} */
 
-@media only screen and (min-width: 1800px) and (max-width: 1899px) {
+/* @media only screen and (min-width: 1800px) and (max-width: 1899px) {
   .swiper-button-prev {
     left: 37.5% !important;
   }
@@ -242,7 +268,7 @@ html {
   .swiper-button-next {
     left: 90% !important;
   }
-}
+} */
 
 .rc-slider-handle {
   border: solid 2px #820000 !important;
