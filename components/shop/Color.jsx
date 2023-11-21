@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
 import axios from "axios";

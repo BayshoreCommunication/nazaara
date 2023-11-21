@@ -6,6 +6,7 @@ import Banner from "@/components/homepage/banner/Banner";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
 import HomeSlider from "@/components/home-carosel/Slider";
 import Slider from "@/components/carosel/Slider";
+import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
 
 const Home = () => {
   return (
@@ -13,17 +14,13 @@ const Home = () => {
       <div className="w-full z-0">
         <Slider />
       </div>
-      <div className="main-container my-4 lg:my-10 flex flex-col gap-y-10 lg:gap-y-16">
-        {/* top carosel start */}
-        {/* <div className="flex flex-col lg:flex-row gap-x-10 gap-y-4 lg:gap-6">
-        <div className="lg:w-[70%] 2xl:w-3/4 z-0">
-          <Slider />
+      <div className="main-container my-10 lg:my-20 flex flex-col gap-y-10 lg:gap-y-20">
+        {/* shop by festival start */}
+        <div>
+          <h1 className="card-title">SHOP BY FESTIVAL</h1>
+          <MainFestivalPage />
         </div>
-        <div className="w-full z-0">
-          <TinySlider />
-        </div>
-      </div> */}
-        {/* top carosel end */}
+        {/* shop by festival end */}
 
         {/* shop by category start */}
         <div>

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import ToogleButton from "./ToogleButton";
 import Slider from "rc-slider";
