@@ -7,6 +7,11 @@ import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesk
 import HomeSlider from "@/components/home-carosel/Slider";
 import Slider from "@/components/carosel/Slider";
 import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
+import MainSalePage from "@/components/Sale/MainSalePage";
+import Image from "next/image";
+// Test Image
+import testImage from "../public/images/products/details1.png";
+// Test Image
 
 const Home = () => {
   return (
@@ -28,6 +33,13 @@ const Home = () => {
           <AllCategoriesCard />
         </div>
         {/* shop by category end */}
+
+        {/* shop by sale start */}
+        <div>
+          <h1 className="card-title">SHOP BY SALE</h1>
+          <MainSalePage />
+        </div>
+        {/* shop by sale end */}
 
         {/* best selling start */}
         <div>

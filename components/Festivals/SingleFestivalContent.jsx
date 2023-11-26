@@ -27,8 +27,6 @@ const FestivalComponent = ({ festivalData }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Simulate an asynchronous data fetch
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
 
       // Your existing filtering logic here
@@ -85,7 +83,7 @@ const FestivalComponent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  console.log("filtered products, ", filteredProducts);
+  // console.log("filtered products, ", filteredProducts);
 
   return (
     <main>

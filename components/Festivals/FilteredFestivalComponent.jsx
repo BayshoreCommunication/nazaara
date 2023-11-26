@@ -32,7 +32,7 @@ const FilteredFestivalComponent = ({
                   {selectedColors.map((color, i) => (
                     <button
                       key={i}
-                      className="border text-xs px-3 py-1 uppercase bg-red-100 rounded-full text-primary-color flex items-center gap-1"
+                      className="border text-xs px-3 py-1 uppercase bg-red-100 font-medium rounded-full text-primary-color flex items-center gap-1"
                     >
                       {color}
                       <span
@@ -45,7 +45,7 @@ const FilteredFestivalComponent = ({
                   ))}
                   <button
                     onClick={handleClearAll}
-                    className="text-xs text-gray-700"
+                    className="text-xs text-gray-700 font-medium"
                   >
                     Clear All
                   </button>
