@@ -6,6 +6,7 @@ import ReadyToShipBadge from "../ReadyToShipBadge";
 import { CalculatePercentage } from "@/helpers/CalculateDiscountPercentage";
 
 const ProductCart = ({ data }) => {
+  // console.log("data from caard", data);
   return (
     <>
       {data && (

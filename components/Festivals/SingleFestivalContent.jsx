@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import TopBar from "../TopBar";
 import { FaGift } from "react-icons/fa";
-import ProductCart from "../card/ProductCart";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import { RxCross2 } from "react-icons/rx";
 import FilteredFestivalComponent from "./FilteredFestivalComponent";
+import { BeatLoader } from "react-spinners";
 
 const FestivalComponent = ({ festivalData }) => {
   const minPrice = Math.min(
@@ -17,47 +16,40 @@ const FestivalComponent = ({ festivalData }) => {
     ...festivalData.data[0].products.map((product) => product.salePrice)
   );
 
-  const [change, setChange] = useState(false);
   const [selectedColors, setSelectedColors] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // Default price range
-  const [priceFilteredProducts, setPriceFilteredProducts] = useState([]); // Default price range
-  const [matchedFilteredProducts, setMatchedFilteredProducts] = useState([]); // Default price range
+  const [loading, setLoading] = useState(true);
 
-  console.log("min", minPrice, "max", maxPrice);
-  console.log("minp", priceRange[0], "maxp", priceRange[1]);
+  // const uniqueColorNames = useMemo(() => {
+  //   return GetUniqueColorNames(festivalData.data[0].products);
+  // }, [festivalData.data]);
 
-  // useEffect to fetch products initially and whenever priceFilter changes
   useEffect(() => {
-    const priceFilteredData = festivalData.data[0].products.filter(
-      (product) =>
-        product.salePrice >= priceRange[0] && product.salePrice <= priceRange[1]
-    );
-    // console.log("priceFilteredData", priceFilteredData);
-    if (change) {
-      setPriceFilteredProducts(priceFilteredData);
-    } else if (priceRange[0] > minPrice || priceRange[1] < maxPrice) {
-      setPriceFilteredProducts(priceFilteredData);
-      setChange(true);
-    }
-  }, [change, festivalData.data, maxPrice, minPrice, priceRange]);
+    const fetchData = async () => {
+      // Simulate an asynchronous data fetch
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
 
-  //matched products
-  useEffect(() => {
-    const newMatchedObjects = [];
+      // Your existing filtering logic here
+      const colorFilteredData =
+        selectedColors.length > 0
+          ? festivalData.data[0].products.filter((product) =>
+              selectedColors.includes(product.variant[0].color)
+            )
+          : festivalData.data[0].products;
 
-    for (const object1 of priceFilteredProducts) {
-      for (const object2 of filteredProducts) {
-        if (object1._id === object2._id) {
-          newMatchedObjects.push({
-            ...object1,
-            ...object2,
-          });
-        }
-      }
-    }
-    setMatchedFilteredProducts(newMatchedObjects);
-  }, [filteredProducts, priceFilteredProducts]);
+      const priceFilteredData = colorFilteredData.filter(
+        (product) =>
+          product.salePrice >= priceRange[0] &&
+          product.salePrice <= priceRange[1]
+      );
+
+      setFilteredProducts(priceFilteredData);
+    };
+
+    fetchData();
+  }, [selectedColors, priceRange, festivalData.data]);
 
   const handleSearch = (color) => {
     setSelectedColors((prevColors) => {
@@ -65,17 +57,8 @@ const FestivalComponent = ({ festivalData }) => {
         ? prevColors.filter((c) => c !== color)
         : [...prevColors, color];
 
-      // console.log("selected colors", newColors);
-
-      // Apply the filter based on selected colors
-      const result =
-        newColors.length > 0
-          ? festivalData.data[0].products.filter((product) =>
-              newColors.includes(product.variant[0].color)
-            )
-          : [];
-
-      setFilteredProducts(result);
+      setFilteredProducts([]);
+      setLoading(true);
       return newColors;
     });
   };
@@ -85,7 +68,6 @@ const FestivalComponent = ({ festivalData }) => {
       (color) => color !== colorToRemove
     );
 
-    // Update the filtered products based on the new selected colors
     const result =
       newSelectedColors.length > 0
         ? festivalData.data[0].products.filter((product) =>
@@ -103,11 +85,7 @@ const FestivalComponent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  // console.log("main festival data", festivalData);
-  console.log("color filtered data", filteredProducts);
-  console.log("price filtered data", priceFilteredProducts);
-  console.log("match filtered data", matchedFilteredProducts);
-  // console.log("price range", priceRange[0], priceRange[1]);
+  console.log("filtered products, ", filteredProducts);
 
   return (
     <main>
@@ -117,8 +95,8 @@ const FestivalComponent = ({ festivalData }) => {
       />
       <>
         {festivalData && (
-          <div className="main-container my-10 lg:my-20">
-            <div className="flex gap-8">
+          <div className="main-container my-10">
+            <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1">
                 <div className="flex flex-col gap-y-8">
                   <div className="border-b-2 pb-8">
@@ -163,66 +141,25 @@ const FestivalComponent = ({ festivalData }) => {
                   </div>
                 </div>
               </div>
-              <div className={`flex-[3]`}>
-                {matchedFilteredProducts.length > 0 ? (
-                  <div>
-                    {
-                      <FilteredFestivalComponent
-                        data={matchedFilteredProducts}
-                        selectedColors={selectedColors}
-                        handleRemoveColor={handleRemoveColor}
-                        handleClearAll={handleClearAll}
-                        festivalTitle={festivalData.data[0].title}
-                        home={true}
-                      />
-                    }
-                  </div>
-                ) : priceFilteredProducts.length > 0 ? (
-                  <div>
-                    {
-                      <FilteredFestivalComponent
-                        data={priceFilteredProducts}
-                        selectedColors={selectedColors}
-                        handleRemoveColor={handleRemoveColor}
-                        handleClearAll={handleClearAll}
-                        festivalTitle={festivalData.data[0].title}
-                        home={true}
-                      />
-                    }
+              <div className="flex-[3] ">
+                {loading ? (
+                  <div className="w-full flex justify-center items-center h-full">
+                    <div className="w-full h-[40vh] flex justify-center items-center">
+                      <BeatLoader color="#820000" />
+                    </div>
                   </div>
                 ) : filteredProducts.length > 0 ? (
-                  <div>
-                    {
-                      <FilteredFestivalComponent
-                        data={filteredProducts}
-                        selectedColors={selectedColors}
-                        handleRemoveColor={handleRemoveColor}
-                        handleClearAll={handleClearAll}
-                        festivalTitle={festivalData.data[0].title}
-                        home={true}
-                      />
-                    }
-                  </div>
-                ) : festivalData.data[0].products.length > 0 ? (
-                  <div>
-                    {
-                      <FilteredFestivalComponent
-                        data={festivalData.data[0].products}
-                        selectedColors={selectedColors}
-                        handleRemoveColor={handleRemoveColor}
-                        handleClearAll={handleClearAll}
-                        festivalTitle={festivalData.data[0].title}
-                        home={false}
-                      />
-                    }
-                  </div>
-                ) : matchedFilteredProducts.length < 1 &&
-                  (priceRange[0] > minPrice || priceRange[1] < maxPrice) ? (
-                  <div className="w-full flex justify-center items-center h-full">
-                    <p>No Product Found!</p>
-                  </div>
+                  <FilteredFestivalComponent
+                    data={filteredProducts}
+                    selectedColors={selectedColors}
+                    handleRemoveColor={handleRemoveColor}
+                    handleClearAll={handleClearAll}
+                    festivalTitle={festivalData.data[0].title}
+                  />
                 ) : (
-                  "No product found!"
+                  <div className="w-full flex justify-center items-center h-full">
+                    <p>No Product Found!😢</p>
+                  </div>
                 )}
               </div>
             </div>

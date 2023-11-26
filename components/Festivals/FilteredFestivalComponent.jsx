@@ -8,55 +8,53 @@ const FilteredFestivalComponent = ({
   handleRemoveColor,
   handleClearAll,
   festivalTitle,
-  home,
 }) => {
+  // console.log("darttaa, ", data);
   return (
     <>
-      {data && (
+      {data.length > 0 && (
         <div>
-          {home && (
-            <div className="flex flex-col gap-3 mb-6">
-              {data.length === 1 ? (
-                <p>
-                  {data.length} item found for{" "}
-                  <span className="text-primary-color font-semibold">{`'${festivalTitle}'`}</span>
-                </p>
-              ) : (
-                <p>
-                  {data.length} items found for{" "}
-                  <span className="text-primary-color font-semibold">{`'${festivalTitle}'`}</span>
-                </p>
-              )}
-              <div className="flex flex-wrap gap-2">
-                {selectedColors && (
-                  <>
-                    {selectedColors.map((color, i) => (
-                      <button
-                        key={i}
-                        className="border text-sm px-3 py-1 uppercase bg-[#fa9b9b] rounded-full text-white flex items-center gap-1"
-                      >
-                        {color}
-                        <span
-                          onClick={() => handleRemoveColor(color)}
-                          className="text-black"
-                        >
-                          <RxCross2 />
-                        </span>
-                      </button>
-                    ))}
+          <div className="flex flex-col gap-3 mb-6">
+            {data.length === 1 ? (
+              <p>
+                {data.length} item found for{" "}
+                <span className="text-primary-color font-semibold">{`'${festivalTitle}'`}</span>
+              </p>
+            ) : (
+              <p>
+                {data.length} items found for{" "}
+                <span className="text-primary-color font-semibold">{`'${festivalTitle}'`}</span>
+              </p>
+            )}
+            <div className="flex flex-wrap gap-2">
+              {selectedColors.length > 0 && (
+                <>
+                  {selectedColors.map((color, i) => (
                     <button
-                      onClick={handleClearAll}
-                      className="text-xs text-gray-700"
+                      key={i}
+                      className="border text-xs px-3 py-1 uppercase bg-red-100 rounded-full text-primary-color flex items-center gap-1"
                     >
-                      Clear All
+                      {color}
+                      <span
+                        onClick={() => handleRemoveColor(color)}
+                        className="text-black"
+                      >
+                        <RxCross2 />
+                      </span>
                     </button>
-                  </>
-                )}
-              </div>
+                  ))}
+                  <button
+                    onClick={handleClearAll}
+                    className="text-xs text-gray-700"
+                  >
+                    Clear All
+                  </button>
+                </>
+              )}
             </div>
-          )}
+          </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-6">
             {data.map((data, i) => (
               <div key={i} className="transition-all duration-500 ease-in-out">
                 <ProductCart data={data} />
