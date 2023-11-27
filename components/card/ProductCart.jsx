@@ -10,9 +10,9 @@ const ProductCart = ({ data }) => {
   return (
     <>
       {data && (
-        <div className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-500 ease-in-out hover:shadow-xl">
+        <div className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-700 ease-in-out hover:shadow-xl">
           <Link className="flex-[10]" href={`/products/${data?.slug}`}>
-            <div className="relative ">
+            <div className="relative">
               {data?.variant[0]?.imageUrl[0] && (
                 <Image
                   src={data?.variant[0]?.imageUrl[0]}
@@ -37,22 +37,24 @@ const ProductCart = ({ data }) => {
           </Link>
           <div className="flex-1 text-left my-4 mx-2">
             <div className="flex items-center gap-2">
-              <p className="text-md font-bold text-gray-700">
-                BDT {data?.salePrice}/-
+              <p className="text-md font-bold text-gray-700 flex items-center gap-[2px]">
+                <span>৳</span> {data?.salePrice}/-
               </p>
               {data?.regularPrice > data?.salePrice && (
-                <p className="text-sm font-semibold line-through text-gray-500">
-                  BDT {data?.regularPrice}/-
+                <p className="text-sm font-semibold line-through text-gray-500 flex items-center gap-[2px]">
+                  <span>৳</span>
+                  {data?.regularPrice}/-
                 </p>
               )}
             </div>
             <p className="text-xs font-semibold my-2 text-gray-500">
               {data?.productName}
             </p>
-            <div className="flex gap-2 items-center">
-              <ReadyToShipBadge text="Ready to Ship" />
-              {/* <PendingShipBadge text="Up to 2 weeks" /> */}
-            </div>
+            {data?.preOrder && (
+              <div className="flex gap-2 items-center">
+                <ReadyToShipBadge text="Pre-Order Available" />
+              </div>
+            )}
           </div>
         </div>
       )}

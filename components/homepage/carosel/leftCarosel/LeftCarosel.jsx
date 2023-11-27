@@ -45,14 +45,16 @@ const LeftCarosel = ({ data }) => {
             <SwiperSlide key={index}>
               {slide?.image && (
                 <Link href={`/products`}>
-                  <Image
-                    src={slide?.image}
-                    alt="My Image"
-                    quality={100}
-                    width={1903}
-                    height={775}
-                    className="w-full h-auto"
-                  />
+                  <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">
+                    <Image
+                      src={slide?.image}
+                      alt="My Image"
+                      quality={100}
+                      fill
+                      sizes="100vw"
+                      className="w-full h-auto"
+                    />
+                  </div>
                 </Link>
               )}
 

@@ -5,15 +5,23 @@ import "rc-slider/assets/index.css";
 import TopBar from "../TopBar";
 import { FaGift } from "react-icons/fa";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import FilteredFestivalComponent from "./FilteredFestivalComponent";
 import { BeatLoader } from "react-spinners";
+import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 
-const FestivalContent = ({ festivalData }) => {
+const SaleContent = ({ saleData }) => {
+  // console.log("slaeDAtaaaa", saleData);
+  //   if (!saleData) {
+  //     <div className="w-full flex justify-center items-center h-full">
+  //       <div className="w-full h-[40vh] flex justify-center items-center">
+  //         <BeatLoader color="#820000" />
+  //       </div>
+  //     </div>;
+  //   }
   const minPrice = Math.min(
-    ...festivalData.data[0].products.map((product) => product.salePrice)
+    ...saleData.data[0].products.map((product) => product.salePrice)
   );
   const maxPrice = Math.max(
-    ...festivalData.data[0].products.map((product) => product.salePrice)
+    ...saleData.data[0].products.map((product) => product.salePrice)
   );
 
   const [selectedColors, setSelectedColors] = useState([]);
@@ -22,8 +30,8 @@ const FestivalContent = ({ festivalData }) => {
   const [loading, setLoading] = useState(true);
 
   // const uniqueColorNames = useMemo(() => {
-  //   return GetUniqueColorNames(festivalData.data[0].products);
-  // }, [festivalData.data]);
+  //   return GetUniqueColorNames(saleData.data[0].products);
+  // }, [saleData.data]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,10 +40,10 @@ const FestivalContent = ({ festivalData }) => {
       // Your existing filtering logic here
       const colorFilteredData =
         selectedColors.length > 0
-          ? festivalData.data[0].products.filter((product) =>
+          ? saleData.data[0].products.filter((product) =>
               selectedColors.includes(product.variant[0].color)
             )
-          : festivalData.data[0].products;
+          : saleData.data[0].products;
 
       const priceFilteredData = colorFilteredData.filter(
         (product) =>
@@ -47,7 +55,7 @@ const FestivalContent = ({ festivalData }) => {
     };
 
     fetchData();
-  }, [selectedColors, priceRange, festivalData.data]);
+  }, [selectedColors, priceRange, saleData.data]);
 
   const handleSearch = (color) => {
     setSelectedColors((prevColors) => {
@@ -68,7 +76,7 @@ const FestivalContent = ({ festivalData }) => {
 
     const result =
       newSelectedColors.length > 0
-        ? festivalData.data[0].products.filter((product) =>
+        ? saleData.data[0].products.filter((product) =>
             newSelectedColors.includes(product.variant[0].color)
           )
         : [];
@@ -87,12 +95,9 @@ const FestivalContent = ({ festivalData }) => {
 
   return (
     <main>
-      <TopBar
-        title={`Festival/${festivalData.data[0].title}`}
-        icon={<FaGift />}
-      />
+      <TopBar title={`Sale/${saleData.data[0].title}`} icon={<FaGift />} />
       <>
-        {festivalData && (
+        {saleData && (
           <div className="main-container my-10">
             <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1">
@@ -118,9 +123,9 @@ const FestivalContent = ({ festivalData }) => {
                   <div>
                     <p className="font-semibold mb-6">COLOR</p>
                     <div className="flex flex-wrap gap-2">
-                      {GetUniqueColorNames(festivalData.data[0].products)
-                        .length > 0 &&
-                        GetUniqueColorNames(festivalData.data[0].products).map(
+                      {GetUniqueColorNames(saleData.data[0].products).length >
+                        0 &&
+                        GetUniqueColorNames(saleData.data[0].products).map(
                           (color, i) => (
                             <button
                               key={i}
@@ -128,8 +133,8 @@ const FestivalContent = ({ festivalData }) => {
                               className={`border ${
                                 selectedColors.includes(color)
                                   ? "bg-primary-color text-white"
-                                  : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
-                              } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
+                                  : "bg-red-100 hover:border-primary-color"
+                              } text-sm px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
                             >
                               {color}
                             </button>
@@ -152,7 +157,7 @@ const FestivalContent = ({ festivalData }) => {
                     selectedColors={selectedColors}
                     handleRemoveColor={handleRemoveColor}
                     handleClearAll={handleClearAll}
-                    festivalTitle={festivalData.data[0].title}
+                    festivalTitle={saleData.data[0].title}
                   />
                 ) : (
                   <div className="w-full flex justify-center items-center h-full">
@@ -168,4 +173,4 @@ const FestivalContent = ({ festivalData }) => {
   );
 };
 
-export default FestivalContent;
+export default SaleContent;

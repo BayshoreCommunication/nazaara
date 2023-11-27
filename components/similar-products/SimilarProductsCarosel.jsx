@@ -1,15 +1,15 @@
-'use client'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Pagination, Autoplay } from 'swiper'
+"use client";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination, Autoplay } from "swiper";
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/pagination'
-import SingleCard from '../card/youMayLike/SingleCard'
-import useWindowDimensions from '@/customhooks/useDimensionWindow'
+import "swiper/css";
+import "swiper/css/pagination";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
+import SingleCard from "../card/category-card/SingleCard";
 
 const SimilarProductsCarosel = ({ categoryData }) => {
-  SwiperCore.use([Autoplay])
-  const { width } = useWindowDimensions()
+  SwiperCore.use([Autoplay]);
+  const { width } = useWindowDimensions();
   return (
     <>
       {categoryData && (
@@ -33,7 +33,7 @@ const SimilarProductsCarosel = ({ categoryData }) => {
         </Swiper>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SimilarProductsCarosel
+export default SimilarProductsCarosel;

@@ -43,7 +43,7 @@ const MainNavbar = async () => {
   const advertisements = await getAdvertisementData();
 
   return (
-    <main className="sticky top-0 z-50">
+    <main className="sticky top-0 z-50 shadow-xl">
       <NavBarContent
         data={data}
         sales={links}

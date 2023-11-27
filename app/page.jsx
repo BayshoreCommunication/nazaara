@@ -1,17 +1,14 @@
 import BookAppointment from "@/components/BookAppointment";
-import AllCategoriesCard from "@/components/card/category-card/AllCategoriesCard";
+import AllCategoriesCard from "@/components/card/category-card/SubCategories";
 import AllBestSellingCard from "@/components/card/product/bestSelling/AllBestSellingCard";
 import AllCards from "@/components/card/youMayLike/AllCards";
 import Banner from "@/components/homepage/banner/Banner";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
-import HomeSlider from "@/components/home-carosel/Slider";
 import Slider from "@/components/carosel/Slider";
 import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
 import MainSalePage from "@/components/Sale/MainSalePage";
-import Image from "next/image";
-// Test Image
-import testImage from "../public/images/products/details1.png";
-// Test Image
+import MainDataContent from "@/components/card/youMayLike/MainDataContent";
+import SubCategoriesData from "@/components/SubCategory/MainSubCategoryData";
 
 const Home = () => {
   return (
@@ -30,7 +27,7 @@ const Home = () => {
         {/* shop by category start */}
         <div>
           <h1 className="card-title">SHOP BY CATEGORY</h1>
-          <AllCategoriesCard />
+          <SubCategoriesData />
         </div>
         {/* shop by category end */}
 
@@ -56,7 +53,7 @@ const Home = () => {
         {/* YOU MAY LIKE start */}
         <div>
           <h1 className="card-title">YOU MAY LIKE</h1>
-          <AllCards />
+          <MainDataContent />
         </div>
         {/* YOU MAY LIKE end */}
 
