@@ -10,20 +10,20 @@ import { BeatLoader } from "react-spinners";
 
 const FestivalContent = ({ festivalData }) => {
   const minPrice = Math.min(
-    ...festivalData.data[0].products.map((product) => product.salePrice)
+    ...festivalData?.data[0]?.products.map((product) =>
+      Math.floor(product?.salePrice)
+    )
   );
   const maxPrice = Math.max(
-    ...festivalData.data[0].products.map((product) => product.salePrice)
+    ...festivalData?.data[0]?.products.map((product) =>
+      Math.ceil(product?.salePrice)
+    )
   );
 
   const [selectedColors, setSelectedColors] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // Default price range
   const [loading, setLoading] = useState(true);
-
-  // const uniqueColorNames = useMemo(() => {
-  //   return GetUniqueColorNames(festivalData.data[0].products);
-  // }, [festivalData.data]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +33,9 @@ const FestivalContent = ({ festivalData }) => {
       const colorFilteredData =
         selectedColors.length > 0
           ? festivalData.data[0].products.filter((product) =>
-              selectedColors.includes(product.variant[0].color)
+              product.variant.some((variant) =>
+                selectedColors.includes(variant.color)
+              )
             )
           : festivalData.data[0].products;
 
@@ -111,8 +113,8 @@ const FestivalContent = ({ festivalData }) => {
                       }}
                     />
                     <div className="flex justify-between items-center">
-                      <p className="text-sm">BDT {priceRange[0]}</p>
-                      <p className="text-sm">BDT {priceRange[1]}</p>
+                      <p className="text-sm">৳ {priceRange[0]}</p>
+                      <p className="text-sm">৳ {priceRange[1]}</p>
                     </div>
                   </div>
                   <div>

@@ -9,19 +9,15 @@ import { BeatLoader } from "react-spinners";
 import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 
 const SaleContent = ({ saleData }) => {
-  // console.log("slaeDAtaaaa", saleData);
-  //   if (!saleData) {
-  //     <div className="w-full flex justify-center items-center h-full">
-  //       <div className="w-full h-[40vh] flex justify-center items-center">
-  //         <BeatLoader color="#820000" />
-  //       </div>
-  //     </div>;
-  //   }
   const minPrice = Math.min(
-    ...saleData.data[0].products.map((product) => product.salePrice)
+    ...saleData?.data[0]?.products.map((product) =>
+      Math.floor(product?.salePrice)
+    )
   );
   const maxPrice = Math.max(
-    ...saleData.data[0].products.map((product) => product.salePrice)
+    ...saleData?.data[0]?.products?.map((product) =>
+      Math.ceil(product?.salePrice)
+    )
   );
 
   const [selectedColors, setSelectedColors] = useState([]);
@@ -41,7 +37,9 @@ const SaleContent = ({ saleData }) => {
       const colorFilteredData =
         selectedColors.length > 0
           ? saleData.data[0].products.filter((product) =>
-              selectedColors.includes(product.variant[0].color)
+              product.variant.some((variant) =>
+                selectedColors.includes(variant.color)
+              )
             )
           : saleData.data[0].products;
 
@@ -133,8 +131,8 @@ const SaleContent = ({ saleData }) => {
                               className={`border ${
                                 selectedColors.includes(color)
                                   ? "bg-primary-color text-white"
-                                  : "bg-red-100 hover:border-primary-color"
-                              } text-sm px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
+                                  : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
+                              } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
                             >
                               {color}
                             </button>

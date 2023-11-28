@@ -1,16 +1,10 @@
 import SaleContent from "@/components/Sale/SaleContent";
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import React from "react";
 
 const SalePage = async ({ params }) => {
-  // console.log("params", params);
-  const res = await fetch(`${process.env.API_URL}/api/v1/sale/${params.slug}`, {
-    next: { revalidate: 120 },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  const data = await res.json();
-  // console.log("data sale", data);
+  const url = `${process.env.API_URL}/api/v1/sale/${params.slug}`;
+  const data = await fetchServerSideData(url);
   return (
     <main>
       <div>

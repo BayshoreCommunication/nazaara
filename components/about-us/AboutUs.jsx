@@ -1,18 +1,10 @@
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import Image from "next/image";
 import React from "react";
 
-async function getData() {
-  const res = await fetch(`${process.env.API_URL}/api/v1/customization`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
-
 const AboutUs = async () => {
-  const data = await getData();
+  const url = `${process.env.API_URL}/api/v1/customization`;
+  const data = await fetchServerSideData(url);
   const aboutData = data.data[0].aboutUs;
   return (
     <>

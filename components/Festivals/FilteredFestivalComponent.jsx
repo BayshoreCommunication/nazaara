@@ -1,6 +1,6 @@
 import React from "react";
 import { RxCross2 } from "react-icons/rx";
-import ProductCart from "../card/ProductCart";
+import ProductCart from "../ProductCart";
 
 const FilteredFestivalComponent = ({
   data,

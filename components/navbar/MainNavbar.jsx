@@ -1,40 +1,26 @@
 import React from "react";
 import { cookies } from "next/headers";
 import NavBarContent from "./NavBarContent";
-
-export const revalidate = 300;
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 
 async function getData() {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
   if (userData) {
     const data = JSON.parse(userData?.value);
-    const res = await fetch(
-      `${process.env.API_URL}/api/v1/cart/user/${data._id}`
-    );
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
+    const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
+    return fetchServerSideData(url);
   }
 }
 
 async function getNavLinkData() {
-  const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
+  const url = `${process.env.API_URL}/api/v1/category/nav-data`;
+  return fetchServerSideData(url);
 }
 
 async function getAdvertisementData() {
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/nav-advertise/category`
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
+  const url = `${process.env.API_URL}/api/v1/nav-advertise/category`;
+  return fetchServerSideData(url);
 }
 
 const MainNavbar = async () => {

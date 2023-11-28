@@ -10,10 +10,10 @@ import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper";
 import ProductCart from "../../ProductCart";
 
-const AllCards = ({ randomProducts }) => {
+const AllCards = ({ bestSellingProducts }) => {
   return (
     <>
-      {randomProducts.data.length >= 1 && (
+      {bestSellingProducts.data[0].products.length >= 1 && (
         <>
           <div className="flex gap-4 md:hidden card-mobile">
             <Swiper
@@ -25,7 +25,7 @@ const AllCards = ({ randomProducts }) => {
               modules={[Scrollbar]}
               className="mySwiper"
             >
-              {randomProducts.data.map((data, i) => (
+              {bestSellingProducts.data[0].products.map((data, i) => (
                 <SwiperSlide key={i}>
                   <ProductCart data={data} />
                 </SwiperSlide>
@@ -42,7 +42,7 @@ const AllCards = ({ randomProducts }) => {
               modules={[Scrollbar]}
               className="mySwiper"
             >
-              {randomProducts.data.map((data, i) => (
+              {bestSellingProducts.data[0].products.map((data, i) => (
                 <SwiperSlide key={i}>
                   <ProductCart data={data} />
                 </SwiperSlide>
@@ -50,7 +50,7 @@ const AllCards = ({ randomProducts }) => {
             </Swiper>
           </div>
           <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
-            {randomProducts.data.map((data, i) => (
+            {bestSellingProducts.data[0].products.map((data, i) => (
               <div key={i}>
                 <ProductCart data={data} />
               </div>

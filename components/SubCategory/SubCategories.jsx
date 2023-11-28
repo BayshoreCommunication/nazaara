@@ -11,7 +11,6 @@ import "swiper/css/scrollbar";
 
 // import required modules
 import { Scrollbar } from "swiper";
-
 import SingleCard from "./SingleCard";
 
 const AllSubCategoriesCard = ({ data }) => {
@@ -20,10 +19,27 @@ const AllSubCategoriesCard = ({ data }) => {
     <>
       {data?.data?.length > 0 && (
         <>
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <Swiper
               spaceBetween={10}
               slidesPerView={2}
+              scrollbar={{
+                hide: false,
+              }}
+              modules={[Scrollbar]}
+              className="mySwiper"
+            >
+              {data?.data?.map((elem, i) => (
+                <SwiperSlide key={i}>
+                  <SingleCard subCategoryData={elem} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className="hidden md:block lg:hidden">
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={3}
               scrollbar={{
                 hide: false,
               }}

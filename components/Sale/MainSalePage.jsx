@@ -1,21 +1,11 @@
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-//get all festival data
-async function getSaleData() {
-  const res = await fetch(`${process.env.API_URL}/api/v1/sale/published`, {
-    next: { revalidate: 300 },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
-
 const MainSalePage = async () => {
-  const sales = await getSaleData();
-  // console.log("festival data", sales);
+  const url = `${process.env.API_URL}/api/v1/sale/published`;
+  const sales = await fetchServerSideData(url);
   return (
     <main>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 2xl:gap-6">

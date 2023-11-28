@@ -1,20 +1,19 @@
 import BookAppointment from "@/components/BookAppointment";
-import AllCategoriesCard from "@/components/card/category-card/SubCategories";
-import AllBestSellingCard from "@/components/card/product/bestSelling/AllBestSellingCard";
-import AllCards from "@/components/card/youMayLike/AllCards";
 import Banner from "@/components/homepage/banner/Banner";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
-import Slider from "@/components/carosel/Slider";
+import Slider from "@/components/HomeCarosel/CaroselDataLoader";
 import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
 import MainSalePage from "@/components/Sale/MainSalePage";
 import MainDataContent from "@/components/card/youMayLike/MainDataContent";
 import SubCategoriesData from "@/components/SubCategory/MainSubCategoryData";
+import MainBestSellingDataContent from "@/components/card/BestSelling/MainDataContent";
+import CaroselDataLoader from "@/components/HomeCarosel/CaroselDataLoader";
 
 const Home = () => {
   return (
     <main>
-      <div className="w-full z-0">
-        <Slider />
+      <div className="w-full">
+        <CaroselDataLoader />
       </div>
       <div className="main-container my-10 lg:my-20 flex flex-col gap-y-10 lg:gap-y-20">
         {/* shop by festival start */}
@@ -41,7 +40,7 @@ const Home = () => {
         {/* best selling start */}
         <div>
           <h1 className="card-title">BEST SELLING</h1>
-          <AllBestSellingCard />
+          <MainBestSellingDataContent />
         </div>
         {/* best selling end */}
 

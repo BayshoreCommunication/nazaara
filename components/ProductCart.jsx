@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import PercentageBadge from "../PercentageBadge";
-import ReadyToShipBadge from "../ReadyToShipBadge";
+import PercentageBadge from "./PercentageBadge";
+import ReadyToShipBadge from "./ReadyToShipBadge";
 import { CalculatePercentage } from "@/helpers/CalculateDiscountPercentage";
 
 const ProductCart = ({ data }) => {
@@ -10,8 +10,8 @@ const ProductCart = ({ data }) => {
   return (
     <>
       {data && (
-        <div className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-700 ease-in-out hover:shadow-xl">
-          <Link className="flex-[10]" href={`/products/${data?.slug}`}>
+        <div className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-500 ease-in-out hover:shadow-xl">
+          <Link className="" href={`/products/${data?.slug}`}>
             <div className="relative">
               {data?.variant[0]?.imageUrl[0] && (
                 <Image
@@ -35,7 +35,7 @@ const ProductCart = ({ data }) => {
               </div>
             </div>
           </Link>
-          <div className="flex-1 text-left my-4 mx-2">
+          <div className="h-20 text-left my-3 mx-2">
             <div className="flex items-center gap-2">
               <p className="text-md font-bold text-gray-700 flex items-center gap-[2px]">
                 <span>৳</span> {data?.salePrice}/-
@@ -48,10 +48,12 @@ const ProductCart = ({ data }) => {
               )}
             </div>
             <p className="text-xs font-semibold my-2 text-gray-500">
-              {data?.productName}
+              {data?.productName.length > 25
+                ? `${data.productName.slice(0, 25)}...`
+                : data?.productName}
             </p>
             {data?.preOrder && (
-              <div className="flex gap-2 items-center">
+              <div className="">
                 <ReadyToShipBadge text="Pre-Order Available" />
               </div>
             )}

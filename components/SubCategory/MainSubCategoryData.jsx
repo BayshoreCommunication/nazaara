@@ -1,23 +1,10 @@
 import React from "react";
-import AllSubCategoriesCard from "../card/category-card/SubCategories";
-
-//get all categories data
-async function getSubCateogryData() {
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/sub-category/published`,
-    {
-      next: { revalidate: 300 },
-    }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import AllSubCategoriesCard from "./SubCategories";
 
 const SubCategoriesData = async () => {
-  const categories = await getSubCateogryData();
-  //   console.log("festival data", festivals);
+  const url = `${process.env.API_URL}/api/v1/sub-category/published`;
+  const categories = await fetchServerSideData(url);
   return (
     <main>
       <AllSubCategoriesCard data={categories} />
