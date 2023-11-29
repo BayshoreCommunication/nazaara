@@ -7,6 +7,7 @@ import { FaGift } from "react-icons/fa";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import { BeatLoader } from "react-spinners";
 import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
+import NoProductFound from "../NoProductFound";
 
 const SaleContent = ({ saleData }) => {
   const minPrice = Math.min(
@@ -93,77 +94,81 @@ const SaleContent = ({ saleData }) => {
 
   return (
     <main>
-      <TopBar title={`Sale/${saleData.data[0].title}`} icon={<FaGift />} />
+      <TopBar title={`Sale / ${saleData.data[0].title}`} icon={<FaGift />} />
       <>
         {saleData && (
           <div className="main-container my-10">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1">
-                <div className="flex flex-col gap-y-8">
-                  <div className="border-b-2 pb-8">
-                    <p className="font-semibold mb-6">PRICE RANGE</p>
-                    <Slider
-                      range
-                      id="price-slider"
-                      min={minPrice}
-                      max={maxPrice}
-                      step={100}
-                      value={priceRange}
-                      onChange={(newPriceRange) => {
-                        setPriceRange(newPriceRange);
-                      }}
-                    />
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm">BDT {priceRange[0]}</p>
-                      <p className="text-sm">BDT {priceRange[1]}</p>
+            {saleData?.data[0]?.products.length > 0 ? (
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="flex-1">
+                  <div className="flex flex-col gap-y-8">
+                    <div className="border-b-2 pb-8">
+                      <p className="font-semibold mb-6">PRICE RANGE</p>
+                      <Slider
+                        range
+                        id="price-slider"
+                        min={minPrice}
+                        max={maxPrice}
+                        step={100}
+                        value={priceRange}
+                        onChange={(newPriceRange) => {
+                          setPriceRange(newPriceRange);
+                        }}
+                      />
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm">BDT {priceRange[0]}</p>
+                        <p className="text-sm">BDT {priceRange[1]}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <p className="font-semibold mb-6">COLOR</p>
-                    <div className="flex flex-wrap gap-2">
-                      {GetUniqueColorNames(saleData.data[0].products).length >
-                        0 &&
-                        GetUniqueColorNames(saleData.data[0].products).map(
-                          (color, i) => (
-                            <button
-                              key={i}
-                              onClick={() => handleSearch(color)}
-                              className={`border ${
-                                selectedColors.includes(color)
-                                  ? "bg-primary-color text-white"
-                                  : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
-                              } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
-                            >
-                              {color}
-                            </button>
-                          )
-                        )}
+                    <div>
+                      <p className="font-semibold mb-6">COLOR</p>
+                      <div className="flex flex-wrap gap-2">
+                        {GetUniqueColorNames(saleData.data[0].products).length >
+                          0 &&
+                          GetUniqueColorNames(saleData.data[0].products).map(
+                            (color, i) => (
+                              <button
+                                key={i}
+                                onClick={() => handleSearch(color)}
+                                className={`border ${
+                                  selectedColors.includes(color)
+                                    ? "bg-primary-color text-white"
+                                    : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
+                                } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
+                              >
+                                {color}
+                              </button>
+                            )
+                          )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex-[3] ">
-                {loading ? (
-                  <div className="w-full flex justify-center items-center h-full">
-                    <div className="w-full h-[40vh] flex justify-center items-center">
-                      <BeatLoader color="#820000" />
+                <div className="flex-[3] ">
+                  {loading ? (
+                    <div className="w-full flex justify-center items-center h-full">
+                      <div className="w-full h-[40vh] flex justify-center items-center">
+                        <BeatLoader color="#820000" />
+                      </div>
                     </div>
-                  </div>
-                ) : filteredProducts.length > 0 ? (
-                  <FilteredFestivalComponent
-                    data={filteredProducts}
-                    selectedColors={selectedColors}
-                    handleRemoveColor={handleRemoveColor}
-                    handleClearAll={handleClearAll}
-                    festivalTitle={saleData.data[0].title}
-                  />
-                ) : (
-                  <div className="w-full flex justify-center items-center h-full">
-                    <p>No Product Found!😢</p>
-                  </div>
-                )}
+                  ) : filteredProducts.length > 0 ? (
+                    <FilteredFestivalComponent
+                      data={filteredProducts}
+                      selectedColors={selectedColors}
+                      handleRemoveColor={handleRemoveColor}
+                      handleClearAll={handleClearAll}
+                      festivalTitle={saleData.data[0].title}
+                    />
+                  ) : (
+                    <div className="w-full flex justify-center items-center h-full">
+                      <p>No Product Found!😢</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <NoProductFound />
+            )}
           </div>
         )}
       </>

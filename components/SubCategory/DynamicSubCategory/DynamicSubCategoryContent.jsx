@@ -2,24 +2,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import TopBar from "../TopBar";
-import { FaGift } from "react-icons/fa";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import FilteredFestivalComponent from "./FilteredFestivalComponent";
 import { BeatLoader } from "react-spinners";
-import NoProductFound from "../NoProductFound";
+import { TbCategoryFilled } from "react-icons/tb";
+import TopBar from "@/components/TopBar";
+import FilteredFestivalComponent from "@/components/Festivals/FilteredFestivalComponent";
+import NoProductFound from "@/components/NoProductFound";
 
-const FestivalContent = ({ festivalData }) => {
-  // console.log("festivalData", festivalData);
+const DynamicSubCategoryContent = ({ data, subCategoryData }) => {
   const minPrice = Math.min(
-    ...festivalData?.data[0]?.products.map((product) =>
-      Math.floor(product?.salePrice)
-    )
+    ...data?.product?.map((product) => Math.floor(product?.salePrice))
   );
   const maxPrice = Math.max(
-    ...festivalData?.data[0]?.products.map((product) =>
-      Math.ceil(product?.salePrice)
-    )
+    ...data?.product?.map((product) => Math.ceil(product?.salePrice))
   );
 
   const [selectedColors, setSelectedColors] = useState([]);
@@ -34,12 +29,12 @@ const FestivalContent = ({ festivalData }) => {
       // Your existing filtering logic here
       const colorFilteredData =
         selectedColors.length > 0
-          ? festivalData.data[0].products.filter((product) =>
+          ? data?.product?.filter((product) =>
               product.variant.some((variant) =>
                 selectedColors.includes(variant.color)
               )
             )
-          : festivalData.data[0].products;
+          : data?.product;
 
       const priceFilteredData = colorFilteredData.filter(
         (product) =>
@@ -51,7 +46,7 @@ const FestivalContent = ({ festivalData }) => {
     };
 
     fetchData();
-  }, [selectedColors, priceRange, festivalData.data]);
+  }, [data?.product, priceRange, selectedColors]);
 
   const handleSearch = (color) => {
     setSelectedColors((prevColors) => {
@@ -72,7 +67,7 @@ const FestivalContent = ({ festivalData }) => {
 
     const result =
       newSelectedColors.length > 0
-        ? festivalData.data[0].products.filter((product) =>
+        ? data?.product?.filter((product) =>
             newSelectedColors.includes(product.variant[0].color)
           )
         : [];
@@ -87,18 +82,16 @@ const FestivalContent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  // console.log("filtered products, ", filteredProducts);
-
   return (
     <main>
       <TopBar
-        title={`Festival / ${festivalData.data[0].title}`}
-        icon={<FaGift />}
+        title={`Category / ${subCategoryData.data[0].title}`}
+        icon={<TbCategoryFilled />}
       />
       <>
-        {festivalData && (
+        {data && (
           <div className="main-container my-10">
-            {festivalData.data[0].products.length > 0 ? (
+            {data.product.length > 0 ? (
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1">
                   <div className="flex flex-col gap-y-8">
@@ -123,11 +116,8 @@ const FestivalContent = ({ festivalData }) => {
                     <div>
                       <p className="font-semibold mb-6">COLOR</p>
                       <div className="flex flex-wrap gap-2">
-                        {GetUniqueColorNames(festivalData.data[0].products)
-                          .length > 0 &&
-                          GetUniqueColorNames(
-                            festivalData.data[0].products
-                          ).map((color, i) => (
+                        {GetUniqueColorNames(data?.product).length > 0 &&
+                          GetUniqueColorNames(data?.product).map((color, i) => (
                             <button
                               key={i}
                               onClick={() => handleSearch(color)}
@@ -144,7 +134,7 @@ const FestivalContent = ({ festivalData }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex-[3] ">
+                <div className="flex-[3]">
                   {loading ? (
                     <div className="w-full flex justify-center items-center h-full">
                       <div className="w-full h-[40vh] flex justify-center items-center">
@@ -157,7 +147,7 @@ const FestivalContent = ({ festivalData }) => {
                       selectedColors={selectedColors}
                       handleRemoveColor={handleRemoveColor}
                       handleClearAll={handleClearAll}
-                      festivalTitle={festivalData.data[0].title}
+                      festivalTitle={subCategoryData.data[0].title}
                     />
                   ) : (
                     <div className="w-full flex justify-center items-center h-full">
@@ -176,4 +166,4 @@ const FestivalContent = ({ festivalData }) => {
   );
 };
 
-export default FestivalContent;
+export default DynamicSubCategoryContent;
