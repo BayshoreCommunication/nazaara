@@ -1,7 +1,6 @@
 import BookAppointment from "@/components/BookAppointment";
 import Banner from "@/components/homepage/banner/Banner";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
-import Slider from "@/components/HomeCarosel/CaroselDataLoader";
 import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
 import MainSalePage from "@/components/Sale/MainSalePage";
 import MainDataContent from "@/components/card/youMayLike/MainDataContent";

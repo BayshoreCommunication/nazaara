@@ -27,7 +27,7 @@ const AllCards = ({ randomProducts }) => {
             >
               {randomProducts.data.map((data, i) => (
                 <SwiperSlide key={i}>
-                  <ProductCart data={data} />
+                  <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -44,7 +44,7 @@ const AllCards = ({ randomProducts }) => {
             >
               {randomProducts.data.map((data, i) => (
                 <SwiperSlide key={i}>
-                  <ProductCart data={data} />
+                  <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -52,7 +52,7 @@ const AllCards = ({ randomProducts }) => {
           <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
             {randomProducts.data.map((data, i) => (
               <div key={i}>
-                <ProductCart data={data} />
+                <ProductCart data={data} i={i} />
               </div>
             ))}
           </div>

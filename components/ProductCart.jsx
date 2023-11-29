@@ -1,16 +1,33 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import PercentageBadge from "./PercentageBadge";
 import ReadyToShipBadge from "./ReadyToShipBadge";
 import { CalculatePercentage } from "@/helpers/CalculateDiscountPercentage";
+import { useInView } from "react-intersection-observer";
+import { MotionDiv } from "./MotionDiv";
 
-const ProductCart = ({ data }) => {
-  // console.log("data from caard", data);
+const ProductCart = ({ data, i }) => {
+  const { ref, inView } = useInView();
+  const variants = {
+    hidden: { opacity: 0 },
+    inView: { opacity: 1 },
+  };
   return (
     <>
       {data && (
-        <div className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-500 ease-in-out hover:shadow-xl">
+        <MotionDiv
+          ref={ref}
+          variants={variants}
+          initial="hidden"
+          animate={inView ? "inView" : "hidden"}
+          transition={{
+            ease: "linear",
+            duration: i * 0.8,
+          }}
+          className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-500 ease-in-out hover:shadow-xl"
+        >
           <Link className="" href={`/products/${data?.slug}`}>
             <div className="relative">
               {data?.variant[0]?.imageUrl[0] && (
@@ -58,7 +75,7 @@ const ProductCart = ({ data }) => {
               </div>
             )}
           </div>
-        </div>
+        </MotionDiv>
       )}
     </>
   );

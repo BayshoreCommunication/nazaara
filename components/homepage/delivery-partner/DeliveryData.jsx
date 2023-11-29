@@ -6,11 +6,28 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper";
+import { MotionDiv } from "@/components/MotionDiv";
+import { useInView } from "react-intersection-observer";
 
 const DeliveryData = ({ data }) => {
+  const { ref, inView } = useInView();
+  const variants = {
+    hidden: { opacity: 0 },
+    inView: { opacity: 1 },
+  };
   return (
     <>
-      <div className="hidden lg:grid grid-cols-5 gap-x-10 items-center">
+      <MotionDiv
+        ref={ref}
+        variants={variants}
+        initial="hidden"
+        animate={inView ? "inView" : "hidden"}
+        transition={{
+          ease: "linear",
+          duration: 1,
+        }}
+        className="hidden lg:grid grid-cols-5 gap-x-10 items-center"
+      >
         {data.map((data, index) => (
           <Image
             key={index}
@@ -21,7 +38,7 @@ const DeliveryData = ({ data }) => {
             height={160}
           />
         ))}
-      </div>
+      </MotionDiv>
       <div className="md:hidden">
         <Swiper
           spaceBetween={50}
