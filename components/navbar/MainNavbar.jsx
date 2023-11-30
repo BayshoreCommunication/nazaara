@@ -9,18 +9,18 @@ async function getData() {
   if (userData) {
     const data = JSON.parse(userData?.value);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
-    return fetchServerSideData(url);
+    return await fetchServerSideData(url);
   }
 }
 
 async function getNavLinkData() {
   const url = `${process.env.API_URL}/api/v1/category/nav-data`;
-  return fetchServerSideData(url);
+  return await fetchServerSideData(url);
 }
 
 async function getAdvertisementData() {
   const url = `${process.env.API_URL}/api/v1/nav-advertise/category`;
-  return fetchServerSideData(url);
+  return await fetchServerSideData(url);
 }
 
 const MainNavbar = async () => {

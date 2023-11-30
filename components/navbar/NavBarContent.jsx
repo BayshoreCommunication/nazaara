@@ -53,6 +53,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   if (data) {
     data.data.map((elem) => dispatch(addItemToCart(elem)));
   }
+  console.log("data inside navbar", data);
 
   const saleData = (slug) => {
     const data = sales.data.filter((elem) => elem.category.slug === slug);

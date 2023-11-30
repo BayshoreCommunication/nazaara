@@ -19,7 +19,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   const [loading, setLoading] = useState(true);
   // console.log("cookie from cart", cookieData);
   const cartItems = useSelector((state) => state.cart.items);
-  // console.log("cartItemsss", cartItems);
+  console.log("cartItemsss", cartItems);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
 
@@ -32,9 +32,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
       const response = await axios.get(
         `${process.env.API_URL}/api/v1/product/${productId}`
       );
-      // const {data} = useGetCartByUserIdQuery(productId)
-      // console.log("Product Details API Response:", response.data);
-      // console.log("response");
+      // console.log("item", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
@@ -50,12 +48,11 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
           product: await fetchProductDetails(item.product),
         }))
       );
-      if (!productDetails) {
-        console.log("inside down");
-      }
-      console.log("inside down2");
-      // console.log("productDetailsss", productDetails);
-      setProductDetails(productDetails);
+      const filteredProducts = productDetails.filter(
+        (product) => product.product
+      );
+      console.log("product details", filteredProducts);
+      setProductDetails(filteredProducts);
       setLoading(false);
     };
     // if (cartItems.length > 0) {
@@ -152,8 +149,8 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
               </h2>
               <span className="text-gray-500">
                 {cartItems.length > 1
-                  ? `(${cartItems.length} Items)`
-                  : `(${cartItems.length} Item)`}
+                  ? `(${productDetails.length} Items)`
+                  : `(${productDetails.length} Item)`}
               </span>
             </div>
           </div>
@@ -170,82 +167,87 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
                       key={index}
                       className="flex justify-between items-center border-b"
                     >
-                      <Image
-                        src={detail?.product?.data?.variant[0]?.imageUrl[0]}
-                        alt="cart"
-                        width={90}
-                        height={90}
-                      />
-                      <div className="text-black text-sm flex flex-col gap-1">
-                        <h2>{detail?.product?.data?.productName}</h2>
-                        <p>
-                          <span className="font-medium">Color:</span>{" "}
-                          {detail?.color}
-                        </p>
-                        <p>
-                          <span className="font-medium">Size:</span>{" "}
-                          {detail?.size}
-                        </p>
-                        <p>
-                          <span className="font-medium">Quantity:</span>{" "}
-                          {detail?.quantity}
-                        </p>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <p className="text-black text-sm">
-                          BDT{" "}
-                          {detail?.product?.data?.salePrice * detail?.quantity}
-                          /-
-                        </p>
-                        <div className="flex items-center">
-                          {detail?.quantity > 1 ? (
-                            <button
-                              onClick={() =>
-                                handleDecreaseQuantity(
-                                  detail?.variantId,
-                                  detail?.quantity,
-                                  index
-                                )
-                              }
-                              className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
-                            >
-                              -
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() =>
-                                handleDeleteCartItem(detail?.variantId)
-                              }
-                              className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
-                            >
-                              <MdDeleteForever />
-                            </button>
-                          )}
-
-                          {updateCartLoading[index] ? (
-                            <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
-                              <BeatLoader color="#820000" size={3} />
+                      {detail?.product && (
+                        <>
+                          <Image
+                            src={detail?.product?.data?.variant[0]?.imageUrl[0]}
+                            alt="cart"
+                            width={90}
+                            height={90}
+                          />
+                          <div className="text-black text-sm flex flex-col gap-1">
+                            <h2>{detail?.product?.data?.productName}</h2>
+                            <p>
+                              <span className="font-medium">Color:</span>{" "}
+                              {detail?.color}
                             </p>
-                          ) : (
-                            <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
+                            <p>
+                              <span className="font-medium">Size:</span>{" "}
+                              {detail?.size}
+                            </p>
+                            <p>
+                              <span className="font-medium">Quantity:</span>{" "}
                               {detail?.quantity}
                             </p>
-                          )}
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <p className="text-black text-sm">
+                              BDT{" "}
+                              {detail?.product?.data?.salePrice *
+                                detail?.quantity}
+                              /-
+                            </p>
+                            <div className="flex items-center">
+                              {detail?.quantity > 1 ? (
+                                <button
+                                  onClick={() =>
+                                    handleDecreaseQuantity(
+                                      detail?.variantId,
+                                      detail?.quantity,
+                                      index
+                                    )
+                                  }
+                                  className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
+                                >
+                                  -
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    handleDeleteCartItem(detail?.variantId)
+                                  }
+                                  className={`flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl`}
+                                >
+                                  <MdDeleteForever />
+                                </button>
+                              )}
 
-                          <button
-                            onClick={() =>
-                              handleIncreaseQuantity(
-                                detail?.variantId,
-                                detail?.quantity,
-                                index
-                              )
-                            }
-                            className="flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
+                              {updateCartLoading[index] ? (
+                                <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
+                                  <BeatLoader color="#820000" size={3} />
+                                </p>
+                              ) : (
+                                <p className="text-gray-500 border border-gray-300 font-normal w-7 h-7 flex justify-center items-center">
+                                  {detail?.quantity}
+                                </p>
+                              )}
+
+                              <button
+                                onClick={() =>
+                                  handleIncreaseQuantity(
+                                    detail?.variantId,
+                                    detail?.quantity,
+                                    index
+                                  )
+                                }
+                                className="flex items-center justify-center text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-7 h-7 text-xl"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </>
