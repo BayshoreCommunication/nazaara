@@ -18,6 +18,7 @@ import {
 } from "@/services/cartApi";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
+  console.log("data", data);
   const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -165,7 +166,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
           <h2 className="font-medium">Color</h2>
           <div className="flex items-center gap-2">
-            {[...data.variant].map((data, i) => (
+            {data.variant.map((data, i) => (
               <button
                 key={i}
                 onClick={() => {

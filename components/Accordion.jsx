@@ -9,7 +9,7 @@ import { FaAngleDown, FaAngleUp, FaFemale } from "react-icons/fa";
 import { TbTruckDelivery, TbTruckReturn } from "react-icons/tb";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { AiOutlineHeart } from "react-icons/ai";
-const parse = require("html-react-parser");
+import parse from "html-react-parser";
 
 const Accordion = ({ data }) => {
   const [activeTab, setActiveTab] = useState(null);

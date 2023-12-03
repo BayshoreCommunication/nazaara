@@ -44,7 +44,7 @@ const CaroselContent = ({ data }) => {
           {data.map((slide, index) => (
             <SwiperSlide key={index}>
               {slide?.image && (
-                <Link href={`/products`}>
+                <Link href={`/`}>
                   <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">
                     <Image
                       src={slide?.image}
