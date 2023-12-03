@@ -53,7 +53,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   if (data) {
     data.data.map((elem) => dispatch(addItemToCart(elem)));
   }
-  console.log("data inside navbar", data);
+  // console.log("data inside navbar", data);
 
   const saleData = (slug) => {
     const data = sales.data.filter((elem) => elem.category.slug === slug);
@@ -120,9 +120,9 @@ const NavBarContent = ({ data, sales, advertisements }) => {
           <div className="hidden lg:block">
             <ul className="flex gap-2 2xl:gap-4">
               <Link
-                href="/products"
+                href="/shop"
                 className={`${
-                  currentRoute === "/products" &&
+                  currentRoute === "/shop" &&
                   "bg-base-100 text-primary-color hover:no-underline"
                 } font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
               >
@@ -143,7 +143,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                   <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
                     <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
                       {/* SALE */}
-                      {sales?.data[0]?.fesivals?.length > 0 && (
+                      {sales?.data[0]?.sales?.length > 0 && (
                         <ul className="flex flex-col gap-y-2">
                           <p className="text-primary-color font-semibold">
                             SALE
@@ -157,7 +157,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.sales.map((sale) => (
                                   <Link
                                     key={sale._id}
-                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {sale.title}
@@ -184,7 +184,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.subCategories.map((subCategory) => (
                                   <Link
                                     key={subCategory._id}
-                                    href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {subCategory.title}
@@ -211,7 +211,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.fesivals.map((festival) => (
                                   <Link
                                     key={festival._id}
-                                    href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {festival.title}
@@ -256,7 +256,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.sales.map((sale, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {sale.title}
@@ -269,7 +269,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                       )}
 
                       {/* SUBCATEGORY  */}
-                      {sales?.data[2]?.subCategories?.length > 0 && (
+                      {sales?.data[1]?.subCategories?.length > 0 && (
                         <ul className="flex flex-col gap-y-2">
                           <li className="text-primary-color font-semibold">
                             SHOP BY CATEGORY
@@ -283,7 +283,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.subCategories.map((subCategory, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {subCategory.title}
@@ -296,7 +296,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                       )}
 
                       {/* FESTIVAL  */}
-                      {sales?.data[2]?.fesivals?.length > 0 && (
+                      {sales?.data[1]?.fesivals?.length > 0 && (
                         <ul className="flex flex-col gap-y-2">
                           <li className="text-primary-color font-semibold">
                             SHOP BY FESTIVAL
@@ -310,7 +310,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.fesivals.map((festival, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {festival.title}
@@ -356,7 +356,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.sales.map((sale, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&sale=${sale.slug}`}
+                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {sale.title}
@@ -383,7 +383,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.subCategories.map((subCategory, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {subCategory.title}
@@ -410,7 +410,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                                 {data.fesivals.map((festival, i) => (
                                   <Link
                                     key={i}
-                                    href={`/recommended-products?category=${data.category._id}&festival=${festival.slug}`}
+                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
                                     className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
                                   >
                                     {festival.title}
@@ -501,7 +501,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
-                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                               onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
@@ -538,7 +538,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
-                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                               onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
@@ -575,7 +575,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
-                              href={`/recommended-products?category=${data.category._id}&subCategories=${subCategory.slug}`}
+                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
                               onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
