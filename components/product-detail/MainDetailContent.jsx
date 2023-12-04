@@ -129,6 +129,9 @@ const ProductMainDetails = ({
   // console.log("data", data);
   //   if (!data) return <Loader height="h-[70vh]" />;
 
+  console.log("similar product", similarProductData);
+  console.log("more product", moreProductData);
+
   return (
     <div>
       <div className="lg:flex gap-8 main-container my-4 md:my-6 lg:my-10">
@@ -138,7 +141,7 @@ const ProductMainDetails = ({
             isScrollingUp ? "scroll-up" : ""
           }`}
         >
-          {/* {productDetails && <DetailImage productData={productDetails} />} */}
+          {productDetails && <DetailImage productData={productDetails} />}
         </div>
 
         <div className="w-full lg:w-[40%] sticky top-0 h-max">
@@ -168,7 +171,7 @@ const ProductMainDetails = ({
         <div className="main-container">
           <h2 className="card-title">Similar Products</h2>
           <div className="carosel">
-            <SimilarProductsCarosel categoryData={similarProductData} />
+            <SimilarProductsCarosel data={similarProductData} />
           </div>
         </div>
       )}
@@ -177,7 +180,7 @@ const ProductMainDetails = ({
       <div className="main-container my-6">
         <h2 className="card-title">More From The Collections</h2>
         <div className="carosel">
-          <SimilarProductsCarosel categoryData={moreProductData} />
+          <SimilarProductsCarosel data={moreProductData} />
         </div>
       </div>
     </div>

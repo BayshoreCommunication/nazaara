@@ -1,36 +1,63 @@
 "use client";
+// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination, Autoplay } from "swiper";
+
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
-import useWindowDimensions from "@/customhooks/useDimensionWindow";
-import SingleCard from "../SubCategory/SingleCard";
+import "swiper/css/scrollbar";
 
-const SimilarProductsCarosel = ({ categoryData }) => {
-  SwiperCore.use([Autoplay]);
-  const { width } = useWindowDimensions();
+// import required modules
+import { Scrollbar } from "swiper";
+import ProductCart from "../ProductCart";
+
+const SimilarProductsCarosel = ({ data }) => {
+  console.log("holaad", data);
   return (
     <>
-      {categoryData && (
-        <Swiper
-          modules={[Pagination]}
-          loop={true}
-          autoplay={{
-            delay: 3000,
-          }}
-          slidesPerView={width > 992 ? 4 : 2}
-          spaceBetween={10}
-          pagination={{ clickable: true }}
-        >
-          <div>
-            {categoryData.map((data, i) => (
-              <SwiperSlide key={i}>
-                <SingleCard data={data} />
-              </SwiperSlide>
+      {data?.length >= 1 && (
+        <>
+          <div className="flex gap-4 md:hidden card-mobile">
+            <Swiper
+              slidesPerView={2}
+              spaceBetween={10}
+              scrollbar={{
+                hide: false,
+              }}
+              modules={[Scrollbar]}
+              className="mySwiper"
+            >
+              {data.map((data, i) => (
+                <SwiperSlide key={i}>
+                  <ProductCart data={data} i={i} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className=" gap-4 hidden md:flex lg:hidden card-mobile">
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={10}
+              scrollbar={{
+                hide: false,
+              }}
+              modules={[Scrollbar]}
+              className="mySwiper"
+            >
+              {data.map((data, i) => (
+                <SwiperSlide key={i}>
+                  <ProductCart data={data} i={i} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
+            {data.map((data, i) => (
+              <div key={i}>
+                <ProductCart data={data} i={i} />
+              </div>
             ))}
           </div>
-        </Swiper>
+        </>
       )}
     </>
   );
