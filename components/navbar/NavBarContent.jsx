@@ -49,6 +49,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
     setIsMobileNavOpen(!isMobileNavOpen); // Toggle the cart open/close state
   };
 
+  console.log("navbar content data", data);
   const dispatch = useDispatch();
   if (data) {
     data.data.map((elem) => dispatch(addItemToCart(elem)));

@@ -64,7 +64,6 @@ const DetailImage = ({ productData }) => {
                   style={{
                     objectFit: "cover",
                   }}
-                  className=""
                 />
               </div>
             </>

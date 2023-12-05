@@ -1,14 +1,12 @@
 import { BsBoxArrowUp, BsShield } from "react-icons/bs";
-import { HiShoppingBag } from "react-icons/hi";
+import { TiDelete } from "react-icons/ti";
 import { TbTruckDelivery } from "react-icons/tb";
-import PendingShipBadge from "../PendingShipBadge";
 import { RxDotFilled } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
-import axios from "axios";
 import { currentColor } from "@/store/imgFilterSlice";
 
 import { useRouter } from "next/navigation";
@@ -16,9 +14,12 @@ import {
   useCreateNewCartMutation,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
+import PendingShipBadge from "../PendingShipBadge";
+import PercentageBadge from "../PercentageBadge";
+import { FaCartPlus } from "react-icons/fa";
 
 const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  console.log("data", data);
+  // console.log("data", data);
   const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -55,8 +56,10 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
 
   //handle price
   const handleIncreasePrice = () => {
-    setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    if (data.stock > quantity) {
+      setCalculatePrice((prevPrice) => prevPrice + data?.salePrice);
+      setQuantity((prevQuantity) => prevQuantity + 1);
+    }
   };
 
   // Function to decrease the price
@@ -116,11 +119,15 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
     }
   };
 
+  // console.log("product data", data);
+
   return (
     <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
       {data && (
         <>
-          <h3 className="font-bold text-2xl lg:text-xl">{data.productName}</h3>
+          <h3 className="font-bold text-2xl lg:text-xl uppercase">
+            {data.productName}
+          </h3>
           <p className="text-gray-500">{data.sku}</p>
           {data.stock > 0 ? (
             <p className="flex items-center -ml-1 text-sm font-medium">
@@ -133,14 +140,20 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
               Out of Stock
             </p>
           )}
+          {data.preOrder && (
+            <p className="flex items-center -ml-1 text-sm font-medium">
+              <RxDotFilled size={30} color="green" />
+              Pre-Order Available
+            </p>
+          )}
           <div className="flex items-center gap-2">
             <p className="font-bold text-bold text-xl">
               BDT {calculatePrice}/-
             </p>
-            {/* <p className="line-through text-sm font-medium">
+            <p className="line-through text-sm font-medium text-gray-500">
               BDT {data?.regularPrice}/-
             </p>
-            <PendingShipBadge text={`-${percentageFloor}%`} /> */}
+            <PercentageBadge text={`- ${percentageFloor}%`} />
           </div>
           <button
             className="text-blue-500 flex items-center gap-1"
@@ -154,9 +167,9 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
               <button
                 key={data}
                 onClick={() => setGetSize(data)}
-                className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
+                className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
                   getSize === data &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  "border-primary-color bg-primary-color text-white"
                 }`}
               >
                 {data}
@@ -173,32 +186,45 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
                   setGetColor(data?.color);
                   dispatch(currentColor(data.color));
                 }}
-                className={`px-2 py-1 text-gray-500 border border-gray-300 rounded-md hover:bg-gray-300 hover:text-gray-600 font-normal ${
+                className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
                   getColor === data?.color &&
-                  "bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                  "border-primary-color bg-primary-color text-white"
                 }`}
               >
                 {data?.color}
               </button>
             ))}
+            {getColor && (
+              <button
+                onClick={() => {
+                  setGetColor(null);
+                  dispatch(currentColor(null));
+                }}
+                className="text-xs text-primary-color flex items-center"
+              >
+                <TiDelete size={17} color="red" /> Clear Select
+              </button>
+            )}
           </div>
 
           <h2 className="font-medium">Quantity</h2>
           <div className="flex items-center">
             <button
               onClick={handleDecreasePrice}
-              className={`text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl ${
+              className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
                 calculatePrice == data?.salePrice && "cursor-not-allowed"
               }`}
             >
               -
             </button>
-            <p className="text-gray-500 border border-gray-300 font-normal w-8 h-8 flex justify-center items-center">
+            <p className="text-gray-700 border border-gray-400 font-normal w-8 h-8 flex justify-center items-center">
               {quantity}
             </p>
             <button
               onClick={handleIncreasePrice}
-              className="text-gray-500 border border-gray-300  hover:bg-gray-300 hover:text-gray-600 font-bold w-8 h-8 text-xl"
+              className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
+                quantity == data?.stock && "cursor-not-allowed"
+              }`}
             >
               +
             </button>
@@ -208,12 +234,15 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             <TbTruckDelivery /> Estimated Shipping Date:
             {` ${futureDate?.toDateString()}`}
           </p>
-
           <button
             onClick={handleAddToCart}
-            className="w-full text-white flex justify-center items-center bg-gray-800 hover:bg-black gap-1 py-2 font-medium"
+            className="group btn2 py-[10px] relative border-2 border-primary-color uppercase text-gray-700 tracking-wider leading-none overflow-hidden hover:text-white flex gap-[6px] justify-center items-center font-semibold"
           >
-            <HiShoppingBag size={20} /> Add To Cart
+            <span className="absolute inset-0 bg-primary-color"></span>
+            <span className="hidden group-hover:flex gap-[6px] absolute inset-0 justify-center items-center font-medium">
+              <FaCartPlus size={20} /> ADD TO CART
+            </span>
+            <FaCartPlus size={20} /> ADD TO CART
           </button>
         </>
       )}

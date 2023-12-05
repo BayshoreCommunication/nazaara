@@ -31,36 +31,17 @@ const Products = () => {
   const [currentSize, setCurrentSize] = useState("");
   const searchProduct = useSelector((state) => state.searchProduct.product);
 
-  const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
-  // http://localhost:8000/api/v1/product?page=1&limit=5&sort=asc&sortBy=salePrice
-
-  // const fetchData = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get(apiUrl);
-  //     setData(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, [apiUrl]);
-
-  // useEffect(() => {
-  //   fetchData();
-  //   let dataUpdate = searchProduct?.map((el) => el.item);
-  //   setData({ product: dataUpdate });
-  //   console.log("data", data);
-  // }, [apiUrl, fetchData]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(apiUrl);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
   useEffect(() => {
+    const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
     if (searchProduct && searchProduct.length > 0) {
       // Display filtered data from Redux
       setData({ product: searchProduct.map((el) => el.item) });
@@ -70,11 +51,18 @@ const Products = () => {
         setData(apiData);
       });
     }
-  }, [searchProduct, apiUrl]);
+  }, [
+    searchProduct,
+    currentPage,
+    currentCategory,
+    currentColor,
+    priceRange,
+    currentSize,
+  ]);
 
   // console.log("data", data);
 
-  const totalPages = Math.ceil(data?.total / 12);
+  const totalPages = Math.ceil(data?.total / 2);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -166,16 +154,16 @@ const Products = () => {
   };
   const dispatch = useDispatch();
   // Reset the Redux data when navigating away from the /products page
-  const resetReduxData = () => {
-    dispatch(addProduct(null));
-  };
 
   // Add a cleanup effect when leaving the page
   useEffect(() => {
+    const resetReduxData = () => {
+      dispatch(addProduct(null));
+    };
     return () => {
       resetReduxData();
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

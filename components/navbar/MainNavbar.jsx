@@ -9,7 +9,13 @@ async function getData() {
   if (userData) {
     const data = JSON.parse(userData?.value);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
-    return await fetchServerSideData(url);
+    const res = await fetch(url, {
+      next: { revalidate: 0 },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return res.json();
   }
 }
 
@@ -27,6 +33,8 @@ const MainNavbar = async () => {
   const data = await getData();
   const links = await getNavLinkData();
   const advertisements = await getAdvertisementData();
+
+  console.log("data from main nav", data);
 
   return (
     <main className="sticky top-0 z-50 shadow-xl">

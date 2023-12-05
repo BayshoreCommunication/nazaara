@@ -339,7 +339,7 @@ const Payment = () => {
                 <p className="text-lg font-medium text-gray-800">PAYMENT</p>
               </div>
               <div className="flex flex-wrap  md:flex-nowrap gap-4">
-                <div class="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+                <div className="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
                   <input
                     type="radio"
                     name="payment"
@@ -352,16 +352,16 @@ const Payment = () => {
                       let totalData = subtotal * 0.2;
                       setTotalPay(totalData);
                     }}
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
                     for="bordered-radio-1"
-                    class="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
+                    className="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
                   >
                     CASH ON DELIVERY(ADVANCED PAYMENT 20%)
                   </label>
                 </div>
-                <div class="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+                <div className="flex flex-1 items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
                   <input
                     type="radio"
                     name="payment"
@@ -373,11 +373,11 @@ const Payment = () => {
                       });
                       setTotalPay(subtotal);
                     }}
-                    class="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
                     for="bordered-radio-2"
-                    class="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
+                    className="w-full py-4 ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
                   >
                     DEBIT/CREDIT CARDS AND MOBILE BANKING
                   </label>

@@ -11,7 +11,7 @@ import { Scrollbar } from "swiper";
 import ProductCart from "../ProductCart";
 
 const SimilarProductsCarosel = ({ data }) => {
-  console.log("holaad", data);
+  // console.log("holaad", data);
   return (
     <>
       {data?.length >= 1 && (
