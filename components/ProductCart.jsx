@@ -24,7 +24,7 @@ const ProductCart = ({ data, i }) => {
           animate={inView ? "inView" : "hidden"}
           transition={{
             ease: "linear",
-            duration: i * 0.8,
+            duration: i * 0.6,
           }}
           className="shadow-md rounded-lg flex flex-col hover:scale-[1.02] transition-all duration-500 ease-in-out hover:shadow-xl"
         >

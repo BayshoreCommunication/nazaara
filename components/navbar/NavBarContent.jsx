@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import EndHandler from "./EndHandler";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
@@ -9,6 +9,7 @@ import useGlobalCart from "@/customhooks/useGlobalCart";
 import SearchComponent from "./PartsOfHandler/Search";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
+import useScrollY from "@/customhooks/useScrollY";
 
 const NavBarContent = ({ data, sales, advertisements }) => {
   const [mobileNavToggle, setMobileNavToggle] = useState(false);
@@ -16,20 +17,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
   const [mobileBridalLink, setMobileBridalLink] = useState(false);
 
-  //handle windows scroll
-  const [scrollY, setScrollY] = useState(0);
-
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-  };
-
-  useEffect(() => {
-    window != undefined && window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const scrollY = useScrollY();
 
   const currentRoute = usePathname();
 
@@ -49,7 +37,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
     setIsMobileNavOpen(!isMobileNavOpen); // Toggle the cart open/close state
   };
 
-  console.log("navbar content data", data);
+  // console.log("navbar content data", data);
   const dispatch = useDispatch();
   if (data) {
     data.data.map((elem) => dispatch(addItemToCart(elem)));
@@ -85,9 +73,10 @@ const NavBarContent = ({ data, sales, advertisements }) => {
 
   return (
     <div
+      // ref={ref}
       className={`text-base-100 relative transition-all duration-500 ease-in-out ${
         scrollY > 100
-          ? "lg:py-1  backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
+          ? "lg:py-1 backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
           : "lg:py-3 bg-primary-color"
       }`}
     >

@@ -13,7 +13,7 @@ async function getRegularSaleData() {
 
 const NavLink = async () => {
   const regularSale = await getRegularSaleData();
-  console.log("regularSale", regularSale);
+  // console.log("regularSale", regularSale);
   return (
     <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
       {/* SALE  */}

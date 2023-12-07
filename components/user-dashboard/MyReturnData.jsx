@@ -7,7 +7,7 @@ const MyReturnData = () => {
   //call util function to get authenticate user id
   const data = Util();
   const id = data?._id;
-  console.log("dataaaa", id);
+  // console.log("dataaaa", id);
 
   const [returnData, setReturnData] = useState([]);
 
@@ -20,9 +20,9 @@ const MyReturnData = () => {
             `${process.env.API_URL}/api/v1/return-exchange/user/${id}`
           );
 
-          console.log(
-            `${process.env.API_URL}/api/v1/return-exchange/user/${id}`
-          );
+          // console.log(
+          //   `${process.env.API_URL}/api/v1/return-exchange/user/${id}`
+          // );
 
           const data = await response.json();
           setReturnData(data.data);

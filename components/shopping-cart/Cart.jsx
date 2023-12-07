@@ -19,7 +19,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   const [loading, setLoading] = useState(true);
   // console.log("cookie from cart", cookieData);
   const cartItems = useSelector((state) => state.cart.items);
-  console.log("cartItemsss", cartItems);
+  // console.log("cartItemsss", cartItems);
   const [productDetails, setProductDetails] = useState([]);
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
       const filteredProducts = productDetails.filter(
         (product) => product.product
       );
-      console.log("product details", filteredProducts);
+      // console.log("product details", filteredProducts);
       setProductDetails(filteredProducts);
       setLoading(false);
     };
@@ -136,7 +136,7 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
     }
   };
 
-  console.log("productDetails", productDetails);
+  // console.log("productDetails", productDetails);
 
   return (
     <div className="flex flex-col gap-5 bg-white w-80 lg:w-96 h-min absolute top-9 right-0 z-50 rounded-xl p-4 shadow-xl">

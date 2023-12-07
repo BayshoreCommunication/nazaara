@@ -18,7 +18,7 @@ const ResetPassword = ({ params }) => {
 
       try {
         const response = await axios.patch(url, { password });
-        console.log("POST request successful:", response.data);
+        // console.log("POST request successful:", response.data);
         toast.success("password change successfully ");
         router.push("/user-authentication");
 

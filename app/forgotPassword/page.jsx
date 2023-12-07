@@ -11,7 +11,7 @@ const ForgotPassword = () => {
     const url = `${process.env.API_URL}/api/v1/user/forgotPassword`;
     try {
       const response = await axios.post(url, { email });
-      console.log("POST request successful:", response.data);
+      // console.log("POST request successful:", response.data);
       toast.success("Reset password email sent");
       setEmail(" ");
     } catch (error) {

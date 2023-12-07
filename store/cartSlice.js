@@ -31,6 +31,7 @@ const cartSlice = createSlice({
       if (cartItem) {
         cartItem.quantity = newQuantity;
       }
+      // console.log("payload from redux", action.payload);
     },
     removeItemFromCart: (state, action) => {
       const variantId = action.payload;

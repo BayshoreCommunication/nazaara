@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/components/Loader";
 import PercentageBadge from "@/components/PercentageBadge";
+import ProductCart from "@/components/ProductCart";
 import ReadyToShipBadge from "@/components/ReadyToShipBadge";
 import TopBar from "@/components/TopBar";
 import Brand from "@/components/shop/Brand";
@@ -19,6 +20,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { BeatLoader } from "react-spinners";
 import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -29,10 +31,19 @@ const Products = () => {
   const [currentColor, setCurrentColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [currentSize, setCurrentSize] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const searchProduct = useSelector((state) => state.searchProduct.product);
 
   useEffect(() => {
+    setIsLoading(true);
+    // if (currentSize !== "" ) {
+    //   setCurrentPage(1);
+    // }
+    // if (currentPage !== 1) {
+    // }
     const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+
+    // console.log("api url", apiUrl);
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
@@ -45,22 +56,22 @@ const Products = () => {
     if (searchProduct && searchProduct.length > 0) {
       // Display filtered data from Redux
       setData({ product: searchProduct.map((el) => el.item) });
+      setIsLoading(false);
     } else {
       // Fetch data from the API
       fetchData().then((apiData) => {
         setData(apiData);
+        setIsLoading(false);
       });
     }
   }, [
-    searchProduct,
-    currentPage,
     currentCategory,
     currentColor,
-    priceRange,
+    currentPage,
     currentSize,
+    priceRange,
+    searchProduct,
   ]);
-
-  // console.log("data", data);
 
   const totalPages = Math.ceil(data?.total / 2);
 
@@ -165,10 +176,13 @@ const Products = () => {
     };
   }, [dispatch]);
 
+  // console.log("data from shop", data);
+  // console.log("size from shop", currentSize);
+
   return (
     <>
       <TopBar title={"PRODUCTS"} icon={<FaBox />} />
-      <div className="main-container my-10">
+      <div className="main-container mb-10 mt-3">
         <div>
           <div className="block lg:hidden card-mobile mt-6">
             <Swiper
@@ -209,61 +223,36 @@ const Products = () => {
           <div className="hidden lg:flex py-4 border-b-2  items-center justify-between">
             <Filter />
             <div className="flex gap-4">
-              <Size setCurrentSize={setCurrentSize} />
+              <Size
+                setCurrentSize={setCurrentSize}
+                setCurrentPage={setCurrentPage}
+              />
               <Price priceRange={priceRange} setPriceRange={setPriceRange} />
-              <Category setCurrentCategory={setCurrentCategory} />
-              <Color setCurrentColor={setCurrentColor} />
+              <Category
+                setCurrentCategory={setCurrentCategory}
+                setCurrentPage={setCurrentPage}
+              />
+              <Color
+                setCurrentColor={setCurrentColor}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
             <SortBy />
           </div>
         </div>
         {/* products  */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6 my-6">
-          {data?.product?.map((data, i) => (
-            <div key={i}>
-              <Link href={`/products/${data?.slug}`}>
-                <div className="relative">
-                  {data?.variant[0]?.imageUrl[0] && (
-                    <Image
-                      src={data?.variant[0]?.imageUrl[0]}
-                      alt="bridal_top"
-                      width={326}
-                      height={461}
-                      className="w-full h-full rounded-[4px] border"
-                    />
-                  )}
+        {isLoading ? (
+          <div className="w-full h-[40vh] flex justify-center items-center">
+            <BeatLoader color="#820000" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 my-10">
+            {data?.product?.map((data, i) => (
+              <ProductCart key={i} data={data} i={i} />
+            ))}
+          </div>
+        )}
 
-                  <div className="absolute top-2 left-2">
-                    <PercentageBadge
-                      text={`-${Math.ceil(
-                        ((data?.regularPrice - data?.salePrice) /
-                          data?.regularPrice) *
-                          100
-                      )}%`}
-                    />
-                  </div>
-                </div>
-              </Link>
-              <div className="w-full text-left bg-white my-4 ">
-                <div className="flex items-center gap-2">
-                  <p className="text-md font-bold text-gray-700">
-                    BDT {data?.salePrice}/-
-                  </p>
-                  <p className="text-sm font-semibold line-through text-gray-500">
-                    BDT {data?.regularPrice}/-
-                  </p>
-                </div>
-                <p className="text-xs font-semibold my-2 text-gray-500">
-                  {data?.productName}
-                </p>
-                <div className="flex gap-2 items-center">
-                  <ReadyToShipBadge text="Ready to Ship" />
-                  {/* <PendingShipBadge text="Up to 2 weeks" /> */}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
         {totalPages > 1 && (
           <div className="">
             <ul className="flex -space-x-px text-sm justify-center mt-4">

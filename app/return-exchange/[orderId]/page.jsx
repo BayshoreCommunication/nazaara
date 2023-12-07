@@ -37,10 +37,10 @@ const ReturnAndExchange = ({ params }) => {
     }
   };
 
-  console.log(
-    "data",
-    user?.orders?.map((elam) => elam?.product?.map((item) => item))[0]
-  );
+  // console.log(
+  //   "data",
+  //   user?.orders?.map((elam) => elam?.product?.map((item) => item))[0]
+  // );
 
   return (
     <div>
