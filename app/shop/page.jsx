@@ -1,8 +1,5 @@
 "use client";
-import Loader from "@/components/Loader";
-import PercentageBadge from "@/components/PercentageBadge";
 import ProductCart from "@/components/ProductCart";
-import ReadyToShipBadge from "@/components/ReadyToShipBadge";
 import TopBar from "@/components/TopBar";
 import Brand from "@/components/shop/Brand";
 import Category from "@/components/shop/Category";
@@ -15,9 +12,7 @@ import Size from "@/components/shop/Size";
 import SortBy from "@/components/shop/SortBy";
 import { addProduct } from "@/store/serachProductSlice";
 import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
@@ -25,25 +20,21 @@ import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const Products = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [currentCategory, setCurrentCategory] = useState("");
   const [currentColor, setCurrentColor] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [priceRange, setPriceRange] = useState([0, 150000]);
+
   const [currentSize, setCurrentSize] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const searchProduct = useSelector((state) => state.searchProduct.product);
 
   useEffect(() => {
     setIsLoading(true);
-    // if (currentSize !== "" ) {
-    //   setCurrentPage(1);
-    // }
-    // if (currentPage !== 1) {
-    // }
     const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
 
-    // console.log("api url", apiUrl);
+    console.log("api url", apiUrl);
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
@@ -176,8 +167,14 @@ const Products = () => {
     };
   }, [dispatch]);
 
-  // console.log("data from shop", data);
-  // console.log("size from shop", currentSize);
+  // console.log("price rtansfsdfsdfsdf", apiUrl);
+  // console.log(
+  //   "all from shop",
+  //   currentSize,
+  //   priceRange,
+  //   currentColor,
+  //   currentCategory
+  // );
 
   return (
     <>
@@ -220,24 +217,40 @@ const Products = () => {
               </SwiperSlide>
             </Swiper>
           </div>
-          <div className="hidden lg:flex py-4 border-b-2  items-center justify-between">
-            <Filter />
+          <div className="hidden lg:flex py-4 border-b-2 justify-center">
             <div className="flex gap-4">
               <Size
+                currentSize={currentSize}
                 setCurrentSize={setCurrentSize}
                 setCurrentPage={setCurrentPage}
               />
-              <Price priceRange={priceRange} setPriceRange={setPriceRange} />
+              <Price
+                setCurrentPage={setCurrentPage}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+              />
+
               <Category
+                currentCategory={currentCategory}
                 setCurrentCategory={setCurrentCategory}
                 setCurrentPage={setCurrentPage}
               />
               <Color
+                currentColor={currentColor}
                 setCurrentColor={setCurrentColor}
                 setCurrentPage={setCurrentPage}
               />
+              <Filter
+                currentSize={currentSize}
+                priceRange={priceRange}
+                currentColor={currentColor}
+                currentCategory={currentCategory}
+                setCurrentSize={setCurrentSize}
+                setPriceRange={setPriceRange}
+                setCurrentCategory={setCurrentCategory}
+                setCurrentColor={setCurrentColor}
+              />
             </div>
-            <SortBy />
           </div>
         </div>
         {/* products  */}

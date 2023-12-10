@@ -19,12 +19,10 @@ const CategoryAttribute = ({ elem1, elem2, active, onClick }) => {
   );
 };
 
-const Category = ({ setCurrentCategory, setCurrentPage }) => {
+const Category = ({ setCurrentCategory, setCurrentPage, currentCategory }) => {
   const [categoryData, setCategoryData] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
   const [isActive, setIsActive] = useState(false);
-
-  // console.log("activeCategoruy", activeCategories, "isActive", isActive);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/category`;
@@ -41,28 +39,30 @@ const Category = ({ setCurrentCategory, setCurrentPage }) => {
     fetchData();
   }, []);
 
-  // console.log("category data", categoryData);
+  // Update activeCategories when currentCategory changes
+  useEffect(() => {
+    if (currentCategory) {
+      const newActiveCategories = currentCategory.split(",");
+      setActiveCategories(newActiveCategories);
+      setIsActive(newActiveCategories.length > 0);
+    } else {
+      // If currentCategory is empty, clear the selected categories
+      setActiveCategories([]);
+      setIsActive(false);
+    }
+  }, [currentCategory]);
 
-  // const handleSizeSelection = (elem1, elem2) => {
-  //   console.log("elem2", elem2, "elelm1", elem1);
-  //   setCurrentCategory(elem1);
-  //   setActiveCategory(elem2);
-  // };
   const handleCategorySelection = (elem1) => {
-    // setIsActive(true);
     const index = activeCategories.indexOf(elem1);
     let newActiveCategories;
 
     if (index === -1) {
-      // If the category ID is not already in the array, add it
       newActiveCategories = [...activeCategories, elem1];
     } else {
-      // If the category ID is already in the array, remove it
       newActiveCategories = [...activeCategories];
       newActiveCategories.splice(index, 1);
     }
 
-    // Update the current category IDs with a single ID or a comma-separated string
     setCurrentCategory(
       newActiveCategories.length === 1
         ? newActiveCategories[0]
@@ -72,8 +72,6 @@ const Category = ({ setCurrentCategory, setCurrentPage }) => {
     setActiveCategories(newActiveCategories);
     setIsActive(newActiveCategories.length > 0);
   };
-
-  // console.log("active category", activeCategory);
 
   return (
     <div className="group relative z-10">

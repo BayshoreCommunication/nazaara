@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
 import axios from "axios";
@@ -16,13 +15,14 @@ const SizeAttribute = ({ elem, active, onClick }) => {
   );
 };
 
-const Size = ({ setCurrentSize, setCurrentPage }) => {
+const Size = ({ currentSize, setCurrentSize, setCurrentPage }) => {
+  console.log("current Size", currentSize);
   const [activeSizes, setActiveSizes] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [sizeData, setSizeData] = useState([]);
 
   useEffect(() => {
-    const apiUrl = `${process.env.API_URL}/api/v1/product/sizes`; //url for get sizes
+    const apiUrl = `${process.env.API_URL}/api/v1/product/sizes`;
 
     const fetchData = async () => {
       try {
@@ -39,22 +39,30 @@ const Size = ({ setCurrentSize, setCurrentPage }) => {
     });
   }, []);
 
-  // console.log("sizesss", sizeData.sizes);
+  // Update activeSizes when currentSize changes
+  useEffect(() => {
+    if (currentSize) {
+      const newActiveSizes = currentSize.split(",");
+      setActiveSizes(newActiveSizes);
+      setIsActive(newActiveSizes.length > 0);
+    } else {
+      // If currentSize is empty, clear the selected sizes
+      setActiveSizes("");
+      setIsActive(false);
+    }
+  }, [currentSize]);
 
   const handleSizeSelection = (elem) => {
     const index = activeSizes.indexOf(elem);
     let newActiveSizes;
 
     if (index === -1) {
-      // If the size is not already in the array, add it
       newActiveSizes = [...activeSizes, elem];
     } else {
-      // If the size is already in the array, remove it
       newActiveSizes = [...activeSizes];
       newActiveSizes.splice(index, 1);
     }
 
-    // Update the current size with a single size or a comma-separated string
     setCurrentSize(
       newActiveSizes.length === 1 ? newActiveSizes[0] : newActiveSizes.join(",")
     );
@@ -67,8 +75,22 @@ const Size = ({ setCurrentSize, setCurrentPage }) => {
     <div className="group relative">
       <ToogleButton title={`Size`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 rounded-lg box-shadow">
-        <h4 className="text-center my-2 text-lg font-semibold">Size</h4>
+      <div className="hidden py-2 group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 rounded-lg box-shadow">
+        <div
+          className={`flex items-center my-2 px-4 ${
+            currentSize ? "justify-between" : "justify-center"
+          }`}
+        >
+          <h4 className="text-md font-semibold">Size</h4>
+          {currentSize && (
+            <button
+              onClick={() => setCurrentSize("")}
+              className="text-xs text-primary-color"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
         <hr />
         {sizeData?.sizes?.length > 0 && (
           <div className="py-3 px-4 flex gap-2 flex-wrap">
@@ -88,27 +110,3 @@ const Size = ({ setCurrentSize, setCurrentPage }) => {
 };
 
 export default Size;
-
-// const Size = ({ setCurrentSize }) => {
-//   return (
-//     <div className="group relative z-10">
-//       <ToogleButton title="Size" />
-//       <div className="h-2 w-24"></div>
-//       <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
-//         <h4 className="text-center my-2 text-lg font-semibold">Size</h4>
-//         <hr />
-//         <div className="py-3 px-4 flex gap-2 flex-wrap">
-//           {sizes.map((elem, i) => (
-//             <SizeAttribute
-//               key={i}
-//               elem={elem}
-//               setCurrentSize={setCurrentSize}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Size;

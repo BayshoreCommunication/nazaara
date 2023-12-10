@@ -1,4 +1,5 @@
-"use client";
+// Import statements
+
 import { useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
 import axios from "axios";
@@ -20,14 +21,14 @@ const ColorAttribute = ({ elem, active, onClick }) => {
   );
 };
 
-const Color = ({ setCurrentColor, setCurrentPage }) => {
+const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   const [colorData, setColorData] = useState([]);
   const [activeColors, setActiveColors] = useState([]);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/product/colors`;
-    //get all color
+
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
@@ -38,24 +39,34 @@ const Color = ({ setCurrentColor, setCurrentPage }) => {
         console.error("product color fetching error", error);
       }
     };
+
     fetchData();
   }, []);
-  // console.log("clordata", colorData);
+
+  // Update activeColors when currentColor changes
+  useEffect(() => {
+    if (currentColor && typeof currentColor === "string") {
+      const newActiveColors = currentColor.split(",");
+      setActiveColors(newActiveColors);
+      setIsActive(newActiveColors.length > 0);
+    } else {
+      // If currentColor is not a string or is null/undefined, clear the selected colors
+      setActiveColors([]);
+      setIsActive(false);
+    }
+  }, [currentColor]);
 
   const handleColorSelection = (elem) => {
     const index = activeColors.indexOf(elem);
     let newActiveColors;
 
     if (index === -1) {
-      // If the size is not already in the array, add it
       newActiveColors = [...activeColors, elem];
     } else {
-      // If the size is already in the array, remove it
       newActiveColors = [...activeColors];
       newActiveColors.splice(index, 1);
     }
 
-    // Update the current size with a single size or a comma-separated string
     setCurrentColor(
       newActiveColors.length === 1
         ? newActiveColors[0]
@@ -65,12 +76,29 @@ const Color = ({ setCurrentColor, setCurrentPage }) => {
     setActiveColors(newActiveColors);
     setIsActive(newActiveColors.length > 0);
   };
+
+  console.log("isActive", isActive);
+
   return (
     <div className="group lg:relative">
       <ToogleButton title={`Color`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
-        <h4 className="text-center my-2 text-lg font-semibold">Color</h4>
+      <div className="hidden py-2 group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
+        <div
+          className={`flex items-center my-2 px-4 ${
+            currentColor ? "justify-between" : "justify-center"
+          }`}
+        >
+          <h4 className="text-md font-semibold">Color</h4>
+          {currentColor && (
+            <button
+              onClick={() => setCurrentColor("")}
+              className="text-xs text-primary-color"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
         <hr />
         <div className="py-3 px-4 flex flex-col gap-y-3">
           <div className="flex gap-2 flex-wrap">

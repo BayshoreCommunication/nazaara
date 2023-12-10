@@ -1,6 +1,6 @@
 const ShopButton = ({ text }) => {
   return (
-    <button className="border border-gray-300 p-2 rounded-md hover:bg-gray-200 hover:border-gray-200">
+    <button className="px-2 py-1 rounded-md bg-primary-color hover:bg-primary-hover-color text-white">
       {text}
     </button>
   );
