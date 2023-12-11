@@ -74,10 +74,10 @@ const Category = ({ setCurrentCategory, setCurrentPage, currentCategory }) => {
   };
 
   return (
-    <div className="group relative z-10">
+    <div className="group relative">
       <ToogleButton title={`Category`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute top-11 bg-white w-96 rounded-lg box-shadow">
+      <div className="hidden group-hover:block absolute z-50 top-11 bg-white w-full lg:w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Category</h4>
         <hr />
         <div className="py-3 px-4 flex flex-col gap-y-3">

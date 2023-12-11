@@ -1,26 +1,31 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import TopBar from "../TopBar";
-import { FaGift } from "react-icons/fa";
-import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import FilteredFestivalComponent from "./FilteredFestivalComponent";
 import { BeatLoader } from "react-spinners";
+import { useSelector } from "react-redux";
+import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 import NoProductFound from "../NoProductFound";
+import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import { useRouter } from "next/navigation";
 
-const FestivalContent = ({ festivalData }) => {
-  // console.log("festivalData", festivalData);
-  const minPrice = Math.min(
-    ...festivalData?.data[0]?.products.map((product) =>
-      Math.floor(product?.salePrice)
-    )
-  );
-  const maxPrice = Math.max(
-    ...festivalData?.data[0]?.products.map((product) =>
-      Math.ceil(product?.salePrice)
-    )
-  );
+const SearchProduct = () => {
+  const router = useRouter();
+  const reduxData = useSelector((state) => state.searchProduct.product);
+
+  useEffect(() => {
+    if (!reduxData || reduxData?.length === 0) {
+      router.push("/shop");
+    }
+  }, [reduxData, router]);
+
+  const minPrice = reduxData
+    ? Math.min(...reduxData?.map((product) => Math.floor(product?.salePrice)))
+    : 0;
+
+  const maxPrice = reduxData
+    ? Math.max(...reduxData?.map((product) => Math.ceil(product?.salePrice)))
+    : 0;
 
   const [selectedColors, setSelectedColors] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -34,14 +39,14 @@ const FestivalContent = ({ festivalData }) => {
       // Your existing filtering logic here
       const colorFilteredData =
         selectedColors.length > 0
-          ? festivalData.data[0].products.filter((product) =>
+          ? reduxData.filter((product) =>
               product.variant.some((variant) =>
                 selectedColors.includes(variant.color)
               )
             )
-          : festivalData.data[0].products;
+          : reduxData;
 
-      const priceFilteredData = colorFilteredData.filter(
+      const priceFilteredData = colorFilteredData?.filter(
         (product) =>
           product.salePrice >= priceRange[0] &&
           product.salePrice <= priceRange[1]
@@ -51,7 +56,7 @@ const FestivalContent = ({ festivalData }) => {
     };
 
     fetchData();
-  }, [selectedColors, priceRange, festivalData.data]);
+  }, [selectedColors, priceRange, reduxData]);
 
   const handleSearch = (color) => {
     setSelectedColors((prevColors) => {
@@ -72,7 +77,7 @@ const FestivalContent = ({ festivalData }) => {
 
     const result =
       newSelectedColors.length > 0
-        ? festivalData.data[0].products.filter((product) =>
+        ? reduxData.filter((product) =>
             newSelectedColors.includes(product.variant[0].color)
           )
         : [];
@@ -91,9 +96,9 @@ const FestivalContent = ({ festivalData }) => {
 
   return (
     <main>
-      {festivalData && (
+      {reduxData && (
         <div className="main-container my-10">
-          {festivalData.data[0].products.length > 0 ? (
+          {reduxData.length > 0 ? (
             <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1">
                 <div className="flex flex-col gap-y-8">
@@ -118,23 +123,20 @@ const FestivalContent = ({ festivalData }) => {
                   <div>
                     <p className="font-semibold mb-6">COLOR</p>
                     <div className="flex flex-wrap gap-2">
-                      {GetUniqueColorNames(festivalData.data[0].products)
-                        .length > 0 &&
-                        GetUniqueColorNames(festivalData.data[0].products).map(
-                          (color, i) => (
-                            <button
-                              key={i}
-                              onClick={() => handleSearch(color)}
-                              className={`border ${
-                                selectedColors.includes(color)
-                                  ? "bg-primary-color text-white"
-                                  : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
-                              } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
-                            >
-                              {color}
-                            </button>
-                          )
-                        )}
+                      {GetUniqueColorNames(reduxData).length > 0 &&
+                        GetUniqueColorNames(reduxData).map((color, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleSearch(color)}
+                            className={`border ${
+                              selectedColors.includes(color)
+                                ? "bg-primary-color text-white"
+                                : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
+                            } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
+                          >
+                            {color}
+                          </button>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -152,7 +154,7 @@ const FestivalContent = ({ festivalData }) => {
                     selectedColors={selectedColors}
                     handleRemoveColor={handleRemoveColor}
                     handleClearAll={handleClearAll}
-                    festivalTitle={festivalData.data[0].title}
+                    festivalTitle={"search product"}
                   />
                 ) : (
                   <div className="w-full flex justify-center items-center h-full">
@@ -170,4 +172,4 @@ const FestivalContent = ({ festivalData }) => {
   );
 };
 
-export default FestivalContent;
+export default SearchProduct;

@@ -73,12 +73,6 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
           onClick={handleSearchToggle}
           className="cursor-pointer mt-1 hidden lg:block"
         />
-        {/* <AiOutlineSearch
-          size={26}
-          onClick={handleSearchToggle}
-          className="cursor-pointer mt-1"
-        /> */}
-
         {/* search form */}
         {isSearchOpen && <SearchComponent />}
       </div>

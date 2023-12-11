@@ -28,15 +28,10 @@ const Price = ({ setCurrentPage, priceRange, setPriceRange }) => {
   }, [priceRange]);
 
   return (
-    <div className="group lg:relative">
-      <div className="hidden lg:block">
-        <ToogleButton title={"Price"} isActive={isActive} />
-      </div>
-      <div className="lg:hidden">
-        <ToogleButton title={"Price"} isActive={isActive} />
-      </div>
+    <div className="group relative">
+      <ToogleButton title={"Price"} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden group-hover:block absolute z-10 top-11 bg-white lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
+      <div className="hidden group-hover:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Price</h4>
         <hr />
         <div className="py-3 px-4 flex flex-col gap-y-3">

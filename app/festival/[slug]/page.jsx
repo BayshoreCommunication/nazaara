@@ -1,5 +1,7 @@
 import FestivalComponent from "@/components/Festivals/SingleFestivalContent";
+import TopBar from "@/components/TopBar";
 import React from "react";
+import { FaGift } from "react-icons/fa";
 
 const FestivalPage = async ({ params }) => {
   const res = await fetch(
@@ -13,6 +15,7 @@ const FestivalPage = async ({ params }) => {
   // console.log("data festive", data);
   return (
     <main>
+      <TopBar title={`Festival / ${data.data[0].title}`} icon={<FaGift />} />
       <div>
         <FestivalComponent festivalData={data} />
       </div>

@@ -2,23 +2,17 @@
 import NoProductFound from "@/components/NoProductFound";
 import ProductCart from "@/components/ProductCart";
 import TopBar from "@/components/TopBar";
-import Brand from "@/components/shop/Brand";
 import Category from "@/components/shop/Category";
 import Color from "@/components/shop/Color";
-import Delivery from "@/components/shop/Delivery";
-import Discount from "@/components/shop/Discount";
 import Filter from "@/components/shop/Filter";
 import Price from "@/components/shop/Price";
 import Size from "@/components/shop/Size";
-import SortBy from "@/components/shop/SortBy";
 import { addProduct } from "@/store/serachProductSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
-import { Scrollbar } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const Products = () => {
   const [data, setData] = useState({});
@@ -33,7 +27,7 @@ const Products = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=12&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
 
     // console.log("api url", apiUrl);
     const fetchData = async () => {
@@ -168,84 +162,44 @@ const Products = () => {
     };
   }, [dispatch]);
 
-  console.log("product data", data);
+  // console.log("product data", data);
 
   return (
     <>
       <TopBar title={"PRODUCTS"} icon={<FaBox />} />
       <div className="main-container mb-10 mt-3">
-        <div>
-          <div className="block lg:hidden card-mobile mt-6">
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={12}
-              scrollbar={{
-                hide: false,
-              }}
-              modules={[Scrollbar]}
-              className=""
-            >
-              <SwiperSlide>
-                <Filter />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Brand />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Size />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Price />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Discount />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Delivery />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Color />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SortBy />
-              </SwiperSlide>
-            </Swiper>
-          </div>
-          <div className="hidden lg:flex py-4 border-b-2 justify-center">
-            <div className="flex gap-4">
-              <Size
-                currentSize={currentSize}
-                setCurrentSize={setCurrentSize}
-                setCurrentPage={setCurrentPage}
-              />
-              <Price
-                setCurrentPage={setCurrentPage}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-              />
+        <div className="flex flex-col lg:flex-row py-4 border-b-2 justify-center gap-x-4 gap-y-2">
+          <Size
+            currentSize={currentSize}
+            setCurrentSize={setCurrentSize}
+            setCurrentPage={setCurrentPage}
+          />
+          <Price
+            setCurrentPage={setCurrentPage}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+          />
 
-              <Category
-                currentCategory={currentCategory}
-                setCurrentCategory={setCurrentCategory}
-                setCurrentPage={setCurrentPage}
-              />
-              <Color
-                currentColor={currentColor}
-                setCurrentColor={setCurrentColor}
-                setCurrentPage={setCurrentPage}
-              />
-              <Filter
-                currentSize={currentSize}
-                priceRange={priceRange}
-                currentColor={currentColor}
-                currentCategory={currentCategory}
-                setCurrentSize={setCurrentSize}
-                setPriceRange={setPriceRange}
-                setCurrentCategory={setCurrentCategory}
-                setCurrentColor={setCurrentColor}
-              />
-            </div>
-          </div>
+          <Category
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            setCurrentPage={setCurrentPage}
+          />
+          <Color
+            currentColor={currentColor}
+            setCurrentColor={setCurrentColor}
+            setCurrentPage={setCurrentPage}
+          />
+          <Filter
+            currentSize={currentSize}
+            priceRange={priceRange}
+            currentColor={currentColor}
+            currentCategory={currentCategory}
+            setCurrentSize={setCurrentSize}
+            setPriceRange={setPriceRange}
+            setCurrentCategory={setCurrentCategory}
+            setCurrentColor={setCurrentColor}
+          />
         </div>
         {/* products  */}
         {isLoading ? (

@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const serachProductSlice = createSlice({
-  name: "imgFilter",
+  name: "product",
   initialState,
   reducers: {
     addProduct: (state, action) => {

@@ -7,12 +7,11 @@ import EndHandler from "./EndHandler";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import SearchComponent from "./PartsOfHandler/Search";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
 import useScrollY from "@/customhooks/useScrollY";
 
 const NavBarContent = ({ data, sales, advertisements }) => {
-  const [mobileNavToggle, setMobileNavToggle] = useState(false);
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
   const [mobileBridalLink, setMobileBridalLink] = useState(false);
@@ -86,12 +85,12 @@ const NavBarContent = ({ data, sales, advertisements }) => {
           <div className="lg:hidden flex justify-between items-center ">
             <div className="lg:hidden w-1/4">
               <button
-                // onClick={() => setMobileNavToggle(!mobileNavToggle)}
+                // onClick={() => setMobileNavCollapse(!mobileNavCollapse)}
                 onClick={handleMobileNavToggle}
                 className="text-3xl font-bold flex lg:hidden"
               >
-                {!mobileNavToggle && <FaBars size={20} />}
-                {mobileNavToggle && <FaTimes size={20} />}
+                {!isMobileNavOpen && <FaBars size={20} />}
+                {isMobileNavOpen && <FaTimes size={20} />}
               </button>
             </div>
           </div>
@@ -462,8 +461,14 @@ const NavBarContent = ({ data, sales, advertisements }) => {
               <SearchComponent />
               <div className="flex flex-col gap-y-2 mt-3">
                 <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link href="/" onClick={() => setMobileNavToggle(false)}>
+                  <Link href="/" onClick={() => setIsMobileNavOpen(false)}>
                     HOME
+                  </Link>
+                </li>
+
+                <li className="border-b block py-2 text-white text-sm cursor-pointer">
+                  <Link href="/shop" onClick={() => setIsMobileNavOpen(false)}>
+                    SHOP
                   </Link>
                 </li>
 
@@ -578,12 +583,18 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                   )}
                 </div>
                 <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link href="/contact-us" onClick={() => setToogle(false)}>
+                  <Link
+                    href="/contact-us"
+                    onClick={() => setIsMobileNavOpen(false)}
+                  >
                     CONTACT US
                   </Link>
                 </li>
                 <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link href="/location" onClick={() => setToogle(false)}>
+                  <Link
+                    href="/location"
+                    onClick={() => setIsMobileNavOpen(false)}
+                  >
                     OUR LOCATIONS
                   </Link>
                 </li>

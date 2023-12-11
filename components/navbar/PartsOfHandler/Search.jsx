@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useGetProductsQuery } from "@/services/productApi";
 import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Fuse from "fuse.js";
+import useSWR from "swr";
 
 const SearchComponent = () => {
   const router = useRouter();
@@ -12,30 +14,58 @@ const SearchComponent = () => {
 
   const dispatch = useDispatch();
 
+  const dataRedux = useSelector((state) => state.searchProduct.product);
+
+  console.log("data redux", dataRedux);
+
   const searchFormHandler = async (e) => {
     e.preventDefault();
     try {
       dispatch(addProduct(filteredData));
-      router.push("/products");
+      router.push("/products/search");
     } catch (error) {
       console.error("Search error:", error);
     }
   };
 
-  const { data: allProducts } = useGetProductsQuery();
+  // const { data: allProducts } = useGetProductsQuery();
+
+  // console.log("data", allProducts);
+
+  const fetcher = async () => {
+    const response = await fetch(
+      `${process.env.API_URL}/api/v1/product/search-published`
+    );
+    const data = await response.json();
+    return data;
+  };
+
+  const { data, error, isLoading } = useSWR("search", fetcher);
+
+  if (error) return <div>failed to load.error occured</div>;
+  if (isLoading) return <div>loading...</div>;
 
   let filteredData;
-  if (allProducts) {
-    const fuse = new Fuse(allProducts?.product, {
-      keys: ["productName", "category", "subCategory"],
-    });
+  const options = {
+    includeMatches: true,
+    threshold: 0.6,
+    keys: ["variant.color", "subCategory.title"],
+  };
+  if (data) {
+    const fuse = new Fuse(data.product, options);
 
     // Filter the data based on the search term
-    filteredData = fuse.search(searchTerm);
+    const searchResults = fuse.search(searchTerm);
+    filteredData = searchResults.map((result) => result.item);
   }
+
+  // console.log("all product data", data);
+  // console.log("filter data", filteredData);
+  // console.log("search term", searchTerm);
 
   return (
     <main>
+      {/* pc search  */}
       <form onSubmit={searchFormHandler} className="hidden lg:block">
         <div
           className={`absolute transition-all duration-500 ease-in-out top-full right-[6.2rem] shadow-lg bg-gray-50 border`}
@@ -73,19 +103,19 @@ const SearchComponent = () => {
           {searchTerm && searchIsShown && (
             <div className={`w-72 bg-white border border-t`}>
               <ul className="p-4 flex flex-col gap-[0.7rem]">
-                {filteredData && filteredData.length > 0 ? (
+                {filteredData ? (
                   filteredData.map((result) => (
                     <li
                       className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
-                      key={result.item._id}
+                      key={result._id}
                       onClick={() => {
-                        setSearchTerm(result.item.productName);
                         dispatch(addProduct(filteredData));
+                        setSearchTerm(result.subCategory.title);
                         setSearchIsShown(false);
-                        router.push("/products");
+                        router.push("/products/search");
                       }}
                     >
-                      {result.item.productName} by {result.item.category}
+                      {result.subCategory.title}
                     </li>
                   ))
                 ) : (
@@ -97,38 +127,9 @@ const SearchComponent = () => {
             </div>
           )}
         </div>
-        {searchTerm && searchIsShown && (
-          <div
-            className={`absolute transition-all duration-500 ease-in-out w-72 rounded-sm bg-white right-[6.2rem] ${
-              scrollY > 100 ? "top-[60%]" : "top-36"
-            } shadow-xl`}
-          >
-            <ul className="p-4 flex flex-col gap-[0.7rem]">
-              {filteredData && filteredData.length > 0 ? (
-                filteredData.map((result) => (
-                  <li
-                    className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
-                    key={result.item._id}
-                    onClick={() => {
-                      setSearchTerm(result.item.productName);
-                      dispatch(addProduct(filteredData));
-                      setSearchIsShown(false);
-                      router.push("/products");
-                    }}
-                  >
-                    {result.item.productName} by {result.item.category}
-                  </li>
-                ))
-              ) : (
-                <li className="text-gray-700 text-sm">
-                  {`No products found with ${searchTerm}`}
-                </li>
-              )}
-            </ul>
-          </div>
-        )}
       </form>
-      <form className="block lg:hidden">
+      {/* mobile search  */}
+      {/* <form className="lg:hidden">
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -183,7 +184,7 @@ const SearchComponent = () => {
             )}
           </div>
         </div>
-      </form>
+      </form> */}
     </main>
   );
 };

@@ -80,10 +80,10 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   console.log("isActive", isActive);
 
   return (
-    <div className="group lg:relative">
+    <div className="group relative">
       <ToogleButton title={`Color`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden py-2 group-hover:block absolute z-10 top-11 bg-white w-80 lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
+      <div className="hidden py-2 group-hover:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
         <div
           className={`flex items-center my-2 px-4 ${
             currentColor ? "justify-between" : "justify-center"
