@@ -158,7 +158,7 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
                   />
                 ) : (
                   <div className="w-full flex justify-center items-center h-full">
-                    <p>No Product Found!😢</p>
+                    <NoProductFound />
                   </div>
                 )}
               </div>

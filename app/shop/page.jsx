@@ -1,4 +1,5 @@
 "use client";
+import NoProductFound from "@/components/NoProductFound";
 import ProductCart from "@/components/ProductCart";
 import TopBar from "@/components/TopBar";
 import Brand from "@/components/shop/Brand";
@@ -32,9 +33,9 @@ const Products = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const apiUrl = `${process.env.API_URL}/api/v1/product?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=2&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
 
-    console.log("api url", apiUrl);
+    // console.log("api url", apiUrl);
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
@@ -167,14 +168,7 @@ const Products = () => {
     };
   }, [dispatch]);
 
-  // console.log("price rtansfsdfsdfsdf", apiUrl);
-  // console.log(
-  //   "all from shop",
-  //   currentSize,
-  //   priceRange,
-  //   currentColor,
-  //   currentCategory
-  // );
+  console.log("product data", data);
 
   return (
     <>
@@ -258,6 +252,8 @@ const Products = () => {
           <div className="w-full h-[40vh] flex justify-center items-center">
             <BeatLoader color="#820000" />
           </div>
+        ) : data?.product?.length === 0 ? (
+          <NoProductFound />
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 my-10">
             {data?.product?.map((data, i) => (
