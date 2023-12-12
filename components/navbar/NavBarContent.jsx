@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import EndHandler from "./EndHandler";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import useGlobalCart from "@/customhooks/useGlobalCart";
@@ -19,6 +19,9 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   const scrollY = useScrollY();
 
   const currentRoute = usePathname();
+  const searchParams = useSearchParams();
+
+  // console.log("current route", searchParams.get("category"));
 
   const {
     isCartOpen: isSearchOpen,
@@ -119,7 +122,12 @@ const NavBarContent = ({ data, sales, advertisements }) => {
               </Link>
 
               <div className="group">
-                <li className="flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                <li
+                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
+                    searchParams.get("category") === "regular-wear" &&
+                    "bg-base-100 text-primary-color hover:no-underline"
+                  }`}
+                >
                   REGULAR WEAR{" "}
                   <FaAngleDown
                     className={`transform group-hover:rotate-180 transition-all duration-500 ease-in-out`}
@@ -218,7 +226,12 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                 </div>
               </div>
               <div className="group">
-                <li className="flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                <li
+                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
+                    searchParams.get("category") === "party-wear" &&
+                    "bg-base-100 text-primary-color hover:no-underline"
+                  }`}
+                >
                   PARTY WEAR{" "}
                   <FaAngleDown
                     className={`transform group-hover:rotate-180 transition-all duration-500 ease-in-out`}
@@ -318,7 +331,12 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                 </div>
               </div>
               <div className="group">
-                <li className="flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                <li
+                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
+                    searchParams.get("category") === "bridal-wear" &&
+                    "bg-base-100 text-primary-color hover:no-underline"
+                  }`}
+                >
                   BRIDAL WEAR{" "}
                   <FaAngleDown
                     className={`transform group-hover:rotate-180 transition-all duration-500 ease-in-out`}

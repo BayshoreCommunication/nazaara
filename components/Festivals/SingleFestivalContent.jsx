@@ -2,8 +2,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import TopBar from "../TopBar";
-import { FaGift } from "react-icons/fa";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import FilteredFestivalComponent from "./FilteredFestivalComponent";
 import { BeatLoader } from "react-spinners";
@@ -87,7 +85,7 @@ const FestivalContent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  // console.log("filtered products, ", filteredProducts);
+  console.log("filtered products, ", filteredProducts);
 
   return (
     <main>
@@ -147,13 +145,15 @@ const FestivalContent = ({ festivalData }) => {
                     </div>
                   </div>
                 ) : filteredProducts.length > 0 ? (
-                  <FilteredFestivalComponent
-                    data={filteredProducts}
-                    selectedColors={selectedColors}
-                    handleRemoveColor={handleRemoveColor}
-                    handleClearAll={handleClearAll}
-                    festivalTitle={festivalData.data[0].title}
-                  />
+                  <>
+                    <FilteredFestivalComponent
+                      data={filteredProducts}
+                      selectedColors={selectedColors}
+                      handleRemoveColor={handleRemoveColor}
+                      handleClearAll={handleClearAll}
+                      festivalTitle={festivalData.data[0].title}
+                    />
+                  </>
                 ) : (
                   <div className="w-full flex justify-center items-center h-full">
                     <NoProductFound />

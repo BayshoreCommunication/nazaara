@@ -82,7 +82,7 @@ const Payment = () => {
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
-  }, [fetchProductDetails, paymentCheck.paymentStatus]);
+  }, [fetchProductDetails]);
 
   const fetchUserData = useCallback(async () => {
     const jsonStr = getCookie("userAuthCredential");
@@ -104,7 +104,7 @@ const Payment = () => {
     fetchCountries();
     fetchData();
     fetchUserData();
-  }, [cartItems, fetchUserData]);
+  }, [cartItems, fetchData, fetchUserData]);
 
   const handleChange = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });

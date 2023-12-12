@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import ProductCart from "../ProductCart";
+import Pagination from "../Pagination";
 
 const FilteredFestivalComponent = ({
   data,
@@ -9,7 +10,12 @@ const FilteredFestivalComponent = ({
   handleClearAll,
   festivalTitle,
 }) => {
-  // console.log("darttaa, ", data);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = data.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(data.length / productsPerPage);
   return (
     <>
       {data.length > 0 && (
@@ -55,12 +61,17 @@ const FilteredFestivalComponent = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-6">
-            {data.map((data, i) => (
+            {currentProducts.map((data, i) => (
               <div key={i} className="transition-all duration-500 ease-in-out">
                 <ProductCart data={data} i={i} />
               </div>
             ))}
           </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
         </div>
       )}
     </>
