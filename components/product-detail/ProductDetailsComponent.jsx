@@ -87,7 +87,9 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         (item) => item.variantId === cartData.variantId
       );
       // console.log("check", check);
-      if (check) {
+      if (check && data.stock <= check.quantity) {
+        toast.error(`Can't add more product! Already added into cart`);
+      } else if (check) {
         const result = await updateCart({
           user: cartData.user,
           variantId: cartData.variantId,
@@ -112,9 +114,9 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
         toast.error("Please Login First!");
         router.push("/user-authentication");
       } else if (!getColor) {
-        toast.error("Please select the color");
+        toast.error("Please select a color");
       } else {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong!");
       }
     }
   };

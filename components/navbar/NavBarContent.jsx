@@ -40,10 +40,10 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   };
 
   // console.log("navbar content data", data);
-  const dispatch = useDispatch();
-  if (data) {
-    data.data.map((elem) => dispatch(addItemToCart(elem)));
-  }
+  // const dispatch = useDispatch();
+  // if (data) {
+  //   data.data.map((elem) => dispatch(addItemToCart(elem)));
+  // }
   // console.log("data inside navbar", data);
 
   const saleData = (slug) => {

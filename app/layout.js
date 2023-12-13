@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { Providers } from "@/store/provider";
 import { Inter } from "next/font/google";
 import MainNavbar from "@/components/navbar/MainNavbar";
-
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
   subsets: ["latin"],

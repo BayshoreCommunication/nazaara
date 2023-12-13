@@ -8,6 +8,8 @@ import useGlobalCart from "@/customhooks/useGlobalCart";
 import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
 import SearchComponent from "./PartsOfHandler/Search";
+import { useGetCartByUserIdQuery } from "@/services/cartApi";
+import { BeatLoader } from "react-spinners";
 
 const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -56,7 +58,7 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
     fetchData();
   }, [getCookieData, jsonStr, apiUrl, fetchData]);
 
-  const cartQuantity = cartItems.length;
+  // const cartQuantity = cartItems.length;
 
   const handleCartToggle = () => {
     setIsAddToCartOpen(!isAddToCartOpen); // Toggle the cart open/close state
@@ -64,6 +66,15 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
   const handleUserToggle = () => {
     setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
   };
+
+  const obj = JSON.parse(jsonStr);
+  const { data: cartdata, isLoading } = useGetCartByUserIdQuery(`${obj._id}`);
+  if (isLoading) {
+    <div className="w-full h-[40vh] flex justify-center items-center">
+      <BeatLoader color="#820000" />
+    </div>;
+  }
+  const cartQuantity = cartdata?.data?.length;
 
   return (
     <div className="flex items-center gap-x-4 w-max">
@@ -113,13 +124,11 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
         )}
       </div>
       {/* shopping cart  */}
-      <div className="relative" ref={addToCartRef}>
+      <div className="relative">
         {cookieData ? (
-          <AiOutlineShoppingCart
-            className="cursor-pointer"
-            size={24}
-            onClick={handleCartToggle}
-          />
+          <Link href={"/shop/cart"}>
+            <AiOutlineShoppingCart size={24} />
+          </Link>
         ) : (
           <Link href={"/user-authentication"}>
             <AiOutlineShoppingCart className="cursor-pointer" size={24} />
@@ -132,14 +141,6 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
             </p>
           </div>
         )}
-        {/* shopping cart content*/}
-        {isAddToCartOpen && (
-          <Cart
-            cookieData={cookieData}
-            setIsAddToCartOpen={setIsAddToCartOpen}
-          />
-        )}
-        {/* Render cart if isCartOpen is true */}
       </div>
     </div>
   );

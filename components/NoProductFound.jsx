@@ -3,7 +3,7 @@ import Lottie from "react-lottie";
 import animationData from "../public/product-not-found/productNotFoundAnimation.json";
 import cryAnimationData from "../public/product-not-found/cryAnimation.json";
 
-const NoProductFound = () => {
+const NoProductFound = ({ text }) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -24,7 +24,7 @@ const NoProductFound = () => {
     <div className="w-full flex justify-center items-center h-[50vh] text-xl font-semibold text-gray-600">
       <div className="flex flex-col items-center">
         <div className="flex items-center">
-          <span className="mb-3">No Product Found!</span>
+          <span className="mb-3">{text ? text : "No Product Found!"}</span>
           <Lottie options={cryDefaultOptions} height={120} width={40} />
         </div>
         <div className="-translate-y-10">
