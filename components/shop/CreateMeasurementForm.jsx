@@ -1,22 +1,37 @@
-import Button from "@/components/Button";
-import Navigation from "@/components/paymentNav/Navigation";
-import Image from "next/image";
+"use client";
 import Link from "next/link";
-import { AiOutlineRollback } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { sizeCharthandleContact } from "../serverAction/sizeChartAction";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
-const Measurement = () => {
+const CreateMeasurementForm = ({ searchParams }) => {
+  const [isSuccess, setIsSuccess] = useState(false);
+  // const ref = useRef(null);
+  async function clientAction(formData) {
+    //reset form
+    // ref.current?.reset();
+    //client side validation
+    const result = await sizeCharthandleContact(formData, searchParams);
+
+    // console.log("result,", result);
+    if (result?.error) {
+      //show error
+      toast.error(result.error, { duration: 4000 });
+    } else {
+      setIsSuccess(true);
+      toast.success(result.message, { duration: 4000 });
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      redirect("/shop/cart");
+    }
+  }, [isSuccess]);
+
   return (
-    <div className="main-container flex flex-col gap-y-6 my-6 lg:my-20">
-      {/* <Image
-          src="/images/payment-logo.png"
-          alt="My Image"
-          width={260}
-          height={200}
-        /> */}
-      <Navigation />
-      <p className="text-center text-gray-600">
-        ***All measurements should be taken in inch
-      </p>
+    <form action={clientAction}>
       <div className="flex flex-col lg:flex-row gap-6 justify-center">
         <div className="flex-1 border rounded-lg">
           <div className="flex flex-col gap-2 border-b py-4">
@@ -27,9 +42,11 @@ const Measurement = () => {
               <div className="flex items-center ">
                 <input
                   id="blouse"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  type="radio"
+                  name="topsRadio"
+                  required
+                  value="blouse"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="blouse"
@@ -41,9 +58,11 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="kameez"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  type="radio"
+                  required
+                  name="topsRadio"
+                  value="kameez"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="kameez"
@@ -55,9 +74,11 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="gown"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  type="radio"
+                  required
+                  name="topsRadio"
+                  value="gown"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="gown"
@@ -76,16 +97,18 @@ const Measurement = () => {
               <input
                 type="number"
                 id="chest"
+                name="tChest"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
               <label className="block text-gray-600" htmlFor="waist">
-                waist
+                Waist
               </label>
               <input
                 type="number"
                 id="waist"
+                name="tWaist"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -96,6 +119,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Hip"
+                name="tHip"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -106,6 +130,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="End"
+                name="tEnd"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -116,6 +141,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Shoulder"
+                name="tShoulder"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -126,6 +152,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Arm Hole"
+                name="tArmHole"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -136,6 +163,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Sleeve Length"
+                name="tSleeve"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -146,6 +174,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Muscle"
+                name="tMuscle"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -156,6 +185,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Hand Opening"
+                name="tHandOpening"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -166,6 +196,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Length"
+                name="tLength"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -176,26 +207,29 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Slit"
+                name="tSlit"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
               <label className="block text-gray-600" htmlFor="Neck Deep F">
-                Neck Deep F
+                Neck Deep (F)
               </label>
               <input
                 type="number"
                 id="Neck Deep F"
+                name="tNeckF"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
               <label className="block text-gray-600" htmlFor="Neck Deep B">
-                Neck Deep B
+                Neck Deep (B)
               </label>
               <input
                 type="number"
                 id="Neck Deep B"
+                name="tNeckB"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -206,6 +240,7 @@ const Measurement = () => {
               <input
                 type="number"
                 id="Half Body"
+                name="tHalfBody"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -222,9 +257,10 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="Skirt"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  type="radio"
+                  name="bottomRadio"
+                  value="skirt"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="Skirt"
@@ -236,9 +272,10 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="Palazzo"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  type="radio"
+                  name="bottomRadio"
+                  value="palazzo"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="Palazzo"
@@ -250,9 +287,10 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="Pant"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  type="radio"
+                  name="bottomRadio"
+                  value="pant"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="Pant"
@@ -264,9 +302,10 @@ const Measurement = () => {
               <div className="flex items-center">
                 <input
                   id="Gharara"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  type="radio"
+                  name="bottomRadio"
+                  value="gharara"
+                  className="w-4 h-4"
                 />
                 <label
                   htmlFor="Gharara"
@@ -279,72 +318,68 @@ const Measurement = () => {
           </div>
           <div className="grid grid-cols-2 mx-10 gap-x-10 gap-y-2 py-4">
             <div>
-              <label className="block text-gray-600" htmlFor="Length">
+              <label className="block text-gray-600" htmlFor="bLength">
                 Length
               </label>
               <input
                 type="number"
-                id="Length"
+                id="bLength"
+                name="bLength"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
-              <label className="block text-gray-600" htmlFor="waist">
+              <label className="block text-gray-600" htmlFor="bwaist">
                 Waist
               </label>
               <input
                 type="number"
-                id="waist"
+                id="bwaist"
+                name="bWaist"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
-              <label className="block text-gray-600" htmlFor="Hip">
+              <label className="block text-gray-600" htmlFor="bHip">
                 Hip
               </label>
               <input
                 type="number"
-                id="Hip"
+                id="bHip"
+                name="bHip"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
-              <label className="block text-gray-600" htmlFor="End">
-                End
-              </label>
-              <input
-                type="number"
-                id="End"
-                className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-600" htmlFor="Thigh">
+              <label className="block text-gray-600" htmlFor="bThigh">
                 Thigh
               </label>
               <input
                 type="number"
-                id="Thigh"
+                id="bThigh"
+                name="bThigh"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
-              <label className="block text-gray-600" htmlFor="Knee">
+              <label className="block text-gray-600" htmlFor="bKnee">
                 Knee
               </label>
               <input
                 type="number"
-                id="Knee"
+                id="bKnee"
+                name="bKnee"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
             <div>
-              <label className="block text-gray-600" htmlFor="Leg Opening">
+              <label className="block text-gray-600" htmlFor="bLegOpening">
                 Leg Opening
               </label>
               <input
                 type="number"
-                id="Leg Opening"
+                id="bLegOpening"
+                name="bLegOpening"
                 className="border rounded-md focus:outline-none pl-2 text-gray-500 py-0.5 w-full"
               />
             </div>
@@ -365,36 +400,22 @@ const Measurement = () => {
           </div>
         </div>
       </div>
-      <p className="text-sm">
-        By clicking Continue to Payment, you agree to our{" "}
-        <Link
-          className="text-primary-color border-b border-primary-color"
-          href="terms-of-use"
-        >
-          Terms & Conditions
-        </Link>
-      </p>
-      <div className="flex flex-col lg:flex-row items-center justify-between w-full">
+
+      <div className="flex flex-col lg:flex-row items-center justify-between w-full mt-4">
         <div className="flex flex-col lg:flex-row gap-5 items-center justify-center lg:justify-start flex-1">
-          <Link href={`/payment`}>
-            <Button text={`Continue to Payment`} />
-          </Link>
-          <Link href={`/information`} className="flex gap-1 items-center">
-            <AiOutlineRollback /> Return to Information
-          </Link>
+          <button
+            type="submit"
+            className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-2 font-medium rounded-lg hover:bg-primary-hover-color transition-colors duration-500"
+          >
+            Save Measurement
+          </button>
         </div>
-        <div className="flex flex-1 justify-center lg:justify-end mt-2 lg:mt-0 text-gray-500 font-medium">
-          <Link href={`payment`}>Skip Now</Link>
+        <div className="flex flex-1 justify-center lg:justify-end mt-2 lg:mt-0 text-gray-600 font-medium">
+          <Link href={`/shop/cart`}>Skip Measurement</Link>
         </div>
       </div>
-      {/* <div className="pt-4 border-t-2 border-gray-200 mt-4 flex gap-x-4 text-gray-500 text-sm">
-        <Link href="/return-exchange">Refund Policy</Link>
-        <Link href="/shipping">Shipping Policy</Link>
-        <Link href="/privacy-policy">Privacy Policy</Link>
-        <Link href="/terms-of-use">Terms of use</Link>
-      </div> */}
-    </div>
+    </form>
   );
 };
 
-export default Measurement;
+export default CreateMeasurementForm;

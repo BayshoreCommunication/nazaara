@@ -70,11 +70,14 @@ const CartContent = ({ userData }) => {
   const handleDeleteCartItem = async (variantId, user) => {
     setIsDeleteLoading(true);
     try {
-      await deleteCart({
+      const deleteCarts = await deleteCart({
         user: user,
         variantId: variantId,
       });
-      setIsDeleteLoading(false);
+      console.log("detecart", deleteCarts);
+      if (deleteCarts?.data?.status == "success") {
+        setIsDeleteLoading(false);
+      }
     } catch (err) {
       console.error("Update error:", err);
     }
@@ -89,7 +92,7 @@ const CartContent = ({ userData }) => {
   } else {
     const data = cartData?.data;
 
-    // console.log("data", data);
+    console.log("data", data);
     return (
       <div className="main-container flex gap-10 items-start">
         <div className="flex flex-[3] flex-col gap-5 bg-white p-4">
@@ -226,9 +229,17 @@ const CartContent = ({ userData }) => {
                             </button>
                           </div>
                         </div>
-                        <button className=" bg-primary-color text-white px-2 py-1 text-xs rounded-sm hover:bg-primary-hover-color transition-colors duration-500">
-                          Measurement
-                        </button>
+                        <Link
+                          href={`/shop/cart/measurement?cartId=${detail?._id}&userId=${userData?._id}`}
+                        >
+                          <button
+                            disabled={detail.sizeChart}
+                            className=" bg-primary-color text-white px-2 py-1 text-xs rounded-sm hover:bg-primary-hover-color transition-colors duration-500"
+                          >
+                            Add Measurement
+                          </button>
+                        </Link>
+
                         <button
                           onClick={() =>
                             handleDeleteCartItem(
