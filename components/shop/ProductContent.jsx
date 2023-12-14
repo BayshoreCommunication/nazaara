@@ -1,8 +1,6 @@
 "use client";
-import { addProduct } from "@/store/serachProductSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import Size from "./Size";
 import Price from "./Price";
@@ -21,13 +19,10 @@ const ProductContent = () => {
 
   const [currentSize, setCurrentSize] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const searchProduct = useSelector((state) => state.searchProduct.product);
 
   useEffect(() => {
     setIsLoading(true);
     const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=15&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
-
-    // console.log("api url", apiUrl);
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
@@ -37,25 +32,11 @@ const ProductContent = () => {
         return null;
       }
     };
-    if (searchProduct && searchProduct.length > 0) {
-      // Display filtered data from Redux
-      setData({ product: searchProduct.map((el) => el.item) });
+    fetchData().then((apiData) => {
+      setData(apiData);
       setIsLoading(false);
-    } else {
-      // Fetch data from the API
-      fetchData().then((apiData) => {
-        setData(apiData);
-        setIsLoading(false);
-      });
-    }
-  }, [
-    currentCategory,
-    currentColor,
-    currentPage,
-    currentSize,
-    priceRange,
-    searchProduct,
-  ]);
+    });
+  }, [currentCategory, currentColor, currentPage, currentSize, priceRange]);
 
   const totalPages = data?.totalPages;
 
@@ -146,20 +127,6 @@ const ProductContent = () => {
     }
     return pageNumbers;
   };
-  const dispatch = useDispatch();
-  // Reset the Redux data when navigating away from the /products page
-
-  // Add a cleanup effect when leaving the page
-  useEffect(() => {
-    const resetReduxData = () => {
-      dispatch(addProduct(null));
-    };
-    return () => {
-      resetReduxData();
-    };
-  }, [dispatch]);
-
-  // console.log("product data", data);
 
   return (
     <section className="main-container mb-10 mt-3">

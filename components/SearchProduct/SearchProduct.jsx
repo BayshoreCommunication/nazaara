@@ -7,17 +7,16 @@ import { useSelector } from "react-redux";
 import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 import NoProductFound from "../NoProductFound";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const SearchProduct = () => {
-  const router = useRouter();
   const reduxData = useSelector((state) => state.searchProduct.product);
 
   useEffect(() => {
     if (!reduxData || reduxData?.length === 0) {
-      router.push("/shop");
+      return redirect("/shop");
     }
-  }, [reduxData, router]);
+  }, [reduxData]);
 
   const minPrice = reduxData
     ? Math.min(...reduxData?.map((product) => Math.floor(product?.salePrice)))

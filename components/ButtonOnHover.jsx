@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCartPlus } from "react-icons/fa";
 
-const ButtonOnHover = ({ text, color }) => {
+const ButtonOnHover = ({ text, color, icon }) => {
   return (
     <button
       className={`w-full group btn2 px-6 ${
@@ -10,9 +10,9 @@ const ButtonOnHover = ({ text, color }) => {
     >
       <span className="absolute inset-0 bg-primary-color"></span>
       <span className="hidden group-hover:flex gap-[6px] absolute inset-0 justify-center items-center font-medium">
-        <FaCartPlus size={20} /> {text}
+        {icon ? icon : <FaCartPlus size={20} />} {text}
       </span>
-      <FaCartPlus size={20} /> {text}
+      {icon ? icon : <FaCartPlus size={20} />} {text}
     </button>
   );
 };

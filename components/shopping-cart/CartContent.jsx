@@ -9,7 +9,7 @@ import {
 } from "@/services/cartApi";
 import { BeatLoader } from "react-spinners";
 import ButtonOnHover from "../ButtonOnHover";
-import { FaTimes } from "react-icons/fa";
+import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import NoProductFound from "../NoProductFound";
 import Link from "next/link";
 
@@ -89,7 +89,7 @@ const CartContent = ({ userData }) => {
   } else {
     const data = cartData?.data;
 
-    console.log("data", data);
+    // console.log("data", data);
     return (
       <div className="main-container flex gap-10 items-start">
         <div className="flex flex-[3] flex-col gap-5 bg-white p-4">
@@ -109,6 +109,7 @@ const CartContent = ({ userData }) => {
                 <ButtonOnHover
                   text={"Continue Shopping"}
                   color={"text-gray-700"}
+                  icon={<FaHandPointLeft size={20} />}
                 />
               </Link>
             </div>

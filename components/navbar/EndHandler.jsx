@@ -1,27 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Cart from "../shopping-cart/Cart";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
 import UserCart from "../user-dashboard/UserCart";
 import useGlobalCart from "@/customhooks/useGlobalCart";
-import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
 import SearchComponent from "./PartsOfHandler/Search";
 import { useGetCartByUserIdQuery } from "@/services/cartApi";
 import { BeatLoader } from "react-spinners";
 
 const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const apiUrl = `${process.env.API_URL}/api/v1/product/categories`;
-  const [categories, setCategories] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
   const [cookieData, setCookieData] = useState(null);
-  const {
-    isCartOpen: isAddToCartOpen,
-    setIsCartOpen: setIsAddToCartOpen,
-    cartRef: addToCartRef,
-  } = useGlobalCart();
+  const [objData, setObjData] = useState("");
   const {
     isCartOpen: isUserDashboardOpen,
     setIsCartOpen: setisUserDashboardOpen,
@@ -33,42 +24,25 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
   };
 
   const jsonStr = getCookie("userAuthCredential");
-
-  const getCookieData = useCallback(() => {
+  useEffect(() => {
     if (jsonStr != null) {
       const obj = JSON.parse(jsonStr);
       setImgUrl(obj.imageUrl);
       setCookieData(obj);
     }
-  }, [jsonStr]);
+  }, [setCookieData, jsonStr]);
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios.get(apiUrl);
-      if (response.status === 200) {
-        setCategories(response.data.newData);
-      }
-    } catch (error) {
-      console.error("product categories fetching error", error);
-    }
-  }, [apiUrl]);
-
-  useEffect(() => {
-    getCookieData();
-    fetchData();
-  }, [getCookieData, jsonStr, apiUrl, fetchData]);
-
-  // const cartQuantity = cartItems.length;
-
-  const handleCartToggle = () => {
-    setIsAddToCartOpen(!isAddToCartOpen); // Toggle the cart open/close state
-  };
   const handleUserToggle = () => {
     setisUserDashboardOpen(!isUserDashboardOpen); // Toggle the cart open/close state
   };
 
-  const obj = JSON.parse(jsonStr);
-  const { data: cartdata, isLoading } = useGetCartByUserIdQuery(`${obj._id}`);
+  useEffect(() => {
+    if (jsonStr) {
+      const obj = JSON.parse(jsonStr);
+      setObjData(obj._id);
+    }
+  }, [jsonStr]);
+  const { data: cartdata, isLoading } = useGetCartByUserIdQuery(`${objData}`);
   if (isLoading) {
     <div className="w-full h-[40vh] flex justify-center items-center">
       <BeatLoader color="#820000" />
