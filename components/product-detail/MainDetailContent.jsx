@@ -34,6 +34,7 @@ const ProductMainDetails = ({
   similarProductData,
   moreProductData,
 }) => {
+  // console.log("product details", productDetails);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
   //   const [data, setData] = useState(null);
   //   const [category, setCategory] = useState(null);
@@ -157,7 +158,7 @@ const ProductMainDetails = ({
         direction="right"
         className="overflow-y-auto scrollbar-none"
       >
-        {/* drawer content  */}
+        {/* drawer content */}
         {productDetails && (
           <DrawerContent data={productDetails} setIsOpen={setIsOpen} />
         )}

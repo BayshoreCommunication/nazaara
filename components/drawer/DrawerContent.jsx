@@ -1,57 +1,62 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import PendingShipBadge from "../PendingShipBadge";
-import { RxDotFilled } from "react-icons/rx";
+import { FaTimes } from "react-icons/fa";
+import { GoDotFill } from "react-icons/go";
 
 const DrawerContent = ({ data, setIsOpen }) => {
   // button toogle
   const [toggle, setToggle] = useState("size");
-  const [size, setSize] = useState("cm");
 
   return (
     <div className="relative overflow-y-auto">
       <button
-        className="absolute top-3 right-5 text-2xl"
+        className="absolute top-3 right-5"
         onClick={() => setIsOpen(false)}
       >
-        x
+        <FaTimes size={18} />
       </button>
       <div className="p-4">
-        <h1 className="text-xl text-gray-600 font-medium pb-1">Size Chart</h1>
+        <h1 className="text-xl text-gray-700 font-medium pb-1">Size Chart</h1>
         <hr />
         {data && (
-          <div className="flex gap-2 my-4">
+          <div className="flex gap-4 my-4">
             {data.variant[0].imageUrl[0] && (
               <Image
                 src={data.variant[0].imageUrl[0]}
                 alt="bridal_top"
                 width={600}
                 height={300}
-                className="w-[40%]"
+                className="w-[40%] rounded-md"
               />
             )}
 
-            <div>
+            <div className="flex flex-col gap-2">
               <h3 className="font-bold text-xl">{data.productName}</h3>
-              <p className="text-gray-500">{data.sku}</p>
+              <p className="text-gray-500 font-sm">{data.sku}</p>
               {data?.stock > 0 ? (
                 <p className="flex items-center -ml-1 text-sm font-medium">
-                  <RxDotFilled size={30} color="green" />
+                  <GoDotFill size={18} color="green" />
                   In Stock
                 </p>
               ) : (
                 <p className="flex items-center -ml-1 text-sm font-medium">
-                  <RxDotFilled size={30} color="#820000" />
+                  <GoDotFill size={18} color="#820000" />
                   Out of Stock
+                </p>
+              )}
+              {data.preOrder && (
+                <p className="flex items-center -ml-1 text-sm font-medium">
+                  <GoDotFill size={18} color="green" />
+                  Pre Order Available
                 </p>
               )}
               <div className="flex items-center gap-2">
                 <p className="font-bold text-bold text-xl">
-                  BDT {data.salePrice}/-
+                  ৳ {data.salePrice}/-
                 </p>
-                <p className="line-through text-sm font-medium">
-                  BDT {data.regularPrice}/-
+                <p className="line-through text-sm font-medium text-gray-600">
+                  ৳ {data.regularPrice}/-
                 </p>
                 {/* <PendingShipBadge text="10%" /> */}
               </div>
@@ -63,7 +68,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
         <div>
           <div className="flex justify-around py-1">
             <button
-              className={`text-gray-500 font-medium ${
+              className={`text-gray-700 font-medium ${
                 toggle === "size" && "underline underline-offset-8"
               }`}
               onClick={() => setToggle("size")}
@@ -71,7 +76,7 @@ const DrawerContent = ({ data, setIsOpen }) => {
               SIZE CHART
             </button>
             <button
-              className={`text-gray-500 font-medium ${
+              className={`text-gray-700 font-medium ${
                 toggle === "measure" && "underline underline-offset-8"
               }`}
               onClick={() => setToggle("measure")}
@@ -81,147 +86,96 @@ const DrawerContent = ({ data, setIsOpen }) => {
           </div>
           <hr />
           {toggle === "size" && (
-            <div className="my-4">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-semibold text-xl">Shirt</h2>
-                {/* <div className="flex gap-2">
-                  <div
-                    onClick={() => setSize("cm")}
-                    className="flex items-center gap-1"
-                  >
-                    <input
-                      checked={size == "cm"}
-                      id="cm"
-                      type="radio"
-                      name="radio-1"
-                      className="radio radio-sm"
-                    />
-                    <label htmlFor="cm">Cm</label>
-                  </div>
-
-                  <div
-                    onClick={() => setSize("in")}
-                    className="flex items-center gap-1"
-                  >
-                    <input
-                      checked={size == "in"}
-                      id="in"
-                      type="radio"
-                      name="radio-1"
-                      className="radio radio-sm"
-                    />
-                    <label htmlFor="in">In</label>
-                  </div>
-                </div> */}
-              </div>
-              <div className="text-left">
-                {/* {size === "in" && ( */}
-                <table className="table w-full">
-                  <thead>
-                    <tr>
-                      <th>Sizes</th>
-                      <th>XS (In)</th>
-                      <th>S (In)</th>
-                      <th>M (In)</th>
-                      <th>L (In)</th>
-                      <th>XL (In)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th>LENGTH</th>
-                      <td>36</td>
-                      <td>36</td>
-                      <td>37</td>
-                      <td>38</td>
-                      <td>38</td>
-                    </tr>
-                    <tr>
-                      <th>CHEST</th>
-                      <td>17</td>
-                      <td>18</td>
-                      <td>20</td>
-                      <td>22</td>
-                      <td>23 </td>
-                    </tr>
-                    <tr>
-                      <th> WAIST</th>
-                      <td>16</td>
-                      <td>17</td>
-                      <td>18.5</td>
-                      <td>19.5</td>
-                      <td>20.5</td>
-                    </tr>
-                    <tr>
-                      <th>ARMS</th>
-                      <td>20</td>
-                      <td>21</td>
-                      <td>22</td>
-                      <td>22.5</td>
-                      <td>23</td>
-                    </tr>
-                    <tr>
-                      <th>HIP</th>
-                      <td>20</td>
-                      <td>20.5</td>
-                      <td>21.5</td>
-                      <td>22.5</td>
-                      <td>23.5</td>
-                    </tr>
-                    <tr>
-                      <th>SHOULDERS</th>
-                      <td>14</td>
-                      <td>14.5</td>
-                      <td>15</td>
-                      <td>16</td>
-                      <td>17</td>
-                    </tr>
-                    <tr>
-                      <th>Arm Hole</th>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                    </tr>
-                    <tr>
-                      <th>Bicep</th>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                      <td>50</td>
-                    </tr>
-                  </tbody>
-                </table>
-                {/* )} */}
-                {/* {size === "cm" && (
-                  
-                {/* )
-                }  */}
-              </div>
-              {/* <div>
-                <h2 className="text-lg font-semibold my-2">How to Measure</h2>
-                <Image
-                  src="/images/measurement-chart.png"
-                  alt="bridal_top"
-                  width={600}
-                  height={300}
-                  className="w-full"
-                />
-              </div> */}
+            <div className="my-4 text-left">
+              <table className="table w-full text-gray-700">
+                <thead className="border">
+                  <tr>
+                    <th className="pl-2 py-2">SIZES</th>
+                    <th>XS (In)</th>
+                    <th>S (In)</th>
+                    <th>M (In)</th>
+                    <th>L (In)</th>
+                    <th>XL (In)</th>
+                  </tr>
+                </thead>
+                <tbody className="border">
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">LENGTH</th>
+                    <td>36</td>
+                    <td>36</td>
+                    <td>37</td>
+                    <td>38</td>
+                    <td>38</td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">CHEST</th>
+                    <td>17</td>
+                    <td>18</td>
+                    <td>20</td>
+                    <td>22</td>
+                    <td>23 </td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1"> WAIST</th>
+                    <td>16</td>
+                    <td>17</td>
+                    <td>18.5</td>
+                    <td>19.5</td>
+                    <td>20.5</td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">ARMS</th>
+                    <td>20</td>
+                    <td>21</td>
+                    <td>22</td>
+                    <td>22.5</td>
+                    <td>23</td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">HIP</th>
+                    <td>20</td>
+                    <td>20.5</td>
+                    <td>21.5</td>
+                    <td>22.5</td>
+                    <td>23.5</td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">SHOULDERS</th>
+                    <td>14</td>
+                    <td>14.5</td>
+                    <td>15</td>
+                    <td>16</td>
+                    <td>17</td>
+                  </tr>
+                  <tr className="border-b">
+                    <th className="pl-2 py-1">Arm Hole</th>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <th className="pl-2 py-1">Bicep</th>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           )}
           {toggle === "measure" && (
             <div>
               <div>
-                <h2 className="text-lg font-semibold my-2">How to Measure</h2>
                 <Image
                   src="/images/measurement-chart.png"
                   alt="bridal_top"
                   width={600}
                   height={300}
-                  className="w-full"
+                  className="w-full h-auto mt-2"
                 />
               </div>
             </div>

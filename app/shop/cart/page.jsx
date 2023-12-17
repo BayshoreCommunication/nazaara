@@ -18,7 +18,6 @@ async function getData() {
 
 const CartPage = async () => {
   const data = await getData();
-  // console.log("data", data);
   return (
     <main>
       <TopBar title={"CART"} icon={<FaCartArrowDown />} />

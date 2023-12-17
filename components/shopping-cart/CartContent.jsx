@@ -16,6 +16,7 @@ import Link from "next/link";
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [couponAmount, setCouponAmount] = useState(0);
 
   const { data: cartData, isLoading } = useGetCartByUserIdQuery(
     `${userData._id}`
@@ -46,23 +47,48 @@ const CartContent = ({ userData }) => {
       console.error("Update error:", err);
     }
   };
-  const handleIncreaseQuantity = async (variantId, quantity, user, index) => {
+  const handleIncreaseQuantity = async (
+    variantId,
+    quantity,
+    user,
+    stock,
+    preOrder,
+    index
+  ) => {
     try {
-      setUpdateCartLoading((prevLoading) => {
-        const newLoading = [...prevLoading];
-        newLoading[index] = true;
-        return newLoading;
-      });
-      await updateCart({
-        user: user,
-        variantId: variantId,
-        quantity: quantity + 1,
-      });
-      setUpdateCartLoading((prevLoading) => {
-        const newLoading = [...prevLoading];
-        newLoading[index] = false;
-        return newLoading;
-      });
+      if (stock === 0 && preOrder && quantity === 0) {
+        setUpdateCartLoading((prevLoading) => {
+          const newLoading = [...prevLoading];
+          newLoading[index] = true;
+          return newLoading;
+        });
+        await updateCart({
+          user: user,
+          variantId: variantId,
+          quantity: quantity + 1,
+        });
+        setUpdateCartLoading((prevLoading) => {
+          const newLoading = [...prevLoading];
+          newLoading[index] = false;
+          return newLoading;
+        });
+      } else if (quantity < stock) {
+        setUpdateCartLoading((prevLoading) => {
+          const newLoading = [...prevLoading];
+          newLoading[index] = true;
+          return newLoading;
+        });
+        await updateCart({
+          user: user,
+          variantId: variantId,
+          quantity: quantity + 1,
+        });
+        setUpdateCartLoading((prevLoading) => {
+          const newLoading = [...prevLoading];
+          newLoading[index] = false;
+          return newLoading;
+        });
+      }
     } catch (err) {
       console.error("Update error:", err);
     }
@@ -74,7 +100,7 @@ const CartContent = ({ userData }) => {
         user: user,
         variantId: variantId,
       });
-      console.log("detecart", deleteCarts);
+      // console.log("detecart", deleteCarts);
       if (deleteCarts?.data?.status == "success") {
         setIsDeleteLoading(false);
       }
@@ -92,7 +118,20 @@ const CartContent = ({ userData }) => {
   } else {
     const data = cartData?.data;
 
+    let subTotal = 0;
+    data.map((data) => {
+      subTotal = subTotal + data.product.salePrice * data.quantity;
+    });
+
+    const vatIncluded = (subTotal * 0.07).toFixed(2);
+
+    let totalAmount = subTotal - couponAmount;
+
+    // console.log("amount", subTotal, vatIncluded, totalAmount);
+
     console.log("data", data);
+
+    // const is
     return (
       <div className="main-container flex gap-10 items-start">
         <div className="flex flex-[3] flex-col gap-5 bg-white p-4">
@@ -128,17 +167,21 @@ const CartContent = ({ userData }) => {
                     {detail?.product && (
                       <>
                         <div className="flex gap-4 items-center">
-                          <Image
-                            src={detail?.product?.variant[0]?.imageUrl[0]}
-                            alt="cart"
-                            width={90}
-                            height={90}
-                            className="rounded-md"
-                          />
+                          <Link href={`/products/${detail?.product?.slug}`}>
+                            <Image
+                              src={detail?.product?.variant[0]?.imageUrl[0]}
+                              alt="cart"
+                              width={90}
+                              height={90}
+                              className="rounded-md"
+                            />
+                          </Link>
                           <div className="text-sm flex flex-col gap-1 w-[20vw]">
-                            <h2 className="text-gray-700 font-semibold">
-                              {detail?.product?.productName}
-                            </h2>
+                            <Link href={`/products/${detail?.product?.slug}`}>
+                              <h2 className="text-gray-700 font-semibold text-base">
+                                {detail?.product?.productName}
+                              </h2>
+                            </Link>
                             <p className="text-gray-600">
                               <span className="font-medium">Color:</span>{" "}
                               {detail?.color}
@@ -199,30 +242,22 @@ const CartContent = ({ userData }) => {
 
                             <button
                               onClick={() =>
-                                (detail?.quantity !== detail?.product?.stock ||
-                                  (detail?.product?.stock === 0 &&
-                                    detail?.product?.preOrder)) &&
-                                detail?.quantity < 1 &&
                                 handleIncreaseQuantity(
                                   detail?.variantId,
                                   detail?.quantity,
                                   detail?.user,
+                                  detail?.product?.stock,
+                                  detail?.product?.preOrder,
                                   index
                                 )
                               }
                               className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl ${
-                                detail?.quantity === detail?.product?.stock ||
-                                (detail?.product?.stock === 0 &&
-                                  !detail?.product?.preOrder) ||
-                                detail?.quantity >= 1
+                                detail?.quantity >= detail?.product?.stock
                                   ? "cursor-not-allowed"
                                   : "cursor-pointer"
                               }`}
                               disabled={
-                                detail?.quantity === detail?.product?.stock ||
-                                (detail?.product?.stock === 0 &&
-                                  !detail?.product?.preOrder) ||
-                                detail?.quantity >= 1
+                                detail?.quantity >= detail?.product?.stock
                               }
                             >
                               +
@@ -278,25 +313,25 @@ const CartContent = ({ userData }) => {
             <div className="flex justify-between pb-2 border-b border-gray-300">
               <p>Subtotal</p>
               <p className="flex gap-1">
-                <span>৳</span> <span>500</span>
+                <span>৳</span> <span>{subTotal}</span>
               </p>
             </div>
             <div className="flex justify-between pb-2 border-b border-gray-300">
               <p>Vat included</p>
               <p className="flex gap-1">
-                <span>৳</span> <span>500</span>
+                <span>৳</span> <span>{vatIncluded}</span>
               </p>
             </div>
             <div className="flex justify-between pb-2 border-b border-gray-300">
               <p>Discount amount</p>
               <p className="flex gap-1">
-                <span>৳</span> <span>500</span>
+                <span>৳</span> <span>{couponAmount}</span>
               </p>
             </div>
             <div className="flex justify-between pb-2">
               <p className="font-medium">Total Order</p>
               <p className="flex gap-1 font-medium">
-                <span>৳</span> <span>500</span>
+                <span>৳</span> <span>{totalAmount}</span>
               </p>
             </div>
           </div>
