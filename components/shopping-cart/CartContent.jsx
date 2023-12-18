@@ -12,9 +12,9 @@ import ButtonOnHover from "../ButtonOnHover";
 import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import NoProductFound from "../NoProductFound";
 import Link from "next/link";
-import { IoMdArrowDropdown } from "react-icons/io";
+import toast from "react-hot-toast";
 
-const CartContent = ({ userData }) => {
+const CartContent = ({ userData, fetchCouponData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [couponAmount, setCouponAmount] = useState(0);
@@ -132,13 +132,46 @@ const CartContent = ({ userData }) => {
     //calculate total amount
     let totalAmount = subTotal - couponAmount;
 
-    // console.log("amount", subTotal, vatIncluded, totalAmount);
+    //handle coupon
+    const handleCoupon = async () => {
+      // console.log("Coupon Code:", couponCode);
+      const couponData = await fetchCouponData(
+        `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
+      );
 
-    console.log("data", data);
+      if (couponData.success && couponData.data.valid) {
+        if (
+          couponData.data.valid &&
+          couponData.data.discountType === "amount"
+        ) {
+          if (couponAmount > 0) {
+            toast.error("Coupon already applied");
+          } else {
+            setCouponAmount(couponData.data.discountOff);
+            toast.success("Coupon applied successfully");
+          }
+        } else if (
+          couponData.data.valid &&
+          couponData.data.discountType === "percentage"
+        ) {
+          const discountOff = couponData.data.discountOff;
+          const calculateCurrentSubtotal = (discountOff * subTotal) / 100;
 
-    const handleCoupon = () => {
-      console.log("Coupon Code:", couponCode);
-      //here using this couponCode value I need to check and manipulate total amount
+          if (couponAmount > 0) {
+            toast.error("Coupon already applied");
+          } else {
+            setCouponAmount(calculateCurrentSubtotal);
+            toast.success("Coupon applied successfully");
+          }
+        }
+      } else if (couponData.success && !couponData.data.valid) {
+        toast.error("Coupon is expired!");
+      } else if (!couponData.success) {
+        toast.error("Coupon code not valid!");
+      } else {
+        toast.error("Something went wrong!");
+      }
+      // console.log("couponData", couponData);
     };
     return (
       <div className="main-container flex gap-10 items-start">
@@ -371,7 +404,10 @@ const CartContent = ({ userData }) => {
               </p>
             </div>
           </div>
-          <ButtonOnHover text={"Proceed To Checkout"} />
+          <Link href={"/shop/checkout"}>
+            {" "}
+            <ButtonOnHover text={"Proceed To Checkout"} />
+          </Link>
         </div>
       </div>
     );

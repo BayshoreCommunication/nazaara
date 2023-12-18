@@ -1,5 +1,6 @@
 import TopBar from "@/components/TopBar";
 import CartContent from "@/components/shopping-cart/CartContent";
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -16,12 +17,20 @@ async function getData() {
   return redirect("/user-authentication");
 }
 
+const fetchCouponData = async (url) => {
+  "use server";
+  const res = await fetch(url, {
+    next: { revalidate: 0 },
+  });
+  return res.json();
+};
+
 const CartPage = async () => {
   const data = await getData();
   return (
     <main>
       <TopBar title={"CART"} icon={<FaCartArrowDown />} />
-      <CartContent userData={data} />
+      <CartContent fetchCouponData={fetchCouponData} userData={data} />
     </main>
   );
 };
