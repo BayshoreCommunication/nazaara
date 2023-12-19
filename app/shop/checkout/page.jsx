@@ -4,8 +4,10 @@ import Navigation from "@/components/paymentNav/Navigation";
 import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import { cookies } from "next/headers";
-import { IoBagCheckOutline } from "react-icons/io5";
+import { redirect } from "next/navigation";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { FaBagShopping, FaCartShopping } from "react-icons/fa6";
+import { IoBagHandle } from "react-icons/io5";
 
 //define fetch user data from cookies function
 async function getUserData() {
@@ -42,15 +44,41 @@ const CheckoutPage = async () => {
     "Pakistan",
   ]; //extract all the country name
 
+  const fetchCouponData = async (url) => {
+    "use server";
+    const res = await fetch(url, {
+      next: { revalidate: 0 },
+    });
+    return res.json();
+  };
+
   return (
     <main>
-      <TopBar title={"Checkout"} icon={<MdOutlineShoppingCartCheckout />} />
-      <section className="main-container py-10">
-        <Navigation />
+      <TopBar
+        title={"Checkout"}
+        icon={
+          <span className="mb-1.5">
+            <IoBagHandle size={24} />
+          </span>
+        }
+      />
+      <Navigation
+        link2Title={"Cart"}
+        link2Icon={<FaCartShopping />}
+        link2Href={"/shop/cart"}
+        link3Title={"Checkout"}
+        link3Icon={
+          <span className="mb-0.5">
+            <FaBagShopping />
+          </span>
+        }
+      />
+      <section className="main-container py-6">
         <CheckoutContent
           userData={userData?.data}
           cartData={cartData?.data}
           countryName={countryName}
+          fetchCouponData={fetchCouponData}
         />
       </section>
     </main>

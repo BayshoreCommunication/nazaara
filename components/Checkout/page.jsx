@@ -1,28 +1,24 @@
 "use client";
-
-import axios from "axios";
-import { getCookie } from "cookies-next";
 import Image from "next/image";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Navigation from "../paymentNav/Navigation";
-import Button from "../Button";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { MdShoppingCartCheckout } from "react-icons/md";
+import { handleOrder } from "../serverAction/order";
+import Swal from "sweetalert2";
 
-const CheckoutContent = ({ userData, cartData, countryName }) => {
-  //   const cartItems = useSelector((state) => state.cart.items);
-  //   const [countries, setCountries] = useState([]);
-  //   const [cartData, setCartData] = useState();
-  //   const [subtotal, setSubtotal] = useState(0);
-  const [totalPay, setTotalPay] = useState(0);
-  //   const [userData, setUserData] = useState();
+const CheckoutContent = ({
+  userData,
+  cartData,
+  countryName,
+  fetchCouponData,
+}) => {
+  const [couponCode, setCouponCode] = useState("");
+  const [couponAmount, setCouponAmount] = useState(0);
   const [addressIndex, setAddressIndex] = useState(0);
-  //   const [emailCheck, setEmailCheck] = useState(false);
-  //   const [addressCheck, setAddressCheck] = useState(false);
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
 
-  console.log("method", shippingMethod, paymentMethod);
+  // console.log("cartData", cartData);
 
   const handleClick = (index, event) => {
     event.preventDefault();
@@ -33,14 +29,14 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
   let subTotal = 0;
   let vatIncluded = 0;
   let totalAmount = 0;
-  let couponAmount = 0;
   let freeShipping = false;
+  let validCouponId = null;
   if (cartData) {
     cartData?.map((data) => {
       subTotal = subTotal + data.product.salePrice * data.quantity;
     });
     //calculate vat
-    vatIncluded = (subTotal * 0.07).toFixed(2);
+    vatIncluded = Number((subTotal * 0.07).toFixed(2));
 
     if (shippingMethod === "inside-dhaka" && !freeShipping) {
       totalAmount = subTotal + 100 - couponAmount;
@@ -51,18 +47,136 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
     }
   }
 
-  const handleTotalPay = (paymentMethod, shippingMethod) => {};
+  // const cartId = cartData.map((data) => {
+  //   productDetails: data._id,
 
-  const handleSubmit = () => {};
+  // });
+
+  const productData = cartData.map((item) => ({
+    productDetails: item.product._id,
+    quantity: item.quantity,
+    color: item.color,
+    size: item.size,
+    sizeChart: item.sizeChart,
+  }));
+
+  // console.log("product data", productData);
+
+  const handleCoupon = async (e) => {
+    e.preventDefault();
+    // console.log("Coupon Code:", couponCode);
+    const couponData = await fetchCouponData(
+      `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
+    );
+
+    if (
+      couponData.success &&
+      couponData.data.valid &&
+      couponData.data.minimumPurchaseAmount <= subTotal
+    ) {
+      if (couponData.data.valid && couponData.data.discountType === "amount") {
+        if (couponAmount > 0) {
+          toast.error("Coupon already applied");
+        } else {
+          setCouponAmount(couponData.data.discountOff);
+          toast.success("Coupon applied successfully");
+          validCouponId = couponData.data._id;
+        }
+      } else if (
+        couponData.data.valid &&
+        couponData.data.discountType === "percentage"
+      ) {
+        const discountOff = couponData.data.discountOff;
+        const calculateCurrentSubtotal = (discountOff * subTotal) / 100;
+
+        if (couponAmount > 0) {
+          toast.error("Coupon already applied");
+        } else {
+          setCouponAmount(calculateCurrentSubtotal);
+          toast.success("Coupon applied successfully");
+          validCouponId = couponData.data._id;
+        }
+      }
+    } else if (!couponData.data.minimumPurchaseAmount <= subTotal) {
+      toast.error(
+        `Minimum purchase amount ${couponData.data.minimumPurchaseAmount}/-`
+      );
+    } else if (couponData.success && !couponData.data.valid) {
+      toast.error("Coupon is expired!");
+    } else if (!couponData.success) {
+      toast.error("Coupon code not valid!");
+    } else {
+      toast.error("Something went wrong!");
+    }
+    // console.log("couponData", couponData);
+  };
+
+  let shippingCharge = 0;
+  if (shippingMethod === "inside-dhaka" && !freeShipping) {
+    shippingCharge = 100;
+  } else if (shippingMethod === "outside-dhaka" && !freeShipping) {
+    shippingCharge = 250;
+  } else if (shippingMethod === "shop-pickup" || !freeShipping) {
+    shippingCharge = 0;
+  }
+
+  let payAmout = 0;
+  if (paymentMethod === "partial-payment") {
+    payAmout = (totalAmount * 20) / 100;
+  } else {
+    payAmout = totalAmount;
+  }
+  let dueAmout = 0;
+  if (paymentMethod === "partial-payment") {
+    dueAmout = totalAmount - (totalAmount * 20) / 100;
+  } else {
+    dueAmout = 0;
+  }
+
+  const others = {
+    subTotal: subTotal,
+    vatIncluded: vatIncluded,
+    coupon: validCouponId,
+    shippingCharge: shippingCharge,
+    totalAmount: totalAmount,
+    totalPay: 0,
+    advancePay: payAmout,
+    due: dueAmout,
+    user: userData._id,
+    product: productData,
+    paymentStatus: "pending",
+    deliveryStatus: "pending",
+  };
+
+  //server action for create form data
+  async function clientAction(formData) {
+    const swal = await Swal.fire({
+      title: "Please confirm your order",
+      text: "You won't be able to revert this!",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, confirm it!",
+    });
+    if (swal.isConfirmed) {
+      const result = await handleOrder(formData, others);
+      if (result?.error) {
+        toast.error(result.error, { duration: 4000 });
+      } else {
+        toast.success(result.message, { duration: 4000 });
+      }
+    }
+  }
 
   return (
-    <div className="flex py-4">
+    <form action={clientAction} className="flex flex-col lg:flex-row">
       <div className="flex-1 border-e pr-10">
         <div>
-          <form className="w-full flex flex-col gap-y-9">
-            <div className="w-full mt-6 flex flex-col gap-y-3">
+          <div className="w-full flex flex-col gap-y-4 lg:gap-y-8">
+            <div className="w-full flex flex-col gap-y-3">
               <p className="text-lg font-semibold text-gray-700">
-                Contact Information
+                CONTACT INFORMATION
               </p>
               <input
                 className="appearance-none block w-full text-gray-400 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 cursor-not-allowed text-sm"
@@ -76,7 +190,7 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
 
             <div className="w-full flex flex-col gap-y-3">
               <p className="text-lg font-semibold text-gray-700">
-                Shipping Information
+                SHIPPING INFORMATION
               </p>
               <div className="flex gap-2">
                 {userData?.addressBook.map((elem, index) => {
@@ -118,7 +232,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                   name="fullName"
                   id="fullName"
                   value={userData?.addressBook[addressIndex]?.fullName}
-                  // onChange={handleChangeAddress}
                   placeholder="Enter Full Name"
                 />
               </div>
@@ -135,7 +248,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                   type="text"
                   name="street"
                   id="street"
-                  // onChange={handleChangeAddress}
                   value={userData?.addressBook[addressIndex]?.street}
                   placeholder="Enter Apartment, suite, etc."
                 />
@@ -153,7 +265,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                     type="text"
                     name="city"
                     id="city"
-                    //   onChange={handleChangeAddress}
                     value={userData?.addressBook[addressIndex]?.city}
                     placeholder="Enter Your City"
                   />
@@ -171,7 +282,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                     type="text"
                     name="zip"
                     id="zip"
-                    //   onChange={handleChangeAddress}
                     value={userData?.addressBook[addressIndex]?.zip}
                     placeholder="Enter City Zip Code"
                   />
@@ -190,7 +300,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                       className="w-full appearance-none border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="country"
                       name="country"
-                      // onChange={handleChangeAddress}
                       value={userData?.addressBook[addressIndex]?.country}
                     >
                       <option value="">Select A Country</option>
@@ -223,7 +332,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                     type="text"
                     name="phone"
                     id="phone"
-                    //   onChange={handleChangeAddress}
                     value={userData?.addressBook[addressIndex]?.phone}
                     placeholder="Enter Phone Number"
                   />
@@ -242,8 +350,6 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                   className="w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                   name="details"
                   id="details"
-                  // onChange={handleChangeAddress}
-                  //   value={userData?.addressBook[addressIndex]?.details}
                 />
               </div>
             </div>
@@ -251,66 +357,63 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
             <div className="w-full flex flex-col gap-y-3">
               <div className="flex justify-between">
                 <p className="text-lg font-semibold text-gray-700">
-                  Shipping Method
+                  SHIPPING METHOD
                 </p>
               </div>
-              <div className="relative">
-                <select
-                  className="block appearance-none w-full border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-                  onClick={(e) => setShippingMethod(e.target.value)}
-                  //   onClick={(event) =>
-                  //     setPaymentCheck({
-                  //       ...paymentCheck,
-                  //       paymentMethod: event.target.value,
-                  //     })
-                  //   }
-                >
-                  <option value="inside-dhaka">Inside Dhaka</option>
-                  <option value="outside-dhaka">Outside Dhaka</option>
-                  <option value="shop-pickup">Shop pickup</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
+              <div>
+                <div className="relative">
+                  <select
+                    name="shipping"
+                    className="block appearance-none w-full border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                    onClick={(e) => setShippingMethod(e.target.value)}
                   >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
+                    <option value="inside-dhaka">Inside Dhaka</option>
+                    <option value="outside-dhaka">Outside Dhaka</option>
+                    <option value="shop-pickup">Shop pickup</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
                 </div>
+                {shippingMethod === "inside-dhaka" && (
+                  <span className="text-primary-color text-xs">
+                    *Delivary inside dhaka will charge ৳100/- only
+                  </span>
+                )}
+                {shippingMethod === "outside-dhaka" && (
+                  <span className="text-primary-color text-xs">
+                    *Delivary outside dhaka will charge ৳250/- only
+                  </span>
+                )}
+                {shippingMethod === "shop-pickup" && (
+                  <span className="text-primary-color text-xs">
+                    *No delivary charge applied
+                  </span>
+                )}
               </div>
-              {shippingMethod === "inside-dhaka" && (
-                <span className="text-primary-color text-xs">
-                  *Delivary inside dhaka will charge ৳100/- only
-                </span>
-              )}
-              {shippingMethod === "outside-dhaka" && (
-                <span className="text-primary-color text-xs">
-                  *Delivary outside dhaka will charge ৳250/- only
-                </span>
-              )}
-              {shippingMethod === "shop-pickup" && (
-                <span className="text-primary-color text-xs">
-                  *No delivary charge applied
-                </span>
-              )}
             </div>
 
             <div className="w-full flex flex-col gap-y-3">
               <div className="flex justify-between">
-                <p className="text-lg font-semibold text-gray-700">Payment</p>
+                <p className="text-lg font-semibold text-gray-700">PAYMENT</p>
               </div>
-              <div className="flex flex-wrap  md:flex-nowrap gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <div
                   onClick={(e) => setPaymentMethod(e.target.value)}
-                  className="flex flex-1 items-center pl-4 border border-gray-200 rounded cursor-pointer"
+                  className="flex flex-1 items-center pl-4 border border-gray-200 rounded"
                 >
                   <input
                     type="radio"
                     id="credit"
                     name="payment"
                     value="partial-payment"
-                    // checked
+                    checked={paymentMethod === "partial-payment"}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label
@@ -329,6 +432,7 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                     id="debit"
                     name="payment"
                     value="full-payment"
+                    checked={paymentMethod === "full-payment"}
                     className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label
@@ -340,35 +444,45 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
                 </div>
               </div>
             </div>
-
-            <div className="flex gap-5 items-center">
-              <Link href={`/measurement`} onClick={handleSubmit}>
-                <Button text="Continue to Measurement" />
-              </Link>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
-      <div className="flex-1 ml-10">
+      <div className="flex-1 mt-6 lg:mt-0 lg:ml-10">
         <p className="text-lg font-semibold text-gray-700 mb-4">
-          Order Summary
+          ORDER SUMMERY
         </p>
-        <div className="text-black payment-container-end text-sm">
+        <div className="flex gap-2 items-center my-4 w-full xl:payment-container-end ">
+          <input
+            type="text"
+            placeholder="Enter Coupon Code"
+            name="coupon"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="focus:outline-none border border-gray-400 p-2 text-gray-600 text-sm rounded-md w-full"
+          />
+          <button
+            onClick={(e) => handleCoupon(e)}
+            className=" bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
+          >
+            APPLY
+          </button>
+        </div>
+        <div className="w-full xl:payment-container-end text-sm mt-6">
           {cartData?.map((data, index) => {
             return (
               <div
-                className="flex justify-between items-center pb-7 border-b mb-7"
+                className="flex justify-between items-center pb-4 border-b mb-4"
                 key={index}
               >
-                <div className="flex gap-4 items-center relative">
+                <div className="flex gap-2 items-center relative">
                   <Image
                     src={`${data?.product?.variant[0]?.imageUrl[0]}`}
                     alt="bridal_top"
                     width={60}
                     height={40}
-                    className=" w-[5rem] h-[5.7rem] border-2 border-secondary-color rounded-sm"
+                    className="w-[5rem] h-[5.7rem] border-2 border-secondary-color rounded-sm"
                   />
-                  <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[6px] left-[64px]">
+                  <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[6px] left-[66px]">
                     <p className="text-primary-color text-xs font-semibold">
                       {data?.quantity}
                     </p>
@@ -433,8 +547,22 @@ const CheckoutContent = ({ userData, cartData, countryName }) => {
             </div>
           </div>
         </div>
+        <div className="flex gap-5 items-center mt-6">
+          <div
+            // href={`/measurement`}
+            // onClick={handleSubmit}
+            className="w-full xl:payment-container-end"
+          >
+            <button
+              type="submit"
+              className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 w-full flex gap-1 items-center justify-center text-sm"
+            >
+              <MdShoppingCartCheckout size={20} /> CONFIRM ORDER
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 

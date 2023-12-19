@@ -12,13 +12,10 @@ import ButtonOnHover from "../ButtonOnHover";
 import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import NoProductFound from "../NoProductFound";
 import Link from "next/link";
-import toast from "react-hot-toast";
 
-const CartContent = ({ userData, fetchCouponData }) => {
+const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [couponAmount, setCouponAmount] = useState(0);
-  const [couponCode, setCouponCode] = useState("");
 
   const { data: cartData, isLoading } = useGetCartByUserIdQuery(
     `${userData._id}`
@@ -130,52 +127,11 @@ const CartContent = ({ userData, fetchCouponData }) => {
     const vatIncluded = (subTotal * 0.07).toFixed(2);
 
     //calculate total amount
-    let totalAmount = subTotal - couponAmount;
+    let totalAmount = subTotal;
 
-    //handle coupon
-    const handleCoupon = async () => {
-      // console.log("Coupon Code:", couponCode);
-      const couponData = await fetchCouponData(
-        `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
-      );
-
-      if (couponData.success && couponData.data.valid) {
-        if (
-          couponData.data.valid &&
-          couponData.data.discountType === "amount"
-        ) {
-          if (couponAmount > 0) {
-            toast.error("Coupon already applied");
-          } else {
-            setCouponAmount(couponData.data.discountOff);
-            toast.success("Coupon applied successfully");
-          }
-        } else if (
-          couponData.data.valid &&
-          couponData.data.discountType === "percentage"
-        ) {
-          const discountOff = couponData.data.discountOff;
-          const calculateCurrentSubtotal = (discountOff * subTotal) / 100;
-
-          if (couponAmount > 0) {
-            toast.error("Coupon already applied");
-          } else {
-            setCouponAmount(calculateCurrentSubtotal);
-            toast.success("Coupon applied successfully");
-          }
-        }
-      } else if (couponData.success && !couponData.data.valid) {
-        toast.error("Coupon is expired!");
-      } else if (!couponData.success) {
-        toast.error("Coupon code not valid!");
-      } else {
-        toast.error("Something went wrong!");
-      }
-      // console.log("couponData", couponData);
-    };
     return (
       <div className="main-container flex gap-10 items-start">
-        <div className="flex flex-[3] flex-col gap-5 bg-white p-4">
+        <div className="flex flex-[3] flex-col gap-5 bg-white">
           <div className="text-black flex justify-between border-b border-gray-300 pb-2">
             <div className="w-full flex justify-between items-center">
               <div className="flex items-center gap-2">
@@ -189,11 +145,9 @@ const CartContent = ({ userData, fetchCouponData }) => {
                 </span>
               </div>
               <Link href={"/shop"}>
-                <ButtonOnHover
-                  text={"Continue Shopping"}
-                  color={"text-gray-700"}
-                  icon={<FaHandPointLeft size={20} />}
-                />
+                <button className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 w-full flex gap-1 items-center justify-center text-sm">
+                  <FaHandPointLeft size={20} /> Continue Shopping
+                </button>
               </Link>
             </div>
           </div>
@@ -361,45 +315,25 @@ const CartContent = ({ userData, fetchCouponData }) => {
           </>
         </div>
         <div className="flex-1 shadow-md rounded-md p-6">
-          <h2 className="font-semibold text-gray-700 text-lg">Order Summery</h2>
-          <div className="flex gap-1 items-center my-4">
-            <input
-              type="text"
-              placeholder="Enter Coupon Code"
-              name="coupon"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value)}
-              className="focus:outline-none border border-gray-400 p-2 text-gray-600 text-sm rounded-md"
-            />
-            <button
-              onClick={handleCoupon}
-              className=" bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
-            >
-              APPLY
-            </button>
-          </div>
-          <div className="text-gray-700 flex flex-col gap-2 mb-4">
+          <h2 className="font-semibold text-gray-700 text-lg mb-4">
+            Order Summary
+          </h2>
+          <div className="text-gray-700 flex flex-col gap-2 mb-4 font-medium text-sm">
             <div className="flex justify-between pb-2 border-b border-gray-300">
-              <p>Subtotal</p>
+              <p>Sub-Total</p>
               <p className="flex gap-1">
                 <span>৳</span> <span>{subTotal}</span>
               </p>
             </div>
             <div className="flex justify-between pb-2 border-b border-gray-300">
-              <p>Vat included</p>
+              <p>Vat Included</p>
               <p className="flex gap-1">
                 <span>৳</span> <span>{vatIncluded}</span>
               </p>
             </div>
-            <div className="flex justify-between pb-2 border-b border-gray-300">
-              <p>Discount amount</p>
+            <div className="flex justify-between pb-2 text-gray-800 font-semibold">
+              <p>Total Order</p>
               <p className="flex gap-1">
-                <span>৳</span> <span>{couponAmount}</span>
-              </p>
-            </div>
-            <div className="flex justify-between pb-2">
-              <p className="font-medium">Total Order</p>
-              <p className="flex gap-1 font-medium">
                 <span>৳</span> <span>{totalAmount}</span>
               </p>
             </div>

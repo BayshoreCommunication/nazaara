@@ -1,38 +1,46 @@
-"use client";
 import Link from "next/link";
-import React from "react";
-import { usePathname } from "next/navigation";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight, FaHome } from "react-icons/fa";
 
-const Navigation = () => {
-  const router = usePathname();
-  const processed = router.split("/");
-  let lastElement = processed[processed.length - 1];
-  const lastValue = lastElement.split("-").join(" ");
-  const url = decodeURIComponent(lastValue.toLowerCase());
-
+const Navigation = ({
+  link1Title,
+  link1Href,
+  link1Icon,
+  link2Title,
+  link2Href,
+  link2Icon,
+  link3Title,
+  link3Icon,
+}) => {
   return (
-    <div className="flex gap-2 items-center border-b pb-2">
+    <div className="flex gap-2 items-center text-gray-700 font-semibold text-sm main-container mt-6">
       <Link
-        className={url === "information" ? "text-primary-color" : ""}
-        href="information"
+        href={link1Href || "/"}
+        className="hover:text-primary-color flex items-center gap-1 capitalize"
       >
-        Information
-      </Link>{" "}
-      <FaAngleRight />
-      <Link
-        className={url === "measurement" ? "text-primary-color" : ""}
-        href={`measurement`}
-      >
-        Measurement
-      </Link>{" "}
-      {/* <FaAngleRight /> */}
-      {/* <Link
-        className={url === "payment" ? "text-primary-color" : ""}
-        href={`payment`}
-      >
-        Payment
-      </Link> */}
+        {link1Icon || (
+          <span className="mb-0.5">
+            <FaHome />
+          </span>
+        )}
+        {link1Title || "Home"}
+      </Link>
+      <FaAngleRight color="gray" />
+      {link2Title && (
+        <>
+          <Link
+            href={link2Href || "/"}
+            className="hover:text-primary-color flex items-center gap-1 capitalize"
+          >
+            {link2Icon}
+            {link2Title || "Home"}
+          </Link>
+          <FaAngleRight color="gray" />
+        </>
+      )}
+      <div className="text-gray-600 font-medium flex items-center gap-1">
+        {link3Icon}
+        <span className="capitalize">{link3Title || "Home"}</span>
+      </div>
     </div>
   );
 };
