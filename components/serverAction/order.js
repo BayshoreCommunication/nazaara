@@ -10,7 +10,7 @@ export const handleOrder = async (formData, others) => {
       street: formData.get("street"),
       city: formData.get("city"),
       country: formData.get("country"),
-      zip: formData.get("zip"),
+      postalCode: formData.get("zip"),
       details: formData.get("details"),
     },
     product: others.product,
@@ -25,6 +25,7 @@ export const handleOrder = async (formData, others) => {
     user: others.user,
     paymentStatus: others.paymentStatus,
     deliveryStatus: others.deliveryStatus,
+    cartId: others.cartId,
   };
   const url = `${process.env.API_URL}/api/v1/order`;
 
@@ -40,9 +41,12 @@ export const handleOrder = async (formData, others) => {
     // console.log("response", response);
     // console.log("data", data);
 
+    // console.log("response", await response.json());
+
     if (response.ok) {
       return {
         message: `Successfully placed your order. We contact with you ASAP!`,
+        res: await response.json(),
       };
     } else {
       throw new Error("Order placed failed.");

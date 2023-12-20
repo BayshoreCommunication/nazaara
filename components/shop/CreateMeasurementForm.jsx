@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { sizeCharthandleContact } from "../serverAction/sizeChartAction";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
 
 import dynamic from "next/dynamic";
 
@@ -15,32 +14,20 @@ import "react-modern-drawer/dist/index.css";
 import DrawerContent from "../drawer/DrawerContent";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { FaLongArrowAltLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const CreateMeasurementForm = ({ searchParams, product }) => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  // const ref = useRef(null);
+  const router = useRouter();
   async function clientAction(formData) {
-    //reset form
-    // ref.current?.reset();
-    //client side validation
     const result = await sizeCharthandleContact(formData, searchParams);
 
-    // console.log("result,", result);
     if (result?.error) {
-      //show error
       toast.error(result.error, { duration: 4000 });
     } else {
-      setIsSuccess(true);
+      router.push("/shop/cart");
       toast.success(result.message, { duration: 4000 });
     }
   }
-
-  useEffect(() => {
-    if (isSuccess) {
-      redirect("/shop/cart");
-    }
-  }, [isSuccess]);
-
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);

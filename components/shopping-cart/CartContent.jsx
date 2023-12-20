@@ -17,9 +17,11 @@ const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-  const { data: cartData, isLoading } = useGetCartByUserIdQuery(
-    `${userData._id}`
-  );
+  const {
+    data: cartData,
+    isLoading,
+    refetch,
+  } = useGetCartByUserIdQuery(`${userData._id}`);
 
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
@@ -115,6 +117,7 @@ const CartContent = ({ userData }) => {
       </div>
     );
   } else {
+    refetch;
     const data = cartData?.data;
 
     //calculate subtotal

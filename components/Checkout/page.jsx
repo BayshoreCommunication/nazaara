@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { handleOrder } from "../serverAction/order";
 import Swal from "sweetalert2";
+import { redirect } from "next/navigation";
 
 const CheckoutContent = ({
   userData,
@@ -18,14 +19,16 @@ const CheckoutContent = ({
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
 
-  // console.log("cartData", cartData);
+  console.log("cartData", cartData);
+
+  const cartId = cartData.map((data) => data._id);
 
   const handleClick = (index, event) => {
     event.preventDefault();
     setAddressIndex(index);
   };
 
-  //calculate subtotal
+  //calculate value
   let subTotal = 0;
   let vatIncluded = 0;
   let totalAmount = 0;
@@ -47,11 +50,7 @@ const CheckoutContent = ({
     }
   }
 
-  // const cartId = cartData.map((data) => {
-  //   productDetails: data._id,
-
-  // });
-
+  //extract cart data into an array of object
   const productData = cartData.map((item) => ({
     productDetails: item.product._id,
     quantity: item.quantity,
@@ -60,8 +59,7 @@ const CheckoutContent = ({
     sizeChart: item.sizeChart,
   }));
 
-  // console.log("product data", productData);
-
+  //handle the coupon
   const handleCoupon = async (e) => {
     e.preventDefault();
     // console.log("Coupon Code:", couponCode);
@@ -108,9 +106,9 @@ const CheckoutContent = ({
     } else {
       toast.error("Something went wrong!");
     }
-    // console.log("couponData", couponData);
   };
 
+  //calculate shipping charge
   let shippingCharge = 0;
   if (shippingMethod === "inside-dhaka" && !freeShipping) {
     shippingCharge = 100;
@@ -120,6 +118,7 @@ const CheckoutContent = ({
     shippingCharge = 0;
   }
 
+  //calculate pay amount
   let payAmout = 0;
   if (paymentMethod === "partial-payment") {
     payAmout = (totalAmount * 20) / 100;
@@ -133,6 +132,7 @@ const CheckoutContent = ({
     dueAmout = 0;
   }
 
+  //make a object others to send data in server action
   const others = {
     subTotal: subTotal,
     vatIncluded: vatIncluded,
@@ -146,6 +146,7 @@ const CheckoutContent = ({
     product: productData,
     paymentStatus: "pending",
     deliveryStatus: "pending",
+    cartId,
   };
 
   //server action for create form data
@@ -156,7 +157,7 @@ const CheckoutContent = ({
       icon: "success",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      cancelButtonColor: "#880202",
       confirmButtonText: "Yes, confirm it!",
     });
     if (swal.isConfirmed) {
@@ -164,7 +165,9 @@ const CheckoutContent = ({
       if (result?.error) {
         toast.error(result.error, { duration: 4000 });
       } else {
-        toast.success(result.message, { duration: 4000 });
+        // console.log("result", result.res.url);
+        // toast.success(result.message, { duration: 4000 });
+        redirect(result.res.url);
       }
     }
   }
@@ -182,6 +185,7 @@ const CheckoutContent = ({
                 className="appearance-none block w-full text-gray-400 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 cursor-not-allowed text-sm"
                 type="email"
                 name="email"
+                required
                 value={userData?.email}
                 readOnly
                 placeholder="Enter Your Email"
@@ -231,7 +235,8 @@ const CheckoutContent = ({
                   type="text"
                   name="fullName"
                   id="fullName"
-                  value={userData?.addressBook[addressIndex]?.fullName}
+                  required
+                  defaultValue={userData?.addressBook[addressIndex]?.fullName}
                   placeholder="Enter Full Name"
                 />
               </div>
@@ -248,7 +253,8 @@ const CheckoutContent = ({
                   type="text"
                   name="street"
                   id="street"
-                  value={userData?.addressBook[addressIndex]?.street}
+                  required
+                  defaultValue={userData?.addressBook[addressIndex]?.street}
                   placeholder="Enter Apartment, suite, etc."
                 />
               </div>
@@ -265,7 +271,8 @@ const CheckoutContent = ({
                     type="text"
                     name="city"
                     id="city"
-                    value={userData?.addressBook[addressIndex]?.city}
+                    required
+                    defaultValue={userData?.addressBook[addressIndex]?.city}
                     placeholder="Enter Your City"
                   />
                 </div>
@@ -275,15 +282,16 @@ const CheckoutContent = ({
                     htmlFor="zip"
                     className="text-gray-700 text-sm font-semibold"
                   >
-                    Zip <span className="text-red-600">*</span>
+                    Postal Code <span className="text-red-600">*</span>
                   </label>
                   <input
                     className="w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     type="text"
                     name="zip"
                     id="zip"
-                    value={userData?.addressBook[addressIndex]?.zip}
-                    placeholder="Enter City Zip Code"
+                    required
+                    // defaultValue={userData?.addressBook[addressIndex]?.zip}
+                    placeholder="Enter City Postal Code"
                   />
                 </div>
               </div>
@@ -300,9 +308,14 @@ const CheckoutContent = ({
                       className="w-full appearance-none border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="country"
                       name="country"
-                      value={userData?.addressBook[addressIndex]?.country}
+                      required
+                      defaultValue={
+                        userData?.addressBook[addressIndex]?.country
+                      }
                     >
-                      <option value="">Select A Country</option>
+                      <option value="" disabled>
+                        Select A Country
+                      </option>
                       {countryName.map((country, index) => (
                         <option key={index} value={country}>
                           {country}
@@ -332,7 +345,8 @@ const CheckoutContent = ({
                     type="text"
                     name="phone"
                     id="phone"
-                    value={userData?.addressBook[addressIndex]?.phone}
+                    required
+                    defaultValue={userData?.addressBook[addressIndex]?.phone}
                     placeholder="Enter Phone Number"
                   />
                 </div>
@@ -364,9 +378,13 @@ const CheckoutContent = ({
                 <div className="relative">
                   <select
                     name="shipping"
+                    required
                     className="block appearance-none w-full border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     onClick={(e) => setShippingMethod(e.target.value)}
                   >
+                    <option value="" disabled selected>
+                      Select Shipping Method
+                    </option>
                     <option value="inside-dhaka">Inside Dhaka</option>
                     <option value="outside-dhaka">Outside Dhaka</option>
                     <option value="shop-pickup">Shop pickup</option>
@@ -448,25 +466,6 @@ const CheckoutContent = ({
         </div>
       </div>
       <div className="flex-1 mt-6 lg:mt-0 lg:ml-10">
-        <p className="text-lg font-semibold text-gray-700 mb-4">
-          ORDER SUMMERY
-        </p>
-        <div className="flex gap-2 items-center my-4 w-full xl:payment-container-end ">
-          <input
-            type="text"
-            placeholder="Enter Coupon Code"
-            name="coupon"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-            className="focus:outline-none border border-gray-400 p-2 text-gray-600 text-sm rounded-md w-full"
-          />
-          <button
-            onClick={(e) => handleCoupon(e)}
-            className=" bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
-          >
-            APPLY
-          </button>
-        </div>
         <div className="w-full xl:payment-container-end text-sm mt-6">
           {cartData?.map((data, index) => {
             return (
@@ -474,7 +473,7 @@ const CheckoutContent = ({
                 className="flex justify-between items-center pb-4 border-b mb-4"
                 key={index}
               >
-                <div className="flex gap-2 items-center relative">
+                <div className="flex gap-4 items-center relative">
                   <Image
                     src={`${data?.product?.variant[0]?.imageUrl[0]}`}
                     alt="bridal_top"
@@ -506,7 +505,30 @@ const CheckoutContent = ({
             );
           })}
 
-          <div className="mt-7 border-b pb-7 text-gray-700 font-medium">
+          <div className="border-b pb-4">
+            <div className="flex gap-2 items-center w-full">
+              <input
+                type="text"
+                placeholder="Enter Coupon Code"
+                name="coupon"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                className="focus:outline-none border border-gray-400 p-2 text-gray-600 text-sm rounded-md w-full"
+              />
+              <button
+                onClick={(e) => handleCoupon(e)}
+                className=" bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
+              >
+                APPLY
+              </button>
+            </div>
+          </div>
+
+          <p className="text-lg font-semibold text-gray-700 mb-3 mt-6">
+            ORDER SUMMERY
+          </p>
+
+          <div className="border-b pb-7 text-gray-700 font-medium">
             <div className="flex justify-between items-center mb-3">
               <p>Sub-Total</p>
               <p>৳ {subTotal}/-</p>
