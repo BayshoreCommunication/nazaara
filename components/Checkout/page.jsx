@@ -15,11 +15,12 @@ const CheckoutContent = ({
 }) => {
   const [couponCode, setCouponCode] = useState("");
   const [couponAmount, setCouponAmount] = useState(0);
+  const [couponId, setCouponId] = useState(null);
   const [addressIndex, setAddressIndex] = useState(0);
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
 
-  console.log("cartData", cartData);
+  // console.log("cartData", cartData);
 
   const cartId = cartData.map((data) => data._id);
 
@@ -33,7 +34,7 @@ const CheckoutContent = ({
   let vatIncluded = 0;
   let totalAmount = 0;
   let freeShipping = false;
-  let validCouponId = null;
+  // let validCouponId = null;
   if (cartData) {
     cartData?.map((data) => {
       subTotal = subTotal + data.product.salePrice * data.quantity;
@@ -78,7 +79,8 @@ const CheckoutContent = ({
         } else {
           setCouponAmount(couponData.data.discountOff);
           toast.success("Coupon applied successfully");
-          validCouponId = couponData.data._id;
+          // validCouponId = couponData.data._id;
+          setCouponId(couponData.data._id);
         }
       } else if (
         couponData.data.valid &&
@@ -92,7 +94,8 @@ const CheckoutContent = ({
         } else {
           setCouponAmount(calculateCurrentSubtotal);
           toast.success("Coupon applied successfully");
-          validCouponId = couponData.data._id;
+          // validCouponId = couponData.data._id;
+          setCouponId(couponData.data._id);
         }
       }
     } else if (!couponData.data.minimumPurchaseAmount <= subTotal) {
@@ -136,7 +139,7 @@ const CheckoutContent = ({
   const others = {
     subTotal: subTotal,
     vatIncluded: vatIncluded,
-    coupon: validCouponId,
+    coupon: couponId,
     shippingCharge: shippingCharge,
     totalAmount: totalAmount,
     totalPay: 0,
@@ -148,6 +151,8 @@ const CheckoutContent = ({
     deliveryStatus: "pending",
     cartId,
   };
+
+  console.log("others", couponId);
 
   //server action for create form data
   async function clientAction(formData) {
@@ -162,11 +167,11 @@ const CheckoutContent = ({
     });
     if (swal.isConfirmed) {
       const result = await handleOrder(formData, others);
+      // console.log("result", result);
       if (result?.error) {
         toast.error(result.error, { duration: 4000 });
       } else {
-        // console.log("result", result.res.url);
-        // toast.success(result.message, { duration: 4000 });
+        console.log("result", result);
         redirect(result.res.url);
       }
     }
@@ -382,9 +387,7 @@ const CheckoutContent = ({
                     className="block appearance-none w-full border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     onClick={(e) => setShippingMethod(e.target.value)}
                   >
-                    <option value="" disabled selected>
-                      Select Shipping Method
-                    </option>
+                    <option disabled>Select Shipping Method</option>
                     <option value="inside-dhaka">Inside Dhaka</option>
                     <option value="outside-dhaka">Outside Dhaka</option>
                     <option value="shop-pickup">Shop pickup</option>
@@ -431,7 +434,7 @@ const CheckoutContent = ({
                     id="credit"
                     name="payment"
                     value="partial-payment"
-                    checked={paymentMethod === "partial-payment"}
+                    defaultChecked={paymentMethod === "partial-payment"}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label
@@ -450,7 +453,7 @@ const CheckoutContent = ({
                     id="debit"
                     name="payment"
                     value="full-payment"
-                    checked={paymentMethod === "full-payment"}
+                    defaultChecked={paymentMethod === "full-payment"}
                     className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label

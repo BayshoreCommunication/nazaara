@@ -103,7 +103,7 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
       } else {
         const result = await createCart(cartData);
         // console.log("result", result);
-        if (result.data.status === "success") {
+        if (result?.data?.status === "success") {
           toast.success(`${cartData.quantity} new product added to cart`);
         } else {
           toast.error(`Something went wrong!`);

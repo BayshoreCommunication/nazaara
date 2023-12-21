@@ -38,11 +38,6 @@ export const handleOrder = async (formData, others) => {
       },
     });
 
-    // console.log("response", response);
-    // console.log("data", data);
-
-    // console.log("response", await response.json());
-
     if (response.ok) {
       return {
         message: `Successfully placed your order. We contact with you ASAP!`,
