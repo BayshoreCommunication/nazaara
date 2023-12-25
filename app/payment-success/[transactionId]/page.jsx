@@ -43,7 +43,7 @@ const SuccessPage = async ({ params }) => {
           Your Transaction Id: {params.transactionId}
         </p>
         <small className="text-sm font-medium text-gray-700">
-          Thank you for your payment. We will contact with you soon.
+          Thank you for your payment. We will deliver your product soon.
         </small>
       </div>
       <div className="flex justify-center -translate-y-16">
