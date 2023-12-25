@@ -54,6 +54,9 @@ const CheckoutContent = ({
   //extract cart data into an array of object
   const productData = cartData.map((item) => ({
     productDetails: item.product._id,
+    title: item.product.productName,
+    slug: item.product.slug,
+    imgUrl: item.product.variant[0].imageUrl[0],
     quantity: item.quantity,
     color: item.color,
     size: item.size,
@@ -142,6 +145,7 @@ const CheckoutContent = ({
     coupon: couponId,
     shippingCharge: shippingCharge,
     totalAmount: totalAmount,
+    discountAmount: couponAmount,
     totalPay: 0,
     advancePay: payAmout,
     due: dueAmout,
@@ -152,7 +156,7 @@ const CheckoutContent = ({
     cartId,
   };
 
-  console.log("others", couponId);
+  console.log("others", others);
 
   //server action for create form data
   async function clientAction(formData) {
@@ -168,7 +172,7 @@ const CheckoutContent = ({
     if (swal.isConfirmed) {
       const result = await handleOrder(formData, others);
       // console.log("result", result);
-      if (result?.error) {
+      if (result.error) {
         toast.error(result.error, { duration: 4000 });
       } else {
         console.log("result", result);
@@ -403,17 +407,17 @@ const CheckoutContent = ({
                   </div>
                 </div>
                 {shippingMethod === "inside-dhaka" && (
-                  <span className="text-primary-color text-xs">
+                  <span className="text-green-500 text-xs">
                     *Delivary inside dhaka will charge ৳100/- only
                   </span>
                 )}
                 {shippingMethod === "outside-dhaka" && (
-                  <span className="text-primary-color text-xs">
+                  <span className="text-green-500 text-xs">
                     *Delivary outside dhaka will charge ৳250/- only
                   </span>
                 )}
                 {shippingMethod === "shop-pickup" && (
-                  <span className="text-primary-color text-xs">
+                  <span className="text-green-500 text-xs">
                     *No delivary charge applied
                   </span>
                 )}
@@ -432,9 +436,10 @@ const CheckoutContent = ({
                   <input
                     type="radio"
                     id="credit"
+                    required
                     name="payment"
                     value="partial-payment"
-                    defaultChecked={paymentMethod === "partial-payment"}
+                    // defaultChecked={paymentMethod === "partial-payment"}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label
@@ -451,9 +456,10 @@ const CheckoutContent = ({
                   <input
                     type="radio"
                     id="debit"
+                    required
                     name="payment"
                     value="full-payment"
-                    defaultChecked={paymentMethod === "full-payment"}
+                    // defaultChecked={paymentMethod === "full-payment"}
                     className="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label

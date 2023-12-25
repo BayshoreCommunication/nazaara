@@ -19,6 +19,7 @@ export const handleOrder = async (formData, others) => {
     coupon: others.coupon,
     shippingCharge: others.shippingCharge,
     totalAmount: others.totalAmount,
+    discountAmount: others.discountAmount,
     totalPay: others.totalPay,
     advancePay: others.advancePay,
     due: others.due,
@@ -27,7 +28,10 @@ export const handleOrder = async (formData, others) => {
     deliveryStatus: others.deliveryStatus,
     cartId: others.cartId,
   };
-  const url = `${process.env.API_URL}/api/v1/order`;
+
+  console.log("data from server action", data);
+  // const url = `${process.env.API_URL}/api/v1/order`;
+  const url = `http://localhost:8000/api/v1/order`;
 
   try {
     const response = await fetch(url, {

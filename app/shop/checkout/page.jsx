@@ -5,7 +5,6 @@ import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetch
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { FaBagShopping, FaCartShopping } from "react-icons/fa6";
 import { IoBagHandle } from "react-icons/io5";
 
