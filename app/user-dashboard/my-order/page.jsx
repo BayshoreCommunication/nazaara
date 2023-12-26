@@ -1,47 +1,46 @@
-"use client";
-
+// import NoProductFound from "@/components/NoProductFound";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
-
 import MyOrder from "@/components/user-dashboard/MyOrder";
-import React, { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
-import Loader from "@/components/Loader";
+import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const MyOrders = () => {
-  const [userData, setUserData] = useState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const jsonStr = getCookie("userAuthCredential");
-      try {
-        if (jsonStr) {
-          const obj = JSON.parse(jsonStr);
-          const response = await fetch(
-            `${process.env.API_URL}/api/v1/user/${obj._id}`
+const MyOrders = async () => {
+  const cookieData = cookies();
+  const userData = cookieData.get("userAuthCredential");
+  if (userData) {
+    const data = JSON.parse(userData?.value);
+    if (data) {
+      const url = `${process.env.API_URL}/api/v1/order/user/${data._id}`;
+      const orderData = await fetchDynamicServerSideData(url);
+      console.log(orderData.data);
+      if (orderData) {
+        if (orderData.success) {
+          return (
+            <>
+              <div className="main-container my-10 flex flex-col gap-y-4">
+                <h2 className="text-xl font-semibold">
+                  Hello, {data.fullName}
+                </h2>
+                <DashboardUtil />
+                {orderData?.data?.length > 0 ? (
+                  <MyOrder orderData={orderData.data} />
+                ) : (
+                  <>
+                    <p className="text-gray-800 font-semibold text-center my-24">
+                      No Order Found🥹
+                    </p>
+                  </>
+                )}
+              </div>
+            </>
           );
-          const data = await response.json();
-          setUserData(data.data);
         }
-      } catch (error) {
-        console.error("Error fetching countries:", error);
       }
-    };
-    fetchData();
-  }, []);
-
-  return (
-    <>
-      {userData ? (
-        <div className="main-container my-10 flex flex-col gap-y-4">
-          <h2 className="text-xl font-semibold">Hello, {userData.fullName}</h2>
-          <DashboardUtil />
-          <MyOrder orderData={userData?.orders} />
-        </div>
-      ) : (
-        <Loader height="h-[90vh]" />
-      )}
-    </>
-  );
+    }
+  } else {
+    return redirect("/user-authentication");
+  }
 };
 
 export default MyOrders;

@@ -9,6 +9,7 @@ import {
 } from "@/services/userApi";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BeatLoader } from "react-spinners";
 import Swal from "sweetalert2";
 
 const AddressBook = ({ params }) => {
@@ -22,7 +23,16 @@ const AddressBook = ({ params }) => {
   const { isLoading: userDataLoading } = userData;
 
   if (userDataLoading) {
-    return <Loader height="h-[90vh]" />;
+    return (
+      <div className={`flex justify-center items-center w-full h-64`}>
+        <BeatLoader
+          color="#820000"
+          margin={5}
+          speedMultiplier={1.5}
+          width={5}
+        />
+      </div>
+    );
   }
 
   let data;
@@ -61,23 +71,29 @@ const AddressBook = ({ params }) => {
   return (
     <>
       {userDataLoading ? (
-        <Loader height="h-[90vh]" />
+        <div className={`flex justify-center items-center w-full h-64`}>
+          <BeatLoader color="#820000" />
+        </div>
       ) : (
         <div className="main-container my-10">
           {data && (
-            <h2 className="text-xl font-semibold">Hello, {data?.fullName}</h2>
+            <h2 className="text-xl font-semibold mb-2">
+              Hello, {data?.fullName}
+            </h2>
           )}
           <DashboardUtil />
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold my-3 text-gray-800">
               Address Book
             </h1>
-            <button
-              onClick={() => setAddAddressBookModal(true)}
-              className="flex items-center gap-1 text-sm font-medium text-gray-700"
-            >
-              <AiOutlinePlus color="#820000" /> Add New Address
-            </button>
+            {data?.addressBook?.length < 3 && (
+              <button
+                onClick={() => setAddAddressBookModal(true)}
+                className="flex items-center gap-1 text-sm font-medium text-gray-700"
+              >
+                <AiOutlinePlus color="#820000" /> Add New Address
+              </button>
+            )}
           </div>
           <div>
             {!data ? (
@@ -114,12 +130,13 @@ const AddressBook = ({ params }) => {
                     <p>{data?.phone}</p>
                     <div>
                       {/* province, city, area  */}
-                      <p>{`${data?.street}, ${data?.zip}`}</p>
+                      {data?.street && <span>{`${data?.street}, `}</span>}
+                      {data?.postalCode && <span>{data?.postalCode}</span>}
                       {/* other address  */}
                       <p>{`${data?.city}, ${data?.country}`}</p>
                     </div>
 
-                    <p className="bg-slate-200 px-1 py-0.5 text-green-500 w-max">
+                    <p className="bg-gray-200 border rounded-sm px-2 py-0.5 text-green-500 w-max text-xs">
                       {data?.addressType}
                     </p>
                   </div>

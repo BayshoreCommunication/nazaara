@@ -156,7 +156,7 @@ const CheckoutContent = ({
     cartId,
   };
 
-  console.log("others", others);
+  // console.log("others", others);
 
   //server action for create form data
   async function clientAction(formData) {
@@ -175,7 +175,7 @@ const CheckoutContent = ({
       if (result.error) {
         toast.error(result.error, { duration: 4000 });
       } else {
-        console.log("result", result);
+        // console.log("result", result);
         redirect(result.res.url);
       }
     }
@@ -210,7 +210,7 @@ const CheckoutContent = ({
                   if (index === addressIndex) {
                     return (
                       <button
-                        className="border text-white rounded-md px-2 py-1 bg-primary-color text-xs"
+                        className="border text-white rounded-md px-2 py-1 bg-primary-color text-xs font-medium"
                         key={index}
                         type="button"
                         onClick={(event) => handleClick(index, event)}
@@ -221,7 +221,7 @@ const CheckoutContent = ({
                   } else {
                     return (
                       <button
-                        className="border rounded-md px-2 py-1 bg-gray-300 text-sm"
+                        className="border rounded-md px-2 py-1 bg-gray-300 text-xs font-medium"
                         key={index}
                         type="button"
                         onClick={(event) => handleClick(index, event)}
