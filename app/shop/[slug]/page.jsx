@@ -28,6 +28,7 @@ import { useCallback, useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
 import axios from "axios";
 import Loader from "@/components/Loader";
+import { BeatLoader } from "react-spinners";
 
 const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
@@ -132,7 +133,12 @@ const ProductDetails = ({ params }) => {
   }, [allProducts]);
 
   // console.log("data", data);
-  if (!data) return <Loader height="h-[70vh]" />;
+  if (!data)
+    return (
+      <div className="w-full h-[40vh] flex justify-center items-center">
+        <BeatLoader color="#820000" />
+      </div>
+    );
 
   return (
     <div>

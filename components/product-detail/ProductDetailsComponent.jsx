@@ -17,9 +17,9 @@ import {
 import PendingShipBadge from "../PendingShipBadge";
 import PercentageBadge from "../PercentageBadge";
 import { FaCartPlus } from "react-icons/fa";
+import { BeatLoader } from "react-spinners";
 
-const ProductDetailsComponent = ({ data, toggleDrawer }) => {
-  // console.log("data", data);
+const ProductDetailsComponent = ({ data }) => {
   const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -50,9 +50,14 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
   useEffect(() => {
     const currentDate = new Date();
     const futureDate = new Date(currentDate);
-    futureDate.setDate(currentDate.getDate() + 3); // Add 10 days
+    if (data.stock === 0 && data.preOrder) {
+      futureDate.setDate(currentDate.getDate() + 21);
+    } else {
+      futureDate.setDate(currentDate.getDate() + 7);
+    }
+
     setFutureDate(futureDate);
-  }, []);
+  }, [data.preOrder, data.stock]);
 
   //handle price
   const handleIncreasePrice = () => {
@@ -124,32 +129,34 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
   // console.log("product data", data);
 
   return (
-    <div className="flex flex-col gap-y-2 mt-4 lg:mt-0">
-      {data && (
+    <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">
+      {data ? (
         <>
           <h3 className="font-bold text-2xl lg:text-xl uppercase">
             {data.productName}
           </h3>
           <p className="text-gray-500">{data.sku}</p>
-          {data.stock > 0 ? (
-            <p className="flex items-center -ml-1 text-sm font-medium">
-              <RxDotFilled size={30} color="green" />
-              In Stock
-            </p>
-          ) : (
-            <p className="flex items-center -ml-1 text-sm">
-              <RxDotFilled size={30} color="#820000" />
-              Out of Stock
-            </p>
-          )}
-          {data.preOrder && (
-            <p className="flex items-center -ml-1 text-sm font-medium">
-              <RxDotFilled size={30} color="green" />
-              Pre-Order Available
-            </p>
-          )}
+          <div>
+            {data.stock > 0 ? (
+              <p className="flex items-center -ml-1 text-sm font-medium">
+                <RxDotFilled size={30} color="green" />
+                In Stock
+              </p>
+            ) : (
+              <p className="flex items-center -ml-1 text-sm">
+                <RxDotFilled size={30} color="#820000" />
+                Out of Stock
+              </p>
+            )}
+            {data.preOrder && (
+              <p className="flex items-center -ml-1 text-sm font-medium">
+                <RxDotFilled size={30} color="green" />
+                Pre-Order Available
+              </p>
+            )}
+          </div>
           <div className="flex items-center gap-2">
-            <p className="font-bold text-bold text-xl">
+            <p className="font-bold text-bold text-xl text-gray-700">
               BDT {calculatePrice}/-
             </p>
             <p className="line-through text-sm font-medium text-gray-500">
@@ -157,13 +164,6 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             </p>
             <PercentageBadge text={`- ${percentageFloor}%`} />
           </div>
-          <button
-            className="text-blue-500 flex items-center gap-1"
-            onClick={toggleDrawer}
-          >
-            <BsBoxArrowUp />
-            Size Chart
-          </button>
           <div className="flex items-center gap-2">
             {data?.size?.map((data) => (
               <button
@@ -179,74 +179,84 @@ const ProductDetailsComponent = ({ data, toggleDrawer }) => {
             ))}
           </div>
 
-          <h2 className="font-medium">Color</h2>
-          <div className="flex items-center gap-2">
-            {data.variant.map((data, i) => (
+          <div>
+            <h2 className="font-medium text-gray-700 text-sm mb-1">Color</h2>
+            <div className="flex items-center gap-2">
+              {data.variant.map((data, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setGetColor(data?.color);
+                    dispatch(currentColor(data.color));
+                  }}
+                  className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
+                    getColor === data?.color &&
+                    "border-primary-color bg-primary-color text-white"
+                  }`}
+                >
+                  {data?.color}
+                </button>
+              ))}
+              {getColor && (
+                <button
+                  onClick={() => {
+                    setGetColor(null);
+                    dispatch(currentColor(null));
+                  }}
+                  className="text-xs text-primary-color flex items-center"
+                >
+                  <TiDelete size={17} color="red" /> Clear Select
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="font-medium text-gray-700 text-sm mb-1">Quantity</h2>
+            <div className="flex items-center">
               <button
-                key={i}
-                onClick={() => {
-                  setGetColor(data?.color);
-                  dispatch(currentColor(data.color));
-                }}
-                className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
-                  getColor === data?.color &&
-                  "border-primary-color bg-primary-color text-white"
+                onClick={handleDecreasePrice}
+                className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
+                  calculatePrice == data?.salePrice && "cursor-not-allowed"
                 }`}
               >
-                {data?.color}
+                -
               </button>
-            ))}
-            {getColor && (
+              <p className="text-gray-700 border border-gray-400 font-normal w-8 h-8 flex justify-center items-center">
+                {quantity}
+              </p>
               <button
-                onClick={() => {
-                  setGetColor(null);
-                  dispatch(currentColor(null));
-                }}
-                className="text-xs text-primary-color flex items-center"
+                onClick={handleIncreasePrice}
+                className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
+                  quantity == data?.stock && "cursor-not-allowed"
+                }`}
               >
-                <TiDelete size={17} color="red" /> Clear Select
+                +
               </button>
-            )}
+            </div>
           </div>
 
-          <h2 className="font-medium">Quantity</h2>
-          <div className="flex items-center">
-            <button
-              onClick={handleDecreasePrice}
-              className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
-                calculatePrice == data?.salePrice && "cursor-not-allowed"
-              }`}
-            >
-              -
-            </button>
-            <p className="text-gray-700 border border-gray-400 font-normal w-8 h-8 flex justify-center items-center">
-              {quantity}
+          <div>
+            <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
+              <TbTruckDelivery /> Estimated Shipping Date:
+              {` ${futureDate?.toDateString()}`}
             </p>
             <button
-              onClick={handleIncreasePrice}
-              className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
-                quantity == data?.stock && "cursor-not-allowed"
-              }`}
+              onClick={handleAddToCart}
+              className="group btn2 py-[10px] relative border-2 border-primary-color uppercase text-gray-700 tracking-wider leading-none overflow-hidden hover:text-white flex gap-[6px] justify-center items-center font-semibold w-full"
             >
-              +
+              <span className="absolute inset-0 bg-primary-color"></span>
+              <span className="hidden group-hover:flex gap-[6px] absolute inset-0 justify-center items-center font-medium">
+                <FaCartPlus size={20} /> ADD TO CART
+              </span>
+              <FaCartPlus size={20} /> ADD TO CART
             </button>
           </div>
-
-          <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
-            <TbTruckDelivery /> Estimated Shipping Date:
-            {` ${futureDate?.toDateString()}`}
-          </p>
-          <button
-            onClick={handleAddToCart}
-            className="group btn2 py-[10px] relative border-2 border-primary-color uppercase text-gray-700 tracking-wider leading-none overflow-hidden hover:text-white flex gap-[6px] justify-center items-center font-semibold"
-          >
-            <span className="absolute inset-0 bg-primary-color"></span>
-            <span className="hidden group-hover:flex gap-[6px] absolute inset-0 justify-center items-center font-medium">
-              <FaCartPlus size={20} /> ADD TO CART
-            </span>
-            <FaCartPlus size={20} /> ADD TO CART
-          </button>
         </>
+      ) : (
+        <div className="w-full h-[40vh] flex justify-center items-center">
+          <BeatLoader color="#820000" />
+        </div>
       )}
     </div>
   );

@@ -15,6 +15,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
 import { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -144,7 +145,9 @@ const Categories = ({ params }) => {
       />
       <div className="main-container my-4 lg:my-10">
         {isLoading ? (
-          <Loader height={"h-[60vh]"} />
+          <div className="w-full h-[40vh] flex justify-center items-center">
+            <BeatLoader color="#820000" />
+          </div>
         ) : (
           <div>
             <div>

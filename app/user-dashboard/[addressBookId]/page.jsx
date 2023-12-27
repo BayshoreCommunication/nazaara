@@ -97,7 +97,9 @@ const AddressBook = ({ params }) => {
           </div>
           <div>
             {!data ? (
-              <Loader height="h-[80vh]" />
+              <div className="w-full h-[40vh] flex justify-center items-center">
+                <BeatLoader color="#820000" />
+              </div>
             ) : (
               <div className="text-gray-700 font-medium text-sm grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {data.addressBook.map((data) => (

@@ -11,7 +11,7 @@ export const handleUpdateUserInfo = async (formData, userId) => {
   };
   const url = `${process.env.API_URL}/api/v1/user/${userId}`;
 
-  console.log("data ,,,", data);
+  // console.log("data ,,,", data);
 
   try {
     const response = await fetch(url, {

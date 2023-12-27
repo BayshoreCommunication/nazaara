@@ -16,6 +16,7 @@ const CheckoutContent = ({
   const [couponCode, setCouponCode] = useState("");
   const [couponAmount, setCouponAmount] = useState(0);
   const [couponId, setCouponId] = useState(null);
+  const [isFreeShipping, setIsFreeShipping] = useState(false);
   const [addressIndex, setAddressIndex] = useState(0);
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
@@ -33,7 +34,7 @@ const CheckoutContent = ({
   let subTotal = 0;
   let vatIncluded = 0;
   let totalAmount = 0;
-  let freeShipping = false;
+  // let freeShipping = false;
   // let validCouponId = null;
   if (cartData) {
     cartData?.map((data) => {
@@ -42,11 +43,13 @@ const CheckoutContent = ({
     //calculate vat
     vatIncluded = Number((subTotal * 0.07).toFixed(2));
 
-    if (shippingMethod === "inside-dhaka" && !freeShipping) {
+    if (isFreeShipping) {
+      totalAmount = subTotal - couponAmount;
+    } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
       totalAmount = subTotal + 100 - couponAmount;
-    } else if (shippingMethod === "outside-dhaka" && !freeShipping) {
+    } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
       totalAmount = subTotal + 250 - couponAmount;
-    } else if (shippingMethod === "shop-pickup" || !freeShipping) {
+    } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
       totalAmount = subTotal - couponAmount;
     }
   }
@@ -70,6 +73,12 @@ const CheckoutContent = ({
     const couponData = await fetchCouponData(
       `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
     );
+
+    if (couponData.data.freeShipping) {
+      setIsFreeShipping(true);
+    }
+
+    console.log("coupon dataatatata", couponData);
 
     if (
       couponData.success &&
@@ -116,11 +125,13 @@ const CheckoutContent = ({
 
   //calculate shipping charge
   let shippingCharge = 0;
-  if (shippingMethod === "inside-dhaka" && !freeShipping) {
+  if (isFreeShipping) {
+    shippingCharge = 0;
+  } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
     shippingCharge = 100;
-  } else if (shippingMethod === "outside-dhaka" && !freeShipping) {
+  } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
     shippingCharge = 250;
-  } else if (shippingMethod === "shop-pickup" || !freeShipping) {
+  } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
     shippingCharge = 0;
   }
 
@@ -552,9 +563,10 @@ const CheckoutContent = ({
             </div>
             <div className="flex justify-between items-center">
               <p>Shipping</p>
-              {shippingMethod === "inside-dhaka" && <p>৳ 100/-</p>}
+              {/* {shippingMethod === "inside-dhaka" && <p>৳ 100/-</p>}
               {shippingMethod === "outside-dhaka" && <p>৳ 250/-</p>}
-              {shippingMethod === "shop-pickup" && <p>৳ 0/-</p>}
+              {shippingMethod === "shop-pickup" && <p>৳ 0/-</p>} */}
+              <p>৳ {shippingCharge}/-</p>
             </div>
           </div>
           <div>

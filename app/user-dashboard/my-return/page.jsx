@@ -1,19 +1,47 @@
-"use client";
+// import NoProductFound from "@/components/NoProductFound";
+
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import MyReturn from "@/components/user-dashboard/MyReturn";
-import { Util } from "@/util";
-import React from "react";
+import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const MyReturns = () => {
-  const userData = Util();
-  // console.log("userDatass", userData);
-  return (
-    <div className="main-container my-10 flex flex-col gap-y-4">
-      <h2 className="text-xl font-semibold">Hello, {userData?.fullName}</h2>
-      <DashboardUtil />
-      <MyReturn />
-    </div>
-  );
+const MyReturns = async () => {
+  const cookieData = cookies();
+  const userData = cookieData.get("userAuthCredential");
+  if (userData) {
+    const data = JSON.parse(userData?.value);
+    if (data) {
+      const url = `${process.env.API_URL}/api/v1/return-exchange/user/${data._id}`;
+      const returnData = await fetchDynamicServerSideData(url);
+      console.log(returnData.data);
+      if (returnData) {
+        if ((returnData.status = "success")) {
+          return (
+            <>
+              <div className="main-container my-10 flex flex-col gap-y-4">
+                <h2 className="text-xl font-semibold">
+                  Hello, {data.fullName}
+                </h2>
+                <DashboardUtil />
+                {returnData?.data?.length > 0 ? (
+                  <MyReturn returnData={returnData.data} />
+                ) : (
+                  <>
+                    <p className="text-gray-800 font-semibold text-center my-24">
+                      No Return Order Found
+                    </p>
+                  </>
+                )}
+              </div>
+            </>
+          );
+        }
+      }
+    }
+  } else {
+    return redirect("/user-authentication");
+  }
 };
 
 export default MyReturns;

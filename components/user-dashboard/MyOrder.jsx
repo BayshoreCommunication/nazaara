@@ -40,7 +40,9 @@ const shouldHideReturnButton = (createdAt) => {
   const sevenDaysLater = new Date(updatedDate);
   sevenDaysLater.setDate(updatedDate.getDate() + 7);
   const currentDate = new Date();
-  return currentDate >= sevenDaysLater;
+
+  // Return false if currentDate is exactly 7 days after sevenDaysLater
+  return currentDate.getTime() > sevenDaysLater.getTime();
 };
 
 const MyOrder = ({ orderData }) => {
@@ -131,16 +133,22 @@ const MyOrder = ({ orderData }) => {
                     {data.deliveryStatus}
                   </span>
                 </td>
-                <td className="px-6 py-4">
-                  {!shouldHideReturnButton(data.createdAt) && (
+                {!shouldHideReturnButton(data.createdAt) ? (
+                  <td className="px-6 py-4">
                     <Link
                       href={`/return-exchange/${data._id}`}
                       className="bg-primary-color text-white rounded-md py-1 text-sm px-3 hover:bg-opacity-80"
                     >
                       Return
                     </Link>
-                  )}
-                </td>
+                  </td>
+                ) : (
+                  <td className="px-6 py-4">
+                    <button className="bg-gray-400 text-gray-700 rounded-md py-1 text-sm px-3 hover:bg-opacity-80 cursor-not-allowed">
+                      Return
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
         </tbody>
