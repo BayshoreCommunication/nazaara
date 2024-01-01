@@ -8,7 +8,7 @@ const SubCategoryPage = async ({ params }) => {
   const data = await fetchServerSideData(url);
   // console.log("slug", data.data[0]._id);
 
-  const filterUrl = `${process.env.API_URL}/api/v1/product?subCategory=${data?.data[0]?._id}`;
+  const filterUrl = `${process.env.API_URL}/api/v1/product/published?subCategory=${data?.data[0]?._id}`;
   const subCategoryData = await fetchServerSideData(filterUrl);
   // console.log("subCategoryData", subCategoryData);
   return (

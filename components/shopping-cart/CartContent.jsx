@@ -12,6 +12,7 @@ import ButtonOnHover from "../ButtonOnHover";
 import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import NoProductFound from "../NoProductFound";
 import Link from "next/link";
+import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
@@ -122,8 +123,17 @@ const CartContent = ({ userData }) => {
 
     //calculate subtotal
     let subTotal = 0;
-    data.map((data) => {
-      subTotal = subTotal + data.product.salePrice * data.quantity;
+    data.forEach((detail) => {
+      subTotal =
+        subTotal +
+        calculateSalePrice(
+          detail?.product?.promotion?.validPromotion,
+          detail?.product?.promotion?.discountType,
+          detail?.product?.regularPrice,
+          detail?.product?.promotion?.discountOff,
+          detail?.product?.salePrice
+        ) *
+          detail.quantity;
     });
 
     //calculate vat
@@ -131,6 +141,8 @@ const CartContent = ({ userData }) => {
 
     //calculate total amount
     let totalAmount = subTotal;
+
+    // console.log("data from cart", data);
 
     return (
       <div className="main-container flex gap-10 items-start">
@@ -196,7 +208,14 @@ const CartContent = ({ userData }) => {
                         </div>
                         <div className="flex flex-col gap-1">
                           <p className="text-gray-700 text-sm font-semibold">
-                            ৳ {detail?.product?.salePrice * detail?.quantity}
+                            ৳{" "}
+                            {calculateSalePrice(
+                              detail?.product?.promotion?.validPromotion,
+                              detail?.product?.promotion?.discountType,
+                              detail?.product?.regularPrice,
+                              detail?.product?.promotion?.discountOff,
+                              detail?.product?.salePrice
+                            ) * detail?.quantity}
                             /-
                           </p>
                           <div className="relative group">

@@ -85,7 +85,7 @@ const FestivalContent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  console.log("filtered products, ", filteredProducts);
+  // console.log("filtered products, ", filteredProducts);
 
   return (
     <main>

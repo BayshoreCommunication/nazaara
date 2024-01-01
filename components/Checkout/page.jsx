@@ -6,6 +6,7 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { handleOrder } from "../serverAction/order";
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
+import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 
 const CheckoutContent = ({
   userData,
@@ -37,8 +38,20 @@ const CheckoutContent = ({
   // let freeShipping = false;
   // let validCouponId = null;
   if (cartData) {
-    cartData?.map((data) => {
-      subTotal = subTotal + data.product.salePrice * data.quantity;
+    // cartData?.map((data) => {
+    //   subTotal = subTotal + data.product.salePrice * data.quantity;
+    // });
+    cartData.forEach((detail) => {
+      subTotal =
+        subTotal +
+        calculateSalePrice(
+          detail?.product?.promotion?.validPromotion,
+          detail?.product?.promotion?.discountType,
+          detail?.product?.regularPrice,
+          detail?.product?.promotion?.discountOff,
+          detail?.product?.salePrice
+        ) *
+          detail.quantity;
     });
     //calculate vat
     vatIncluded = Number((subTotal * 0.07).toFixed(2));
@@ -512,7 +525,14 @@ const CheckoutContent = ({
                     </p>
                     <p className="text-sm text-gray-700">Size: {data?.size}</p>
                     <p className="text-sm text-gray-700">
-                      Price: ৳ {data?.product?.salePrice}
+                      Price: ৳{" "}
+                      {calculateSalePrice(
+                        data?.product?.promotion?.validPromotion,
+                        data?.product?.promotion?.discountType,
+                        data?.product?.regularPrice,
+                        data?.product?.promotion?.discountOff,
+                        data?.product?.salePrice
+                      ) * data.quantity}
                     </p>
                   </div>
                 </div>

@@ -14,10 +14,10 @@ import {
   useCreateNewCartMutation,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
-import PendingShipBadge from "../PendingShipBadge";
 import PercentageBadge from "../PercentageBadge";
 import { FaCartPlus } from "react-icons/fa";
 import { BeatLoader } from "react-spinners";
+import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
 
 const ProductDetailsComponent = ({ data }) => {
   const router = useRouter();
@@ -35,10 +35,27 @@ const ProductDetailsComponent = ({ data }) => {
 
   //set initial price
   useEffect(() => {
-    setCalculatePrice(data?.salePrice);
+    if (data?.promotion && data?.promotion.validPromotion) {
+      if (data?.promotion?.discountType === "percentage") {
+        const price = CalculateFixLessPercentageAmount(
+          data?.regularPrice,
+          data?.promotion?.discountOff
+        );
+        setCalculatePrice(price);
+      } else {
+        setCalculatePrice(data?.regularPrice - data?.promotion?.discountOff);
+      }
+    } else {
+      setCalculatePrice(data?.salePrice);
+    }
     setGetSize(data?.size[0]);
-    // setGetColor(data?.variant[0].color);
-  }, [data?.salePrice, data?.size, data?.variant]);
+  }, [
+    data?.promotion,
+    data?.regularPrice,
+    data?.salePrice,
+    data?.size,
+    data.variant,
+  ]);
 
   const percentageReduction =
     ((data?.regularPrice - data?.salePrice) / data?.regularPrice) * 100;
@@ -126,7 +143,7 @@ const ProductDetailsComponent = ({ data }) => {
     }
   };
 
-  // console.log("product data", data);
+  console.log("product data", data);
 
   return (
     <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">

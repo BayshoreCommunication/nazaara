@@ -1,5 +1,3 @@
-import { Util } from "@/util";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { MdOutlineDone } from "react-icons/md";
@@ -52,9 +50,6 @@ const MyOrder = ({ orderData }) => {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Product Details
-            </th>
-            <th scope="col" className="px-6 py-3">
               Transaction Id
             </th>
             <th scope="col" className="px-6 py-3">
@@ -79,6 +74,9 @@ const MyOrder = ({ orderData }) => {
               Delivery Status
             </th>
             <th scope="col" className="px-6 py-3">
+              Order Details
+            </th>
+            <th scope="col" className="px-6 py-3">
               Return Order
             </th>
           </tr>
@@ -87,23 +85,6 @@ const MyOrder = ({ orderData }) => {
           {orderData &&
             orderData.map((data, i) => (
               <tr key={i} className="bg-white border-b dark:bg-gray-800">
-                {data.product.map((product, i) => (
-                  <tr key={i} className="border-e border-b">
-                    <td className="px-2 py-4 ">
-                      <Image
-                        src={product.imgUrl}
-                        width={60}
-                        height={80}
-                        alt={data.productName}
-                      />
-                    </td>
-                    <td className="pe-2 py-4">{`${
-                      product.title.length > 20
-                        ? `${product.title.slice(0, 20)}...`
-                        : product.title
-                    } `}</td>
-                  </tr>
-                ))}
                 <td className="px-6 py-4">{data.transactionId}</td>
                 <td className="px-6 py-4">{data.paymentMethod}</td>
                 <td
@@ -133,6 +114,14 @@ const MyOrder = ({ orderData }) => {
                     {data.deliveryStatus}
                   </span>
                 </td>
+                <td className="px-6 py-4">
+                  <Link
+                    href={`/user-dashboard/my-order/${data._id}`}
+                    className="bg-primary-color text-white rounded-md py-1 text-sm px-3 hover:bg-opacity-80"
+                  >
+                    View
+                  </Link>
+                </td>
                 {!shouldHideReturnButton(data.createdAt) ? (
                   <td className="px-6 py-4">
                     <Link
@@ -154,114 +143,6 @@ const MyOrder = ({ orderData }) => {
         </tbody>
       </table>
     </div>
-
-    // <div className="flex flex-col gap-y-6 text-gray-600">
-    //   {orderData?.length > 0 ? (
-    //     orderData?.map((el, i) => (
-    //       <div key={i} className="rounded-lg border border-gray-300">
-    //         <div className="py-1 border-b border-gray-300">
-    //           <div className="px-4 flex gap-x-6 py-1">
-    //             <p className="border-r pr-6 border-gray-400">
-    //               <span className="text-gray-700 ">Transaction Id :</span>{" "}
-    //               <span className="">{el.transactionId}</span>
-    //             </p>
-    //             <p className="border-r pr-6 border-gray-400">
-    //               <span className="text-gray-700">Payment Type :</span>{" "}
-    //               <span className="">{el.paymentMethod}</span>
-    //             </p>
-    //             <p className="border-r pr-6 border-gray-400">
-    //               <span className="text-gray-700">Payment Status :</span>{" "}
-    //               <span className="">{el.paymentStatus}</span>
-    //             </p>
-    //             <p className="">
-    //               <span className="text-gray-700">Place on :</span>{" "}
-    //               <span>{formatDate(el.createdAt)}</span>
-    //             </p>
-    //           </div>
-    //         </div>
-    //         {el.product.map((data, i) => (
-    //           <div
-    //             key={i}
-    //             className="flex justify-around items-center my-4 w-full border-b pb-3 border-gray-300 gap-8 px-5"
-    //           >
-    //             <Image
-    //               src={data.imageUrl}
-    //               alt="My Image"
-    //               width={60}
-    //               height={60}
-    //               className="rounded-lg"
-    //             />
-    //             <p>{data.slug}</p>
-    //             <p>Color: {data.color}</p>
-    //             <p>Size: {data.size}</p>
-    //             <p>Price: {data.price}</p>
-    //             <p>Quantity: {data.quantity}</p>
-    //             <p className="bg-gray-300 rounded-full py-1 text-sm px-3 capitalize">
-    //               {el.deliveryStatus}
-    //             </p>
-    //             {!shouldHideReturnButton(el.createdAt) && (
-    //               <Link
-    //                 href={`/return-exchange/${el._id}`}
-    //                 className="bg-primary-color text-white rounded-full py-1 text-sm px-3 hover:bg-opacity-80 "
-    //               >
-    //                 Return Order
-    //               </Link>
-    //             )}
-    //           </div>
-    //         ))}
-    //       </div>
-    //     ))
-    //   ) : (
-    //     <p className="my-[20vh] text-center text-primary-color">
-    //       No Order Found!😟
-    //     </p>
-    //   )}
-
-    //   {/* <div className='rounded-lg border'>
-    //         <div className='py-1 border-b'>
-    //             <div className='px-4'>
-    //                 <p>Order <span className=''>#3423438438473</span></p>
-    //                 <p>Place on <span>4 jun 2023</span></p>
-    //             </div>
-    //         </div>
-    //         <div className='flex justify-around items-center my-4 w-full lg:w-4/5'>
-    //             <div className='flex gap-6 items-center'>
-    //                 <Image
-    //                 src="/images/category/bridal_top.png"
-    //                 alt="My Image"
-    //                 width={70}
-    //                 height={60}
-    //                 className='rounded-lg'
-    //                 />
-    //                 <p>Panache Apparel - BLUEBELL</p>
-    //             </div>
-    //             <p>QTY: 1</p>
-    //             <button className='bg-gray-300 rounded-full py-1 text-sm px-2'>Cancelled</button>
-    //         </div>
-    //     </div>
-    //     <div className='rounded-lg border'>
-    //         <div className='py-1 border-b'>
-    //             <div className='px-4'>
-    //                 <p>Order <span className=''>#3423438438473</span></p>
-    //                 <p>Place on <span>4 jun 2023</span></p>
-    //             </div>
-    //         </div>
-    //         <div className='flex justify-around items-center my-4 w-full lg:w-4/5'>
-    //             <div className='flex gap-6 items-center'>
-    //                 <Image
-    //                 src="/images/category/bridal_top.png"
-    //                 alt="My Image"
-    //                 width={70}
-    //                 height={60}
-    //                 className='rounded-lg'
-    //                 />
-    //                 <p>Panache Apparel - BLUEBELL</p>
-    //             </div>
-    //             <p>QTY: 1</p>
-    //             <button className='bg-gray-300 rounded-full py-1 text-sm px-2'>Cancelled</button>
-    //         </div>
-    //     </div> */}
-    // </div>
   );
 };
 

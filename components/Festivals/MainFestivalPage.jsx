@@ -1,5 +1,5 @@
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import React from "react";
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import FestivalContent from "./FestivalContent";
 
 const MainFestivalPage = async () => {

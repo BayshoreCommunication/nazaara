@@ -60,7 +60,7 @@ const FilteredFestivalComponent = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 xl:gap-6">
             {currentProducts.map((data, i) => (
               <div key={i} className="transition-all duration-500 ease-in-out">
                 <ProductCart data={data} i={i} />
