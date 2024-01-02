@@ -14,9 +14,7 @@ const SuccessPage = async ({ params }) => {
       const data = JSON.parse(userData?.value);
       const userId = data._id;
       const url = `${process.env.API_URL}/api/v1/order/transactionId/${params.transactionId}`;
-      const res = await fetch(url, {
-        next: { revalidate: 0 },
-      });
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) {
         return redirect("/");
       }

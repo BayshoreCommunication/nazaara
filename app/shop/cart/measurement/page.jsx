@@ -19,7 +19,7 @@ const Measurement = async ({ searchParams }) => {
     };
 
     const data = await getData();
-    console.log("cart data", data.data.product);
+    // console.log("cart data", data.data.product);
     return (
       <div className="main-container flex lg:block flex-col gap-y-6 my-6 lg:my-10">
         <Navigation />

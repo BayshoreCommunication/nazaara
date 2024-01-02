@@ -1,5 +1,4 @@
 "use client";
-import Loader from "@/components/Loader";
 import CreateAddressBook from "@/components/user-dashboard/CreateAddressBookModal";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import EditAddressBook from "@/components/user-dashboard/EditAddressBookModal";
@@ -77,7 +76,7 @@ const AddressBook = ({ params }) => {
       ) : (
         <div className="main-container my-10">
           {data && (
-            <h2 className="text-xl font-semibold mb-2">
+            <h2 className="text-xl font-semibold mb-2 uppercase">
               Hello, {data?.fullName}
             </h2>
           )}

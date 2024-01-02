@@ -13,6 +13,8 @@ import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import NoProductFound from "../NoProductFound";
 import Link from "next/link";
 import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
+import { revalidatePath } from "next/cache";
+import toast from "react-hot-toast";
 
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
@@ -105,6 +107,7 @@ const CartContent = ({ userData }) => {
       // console.log("detecart", deleteCarts);
       if (deleteCarts?.data?.status == "success") {
         setIsDeleteLoading(false);
+        revalidatePath("/shop/checkout");
       }
     } catch (err) {
       console.error("Update error:", err);
@@ -145,10 +148,10 @@ const CartContent = ({ userData }) => {
     // console.log("data from cart", data);
 
     return (
-      <div className="main-container flex gap-10 items-start">
-        <div className="flex flex-[3] flex-col gap-5 bg-white">
+      <div className="main-container flex flex-col lg:flex-row gap-10 lg:items-start">
+        <div className="flex lg:flex-[3] flex-col gap-5 bg-white">
           <div className="text-black flex justify-between border-b border-gray-300 pb-2">
-            <div className="w-full flex justify-between items-center">
+            <div className="w-full flex flex-col sm:flex-row gap-y-3 justify-between items-center">
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-semibold text-primary-color">
                   Shopping Cart
@@ -159,8 +162,8 @@ const CartContent = ({ userData }) => {
                     : `(${data.length} Item)`}
                 </span>
               </div>
-              <Link href={"/shop"}>
-                <button className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 w-full flex gap-1 items-center justify-center text-sm">
+              <Link className="w-full sm:w-auto" href={"/shop"}>
+                <button className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 w-full flex gap-1 items-center justify-center text-sm mb-3 sm:mb-0">
                   <FaHandPointLeft size={20} /> Continue Shopping
                 </button>
               </Link>
@@ -182,7 +185,7 @@ const CartContent = ({ userData }) => {
                               src={detail?.product?.variant[0]?.imageUrl[0]}
                               alt="cart"
                               width={90}
-                              height={90}
+                              height={80}
                               className="rounded-md"
                             />
                           </Link>
@@ -336,7 +339,7 @@ const CartContent = ({ userData }) => {
             )}
           </>
         </div>
-        <div className="flex-1 shadow-md rounded-md p-6">
+        <div className="lg:flex-1 shadow-md rounded-md p-6">
           <h2 className="font-semibold text-gray-700 text-lg mb-4">
             Order Summary
           </h2>
@@ -360,10 +363,20 @@ const CartContent = ({ userData }) => {
               </p>
             </div>
           </div>
-          <Link href={"/shop/checkout"}>
-            {" "}
-            <ButtonOnHover text={"Proceed To Checkout"} />
-          </Link>
+
+          {cartData?.data?.length > 0 ? (
+            <Link href={"/shop/checkout"}>
+              <ButtonOnHover text={"Proceed To Checkout"} />
+            </Link>
+          ) : (
+            <div
+              onClick={() =>
+                toast.error("Please add some products to continue!")
+              }
+            >
+              <ButtonOnHover text={"Proceed To Checkout"} />
+            </div>
+          )}
         </div>
       </div>
     );

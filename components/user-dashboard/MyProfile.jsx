@@ -32,7 +32,7 @@ const MyProfile = ({ userData }) => {
     <>
       {userData ? (
         <div className="main-container my-10 flex flex-col gap-y-4">
-          <h2 className="text-xl font-semibold text-primary-color">
+          <h2 className="text-xl font-semibold text-primary-color uppercase">
             Hello, {userData?.fullName}
           </h2>
           <DashboardUtil />
@@ -102,7 +102,7 @@ const MyProfile = ({ userData }) => {
             </div>
 
             {userData?.addressBook && (
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 lg:flex gap-x-3 gap-y-6">
                 {userData?.addressBook.map((data, index) => (
                   <div
                     key={index}
@@ -117,7 +117,7 @@ const MyProfile = ({ userData }) => {
                     <p className=" font-medium text-gray-700">
                       {data?.fullName}
                     </p>
-                    <p>{`${data?.street}, ${data?.zip}`}</p>
+                    <p>{`${data?.street}, ${data?.postalCode}`}</p>
                     <p>{`${data?.city}, ${data?.country}`}</p>
                     <p>{data?.phone}</p>
                   </div>
@@ -126,7 +126,7 @@ const MyProfile = ({ userData }) => {
             )}
             {userData?.addressBook.length < 1 && (
               <div className="text-md text-green-800 bg-slate-200 px-2 py-1 w-max text-xs rounded-sm ">
-                No Adress Book Found ! Please Add a New One
+                No Adress Book Found ! Please Add a New One👍
               </div>
             )}
           </div>

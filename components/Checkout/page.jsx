@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { handleOrder } from "../serverAction/order";
@@ -18,11 +18,29 @@ const CheckoutContent = ({
   const [couponAmount, setCouponAmount] = useState(0);
   const [couponId, setCouponId] = useState(null);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
+  const [isPromotionAvailable, setIsPromotionAvailable] = useState(false);
   const [addressIndex, setAddressIndex] = useState(0);
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
 
   // console.log("cartData", cartData);
+
+  useEffect(() => {
+    const isFreeShipping = cartData.map(
+      (cart) => cart?.product?.promotion?.validPromotion
+    );
+    const hasFreeShipping = isFreeShipping.some((value) => value === true);
+
+    const isPromotion = cartData.map(
+      (cart) => cart?.product?.promotion?.freeShipping
+    );
+    const hasPromotion = isPromotion.some((value) => value === true);
+    // console.log("usferee", hasFreeShipping);
+
+    // Set the state based on the condition
+    setIsFreeShipping(hasFreeShipping);
+    setIsPromotionAvailable(hasPromotion);
+  }, [cartData]);
 
   const cartId = cartData.map((data) => data._id);
 
@@ -91,9 +109,10 @@ const CheckoutContent = ({
       setIsFreeShipping(true);
     }
 
-    console.log("coupon dataatatata", couponData);
-
-    if (
+    // console.log("coupon dataatatata", couponData);
+    if (isPromotionAvailable) {
+      toast.error("Coupon can't be applied as promotion already available!!");
+    } else if (
       couponData.success &&
       couponData.data.valid &&
       couponData.data.minimumPurchaseAmount <= subTotal

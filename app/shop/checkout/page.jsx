@@ -33,6 +33,12 @@ const CheckoutPage = async () => {
     `${process.env.API_URL}/api/v1/cart/user/${userData?.data?._id}`
   );
 
+  if (cartData?.data?.length < 1) {
+    return redirect("/shop/cart");
+  }
+
+  // console.log("cart data from page", cartData);
+
   //fetch all country data
   const countryData = await fetchServerSideData(
     `https://restcountries.com/v2/all`
@@ -46,7 +52,7 @@ const CheckoutPage = async () => {
   const fetchCouponData = async (url) => {
     "use server";
     const res = await fetch(url, {
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     });
     return res.json();
   };
