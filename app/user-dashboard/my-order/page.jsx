@@ -13,7 +13,7 @@ const MyOrders = async () => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/order/user/${data._id}`;
       const orderData = await fetchDynamicServerSideData(url);
-      console.log(orderData.data);
+      // console.log(orderData.data);
       if (orderData) {
         if (orderData.success) {
           return (

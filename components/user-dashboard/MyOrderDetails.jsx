@@ -2,13 +2,13 @@ import Image from "next/image";
 import React from "react";
 
 const MyOrderDetails = ({ orderData }) => {
-  console.log("orderData", orderData);
+  // console.log("orderData", orderData);
   return (
-    <div className="w-full lg:w-2/3 mx-auto text-sm mt-6">
+    <div className="w-full lg:w-2/3 mx-auto text-sm lg:mt-6">
       {orderData?.product?.map((data, index) => {
         return (
           <div className="pb-4 border-b mb-4" key={index}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div className="flex gap-4 items-center relative w-full">
                 <Image
                   src={`${data?.imgUrl}`}
@@ -27,237 +27,243 @@ const MyOrderDetails = ({ orderData }) => {
                   </p>
                 </div>
               </div>
-              <div className="border w-full flex text-gray-700 text-xs rounded-md">
-                <div className="flex-[2] border-e p-3">
-                  <div className="mb-2">
-                    <p className="font-semibold mb-1">Tops</p>
-                    <div className="flex gap-6 items-center">
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={data.sizeChart.topType === "blouse"}
-                          disabled={data.sizeChart.topType !== "blouse"}
-                        />
-                        <label className="ml-1 font-medium text-gray-500">
-                          BLOUSE
-                        </label>
+              {data.sizeChart && (
+                <div className="border w-full flex flex-col lg:flex-row text-gray-700 text-xs rounded-md">
+                  <div className="flex-[2] border-e p-3">
+                    <div className="mb-4">
+                      <p className="font-semibold mb-1">Tops</p>
+                      <div className="flex gap-6 items-center">
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={data.sizeChart.topType === "blouse"}
+                            disabled={data.sizeChart.topType !== "blouse"}
+                          />
+                          <label className="ml-1 font-medium text-gray-500">
+                            BLOUSE
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={data.sizeChart.topType === "kameez"}
+                            disabled={data.sizeChart.topType !== "kameez"}
+                          />
+                          <label className="ml-1 font-medium text-gray-500">
+                            KAMEEZ
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={data.sizeChart.topType === "gown"}
+                            disabled={data.sizeChart.topType !== "gown"}
+                          />
+                          <label className="ml-1 font-medium text-gray-500">
+                            GOWN
+                          </label>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={data.sizeChart.topType === "kameez"}
-                          disabled={data.sizeChart.topType !== "kameez"}
-                        />
-                        <label className="ml-1 font-medium text-gray-500">
-                          KAMEEZ
-                        </label>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col gap-2">
+                        <p className="text-xs">
+                          CHEST:{" "}
+                          {data.sizeChart.tops.chest
+                            ? data.sizeChart.tops.chest
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          WAIST:{" "}
+                          {data.sizeChart.tops.chest
+                            ? data.sizeChart.tops.waist
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          HIP:{" "}
+                          {data.sizeChart.tops.hip
+                            ? data.sizeChart.tops.hip
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          END:{" "}
+                          {data.sizeChart.tops.end
+                            ? data.sizeChart.tops.end
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          SHOULDER:{" "}
+                          {data.sizeChart.tops.shoulder
+                            ? data.sizeChart.tops.shoulder
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          ARM HOLE:{" "}
+                          {data.sizeChart.tops.armHole
+                            ? data.sizeChart.tops.armHole
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          SLEEVE L:{" "}
+                          {data.sizeChart.tops.sleeveLength
+                            ? data.sizeChart.tops.sleeveLength
+                            : "N/A"}
+                        </p>
                       </div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={data.sizeChart.topType === "gown"}
-                          disabled={data.sizeChart.topType !== "gown"}
-                        />
-                        <label className="ml-1 font-medium text-gray-500">
-                          GOWN
-                        </label>
+                      <div className="flex flex-col gap-2">
+                        <p className="text-xs">
+                          MUSCLE:{" "}
+                          {data.sizeChart.tops.muscle
+                            ? data.sizeChart.tops.muscle
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          HAND OPENNING:{" "}
+                          {data.sizeChart.tops.handOpening
+                            ? data.sizeChart.tops.handOpening
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          LENGTH:{" "}
+                          {data.sizeChart.tops.length
+                            ? data.sizeChart.tops.length
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          SLIT:{" "}
+                          {data.sizeChart.tops.slit
+                            ? data.sizeChart.tops.slit
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          NEEK DEEP (F):{" "}
+                          {data.sizeChart.tops.neckDeepf
+                            ? data.sizeChart.tops.neckDeepf
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          NEEK DEEP (B):{" "}
+                          {data.sizeChart.tops.neckDeepb
+                            ? data.sizeChart.tops.neckDeepb
+                            : "N/A"}
+                        </p>
+                        <p className="text-xs">
+                          HALF BODY:{" "}
+                          {data.sizeChart.tops.halfBody
+                            ? data.sizeChart.tops.halfBody
+                            : "N/A"}
+                        </p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex flex-col gap-1">
+                  <div className="flex-1 p-3">
+                    <div className="mb-4">
+                      <p className="font-semibold mb-1">Bottom</p>
+                      <div className="grid grid-cols-4 lg:grid-cols-2 gap-y-1 items-center">
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={
+                              data.sizeChart.bottomType === "skirt"
+                            }
+                            disabled={data.sizeChart.bottomType !== "skirt"}
+                          />
+                          <label className="ml-1 font-medium text-gray-500">
+                            SKIRT
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={
+                              data.sizeChart.bottomType === "palazzo"
+                            }
+                            disabled={data.sizeChart.bottomType !== "palazzo"}
+                          />
+                          <label className="ml-1 font-medium text-gray-500">
+                            PALADZO
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={
+                              data.sizeChart.bottomType === "pant"
+                            }
+                            disabled={data.sizeChart.bottomType !== "pant"}
+                          />
+                          <label
+                            htmlFor="gown"
+                            className="ml-1 font-medium text-gray-500"
+                          >
+                            PANT
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            readOnly
+                            defaultChecked={
+                              data.sizeChart.bottomType === "gharara"
+                            }
+                            disabled={data.sizeChart.bottomType !== "gharara"}
+                          />
+                          <label
+                            htmlFor="gown"
+                            className="ml-1 font-medium text-gray-500"
+                          >
+                            GHARARA
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2">
                       <p className="text-xs">
-                        CHEST:{" "}
-                        {data.sizeChart.tops.chest
-                          ? data.sizeChart.tops.chest
+                        LENGTH:{" "}
+                        {data.sizeChart.bottom.length
+                          ? data.sizeChart.bottom.length
                           : "N/A"}
                       </p>
                       <p className="text-xs">
                         WAIST:{" "}
-                        {data.sizeChart.tops.chest
-                          ? data.sizeChart.tops.waist
+                        {data.sizeChart.bottom.waist
+                          ? data.sizeChart.bottom.waist
                           : "N/A"}
                       </p>
                       <p className="text-xs">
                         HIP:{" "}
-                        {data.sizeChart.tops.hip
-                          ? data.sizeChart.tops.hip
+                        {data.sizeChart.bottom.hip
+                          ? data.sizeChart.bottom.hip
                           : "N/A"}
                       </p>
                       <p className="text-xs">
-                        END:{" "}
-                        {data.sizeChart.tops.end
-                          ? data.sizeChart.tops.end
+                        THIGH:{" "}
+                        {data.sizeChart.bottom.thigh
+                          ? data.sizeChart.bottom.thigh
                           : "N/A"}
                       </p>
                       <p className="text-xs">
-                        SHOULDER:{" "}
-                        {data.sizeChart.tops.shoulder
-                          ? data.sizeChart.tops.shoulder
+                        KNEE:{" "}
+                        {data.sizeChart.bottom.knee
+                          ? data.sizeChart.bottom.knee
                           : "N/A"}
                       </p>
                       <p className="text-xs">
-                        ARM HOLE:{" "}
-                        {data.sizeChart.tops.armHole
-                          ? data.sizeChart.tops.armHole
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        SLEEVE L:{" "}
-                        {data.sizeChart.tops.sleeveLength
-                          ? data.sizeChart.tops.sleeveLength
-                          : "N/A"}
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <p className="text-xs">
-                        MUSCLE:{" "}
-                        {data.sizeChart.tops.muscle
-                          ? data.sizeChart.tops.muscle
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        HAND OPENNING:{" "}
-                        {data.sizeChart.tops.handOpening
-                          ? data.sizeChart.tops.handOpening
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        LENGTH:{" "}
-                        {data.sizeChart.tops.length
-                          ? data.sizeChart.tops.length
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        SLIT:{" "}
-                        {data.sizeChart.tops.slit
-                          ? data.sizeChart.tops.slit
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        NEEK DEEP (F):{" "}
-                        {data.sizeChart.tops.neckDeepf
-                          ? data.sizeChart.tops.neckDeepf
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        NEEK DEEP (B):{" "}
-                        {data.sizeChart.tops.neckDeepb
-                          ? data.sizeChart.tops.neckDeepb
-                          : "N/A"}
-                      </p>
-                      <p className="text-xs">
-                        HALF BODY:{" "}
-                        {data.sizeChart.tops.halfBody
-                          ? data.sizeChart.tops.halfBody
+                        LEG OPENNING:{" "}
+                        {data.sizeChart.bottom.legOpening
+                          ? data.sizeChart.bottom.legOpening
                           : "N/A"}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 p-3">
-                  <div className="mb-2">
-                    <p className="font-semibold mb-1">Bottom</p>
-                    <div className="grid grid-cols-2 gap-y-1 items-center">
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={data.sizeChart.bottomType === "skirt"}
-                          disabled={data.sizeChart.bottomType !== "skirt"}
-                        />
-                        <label className="ml-1 font-medium text-gray-500">
-                          SKIRT
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={
-                            data.sizeChart.bottomType === "palazzo"
-                          }
-                          disabled={data.sizeChart.bottomType !== "palazzo"}
-                        />
-                        <label className="ml-1 font-medium text-gray-500">
-                          PALADZO
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={data.sizeChart.bottomType === "pant"}
-                          disabled={data.sizeChart.bottomType !== "pant"}
-                        />
-                        <label
-                          htmlFor="gown"
-                          className="ml-1 font-medium text-gray-500"
-                        >
-                          PANT
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          readOnly
-                          defaultChecked={
-                            data.sizeChart.bottomType === "gharara"
-                          }
-                          disabled={data.sizeChart.bottomType !== "gharara"}
-                        />
-                        <label
-                          htmlFor="gown"
-                          className="ml-1 font-medium text-gray-500"
-                        >
-                          GHARARA
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <p className="text-xs">
-                      LENGTH:{" "}
-                      {data.sizeChart.bottom.length
-                        ? data.sizeChart.bottom.length
-                        : "N/A"}
-                    </p>
-                    <p className="text-xs">
-                      WAIST:{" "}
-                      {data.sizeChart.bottom.waist
-                        ? data.sizeChart.bottom.waist
-                        : "N/A"}
-                    </p>
-                    <p className="text-xs">
-                      HIP:{" "}
-                      {data.sizeChart.bottom.hip
-                        ? data.sizeChart.bottom.hip
-                        : "N/A"}
-                    </p>
-                    <p className="text-xs">
-                      THIGH:{" "}
-                      {data.sizeChart.bottom.thigh
-                        ? data.sizeChart.bottom.thigh
-                        : "N/A"}
-                    </p>
-                    <p className="text-xs">
-                      KNEE:{" "}
-                      {data.sizeChart.bottom.knee
-                        ? data.sizeChart.bottom.knee
-                        : "N/A"}
-                    </p>
-                    <p className="text-xs">
-                      LEG OPENNING:{" "}
-                      {data.sizeChart.bottom.legOpening
-                        ? data.sizeChart.bottom.legOpening
-                        : "N/A"}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         );
@@ -289,7 +295,7 @@ const MyOrderDetails = ({ orderData }) => {
         </div>
         <div className="flex justify-between items-center mb-3">
           <p>Payment Method</p>
-          <p>{orderData?.transactionId}</p>
+          <p>{orderData?.transactionDetails?.cardType}</p>
         </div>
       </div>
       <p className="text-base font-semibold text-gray-700 mb-3 mt-6 border-b pb-1">

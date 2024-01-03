@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { MdOutlineDone } from "react-icons/md";
 
 function formatDate(inputDateString) {
   const date = new Date(inputDateString);
@@ -59,6 +58,9 @@ const MyOrder = ({ orderData }) => {
               Payment Status
             </th>
             <th scope="col" className="px-6 py-3">
+              Payment By
+            </th>
+            <th scope="col" className="px-6 py-3">
               Total Amount
             </th>
             <th scope="col" className="px-6 py-3">
@@ -71,10 +73,10 @@ const MyOrder = ({ orderData }) => {
               Order Placed
             </th>
             <th scope="col" className="px-6 py-3">
-              Delivery Status
+              Order Details
             </th>
             <th scope="col" className="px-6 py-3">
-              Order Details
+              Track Order
             </th>
             <th scope="col" className="px-6 py-3">
               Return Order
@@ -96,11 +98,12 @@ const MyOrder = ({ orderData }) => {
                 >
                   {data.paymentStatus}
                 </td>
+                <td className="px-6 py-4">{`${data?.transactionDetails?.cardType}`}</td>
                 <td className="px-6 py-4">{`৳ ${data.totalAmount}`}</td>
                 <td className="px-6 py-4">{`৳ ${data.totalPay}`}</td>
                 <td className="px-6 py-4">{`৳ ${data.due}`}</td>
                 <td className="px-6 py-4">{formatDate(data.createdAt)}</td>
-                <td
+                {/* <td
                   className={`font-medium px-6 py-4${
                     data.deliveryStatus === "pending"
                       ? "text-yellow-700"
@@ -113,20 +116,28 @@ const MyOrder = ({ orderData }) => {
                     )}
                     {data.deliveryStatus}
                   </span>
-                </td>
+                </td> */}
                 <td className="px-6 py-4">
                   <Link
                     href={`/user-dashboard/my-order/${data._id}`}
-                    className="bg-primary-color text-white rounded-md py-1 text-sm px-3 hover:bg-opacity-80"
+                    className="bg-primary-color text-white rounded-md py-1 text-xs font-medium px-3 hover:bg-opacity-80"
                   >
                     View
+                  </Link>
+                </td>
+                <td className="px-6 py-4">
+                  <Link
+                    href={`/user-dashboard/track-order/${data._id}`}
+                    className="bg-primary-color text-white rounded-md py-1 text-xs font-medium px-3 hover:bg-opacity-80"
+                  >
+                    Track
                   </Link>
                 </td>
                 {!shouldHideReturnButton(data.createdAt) ? (
                   <td className="px-6 py-4">
                     <Link
                       href={`/return-exchange/${data._id}`}
-                      className="bg-primary-color text-white rounded-md py-1 text-sm px-3 hover:bg-opacity-80"
+                      className="bg-primary-color text-white rounded-md py-1 text-xs font-medium px-3 hover:bg-opacity-80"
                     >
                       Return
                     </Link>

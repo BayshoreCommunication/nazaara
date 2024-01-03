@@ -1,11 +1,11 @@
 import TopBar from "@/components/TopBar";
-import MyOrderDetails from "@/components/user-dashboard/MyOrderDetails";
+import TrackOrder from "@/components/user-dashboard/TrackOrder";
 import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { IoBag } from "react-icons/io5";
+import { FaTruck } from "react-icons/fa";
 
-const MyOrdersDetailsPage = async ({ params }) => {
+const OrderTrackPage = async ({ params }) => {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
   if (userData) {
@@ -13,17 +13,19 @@ const MyOrdersDetailsPage = async ({ params }) => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/order/${params.id}`;
       const orderData = await fetchDynamicServerSideData(url);
-      console.log(orderData.data);
+      //   console.log(orderData.data);
       if (orderData) {
         if (orderData.success) {
           return (
             <main>
-              <TopBar
-                title={"Order Details"}
-                icon={<IoBag className="mb-1" size={20} />}
-              />
+              <TopBar title={"Order Track"} icon={<FaTruck />} />
               <div className="main-container my-10 flex flex-col gap-y-4">
-                <MyOrderDetails orderData={orderData.data} />
+                <div>
+                  <p className="text-gray-800 font-medium mb-4">
+                    ORDER ID: {params.id}
+                  </p>
+                </div>
+                <TrackOrder orderData={orderData.data} />
               </div>
             </main>
           );
@@ -35,4 +37,4 @@ const MyOrdersDetailsPage = async ({ params }) => {
   }
 };
 
-export default MyOrdersDetailsPage;
+export default OrderTrackPage;
