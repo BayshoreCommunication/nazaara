@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import PercentageBadge from "./PercentageBadge";
-import ReadyToShipBadge from "./ReadyToShipBadge";
 import { CalculatePercentage } from "@/helpers/CalculateDiscountPercentage";
 import { useInView } from "react-intersection-observer";
 import { MotionDiv } from "./MotionDiv";
@@ -17,7 +16,7 @@ const ProductCart = ({ data, i }) => {
     inView: { opacity: 1 },
   };
 
-  console.log("datatata", data);
+  // console.log("datatata", data);
 
   const CalculatePercentageValue = () => {
     if (data) {
@@ -51,7 +50,7 @@ const ProductCart = ({ data, i }) => {
     if (data) {
       if (data?.promotion && data?.promotion?.validPromotion) {
         return (
-          <p className="text-sm font-semibold line-through text-gray-500 flex items-center gap-[2px]">
+          <p className="text-xs font-semibold line-through text-gray-500 flex items-center gap-[2px]">
             <span>৳</span>
             {data?.regularPrice}/-
           </p>
@@ -59,7 +58,7 @@ const ProductCart = ({ data, i }) => {
       } else {
         return (
           data?.regularPrice > data?.salePrice && (
-            <p className="text-sm font-semibold line-through text-gray-500 flex items-center gap-[2px]">
+            <p className="text-xs font-semibold line-through text-gray-500 flex items-center gap-[2px]">
               <span>৳</span>
               {data?.regularPrice}/-
             </p>
@@ -103,7 +102,7 @@ const ProductCart = ({ data, i }) => {
   };
 
   return (
-    <div className="h-full">
+    <div className="">
       {data && (
         <MotionDiv
           ref={ref}
@@ -112,22 +111,25 @@ const ProductCart = ({ data, i }) => {
           animate={inView ? "inView" : "hidden"}
           transition={{
             ease: "linear",
-            duration: i * 0.6,
+            duration: i * 0.4,
           }}
           // hover:scale-[1.02]
-          className="shadow-md rounded-lg flex flex-col transition-all duration-500 ease-in-out hover:shadow-xl"
+          className="shadow-xl shadow-gray-300 rounded-md flex flex-col transition-all duration-500 ease-in-out hover:shadow-gray-400"
         >
           <Link className="" href={`/products/${data?.slug}`}>
             <div className="relative">
-              {data?.variant[0]?.imageUrl[0] && (
-                <Image
-                  src={data?.variant[0]?.imageUrl[0]}
-                  alt={data.productName}
-                  width={384}
-                  height={512}
-                  className="rounded-t-lg w-full h-auto"
-                />
-              )}
+              <div className="">
+                {data?.variant[0]?.imageUrl[0] && (
+                  <Image
+                    src={data?.variant[0]?.imageUrl[0]}
+                    alt={data.productName}
+                    width={384}
+                    height={512}
+                    // placeholder="blur"
+                    className="rounded-t-lg w-full h-auto"
+                  />
+                )}
+              </div>
 
               {/* <div className="absolute top-2 left-2">
                 {CalculatePercentageValue()}
@@ -146,17 +148,15 @@ const ProductCart = ({ data, i }) => {
               </div>
             </div>
           </Link>
-          <div className="min-h-20 text-left my-3 mx-2">
+          <div className="h-20 text-left my-3 mx-2">
+            <p className="text-sm font-semibold my-2 text-gray-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis">
+              {data?.productName}
+            </p>
             <div className="flex flex-wrap items-center gap-2">
               {getSalePrice()} {/* calculate sale price  */}
               {getRegularPrice()}
               {CalculatePercentageValue()}
             </div>
-            <p className="text-xs font-semibold my-2 text-gray-500">
-              {data?.productName.length > 25
-                ? `${data.productName.slice(0, 25)}...`
-                : data?.productName}
-            </p>
 
             {/* <div className="flex items-center justify-between">
               {data?.preOrder && (

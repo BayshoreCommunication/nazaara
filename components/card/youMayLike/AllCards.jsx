@@ -15,7 +15,7 @@ const AllCards = ({ randomProducts }) => {
     <>
       {randomProducts.data.length >= 1 && (
         <>
-          <div className="flex gap-4 md:hidden card-mobile">
+          {/* <div className="flex gap-4 md:hidden card-mobile">
             <Swiper
               slidesPerView={2}
               spaceBetween={10}
@@ -48,8 +48,8 @@ const AllCards = ({ randomProducts }) => {
                 </SwiperSlide>
               ))}
             </Swiper>
-          </div>
-          <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
+          </div> */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 lg:gap-6">
             {randomProducts.data.map((data, i) => (
               <div key={i}>
                 <ProductCart data={data} i={i} />
