@@ -7,7 +7,7 @@ const SingleCard = ({ subCategoryData }) => {
   return (
     <>
       {subCategoryData && (
-        <div className="w-full relative rounded-sm overflow-hidden h-[15.5rem] sm:h-[20rem] lg:h-[16rem] xl:h-[22rem] 2xl:h-[24rem]">
+        <div className="w-full relative rounded-sm overflow-hidden h-[15.5rem] sm:h-[20rem] lg:h-[16rem] xl:h-[20rem] 2xl:h-[24rem]">
           <Link href={`/category/${subCategoryData?.slug}`}>
             {subCategoryData?.featuredImage ? (
               <Image

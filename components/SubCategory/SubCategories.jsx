@@ -53,7 +53,26 @@ const AllSubCategoriesCard = ({ data }) => {
               ))}
             </Swiper>
           </div>
-          <div className="hidden lg:block homeSwiper">
+          <div className="hidden lg:block xl:hidden homeSwiper">
+            <Swiper
+              modules={[Navigation]}
+              loop={true}
+              navigation={true}
+              slidesPerView={4}
+              spaceBetween={10}
+              autoplay={{
+                delay: 3000,
+              }}
+              className="mySwiper"
+            >
+              {data?.data?.map((elem, i) => (
+                <SwiperSlide key={i}>
+                  <SingleCard subCategoryData={elem} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className="hidden xl:block homeSwiper">
             <Swiper
               modules={[Navigation]}
               loop={true}

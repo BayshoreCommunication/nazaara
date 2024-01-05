@@ -15,7 +15,7 @@ const AllCards = ({ bestSellingProducts }) => {
     <>
       {bestSellingProducts.data[0].products.length >= 1 && (
         <>
-          <div className="flex gap-4 md:hidden card-mobile">
+          <div className="md:hidden">
             <Swiper
               slidesPerView={2}
               spaceBetween={10}
@@ -32,7 +32,7 @@ const AllCards = ({ bestSellingProducts }) => {
               ))}
             </Swiper>
           </div>
-          <div className=" gap-4 hidden md:flex lg:hidden card-mobile">
+          <div className="hidden md:block lg:hidden">
             <Swiper
               slidesPerView={3}
               spaceBetween={10}

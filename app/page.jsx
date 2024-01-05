@@ -57,7 +57,7 @@ const Home = () => {
 
         {/* BOOK AN APPOINTMENT start */}
         <div>
-          <h1 className="card-title">BOOK AN APPOINTMENT</h1>
+          <h1 className="card-title">CONTACT WITH US</h1>
           <div className="">
             <BookAppointment />
           </div>
