@@ -32,21 +32,21 @@ const DesktopFooter = () => {
                 <FaFacebook size={25} color="white" />
               </Link>
               <Link
-                href="https://www.youtube.com/nazaara.official?fbclid=IwAR3axfJUOdbHRfuR93fXm-NNLaLK7n4CO0yEEpkHxD8Rzb00ko8yhVZlj-s"
+                href="https://www.youtube.com/@nazaara.official"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaYoutube size={25} color="white" />
               </Link>
               <Link
-                href="https://www.instagram.com/nazaara.official/?fbclid=IwAR305164AqRBu_pOQIImJKLP6poo2C_Ii4KH43lc9_BHr_PDGfQagzPZP9U"
+                href="https://www.instagram.com/nazaara.official"
                 target="_blank"
                 // className="border p-2 rounded-full"
               >
                 <FaInstagram size={25} color="white" />
               </Link>
               <Link
-                href="https://www.tiktok.com/@nazaara.official?fbclid=IwAR0rkTpZgt_8CGnL3K5ubsS_xXsfapdV7B9VPS-5TO0J_XS-EAx5tiIh4Iw"
+                href="https://www.tiktok.com/@nazaara.official"
                 target="_blank"
               >
                 <FaTiktok size={25} color="white" />

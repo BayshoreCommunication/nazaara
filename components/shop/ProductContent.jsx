@@ -22,7 +22,7 @@ const ProductContent = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=15&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=10&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);

@@ -145,27 +145,27 @@ const MobileFooter = () => {
       <div>
         <div className="flex justify-center gap-x-6 mb-6">
           <Link
-            href="https://www.facebook.com/EliteSpaFlorida/"
+            href="https://www.facebook.com/nazaara.official/"
             target="_blank"
             // className="border p-2 rounded-full"
           >
             <FaFacebook size={30} color="white" />
           </Link>
           <Link
-            href="https://www.youtube.com/"
+            href="https://www.youtube.com/@nazaara.official"
             target="_blank"
             // className="border p-2 rounded-full"
           >
             <FaYoutube size={30} color="white" />
           </Link>
           <Link
-            href="https://www.instagram.com/Elite_spa7/"
+            href="https://www.instagram.com/nazaara.official"
             target="_blank"
             // className="border p-2 rounded-full"
           >
             <FaInstagram size={30} color="white" />
           </Link>
-          <Link href="https://www.instagram.com/Elite_spa7/" target="_blank">
+          <Link href="https://www.tiktok.com/@nazaara.official" target="_blank">
             <FaTiktok size={30} color="white" />
           </Link>
         </div>
