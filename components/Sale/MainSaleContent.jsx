@@ -21,7 +21,7 @@ const MainSaleContent = ({ data, i }) => {
         ease: "linear",
         duration: i * 0.8,
       }}
-      className="w-full relative rounded-sm overflow-hidden h-[15.5rem] sm:h-[22rem] lg:h-[22rem] xl:h-[24rem] 2xl:h-[36rem] shadow-lg shadow-gray-300 hover:shadow-xl hover:shadow-gray-400 transition-all duration-1000 ease-in-out border-[3px] border-secondary-color"
+      className="w-full relative rounded-sm overflow-hidden h-[15.5rem] sm:h-[22rem] lg:min-h-[20rem] lg:max-h-[22rem] xl:min-h-[24rem] xl:max-[26rem] 2xl:min-h-[30rem] 2xl:max-h-[30rem] shadow-lg shadow-gray-300 hover:shadow-xl hover:shadow-gray-400 transition-all duration-1000 ease-in-out border-[3px] border-secondary-color"
     >
       <Link href={`/sale/${data.slug}`}>
         {data.featuredImage ? (

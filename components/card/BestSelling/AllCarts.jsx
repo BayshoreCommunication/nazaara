@@ -26,7 +26,7 @@ const AllCards = ({ bestSellingProducts }) => {
               className="mySwiper"
             >
               {bestSellingProducts.data[0].products.map((data, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide className="!h-auto" key={i}>
                   <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
@@ -43,7 +43,7 @@ const AllCards = ({ bestSellingProducts }) => {
               className="mySwiper"
             >
               {bestSellingProducts.data[0].products.map((data, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide className="!h-auto" key={i}>
                   <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
@@ -51,7 +51,7 @@ const AllCards = ({ bestSellingProducts }) => {
           </div>
           <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
             {bestSellingProducts.data[0].products.map((data, i) => (
-              <div key={i}>
+              <div className="!h-auto" key={i}>
                 <ProductCart data={data} i={i} />
               </div>
             ))}
