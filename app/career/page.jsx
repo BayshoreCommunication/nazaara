@@ -8,11 +8,11 @@ const HiringPage = () => {
   return (
     <main>
       <TopBar icon={<FaUserCircle />} title={"WE ARE HIRING"} />
-      <Suspense fallback={<Loading />}>
-        <div className="main-container">
+      <div className="main-container">
+        <Suspense fallback={<Loading />}>
           <HiringData />
-        </div>
-      </Suspense>
+        </Suspense>
+      </div>
     </main>
   );
 };
