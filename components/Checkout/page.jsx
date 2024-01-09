@@ -103,6 +103,7 @@ const CheckoutContent = ({
   const productData = cartData.map((item) => ({
     productDetails: item.product._id,
     title: item.product.productName,
+    sku: item.product.sku,
     slug: item.product.slug,
     imgUrl: item.product.variant[0].imageUrl[0],
     quantity: item.quantity,
