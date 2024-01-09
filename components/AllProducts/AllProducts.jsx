@@ -15,7 +15,6 @@ import Color from "../shop/Color";
 import SortBy from "../shop/SortBy";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper";
-import Pagination from "./Pagination";
 
 const AllProducts = (props) => {
   const allProducts = props.data;

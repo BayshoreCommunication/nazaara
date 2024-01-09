@@ -27,15 +27,18 @@ const CheckoutContent = ({
 
   useEffect(() => {
     const isFreeShipping = cartData.map(
-      (cart) => cart?.product?.promotion?.validPromotion
+      (cart) =>
+        cart?.product?.category?.promotion?.freeShipping ||
+        cart?.product?.subCategory?.promotion?.freeShipping
     );
     const hasFreeShipping = isFreeShipping.some((value) => value === true);
 
     const isPromotion = cartData.map(
-      (cart) => cart?.product?.promotion?.freeShipping
+      (cart) =>
+        cart?.product?.category?.promotion?.validPromotion ||
+        cart?.product?.subCategory?.promotion?.validPromotion
     );
     const hasPromotion = isPromotion.some((value) => value === true);
-    // console.log("usferee", hasFreeShipping);
 
     // Set the state based on the condition
     setIsFreeShipping(hasFreeShipping);
@@ -60,16 +63,27 @@ const CheckoutContent = ({
     //   subTotal = subTotal + data.product.salePrice * data.quantity;
     // });
     cartData.forEach((detail) => {
-      subTotal =
-        subTotal +
-        calculateSalePrice(
-          detail?.product?.promotion?.validPromotion,
-          detail?.product?.promotion?.discountType,
-          detail?.product?.regularPrice,
-          detail?.product?.promotion?.discountOff,
-          detail?.product?.salePrice
-        ) *
-          detail.quantity;
+      detail?.product?.category?.promotion
+        ? (subTotal =
+            subTotal +
+            calculateSalePrice(
+              detail?.product?.category?.promotion?.validPromotion,
+              detail?.product?.category?.promotion?.discountType,
+              detail?.product?.regularPrice,
+              detail?.product?.category?.promotion?.discountOff,
+              detail?.product?.salePrice
+            ) *
+              detail?.quantity)
+        : (subTotal =
+            subTotal +
+            calculateSalePrice(
+              detail?.product?.subCategory?.promotion?.validPromotion,
+              detail?.product?.subCategory?.promotion?.discountType,
+              detail?.product?.regularPrice,
+              detail?.product?.subCategory?.promotion?.discountOff,
+              detail?.product?.salePrice
+            ) *
+              detail?.quantity);
     });
     //calculate vat
     vatIncluded = Number((subTotal * 0.07).toFixed(2));
@@ -544,14 +558,23 @@ const CheckoutContent = ({
                     </p>
                     <p className="text-sm text-gray-700">Size: {data?.size}</p>
                     <p className="text-sm text-gray-700">
-                      Price: ৳{" "}
-                      {calculateSalePrice(
-                        data?.product?.promotion?.validPromotion,
-                        data?.product?.promotion?.discountType,
-                        data?.product?.regularPrice,
-                        data?.product?.promotion?.discountOff,
-                        data?.product?.salePrice
-                      ) * data.quantity}
+                      Price: ৳
+                      {data?.product?.category?.promotion
+                        ? calculateSalePrice(
+                            data?.product?.category?.promotion?.validPromotion,
+                            data?.product?.category?.promotion?.discountType,
+                            data?.product?.regularPrice,
+                            data?.product?.category?.promotion?.discountOff,
+                            data?.product?.salePrice
+                          ) * data?.quantity
+                        : calculateSalePrice(
+                            data?.product?.subCategory?.promotion
+                              ?.validPromotion,
+                            data?.product?.subCategory?.promotion?.discountType,
+                            data?.product?.regularPrice,
+                            data?.product?.subCategory?.promotion?.discountOff,
+                            data?.product?.salePrice
+                          ) * data?.quantity}
                     </p>
                   </div>
                 </div>

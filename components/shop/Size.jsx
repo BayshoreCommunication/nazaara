@@ -16,7 +16,7 @@ const SizeAttribute = ({ elem, active, onClick }) => {
 };
 
 const Size = ({ currentSize, setCurrentSize, setCurrentPage }) => {
-  console.log("current Size", currentSize);
+  // console.log("current Size", currentSize);
   const [activeSizes, setActiveSizes] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [sizeData, setSizeData] = useState([]);

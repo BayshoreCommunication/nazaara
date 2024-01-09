@@ -77,7 +77,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
     setIsActive(newActiveColors.length > 0);
   };
 
-  console.log("isActive", isActive);
+  // console.log("isActive", isActive);
 
   return (
     <div className="group relative">

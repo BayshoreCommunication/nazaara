@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PercentageBadge from "./PercentageBadge";
 import { CalculatePercentage } from "@/helpers/CalculateDiscountPercentage";
 import { useInView } from "react-intersection-observer";
@@ -10,6 +10,19 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
 
 const ProductCart = ({ data, i }) => {
+  const [promotionData, setPromotionData] = useState(null);
+  useEffect(() => {
+    const promotionData =
+      data?.subCategory?.promotion || data?.category?.promotion;
+    if (promotionData) {
+      if (promotionData.validPromotion) {
+        setPromotionData(promotionData);
+      }
+    }
+  }, [data]);
+
+  // console.log("promotion data ", promotionData);
+
   const { ref, inView } = useInView();
   const variants = {
     hidden: { opacity: 0 },
@@ -20,15 +33,11 @@ const ProductCart = ({ data, i }) => {
 
   const CalculatePercentageValue = () => {
     if (data) {
-      if (data?.promotion && data?.promotion?.validPromotion) {
-        if (data?.promotion?.discountType === "percentage") {
-          return (
-            <PercentageBadge text={`- ${data?.promotion?.discountOff}%`} />
-          );
+      if (promotionData) {
+        if (promotionData?.discountType === "percentage") {
+          return <PercentageBadge text={`- ${promotionData?.discountOff}%`} />;
         } else {
-          return (
-            <PercentageBadge text={`৳ ${data?.promotion?.discountOff}/-`} />
-          );
+          return <PercentageBadge text={`৳ ${promotionData?.discountOff}/-`} />;
         }
       } else {
         return (
@@ -48,7 +57,7 @@ const ProductCart = ({ data, i }) => {
 
   const getRegularPrice = () => {
     if (data) {
-      if (data?.promotion && data?.promotion?.validPromotion) {
+      if (promotionData) {
         return (
           <p className="text-xs font-semibold line-through text-gray-500 flex items-center gap-[2px]">
             <span>৳</span>
@@ -70,14 +79,14 @@ const ProductCart = ({ data, i }) => {
 
   const getSalePrice = () => {
     if (data) {
-      if (data?.promotion && data?.promotion?.validPromotion) {
-        if (data?.promotion?.discountType === "percentage") {
+      if (promotionData) {
+        if (promotionData?.discountType === "percentage") {
           return (
             <p className="text-md font-bold text-gray-700 flex items-center gap-[2px]">
               <span>৳</span>{" "}
               {CalculateFixLessPercentageAmount(
                 data.regularPrice,
-                data?.promotion?.discountOff
+                promotionData?.discountOff
               )}
               /-
             </p>
@@ -85,7 +94,7 @@ const ProductCart = ({ data, i }) => {
         } else {
           return (
             <p className="text-md font-bold text-gray-700 flex items-center gap-[2px]">
-              <span>৳</span> {data?.regularPrice - data?.promotion?.discountOff}
+              <span>৳</span> {data?.regularPrice - promotionData?.discountOff}
               /-
             </p>
           );
@@ -136,16 +145,14 @@ const ProductCart = ({ data, i }) => {
                 {CalculatePercentageValue()}
               </div> */}
                 <div className="absolute top-2 left-2">
-                  {data?.promotion &&
-                    data?.promotion?.validPromotion &&
-                    data?.promotion?.freeShipping && (
-                      <p className="text-white text-xs bg-primary-color px-2 py-[2px] rounded-full">
-                        <span className="flex items-center gap-1">
-                          <MdOutlineLocalShipping size={17} />
-                          Free Shipping
-                        </span>
-                      </p>
-                    )}
+                  {promotionData && promotionData?.freeShipping && (
+                    <p className="text-white text-xs bg-primary-color px-2 py-[2px] rounded-full">
+                      <span className="flex items-center gap-1">
+                        <MdOutlineLocalShipping size={17} />
+                        Free Shipping
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
             </Link>

@@ -13,7 +13,7 @@ const MyOrdersDetailsPage = async ({ params }) => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/order/${params.id}`;
       const orderData = await fetchDynamicServerSideData(url);
-      console.log(orderData.data);
+      // console.log(orderData.data);
       if (orderData) {
         if (orderData.success) {
           return (

@@ -16,6 +16,7 @@ const ProductMainDetails = ({
   moreProductData,
 }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
+  const [promotionData, setPromotionData] = useState(null);
 
   const handleScroll = () => {
     const div = document.getElementById("leftDiv");
@@ -35,6 +36,19 @@ const ProductMainDetails = ({
 
   SwiperCore.use([Autoplay]);
 
+  useEffect(() => {
+    const promotionData =
+      productDetails?.subCategory?.promotion ||
+      productDetails?.category?.promotion;
+    if (promotionData) {
+      if (promotionData.validPromotion) {
+        setPromotionData(promotionData);
+      }
+    }
+  }, [productDetails]);
+
+  // console.log("product deatails", promotionData);
+
   return (
     <div>
       <div className="lg:flex gap-8 main-container my-4 md:my-6 lg:my-10">
@@ -48,7 +62,10 @@ const ProductMainDetails = ({
         </div>
 
         <div className="w-full lg:w-[40%] sticky top-0 h-max">
-          <ProductDetailsComponent data={productDetails} />
+          <ProductDetailsComponent
+            data={productDetails}
+            promotionData={promotionData}
+          />
           <Accordion data={productDetails} />
         </div>
       </div>

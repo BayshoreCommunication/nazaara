@@ -11,6 +11,7 @@ import { Scrollbar } from "swiper";
 import ProductCart from "../../ProductCart";
 
 const AllCards = ({ bestSellingProducts }) => {
+  // console.log("best selling", bestSellingProducts);
   return (
     <>
       {bestSellingProducts.data[0].products.length >= 1 && (

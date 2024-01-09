@@ -22,7 +22,7 @@ const Filter = ({
 
   const [isActive, setIsActive] = useState(false);
 
-  console.log("pride rtanddfs", priceRange);
+  // console.log("pride rtanddfs", priceRange);
 
   useEffect(() => {
     if (

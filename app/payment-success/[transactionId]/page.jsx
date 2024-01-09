@@ -19,7 +19,7 @@ const SuccessPage = async ({ params }) => {
         return redirect("/");
       }
       const orderData = await res.json();
-      console.log(orderData);
+      // console.log(orderData);
       if (orderData.data.user._id != userId) {
         return redirect("/");
       }

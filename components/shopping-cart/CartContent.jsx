@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import {
   useDeleteCartByUserIdAndVariantIdMutation,
@@ -15,16 +15,45 @@ import Link from "next/link";
 import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 import { revalidatePath } from "next/cache";
 import toast from "react-hot-toast";
+import ButtonOnHoverFullWidth from "../ButtonOnHoverWithFullWidth";
 
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [promotionData, setPromotionData] = useState(null);
 
   const {
     data: cartData,
     isLoading,
     refetch,
   } = useGetCartByUserIdQuery(`${userData._id}`);
+
+  // console.log("cartData", cartData);
+
+  useEffect(() => {
+    // if (cartData) {
+    const promotionData = cartData?.data?.map(
+      (data) =>
+        data?.product?.category?.promotion ||
+        data?.product?.subCategory?.promotion
+    );
+
+    // console.log("promotion teti", promotionData);
+    // if (promotionData) {
+    //   if (promotionData.validPromotion) {
+    //     setPromotionData(promotionData);
+    //   }
+    // }
+    // }
+    // const promotionData =
+    //   productDetails?.subCategory?.promotion ||
+    //   productDetails?.category?.promotion;
+    // if (promotionData) {
+    //   if (promotionData.validPromotion) {
+    //     setPromotionData(promotionData);
+    //   }
+    // }
+  }, [cartData]);
 
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
@@ -127,16 +156,27 @@ const CartContent = ({ userData }) => {
     //calculate subtotal
     let subTotal = 0;
     data.forEach((detail) => {
-      subTotal =
-        subTotal +
-        calculateSalePrice(
-          detail?.product?.promotion?.validPromotion,
-          detail?.product?.promotion?.discountType,
-          detail?.product?.regularPrice,
-          detail?.product?.promotion?.discountOff,
-          detail?.product?.salePrice
-        ) *
-          detail.quantity;
+      detail?.product?.category?.promotion
+        ? (subTotal =
+            subTotal +
+            calculateSalePrice(
+              detail?.product?.category?.promotion?.validPromotion,
+              detail?.product?.category?.promotion?.discountType,
+              detail?.product?.regularPrice,
+              detail?.product?.category?.promotion?.discountOff,
+              detail?.product?.salePrice
+            ) *
+              detail?.quantity)
+        : (subTotal =
+            subTotal +
+            calculateSalePrice(
+              detail?.product?.subCategory?.promotion?.validPromotion,
+              detail?.product?.subCategory?.promotion?.discountType,
+              detail?.product?.regularPrice,
+              detail?.product?.subCategory?.promotion?.discountOff,
+              detail?.product?.salePrice
+            ) *
+              detail?.quantity);
     });
 
     //calculate vat
@@ -212,13 +252,27 @@ const CartContent = ({ userData }) => {
                         <div className="flex flex-col gap-1">
                           <p className="text-gray-700 text-sm font-semibold">
                             ৳{" "}
-                            {calculateSalePrice(
-                              detail?.product?.promotion?.validPromotion,
-                              detail?.product?.promotion?.discountType,
-                              detail?.product?.regularPrice,
-                              detail?.product?.promotion?.discountOff,
-                              detail?.product?.salePrice
-                            ) * detail?.quantity}
+                            {detail?.product?.category?.promotion
+                              ? calculateSalePrice(
+                                  detail?.product?.category?.promotion
+                                    ?.validPromotion,
+                                  detail?.product?.category?.promotion
+                                    ?.discountType,
+                                  detail?.product?.regularPrice,
+                                  detail?.product?.category?.promotion
+                                    ?.discountOff,
+                                  detail?.product?.salePrice
+                                ) * detail?.quantity
+                              : calculateSalePrice(
+                                  detail?.product?.subCategory?.promotion
+                                    ?.validPromotion,
+                                  detail?.product?.subCategory?.promotion
+                                    ?.discountType,
+                                  detail?.product?.regularPrice,
+                                  detail?.product?.subCategory?.promotion
+                                    ?.discountOff,
+                                  detail?.product?.salePrice
+                                ) * detail?.quantity}
                             /-
                           </p>
                           <div className="relative group">
@@ -366,7 +420,7 @@ const CartContent = ({ userData }) => {
 
           {cartData?.data?.length > 0 ? (
             <Link href={"/shop/checkout"}>
-              <ButtonOnHover text={"Proceed To Checkout"} />
+              <ButtonOnHoverFullWidth text={"Proceed To Checkout"} />
             </Link>
           ) : (
             <div
@@ -374,7 +428,7 @@ const CartContent = ({ userData }) => {
                 toast.error("Please add some products to continue!")
               }
             >
-              <ButtonOnHover text={"Proceed To Checkout"} />
+              <ButtonOnHoverFullWidth text={"Proceed To Checkout"} />
             </div>
           )}
         </div>
