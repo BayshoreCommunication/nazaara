@@ -35,15 +35,19 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
     const fetchData = async () => {
       setLoading(false);
 
+      const filteredData = product
+        .filter((product) => product.status !== "draft") // Exclude products with draft status
+        .filter((product) => product.stock > 0 || product.preOrder === true);
+
       // Your existing filtering logic here
       const colorFilteredData =
         selectedColors.length > 0
-          ? product?.filter((product) =>
+          ? filteredData?.filter((product) =>
               product.variant.some((variant) =>
                 selectedColors.includes(variant.color)
               )
             )
-          : product;
+          : filteredData;
 
       const priceFilteredData = colorFilteredData.filter(
         (product) =>
