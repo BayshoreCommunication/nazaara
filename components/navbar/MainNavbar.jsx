@@ -9,12 +9,13 @@ async function getData() {
   if (userData) {
     const data = JSON.parse(userData?.value);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
+    console.log("url", url);
     const res = await fetch(url, {
       next: { revalidate: 0 },
     });
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
+    // if (!res.ok) {
+    //   throw new Error("Failed to fetch data");
+    // }
     return res.json();
   }
 }
