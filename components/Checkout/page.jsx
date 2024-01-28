@@ -110,6 +110,14 @@ const CheckoutContent = ({
     color: item.color,
     size: item.size,
     sizeChart: item.sizeChart,
+    salePrice: item.product.salePrice,
+    offeredPrice: calculateSalePrice(
+      item?.product?.category?.promotion?.validPromotion,
+      item?.product?.category?.promotion?.discountType,
+      item?.product?.regularPrice,
+      item?.product?.category?.promotion?.discountOff,
+      item?.product?.salePrice
+    ),
   }));
 
   //handle the coupon
