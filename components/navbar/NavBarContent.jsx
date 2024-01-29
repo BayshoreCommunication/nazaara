@@ -66,6 +66,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
               width={1000}
               height={400}
               alt="Nazaara Promotion"
+              className="rounded-xl"
             />
           </Link>
         </div>
