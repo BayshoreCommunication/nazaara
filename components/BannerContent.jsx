@@ -25,9 +25,9 @@ const BannerContent = ({ data }) => {
       }}
       className="relative overflow-hidden"
     >
-      {data?.image && (
+      {data?.imageUrl && (
         <Image
-          src={data?.image}
+          src={data?.imageUrl}
           alt="bridal_top"
           width={2040}
           height={981}
@@ -56,7 +56,7 @@ const BannerContent = ({ data }) => {
             }}
             className="text-xs lg:text-base font-semibold lg:font-medium"
           >
-            {data?.topHeading}
+            {data?.topText}
           </MotionDiv>
           <MotionDiv
             animate={
@@ -79,10 +79,7 @@ const BannerContent = ({ data }) => {
           >
             {data?.mainHeading}
           </MotionDiv>
-          <Link
-            target="_blank"
-            href="https://www.youtube.com/live/bFc1Ttj8np4?si=BmqSogD_DQz5BOtj"
-          >
+          <Link target="_blank" href={data?.btnLink}>
             <MotionDiv
               animate={
                 inView
@@ -102,10 +99,10 @@ const BannerContent = ({ data }) => {
               }}
             >
               <button className="lg:hidden text-white bg-primary-color px-3 py-1 text-xs lg:text-base rounded-md uppercase flex items-center gap-1">
-                <FaPlayCircle /> VIEW
+                <FaPlayCircle /> {data?.btnText}
               </button>
               <span className="hidden lg:block">
-                <ButtonOnHover text={"VIEW"} icon={<FaPlayCircle />} />
+                <ButtonOnHover text={data?.btnText} icon={<FaPlayCircle />} />
               </span>
             </MotionDiv>
           </Link>

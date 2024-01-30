@@ -37,7 +37,7 @@ const AboutUs = async () => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row justify-center gap-14 mt-10">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-14 mt-10">
               {aboutData?.otherEmployeesData?.map((data, index) => (
                 <div key={index} className="flex items-center flex-col">
                   <Image
