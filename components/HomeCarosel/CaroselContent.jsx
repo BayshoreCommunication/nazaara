@@ -41,14 +41,14 @@ const CaroselContent = ({ data }) => {
         }}
       >
         <div className="">
-          {data.map((slide, index) => (
-            <SwiperSlide key={index}>
-              {slide?.image && (
-                <Link href={`/`}>
+          {data.map((slide) => (
+            <SwiperSlide key={data._id}>
+              {slide?.imageUrl && (
+                <Link href={slide.link}>
                   <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">
                     <Image
-                      src={slide?.image}
-                      alt="My Image"
+                      src={slide?.imageUrl}
+                      alt="Carosel Image"
                       quality={100}
                       fill
                       sizes="100vw"
@@ -57,15 +57,6 @@ const CaroselContent = ({ data }) => {
                   </div>
                 </Link>
               )}
-
-              {/* <div className="absolute bottom-10 sm:bottom-16 left-10 sm:left-16 text-white">
-                <p className="text-xl font-normal">{slide?.topHeading}</p>
-                <h2 className="my-4 font-bold text-4xl lg:text-6xl">
-                  {slide?.mainHeading}
-                </h2>
-                <p className="mb-4 text-xl font-thin">{slide?.bottomHeading}</p>
-                <Button text="Shop Now" />
-              </div> */}
             </SwiperSlide>
           ))}
         </div>
