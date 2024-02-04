@@ -1,21 +1,20 @@
 "use client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { MdDeleteForever } from "react-icons/md";
+import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 import {
   useDeleteCartByUserIdAndVariantIdMutation,
   useGetCartByUserIdQuery,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
-import { BeatLoader } from "react-spinners";
-import ButtonOnHover from "../ButtonOnHover";
-import { FaHandPointLeft, FaTimes } from "react-icons/fa";
-import NoProductFound from "../NoProductFound";
-import Link from "next/link";
-import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaHandPointLeft, FaTimes } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { BeatLoader } from "react-spinners";
 import ButtonOnHoverFullWidth from "../ButtonOnHoverWithFullWidth";
+import NoProductFound from "../NoProductFound";
 
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
@@ -214,7 +213,7 @@ const CartContent = ({ userData }) => {
               <>
                 {data.map((detail, index) => (
                   <div
-                    key={index}
+                    key={detail._id}
                     className="flex justify-between items-center border-b border-gray-300 pb-5"
                   >
                     {detail?.product && (

@@ -1,20 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { Scrollbar } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import PendingShipBadge from "../PendingShipBadge";
 import PercentageBadge from "../PercentageBadge";
 import ReadyToShipBadge from "../ReadyToShipBadge";
-import PendingShipBadge from "../PendingShipBadge";
-import Filter from "../shop/Filter";
 import Brand from "../shop/Brand";
-import Size from "../shop/Size";
-import Price from "../shop/Price";
-import Discount from "../shop/Discount";
-import Delivery from "../shop/Delivery";
 import Color from "../shop/Color";
+import Delivery from "../shop/Delivery";
+import Discount from "../shop/Discount";
+import Filter from "../shop/Filter";
+import Price from "../shop/Price";
+import Size from "../shop/Size";
 import SortBy from "../shop/SortBy";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper";
 
 const AllProducts = (props) => {
   const allProducts = props.data;
@@ -78,8 +77,8 @@ const AllProducts = (props) => {
           {/* {[...Array(12)].map((x, i) => (
             <SingleCard key={i} />
           ))} */}
-          {allProducts.map((data, i) => (
-            <div key={i}>
+          {allProducts.map((data) => (
+            <div key={data?._id}>
               <Link href={`/products/${data?._id}`}>
                 <div className="relative">
                   {data?.variant[0]?.imageUrl[0] && (

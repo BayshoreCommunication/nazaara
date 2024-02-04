@@ -2,13 +2,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import Size from "./Size";
-import Price from "./Price";
+import NoProductFound from "../NoProductFound";
+import ProductCart from "../ProductCart";
 import Category from "./Category";
 import Color from "./Color";
 import Filter from "./Filter";
-import NoProductFound from "../NoProductFound";
-import ProductCart from "../ProductCart";
+import Price from "./Price";
+import Size from "./Size";
 
 const ProductContent = () => {
   const [data, setData] = useState({});
@@ -173,7 +173,7 @@ const ProductContent = () => {
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:gap-6 my-10">
           {data?.product?.map((data, i) => (
-            <ProductCart key={i} data={data} i={i} />
+            <ProductCart key={data._id} data={data} i={i} />
           ))}
         </div>
       )}

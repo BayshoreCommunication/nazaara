@@ -1,21 +1,16 @@
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 // import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 // import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  // FacebookAuthProvider,
-} from "firebase/auth";
 import usefetch from "@/customhooks/usefetch";
-import { setCookie } from "cookies-next";
-import Link from "next/link";
 import firebase_app from "@/firebase/config";
-import { toast } from "react-hot-toast";
 import axios from "axios";
+import { setCookie } from "cookies-next";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 const SignIn = ({ setAuth }) => {
   const router = useRouter();
@@ -39,7 +34,7 @@ const SignIn = ({ setAuth }) => {
         const url = `${process.env.API_URL}/api/v1/auth/${userGoogle}`;
         // console.log("url", url);
         const userAuthCredential = await usefetch(url);
-        console.log("userAuthCredential", userAuthCredential);
+        // console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(

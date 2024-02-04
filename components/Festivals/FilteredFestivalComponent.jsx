@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import ProductCart from "../ProductCart";
 import Pagination from "../Pagination";
+import ProductCart from "../ProductCart";
 
 const FilteredFestivalComponent = ({
   data,
@@ -62,7 +62,10 @@ const FilteredFestivalComponent = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 xl:gap-6">
             {currentProducts.map((data, i) => (
-              <div key={i} className="transition-all duration-500 ease-in-out">
+              <div
+                key={data._id}
+                className="transition-all duration-500 ease-in-out"
+              >
                 <ProductCart data={data} i={i} />
               </div>
             ))}

@@ -1,6 +1,5 @@
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import Image from "next/image";
-import React from "react";
 
 const AboutUs = async () => {
   const url = `${process.env.API_URL}/api/v1/customization`;
@@ -39,7 +38,7 @@ const AboutUs = async () => {
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-14 mt-10">
               {aboutData?.otherEmployeesData?.map((data, index) => (
-                <div key={index} className="flex items-center flex-col">
+                <div key={data?._id} className="flex items-center flex-col">
                   <Image
                     src={data?.image}
                     alt="Nazaara employee data"

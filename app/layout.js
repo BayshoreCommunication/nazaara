@@ -1,9 +1,11 @@
-import "./globals.css";
 import Footer from "@/components/footer/Footer";
-import { Toaster } from "react-hot-toast";
+import MainNavbar from "@/components/navbar/MainNavbar";
 import { Providers } from "@/store/provider";
 import { Inter } from "next/font/google";
-import MainNavbar from "@/components/navbar/MainNavbar";
+import { Suspense } from "react";
+import { Toaster } from "react-hot-toast";
+import "./globals.css";
+import Loading from "./loading";
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
   subsets: ["latin"],
@@ -18,8 +20,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <MainNavbar />
-          {children}
-          {/* <ModalPopup /> */}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
           <Footer />
         </Providers>
       </body>

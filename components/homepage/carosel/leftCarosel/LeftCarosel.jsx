@@ -1,18 +1,18 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
-  Pagination,
   Autoplay,
-  Navigation,
   EffectCreative,
+  Navigation,
+  Pagination,
 } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/effect-creative";
 import Image from "next/image";
 import Link from "next/link";
+import "swiper/css";
+import "swiper/css/effect-creative";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const LeftCarosel = ({ data }) => {
   SwiperCore.use([Autoplay]);
@@ -42,7 +42,7 @@ const LeftCarosel = ({ data }) => {
       >
         <div className="">
           {data.map((slide, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={slide._id}>
               {slide?.image && (
                 <Link href={`/products`}>
                   <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">

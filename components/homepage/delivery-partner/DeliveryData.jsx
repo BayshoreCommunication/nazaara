@@ -3,11 +3,11 @@ import Image from "next/image";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/scrollbar";
-import { Scrollbar } from "swiper";
 import { MotionDiv } from "@/components/MotionDiv";
 import { useInView } from "react-intersection-observer";
+import { Scrollbar } from "swiper";
+import "swiper/css";
+import "swiper/css/scrollbar";
 
 const DeliveryData = ({ data }) => {
   const { ref, inView } = useInView();
@@ -30,7 +30,7 @@ const DeliveryData = ({ data }) => {
       >
         {data.map((data, index) => (
           <Image
-            key={index}
+            key={data._id}
             src={data}
             quality={90}
             alt="our_order_delivery_partner_image"
@@ -51,7 +51,7 @@ const DeliveryData = ({ data }) => {
           className="mySwiper"
         >
           {data.map((image) => (
-            <SwiperSlide key={image}>
+            <SwiperSlide key={data._id}>
               {image && (
                 <Image
                   src={image}
@@ -77,7 +77,7 @@ const DeliveryData = ({ data }) => {
           className="mySwiper"
         >
           {data.map((image) => (
-            <SwiperSlide key={image}>
+            <SwiperSlide key={data._id}>
               {image && (
                 <Image
                   src={image}

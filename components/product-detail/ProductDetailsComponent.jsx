@@ -1,24 +1,23 @@
-import { BsBoxArrowUp, BsShield } from "react-icons/bs";
-import { TiDelete } from "react-icons/ti";
-import { TbTruckDelivery } from "react-icons/tb";
-import { RxDotFilled } from "react-icons/rx";
-import { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
-import { toast } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "@/store/cartSlice";
 import { currentColor } from "@/store/imgFilterSlice";
+import { getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { RxDotFilled } from "react-icons/rx";
+import { TbTruckDelivery } from "react-icons/tb";
+import { TiDelete } from "react-icons/ti";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useRouter } from "next/navigation";
+import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
 import {
   useCreateNewCartMutation,
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
-import PercentageBadge from "../PercentageBadge";
+import { useRouter } from "next/navigation";
+import { BiSolidOffer } from "react-icons/bi";
 import { FaCartPlus } from "react-icons/fa";
 import { BeatLoader } from "react-spinners";
-import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
-import { BiSolidOffer } from "react-icons/bi";
+import PercentageBadge from "../PercentageBadge";
 
 const ProductDetailsComponent = ({ data, promotionData }) => {
   const router = useRouter();
@@ -272,7 +271,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
             <div className="flex items-center gap-2">
               {data.variant.map((data, i) => (
                 <button
-                  key={i}
+                  key={data._id}
                   onClick={() => {
                     setGetColor(data?.color);
                     dispatch(currentColor(data.color));

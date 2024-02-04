@@ -27,7 +27,7 @@ const SimilarProductsCarosel = ({ data }) => {
               className="mySwiper"
             >
               {data.map((data, i) => (
-                <SwiperSlide className="!h-auto" key={i}>
+                <SwiperSlide className="!h-auto" key={data._id}>
                   <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
@@ -44,7 +44,7 @@ const SimilarProductsCarosel = ({ data }) => {
               className="mySwiper"
             >
               {data.map((data, i) => (
-                <SwiperSlide className="!h-auto" key={i}>
+                <SwiperSlide className="!h-auto" key={data._id}>
                   <ProductCart data={data} i={i} />
                 </SwiperSlide>
               ))}
@@ -52,7 +52,7 @@ const SimilarProductsCarosel = ({ data }) => {
           </div>
           <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-6">
             {data.map((data, i) => (
-              <div key={i}>
+              <div key={data._id}>
                 <ProductCart data={data} i={i} />
               </div>
             ))}

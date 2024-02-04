@@ -1,15 +1,14 @@
-import React from "react";
-import MobileFooter from "./MobileFooter";
-import DesktopFooter from "./DesktopFooter";
-import Subscribe from "../Subscribe";
-import ScrollTopButton from "../ScrollToTop";
 import { cookies } from "next/headers";
+import ScrollTopButton from "../ScrollToTop";
 import { SetCartDataToRedux } from "../SetCartDataToRedux";
+import Subscribe from "../Subscribe";
+import DesktopFooter from "./DesktopFooter";
+import MobileFooter from "./MobileFooter";
 
 async function getData() {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
-  console.log("user data", userData);
+  // console.log("user data", userData);
   if (userData) {
     const data = JSON.parse(userData?.value);
     // console.log("data", data);

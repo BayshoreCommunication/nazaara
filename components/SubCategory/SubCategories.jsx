@@ -1,7 +1,7 @@
 "use client";
 // Import Swiper React components
+import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Autoplay, Navigation } from "swiper";
 
 import "swiper/css/navigation";
 
@@ -14,10 +14,9 @@ import { Scrollbar } from "swiper";
 import SingleCard from "./SingleCard";
 
 const AllSubCategoriesCard = ({ data }) => {
-  SwiperCore.use([Autoplay]);
   return (
     <>
-      {data?.data?.length > 0 && (
+      {data && data.data.length > 0 && (
         <>
           <div className="md:hidden">
             <Swiper
@@ -29,8 +28,8 @@ const AllSubCategoriesCard = ({ data }) => {
               modules={[Scrollbar]}
               className="mySwiper"
             >
-              {data?.data?.map((elem, i) => (
-                <SwiperSlide key={i}>
+              {data?.data?.map((elem) => (
+                <SwiperSlide key={elem._id}>
                   <SingleCard subCategoryData={elem} />
                 </SwiperSlide>
               ))}
@@ -46,8 +45,8 @@ const AllSubCategoriesCard = ({ data }) => {
               modules={[Scrollbar]}
               className="mySwiper"
             >
-              {data?.data?.map((elem, i) => (
-                <SwiperSlide key={i}>
+              {data?.data?.map((elem) => (
+                <SwiperSlide key={elem._id}>
                   <SingleCard subCategoryData={elem} />
                 </SwiperSlide>
               ))}
@@ -65,8 +64,8 @@ const AllSubCategoriesCard = ({ data }) => {
               }}
               className="mySwiper"
             >
-              {data?.data?.map((elem, i) => (
-                <SwiperSlide key={i}>
+              {data?.data?.map((elem) => (
+                <SwiperSlide key={elem._id}>
                   <SingleCard subCategoryData={elem} />
                 </SwiperSlide>
               ))}
@@ -85,7 +84,7 @@ const AllSubCategoriesCard = ({ data }) => {
               className="mySwiper"
             >
               {data?.data?.map((elem, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide key={elem._id}>
                   <SingleCard subCategoryData={elem} />
                 </SwiperSlide>
               ))}

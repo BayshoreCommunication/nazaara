@@ -1,7 +1,6 @@
-import React from "react";
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import { cookies } from "next/headers";
 import NavBarContent from "./NavBarContent";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 
 async function getData() {
   const cookieData = cookies();
@@ -9,7 +8,7 @@ async function getData() {
   if (userData) {
     const data = JSON.parse(userData?.value);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
-    console.log("url", url);
+    // console.log("url", url);
     const res = await fetch(url, {
       next: { revalidate: 0 },
     });
