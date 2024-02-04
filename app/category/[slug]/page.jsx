@@ -1,6 +1,9 @@
-import React from "react";
 import DynamicSubCategoryContent from "@/components/SubCategory/DynamicSubCategory/DynamicSubCategoryContent";
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+
+export const metadata = {
+  title: "Category",
+};
 
 const SubCategoryPage = async ({ params }) => {
   const url = `${process.env.API_URL}/api/v1/sub-category/slug/${params.slug}`;
@@ -13,10 +16,10 @@ const SubCategoryPage = async ({ params }) => {
   // console.log("subCategoryData", subCategoryData);
   return (
     <main>
-        <DynamicSubCategoryContent
-          data={subCategoryData}
-          subCategoryData={data}
-        />
+      <DynamicSubCategoryContent
+        data={subCategoryData}
+        subCategoryData={data}
+      />
     </main>
   );
 };

@@ -1,8 +1,12 @@
-import { Suspense } from "react";
-import TopBar from "@/components/TopBar";
-import { BsQuestionCircleFill } from "react-icons/bs";
-import Loading from "../loading";
 import FaqData from "@/components/Faq/FaqData";
+import { Loader } from "@/components/Loader";
+import TopBar from "@/components/TopBar";
+import { Suspense } from "react";
+import { BsQuestionCircleFill } from "react-icons/bs";
+
+export const metadata = {
+  title: "Faq",
+};
 
 const FaqPage = () => {
   return (
@@ -13,7 +17,7 @@ const FaqPage = () => {
           FREQUENTLY ASKED QUESTIONS BY CUSTOMERS
         </h2>
         {/* faq component  */}
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loader height={"h-[60vh]"} />}>
           <FaqData />
         </Suspense>
       </div>

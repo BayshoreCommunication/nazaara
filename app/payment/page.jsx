@@ -1,7 +1,8 @@
 import Navigation from "@/components/paymentNav/Navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { AiOutlineRollback } from "react-icons/ai";
+
+export const metadata = {
+  title: "Payment",
+};
 
 const Payment = () => {
   return (

@@ -1,6 +1,10 @@
 import TopBar from "@/components/TopBar";
 import { MdPrivacyTip } from "react-icons/md";
 
+export const metadata = {
+  title: "Privacy-Policy",
+};
+
 const Privacy = () => {
   return (
     <main>

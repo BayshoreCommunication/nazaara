@@ -1,6 +1,10 @@
 import TopBar from "@/components/TopBar";
 import { IoLocationSharp } from "react-icons/io5";
 
+export const metadata = {
+  title: "Location",
+};
+
 const LocationPage = () => {
   return (
     <div>

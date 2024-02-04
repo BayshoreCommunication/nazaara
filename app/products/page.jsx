@@ -1,9 +1,8 @@
-import React from "react";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import MainContent from "@/components/recommendedProducts/MainContent";
+import RouterBack from "@/helpers/RouterBack";
+import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
 import { FaShoppingBag } from "react-icons/fa";
 import { TbCategoryFilled } from "react-icons/tb";
-import RouterBack from "@/helpers/RouterBack";
 
 const RecommendedProductsPage = async ({ searchParams }) => {
   // console.log("search params", searchParams);

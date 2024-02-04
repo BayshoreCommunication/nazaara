@@ -1,8 +1,11 @@
 import FestivalComponent from "@/components/Festivals/SingleFestivalContent";
 import TopBar from "@/components/TopBar";
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
-import React from "react";
 import { FaGift } from "react-icons/fa";
+
+export const metadata = {
+  title: "Festival",
+};
 
 const FestivalPage = async ({ params }) => {
   const url = `${process.env.API_URL}/api/v1/festival/slug/${params.slug}`;

@@ -1,6 +1,9 @@
-import React from "react";
 import TopBar from "@/components/TopBar";
 import { BsFillClipboardCheckFill } from "react-icons/bs";
+
+export const metadata = {
+  title: "Terms-Of-Use",
+};
 
 const TermsOfUsePage = () => {
   return (

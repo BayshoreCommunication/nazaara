@@ -1,8 +1,12 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+
+export const metadata = {
+  title: "Forgot-Password",
+};
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState();

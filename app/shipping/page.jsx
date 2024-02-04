@@ -1,6 +1,9 @@
 import TopBar from "@/components/TopBar";
-import React from "react";
 import { FaTruck } from "react-icons/fa";
+
+export const metadata = {
+  title: "Shipping",
+};
 
 const ShippingDelivery = () => {
   return (

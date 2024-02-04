@@ -4,6 +4,10 @@ import ProductContent from "@/components/shop/ProductContent";
 import { FaBox } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 
+export const metadata = {
+  title: "Shop",
+};
+
 const Products = () => {
   return (
     <main>

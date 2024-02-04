@@ -1,6 +1,9 @@
-import React from "react";
 import { FaTruck } from "react-icons/fa";
 import { GiBinoculars } from "react-icons/gi";
+
+export const metadata = {
+  title: "Order-Track",
+};
 
 const OrderTrack = () => {
   return (

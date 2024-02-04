@@ -1,7 +1,10 @@
 import TopBar from "@/components/TopBar";
 import Link from "next/link";
-import React from "react";
 import { AiFillExclamationCircle } from "react-icons/ai";
+
+export const metadata = {
+  title: "Disclaimer",
+};
 
 const DisclaimerPage = () => {
   return (

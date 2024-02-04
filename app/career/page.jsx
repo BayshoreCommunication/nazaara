@@ -1,15 +1,19 @@
 import HiringData from "@/components/Hiring/HiringData";
+import { Loader } from "@/components/Loader";
 import TopBar from "@/components/TopBar";
 import { Suspense } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import Loading from "../loading";
+
+export const metadata = {
+  title: "Career",
+};
 
 const HiringPage = () => {
   return (
     <main>
       <TopBar icon={<FaUserCircle />} title={"WE ARE HIRING"} />
       <div className="main-container">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loader height={"h-[60vh]"} />}>
           <HiringData />
         </Suspense>
       </div>

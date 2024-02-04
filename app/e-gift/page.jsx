@@ -2,6 +2,10 @@ import TopBar from "@/components/TopBar";
 import Image from "next/image";
 import { FaGift } from "react-icons/fa";
 
+export const metadata = {
+  title: "E-Gift",
+};
+
 const EGift = () => {
   return (
     <main>

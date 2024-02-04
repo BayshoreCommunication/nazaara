@@ -2,6 +2,10 @@ import TopBar from "@/components/TopBar";
 import AboutUs from "@/components/about-us/AboutUs";
 import { BsFillPersonFill } from "react-icons/bs";
 
+export const metadata = {
+  title: "About",
+};
+
 const AboutUsPage = async () => {
   return (
     <main>

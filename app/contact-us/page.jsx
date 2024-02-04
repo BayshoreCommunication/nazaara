@@ -2,6 +2,10 @@ import ContactForm from "@/components/contact/ContactForm";
 import TopBar from "@/components/TopBar";
 import { AiFillMessage } from "react-icons/ai";
 
+export const metadata = {
+  title: "Contact",
+};
+
 const Contact = () => {
   return (
     <div>
