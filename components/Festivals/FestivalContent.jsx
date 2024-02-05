@@ -29,7 +29,6 @@ const FestivalContent = ({ data, i }) => {
             src={`${data.featuredImage}`}
             alt={`featured image for ${data.slug}`}
             fill
-            sizes="100vw"
             className="object-cover transition-all duration-1000 ease-in-out hover:scale-110"
           />
         ) : (
@@ -37,7 +36,6 @@ const FestivalContent = ({ data, i }) => {
             src={`/images/image-not-found.jpg`}
             alt={`featured image for ${data.slug}`}
             fill
-            sizes="100vw"
             className="object-cover"
           />
         )}

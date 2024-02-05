@@ -29,9 +29,10 @@ const BannerContent = ({ data }) => {
         <Image
           src={data?.imageUrl}
           alt="bridal_top"
-          width={2040}
-          height={981}
-          className="w-full h-30 lg:h-auto"
+          width={1900}
+          height={582}
+          quality={90}
+          className="w-full h-auto"
         />
       )}
 

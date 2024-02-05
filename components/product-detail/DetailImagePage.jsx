@@ -60,7 +60,7 @@ const DetailImage = ({ productData }) => {
                   alt="dress"
                   src={item.original}
                   fill
-                  sizes="(min-width: 808px) 50vw, 100vw"
+                  quality={80}
                   style={{
                     objectFit: "cover",
                   }}
