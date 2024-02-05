@@ -30,7 +30,7 @@ const DeliveryData = ({ data }) => {
       >
         {data.map((data, index) => (
           <Image
-            key={data._id}
+            key={index}
             src={data}
             quality={90}
             alt="our_order_delivery_partner_image"
@@ -50,8 +50,8 @@ const DeliveryData = ({ data }) => {
           modules={[Scrollbar]}
           className="mySwiper"
         >
-          {data.map((image) => (
-            <SwiperSlide key={data._id}>
+          {data.map((image, index) => (
+            <SwiperSlide key={index}>
               {image && (
                 <Image
                   src={image}
@@ -76,8 +76,8 @@ const DeliveryData = ({ data }) => {
           modules={[Scrollbar]}
           className="mySwiper"
         >
-          {data.map((image) => (
-            <SwiperSlide key={data._id}>
+          {data.map((image, index) => (
+            <SwiperSlide key={index}>
               {image && (
                 <Image
                   src={image}

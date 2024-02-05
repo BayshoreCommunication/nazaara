@@ -44,7 +44,7 @@ const CaroselContent = ({ data }) => {
           >
             <div>
               {data.map((slide) => (
-                <SwiperSlide key={data._id}>
+                <SwiperSlide key={slide._id}>
                   {slide?.imageUrl && (
                     <Link href={slide.link}>
                       <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">
