@@ -8,10 +8,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const metadata = {
-  title: "Information",
-};
-
 const Payment = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const [countries, setCountries] = useState([]);
