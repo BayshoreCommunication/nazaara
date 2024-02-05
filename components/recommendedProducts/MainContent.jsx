@@ -1,12 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import colors from "color-name";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import TopBar from "../TopBar";
-import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import { useEffect, useState } from "react";
+import { TiTick } from "react-icons/ti";
 import { BeatLoader } from "react-spinners";
 import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 import NoProductFound from "../NoProductFound";
+import TopBar from "../TopBar";
 
 const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
   const minPrice = Math.min(
@@ -16,6 +18,9 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
     ...product?.map((product) => Math.ceil(product?.salePrice))
   );
   const [selectedColors, setSelectedColors] = useState([]);
+  const [colorNames, setColorNames] = useState([]);
+  const [colorsData, setColorsData] = useState([]);
+  // console.log("selected colors", selectedColors);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // Default price range
   const [loading, setLoading] = useState(true);
@@ -27,6 +32,8 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
     const maxPrice = Math.max(
       ...product?.map((product) => Math.ceil(product?.salePrice))
     );
+    const colors = GetUniqueColorNames(product);
+    setColorNames(colors);
     // Update the price range state
     setPriceRange([minPrice, maxPrice]);
   }, [product]);
@@ -97,6 +104,28 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
 
   // console.log("filtered products, ", filteredProducts);
 
+  function rgbToHex(rgb) {
+    console.log("rgb", rgb);
+    if (rgb) {
+      return (
+        "#" +
+        rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (colorNames.length > 0) {
+      const colorData = colorNames.map((data) => ({
+        name: data, // Convert color name to lowercase
+        code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
+      }));
+      const filteredColorData = colorData.filter((data) => data.code);
+      setColorsData(filteredColorData);
+      // console.log("colorData", colorData);
+    }
+  }, [colorNames]);
+
   return (
     <main>
       <TopBar title={`${categoryName} / ${othersName}`} icon={titleIcon} />
@@ -142,6 +171,31 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
                           </button>
                         ))}
                     </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1">
+                    {colorsData.map((data, index) => (
+                      <div
+                        className="relative group flex flex-col items-center"
+                        key={index}
+                      >
+                        <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                          {data.name}
+                        </div>
+                        <button
+                          onClick={() => handleSearch(data.name)}
+                          style={{ backgroundColor: data.code }}
+                          className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                        >
+                          {selectedColors.includes(data.name) &&
+                            (data.code === "#000000" ? (
+                              <TiTick color="white" size={20} />
+                            ) : (
+                              <TiTick color="black" size={20} />
+                            ))}
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
