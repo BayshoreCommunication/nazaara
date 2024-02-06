@@ -6,8 +6,12 @@ import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import FilteredFestivalComponent from "./FilteredFestivalComponent";
 import { BeatLoader } from "react-spinners";
 import NoProductFound from "../NoProductFound";
+import { TiTick } from "react-icons/ti";
+import colors from "color-name";
 
 const FestivalContent = ({ festivalData }) => {
+  const [colorNames, setColorNames] = useState([]);
+  const [colorsData, setColorsData] = useState([]);
   // console.log("festivalData", festivalData);
   const minPrice = Math.min(
     ...festivalData?.data[0]?.products.map((product) =>
@@ -44,6 +48,9 @@ const FestivalContent = ({ festivalData }) => {
           product.salePrice >= priceRange[0] &&
           product.salePrice <= priceRange[1]
       );
+
+      const colors = GetUniqueColorNames(festivalData.data[0].products);
+      setColorNames(colors);
 
       setFilteredProducts(priceFilteredData);
     };
@@ -85,7 +92,27 @@ const FestivalContent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  // console.log("filtered products, ", filteredProducts);
+  function rgbToHex(rgb) {
+    console.log("rgb", rgb);
+    if (rgb) {
+      return (
+        "#" +
+        rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (colorNames.length > 0) {
+      const colorData = colorNames.map((data) => ({
+        name: data, // Convert color name to lowercase
+        code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
+      }));
+      const filteredColorData = colorData.filter((data) => data.code);
+      setColorsData(filteredColorData);
+      // console.log("colorData", colorData);
+    }
+  }, [colorNames]);
 
   return (
     <main>
@@ -97,23 +124,25 @@ const FestivalContent = ({ festivalData }) => {
                 <div className="flex flex-col gap-y-8">
                   <div className="border-b-2 pb-8">
                     <p className="font-semibold mb-6">PRICE RANGE</p>
-                    <Slider
-                      range
-                      id="price-slider"
-                      min={minPrice}
-                      max={maxPrice}
-                      step={100}
-                      value={priceRange}
-                      onChange={(newPriceRange) => {
-                        setPriceRange(newPriceRange);
-                      }}
-                    />
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm">৳ {priceRange[0]}</p>
-                      <p className="text-sm">৳ {priceRange[1]}</p>
+                    <div className="px-4 lg:px-0">
+                      <Slider
+                        range
+                        id="price-slider"
+                        min={minPrice}
+                        max={maxPrice}
+                        step={100}
+                        value={priceRange}
+                        onChange={(newPriceRange) => {
+                          setPriceRange(newPriceRange);
+                        }}
+                      />
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm">BDT {priceRange[0]}</p>
+                        <p className="text-sm">BDT {priceRange[1]}</p>
+                      </div>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="font-semibold mb-6">COLOR</p>
                     <div className="flex flex-wrap gap-2">
                       {GetUniqueColorNames(festivalData.data[0].products)
@@ -133,6 +162,34 @@ const FestivalContent = ({ festivalData }) => {
                             </button>
                           )
                         )}
+                    </div>
+                  </div> */}
+
+                  <div>
+                    <p className="font-semibold mb-6">COLOR</p>
+                    <div className="flex flex-wrap gap-1">
+                      {colorsData.map((data, index) => (
+                        <div
+                          className="relative group flex flex-col items-center"
+                          key={index}
+                        >
+                          <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                            {data.name}
+                          </div>
+                          <button
+                            onClick={() => handleSearch(data.name)}
+                            style={{ backgroundColor: data.code }}
+                            className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                          >
+                            {selectedColors.includes(data.name) &&
+                              (data.code === "#000000" ? (
+                                <TiTick color="white" size={20} />
+                              ) : (
+                                <TiTick color="black" size={20} />
+                              ))}
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

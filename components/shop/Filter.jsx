@@ -38,15 +38,18 @@ const Filter = ({
     }
   }, [currentCategory, currentColor, currentSize, priceRange]);
   return (
-    <div className="group relative">
-      <button
-        className={`flex gap-1 items-center bg-gray-200 py-2 px-4 rounded-full font-medium min-w-full justify-center ${
-          isActive && "bg-primary-color text-white"
-        }`}
-      >
-        <BsFilter size={20} /> Filter
-      </button>
-      <div className="h-2 w-24"></div>
+    <>
+      {isActive && (
+        <div>
+          {/* <div className="group relative"> */}
+          <button
+            onClick={handleClearFiltering}
+            className={`flex gap-1 items-center bg-gray-200 py-2 px-4 rounded-full font-medium min-w-full justify-center text-primary-color
+            }`}
+          >
+            <BsFilter size={20} /> Clear All
+          </button>
+          {/* <div className="h-2 w-24"></div>
       <div className="hidden group-hover:block absolute z-50 top-11 bg-white w-full lg:w-96 rounded-lg box-shadow">
         <h4 className="text-center my-2 text-lg font-semibold">Filter</h4>
         <hr />
@@ -67,8 +70,10 @@ const Filter = ({
             </p>
           )}
         </div>
-      </div>
-    </div>
+      </div> */}
+        </div>
+      )}
+    </>
   );
 };
 

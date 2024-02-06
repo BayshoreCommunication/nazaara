@@ -64,7 +64,6 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
 
       setFilteredProducts(priceFilteredData);
     };
-
     fetchData();
   }, [priceRange, product, selectedColors]);
 
@@ -122,7 +121,6 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
       }));
       const filteredColorData = colorData.filter((data) => data.code);
       setColorsData(filteredColorData);
-      // console.log("colorData", colorData);
     }
   }, [colorNames]);
 
@@ -137,23 +135,25 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
                 <div className="flex flex-col gap-y-8">
                   <div className="border-b-2 pb-8">
                     <p className="font-semibold mb-6">PRICE RANGE</p>
-                    <Slider
-                      range
-                      id="price-slider"
-                      min={minPrice}
-                      max={maxPrice}
-                      step={100}
-                      value={priceRange}
-                      onChange={(newPriceRange) => {
-                        setPriceRange(newPriceRange);
-                      }}
-                    />
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm">BDT {priceRange[0]}</p>
-                      <p className="text-sm">BDT {priceRange[1]}</p>
+                    <div className="px-4 lg:px-0">
+                      <Slider
+                        range
+                        id="price-slider"
+                        min={minPrice}
+                        max={maxPrice}
+                        step={100}
+                        value={priceRange}
+                        onChange={(newPriceRange) => {
+                          setPriceRange(newPriceRange);
+                        }}
+                      />
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm">BDT {priceRange[0]}</p>
+                        <p className="text-sm">BDT {priceRange[1]}</p>
+                      </div>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="font-semibold mb-6">COLOR</p>
                     <div className="flex flex-wrap gap-2">
                       {GetUniqueColorNames(product).length > 0 &&
@@ -171,31 +171,34 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
                           </button>
                         ))}
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="flex flex-wrap gap-1">
-                    {colorsData.map((data, index) => (
-                      <div
-                        className="relative group flex flex-col items-center"
-                        key={index}
-                      >
-                        <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
-                          {data.name}
-                        </div>
-                        <button
-                          onClick={() => handleSearch(data.name)}
-                          style={{ backgroundColor: data.code }}
-                          className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                  <div>
+                    <p className="font-semibold mb-6">COLOR</p>
+                    <div className="flex flex-wrap gap-1">
+                      {colorsData.map((data, index) => (
+                        <div
+                          className="relative group flex flex-col items-center"
+                          key={index}
                         >
-                          {selectedColors.includes(data.name) &&
-                            (data.code === "#000000" ? (
-                              <TiTick color="white" size={20} />
-                            ) : (
-                              <TiTick color="black" size={20} />
-                            ))}
-                        </button>
-                      </div>
-                    ))}
+                          <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                            {data.name}
+                          </div>
+                          <button
+                            onClick={() => handleSearch(data.name)}
+                            style={{ backgroundColor: data.code }}
+                            className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                          >
+                            {selectedColors.includes(data.name) &&
+                              (data.code === "#000000" ? (
+                                <TiTick color="white" size={20} />
+                              ) : (
+                                <TiTick color="black" size={20} />
+                              ))}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

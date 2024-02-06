@@ -1,21 +1,23 @@
-// Import statements
-
 import { useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
 import axios from "axios";
+import { TiTick } from "react-icons/ti";
+import colors from "color-name";
 
-const ColorAttribute = ({ elem, active, onClick }) => {
+const ColorAttribute = ({ color, code, active, onClick }) => {
   return (
     <>
       <button
-        className={`border border-gray-300 px-2 py-1 rounded-md hover:bg-gray-200 hover:border-gray-200 ${
-          active
-            ? "text-white bg-primary-color hover:bg-primary-hover-color"
-            : ""
-        }`}
-        onClick={() => onClick(elem)}
+        onClick={() => onClick(color)}
+        style={{ backgroundColor: code }}
+        className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
       >
-        {elem}
+        {active &&
+          (code === "#000000" ? (
+            <TiTick color="white" size={20} />
+          ) : (
+            <TiTick color="black" size={20} />
+          ))}
       </button>
     </>
   );
@@ -25,6 +27,11 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   const [colorData, setColorData] = useState([]);
   const [activeColors, setActiveColors] = useState([]);
   const [isActive, setIsActive] = useState(false);
+  // const [colorNames, setColorNames] = useState([]);
+  const [colorsData, setColorsData] = useState([]);
+
+  console.log("color name", colorData);
+  console.log("colors data", colorsData);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/product/colors`;
@@ -77,13 +84,33 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
     setIsActive(newActiveColors.length > 0);
   };
 
-  // console.log("isActive", isActive);
+  function rgbToHex(rgb) {
+    console.log("rgb", rgb);
+    if (rgb) {
+      return (
+        "#" +
+        rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (colorData.length > 0) {
+      const colorsData = colorData.map((data) => ({
+        name: data, // Convert color name to lowercase
+        code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
+      }));
+      const filteredColorData = colorsData.filter((data) => data.code);
+      setColorsData(filteredColorData);
+      // console.log("colorData", colorData);
+    }
+  }, [colorData]);
 
   return (
-    <div className="group relative">
+    <div className="group/parent relative">
       <ToogleButton title={`Color`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden py-2 group-hover:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
+      <div className="hidden py-2 group-hover/parent:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
         <div
           className={`flex items-center my-2 px-4 ${
             currentColor ? "justify-between" : "justify-center"
@@ -100,16 +127,35 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
           )}
         </div>
         <hr />
-        <div className="py-3 px-4 flex flex-col gap-y-3">
+        <div className="py-3 px-6 flex flex-col gap-y-3">
+          <div className="flex flex-wrap gap-1 justify-center">
+            {colorsData.map((elem, index) => (
+              <div
+                className="group/child relative flex flex-col items-center"
+                key={index}
+              >
+                <div className="mb-1 rounded-sm absolute opacity-0 z-50 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300 group-hover/child:opacity-100">
+                  {elem.name}
+                </div>
+                <ColorAttribute
+                  key={index}
+                  color={elem.name}
+                  code={elem.code}
+                  active={activeColors.includes(elem.name)}
+                  onClick={handleColorSelection}
+                />
+              </div>
+            ))}
+          </div>
           <div className="flex gap-2 flex-wrap">
-            {colorData.map((elem, i) => (
+            {/* {colorData.map((elem, i) => (
               <ColorAttribute
                 key={i}
                 elem={elem} // Render the 'color' property of the 'el' object
                 active={activeColors.includes(elem)}
                 onClick={handleColorSelection}
               />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
