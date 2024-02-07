@@ -10,7 +10,7 @@ const Measurement = async ({ searchParams }) => {
       const response = await fetch(
         `${process.env.API_URL}/api/v1/cart/${searchParams?.cartId}`,
         {
-          next: { revalidate: 0 },
+          next: { revalidate: 300 },
         }
       );
       if (!response.ok) {

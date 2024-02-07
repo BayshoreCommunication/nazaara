@@ -1,12 +1,13 @@
 "use client";
+import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { MdShoppingCartCheckout } from "react-icons/md";
-import { handleOrder } from "../serverAction/order";
+import { BeatLoader } from "react-spinners";
 import Swal from "sweetalert2";
-import { redirect } from "next/navigation";
-import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
+import { handleOrder } from "../serverAction/order";
 
 const CheckoutContent = ({
   userData,
@@ -22,6 +23,7 @@ const CheckoutContent = ({
   const [addressIndex, setAddressIndex] = useState(0);
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
+  const [isLoading, setIsLoading] = useState(false);
 
   // console.log("cartData", cartData);
 
@@ -123,58 +125,82 @@ const CheckoutContent = ({
   //handle the coupon
   const handleCoupon = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     // console.log("Coupon Code:", couponCode);
-    const couponData = await fetchCouponData(
-      `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
-    );
+    if (!couponCode) {
+      toast.error("Enter a valid coupon code to get offer");
+      setIsLoading(false);
+    } else {
+      const couponData = await fetchCouponData(
+        `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
+      );
 
-    if (couponData.data.freeShipping) {
-      setIsFreeShipping(true);
-    }
+      console.log("coupon data", couponData);
 
-    // console.log("coupon dataatatata", couponData);
-    if (isPromotionAvailable) {
-      toast.error("Coupon can't be applied as promotion already available!!");
-    } else if (
-      couponData.success &&
-      couponData.data.valid &&
-      couponData.data.minimumPurchaseAmount <= subTotal
-    ) {
-      if (couponData.data.valid && couponData.data.discountType === "amount") {
-        if (couponAmount > 0) {
-          toast.error("Coupon already applied");
-        } else {
-          setCouponAmount(couponData.data.discountOff);
-          toast.success("Coupon applied successfully");
-          // validCouponId = couponData.data._id;
-          setCouponId(couponData.data._id);
+      if (couponData) {
+        if (couponData?.data?.freeShipping) {
+          setIsFreeShipping(true);
         }
-      } else if (
-        couponData.data.valid &&
-        couponData.data.discountType === "percentage"
-      ) {
-        const discountOff = couponData.data.discountOff;
-        const calculateCurrentSubtotal = (discountOff * subTotal) / 100;
 
-        if (couponAmount > 0) {
-          toast.error("Coupon already applied");
+        // console.log("coupon dataatatata", couponData);
+        if (isPromotionAvailable) {
+          setIsLoading(false);
+          toast.error(
+            "Coupon can't be applied as promotion already available!"
+          );
+        } else if (
+          couponData?.success &&
+          couponData?.data?.valid &&
+          couponData?.data?.minimumPurchaseAmount <= subTotal
+        ) {
+          if (
+            couponData?.data?.valid &&
+            couponData?.data?.discountType === "amount"
+          ) {
+            if (couponAmount > 0) {
+              setIsLoading(false);
+              toast.error("Coupon already applied");
+            } else {
+              setCouponAmount(couponData?.data?.discountOff);
+              setIsLoading(false);
+              toast.success("Coupon applied successfully");
+              // validCouponId = couponData.data._id;
+              setCouponId(couponData?.data?._id);
+            }
+          } else if (
+            couponData?.data?.valid &&
+            couponData?.data?.discountType === "percentage"
+          ) {
+            const discountOff = couponData?.data?.discountOff;
+            const calculateCurrentSubtotal = (discountOff * subTotal) / 100;
+
+            if (couponAmount > 0) {
+              setIsLoading(false);
+              toast.error("Coupon already applied");
+            } else {
+              setCouponAmount(calculateCurrentSubtotal);
+              setIsLoading(false);
+              toast.success("Coupon applied successfully");
+              // validCouponId = couponData.data._id;
+              setCouponId(couponData?.data?._id);
+            }
+          }
+        } else if (couponData?.data?.minimumPurchaseAmount > subTotal) {
+          setIsLoading(false);
+          toast.error(
+            `Minimum purchase amount ${couponData?.data?.minimumPurchaseAmount}/-`
+          );
+        } else if (couponData?.success && !couponData?.data?.valid) {
+          setIsLoading(false);
+          toast.error("Coupon is expired!");
+        } else if (!couponData.success) {
+          setIsLoading(false);
+          toast.error("Coupon code not valid!");
         } else {
-          setCouponAmount(calculateCurrentSubtotal);
-          toast.success("Coupon applied successfully");
-          // validCouponId = couponData.data._id;
-          setCouponId(couponData.data._id);
+          setIsLoading(false);
+          toast.error("Something went wrong!");
         }
       }
-    } else if (!couponData.data.minimumPurchaseAmount <= subTotal) {
-      toast.error(
-        `Minimum purchase amount ${couponData.data.minimumPurchaseAmount}/-`
-      );
-    } else if (couponData.success && !couponData.data.valid) {
-      toast.error("Coupon is expired!");
-    } else if (!couponData.success) {
-      toast.error("Coupon code not valid!");
-    } else {
-      toast.error("Something went wrong!");
     }
   };
 
@@ -608,9 +634,16 @@ const CheckoutContent = ({
               />
               <button
                 onClick={(e) => handleCoupon(e)}
-                className=" bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
+                className="w-max flex gap-1 items-center bg-primary-color text-white px-4 py-2 text-sm rounded-md hover:bg-primary-hover-color transition-colors duration-500"
               >
-                APPLY
+                {isLoading ? (
+                  <>
+                    APPLING
+                    <BeatLoader color="#fff" size={6} />
+                  </>
+                ) : (
+                  "APPLY"
+                )}
               </button>
             </div>
           </div>

@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import colors from "color-name";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import FilteredFestivalComponent from "./FilteredFestivalComponent";
+import { useEffect, useState } from "react";
+import { TiTick } from "react-icons/ti";
 import { BeatLoader } from "react-spinners";
 import NoProductFound from "../NoProductFound";
-import { TiTick } from "react-icons/ti";
-import colors from "color-name";
+import FilteredFestivalComponent from "./FilteredFestivalComponent";
 
 const FestivalContent = ({ festivalData }) => {
   const [colorNames, setColorNames] = useState([]);
@@ -93,7 +93,7 @@ const FestivalContent = ({ festivalData }) => {
   };
 
   function rgbToHex(rgb) {
-    console.log("rgb", rgb);
+    // console.log("rgb", rgb);
     if (rgb) {
       return (
         "#" +

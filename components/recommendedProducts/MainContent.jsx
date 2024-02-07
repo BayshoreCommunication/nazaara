@@ -104,7 +104,7 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
   // console.log("filtered products, ", filteredProducts);
 
   function rgbToHex(rgb) {
-    console.log("rgb", rgb);
+    // console.log("rgb", rgb);
     if (rgb) {
       return (
         "#" +

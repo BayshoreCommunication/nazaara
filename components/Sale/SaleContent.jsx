@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import colors from "color-name";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import TopBar from "../TopBar";
+import { useEffect, useState } from "react";
 import { FaGift } from "react-icons/fa";
-import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
+import { TiTick } from "react-icons/ti";
 import { BeatLoader } from "react-spinners";
 import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 import NoProductFound from "../NoProductFound";
-import colors from "color-name";
-import { TiTick } from "react-icons/ti";
+import TopBar from "../TopBar";
 
 const SaleContent = ({ saleData }) => {
   const [colorNames, setColorNames] = useState([]);
@@ -98,7 +98,7 @@ const SaleContent = ({ saleData }) => {
   };
 
   function rgbToHex(rgb) {
-    console.log("rgb", rgb);
+    // console.log("rgb", rgb);
     if (rgb) {
       return (
         "#" +

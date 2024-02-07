@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import { BeatLoader } from "react-spinners";
-import { TbCategoryFilled } from "react-icons/tb";
-import TopBar from "@/components/TopBar";
 import FilteredFestivalComponent from "@/components/Festivals/FilteredFestivalComponent";
 import NoProductFound from "@/components/NoProductFound";
+import TopBar from "@/components/TopBar";
+import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import colors from "color-name";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import { useEffect, useState } from "react";
+import { TbCategoryFilled } from "react-icons/tb";
 import { TiTick } from "react-icons/ti";
+import { BeatLoader } from "react-spinners";
 
 const DynamicSubCategoryContent = ({ data, subCategoryData }) => {
   const [colorNames, setColorNames] = useState([]);
@@ -91,7 +91,7 @@ const DynamicSubCategoryContent = ({ data, subCategoryData }) => {
   };
 
   function rgbToHex(rgb) {
-    console.log("rgb", rgb);
+    // console.log("rgb", rgb);
     if (rgb) {
       return (
         "#" +

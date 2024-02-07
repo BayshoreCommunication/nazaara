@@ -1,10 +1,9 @@
-import React from "react";
 import { FaCartPlus } from "react-icons/fa";
 
 const ButtonOnHoverFullWidth = ({ text, color, icon }) => {
   return (
     <button
-      className={`w-full group btn2 px-6 ${
+      className={`w-max group btn2 px-6 ${
         color ? `${color}` : "text-primary-color"
       } py-[10px] relative border-2 border-primary-color rounded-md tracking-wider leading-none overflow-hidden hover:text-white flex gap-[6px] justify-center items-center font-semibold uppercase`}
     >

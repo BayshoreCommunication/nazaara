@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import ToogleButton from "./ToogleButton";
 import axios from "axios";
-import { TiTick } from "react-icons/ti";
 import colors from "color-name";
+import { useEffect, useState } from "react";
+import { TiTick } from "react-icons/ti";
+import ToogleButton from "./ToogleButton";
 
 const ColorAttribute = ({ color, code, active, onClick }) => {
   return (
@@ -30,8 +30,8 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   // const [colorNames, setColorNames] = useState([]);
   const [colorsData, setColorsData] = useState([]);
 
-  console.log("color name", colorData);
-  console.log("colors data", colorsData);
+  // console.log("color name", colorData);
+  // console.log("colors data", colorsData);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/product/colors`;
@@ -85,7 +85,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   };
 
   function rgbToHex(rgb) {
-    console.log("rgb", rgb);
+    // console.log("rgb", rgb);
     if (rgb) {
       return (
         "#" +

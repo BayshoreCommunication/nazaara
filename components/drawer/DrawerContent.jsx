@@ -1,12 +1,15 @@
 "use client";
+import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 
 const DrawerContent = ({ data, setIsOpen }) => {
   // button toogle
   const [toggle, setToggle] = useState("size");
+
+  // console.log("data from drower", data);
 
   return (
     <div className="relative overflow-y-auto">
@@ -52,8 +55,30 @@ const DrawerContent = ({ data, setIsOpen }) => {
                 </p>
               )}
               <div className="flex items-center gap-2">
-                <p className="font-bold text-bold text-xl">
-                  ৳ {data.salePrice}/-
+                <p className="text-gray-700 text-sm font-semibold">
+                  ৳{" "}
+                  {data.category.promotion || data.subCategory.promotion ? (
+                    <>
+                      {data.category?.promotion
+                        ? calculateSalePrice(
+                            data.category?.promotion?.validPromotion,
+                            data.category?.promotion?.discountType,
+                            data.regularPrice,
+                            data.category?.promotion?.discountOff,
+                            data.salePrice
+                          ) * data?.quantity
+                        : calculateSalePrice(
+                            data.subCategory?.promotion?.validPromotion,
+                            data.subCategory?.promotion?.discountType,
+                            data.regularPrice,
+                            data.subCategory?.promotion?.discountOff,
+                            data.salePrice
+                          ) * data?.quantity}
+                    </>
+                  ) : (
+                    <>{data.salePrice}</>
+                  )}
+                  /-
                 </p>
                 <p className="line-through text-sm font-medium text-gray-600">
                   ৳ {data.regularPrice}/-

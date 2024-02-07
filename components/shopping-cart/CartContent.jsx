@@ -429,9 +429,11 @@ const CartContent = ({ userData }) => {
           </div>
 
           {cartData?.data?.length > 0 ? (
-            <Link href={"/shop/checkout"}>
-              <ButtonOnHoverFullWidth text={"Proceed To Checkout"} />
-            </Link>
+            <div className="w-full">
+              <Link className="w-full" href={"/shop/checkout"}>
+                <ButtonOnHoverFullWidth text={"Proceed To Checkout"} />
+              </Link>
+            </div>
           ) : (
             <div
               onClick={() =>

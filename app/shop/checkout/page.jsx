@@ -51,9 +51,7 @@ const CheckoutPage = async () => {
 
   const fetchCouponData = async (url) => {
     "use server";
-    const res = await fetch(url, {
-      next: { revalidate: 3600 },
-    });
+    const res = await fetch(url, { cache: "no-store" });
     return res.json();
   };
 

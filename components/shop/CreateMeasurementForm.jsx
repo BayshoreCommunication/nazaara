@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
-import { sizeCharthandleContact } from "../serverAction/sizeChartAction";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { sizeCharthandleContact } from "../serverAction/sizeChartAction";
 
 import dynamic from "next/dynamic";
 
@@ -10,11 +10,11 @@ const Drawer = dynamic(() => import("react-modern-drawer"), {
   ssr: false,
 });
 
-import "react-modern-drawer/dist/index.css";
-import DrawerContent from "../drawer/DrawerContent";
+import { useRouter } from "next/navigation";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import "react-modern-drawer/dist/index.css";
+import DrawerContent from "../drawer/DrawerContent";
 
 const CreateMeasurementForm = ({ searchParams, product }) => {
   const router = useRouter();
