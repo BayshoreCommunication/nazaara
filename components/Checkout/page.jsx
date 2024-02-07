@@ -135,7 +135,7 @@ const CheckoutContent = ({
         `${process.env.API_URL}/api/v1/coupon/code/${couponCode}`
       );
 
-      console.log("coupon data", couponData);
+      // console.log("coupon data", couponData);
 
       if (couponData) {
         if (couponData?.data?.freeShipping) {
