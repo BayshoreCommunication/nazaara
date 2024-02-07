@@ -1,3 +1,4 @@
+"use client";
 import { addItemToCart } from "@/store/cartSlice";
 import { currentColor } from "@/store/imgFilterSlice";
 import { getCookie } from "cookies-next";
@@ -32,6 +33,8 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
     useUpdateCartByUserIdMutation();
 
   const [createCart] = useCreateNewCartMutation();
+
+  // console.log("cartItems", cartItems);
 
   //set initial price
   useEffect(() => {
@@ -109,6 +112,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
       const check = cartItems.find(
         (item) => item.variantId === cartData.variantId
       );
+      // console.log("cart items", cartItems);
       // console.log("check", check);
       if (check && data.stock <= check.quantity) {
         toast.error(`Can't add more product! Already added into cart`);
@@ -118,18 +122,19 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
           variantId: cartData.variantId,
           quantity: check.quantity + cartData.quantity,
         });
-        if (result.data.status === "success") {
-          toast.success(`${cartData.quantity} new product added to cart`);
-        } else {
-          toast.error(`Something went wrong!`);
-        }
-      } else {
-        const result = await createCart(cartData);
-        // console.log("result", result);
         if (result?.data?.status === "success") {
           toast.success(`${cartData.quantity} new product added to cart`);
         } else {
-          toast.error(`Something went wrong!`);
+          toast.error(`Something went wrong to update!`);
+        }
+      } else {
+        // console.log("cart data", cartData);
+        const result = await createCart(cartData);
+        // console.log("result to create", result);
+        if (result?.data?.status === "success") {
+          toast.success(`${cartData.quantity} new product added to cart`);
+        } else {
+          toast.error(`Something went wrong to create!`);
         }
       }
     } else {
@@ -315,7 +320,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
               <button
                 onClick={handleIncreasePrice}
                 className={`flex justify-center items-center text-gray-700 border border-gray-400  hover:bg-primary-color hover:border-primary-color hover:text-white font-bold w-8 h-8 text-xl ${
-                  quantity == data?.stock && "cursor-not-allowed"
+                  quantity >= data?.stock && "cursor-not-allowed"
                 }`}
               >
                 +
