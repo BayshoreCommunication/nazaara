@@ -36,6 +36,8 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
 
   // console.log("cartItems", cartItems);
 
+  console.log("promotion data", promotionData);
+
   //set initial price
   useEffect(() => {
     if (promotionData) {
@@ -149,22 +151,15 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
     }
   };
 
-  const [timeLeft, setTimeLeft] = useState(
-    getTimeRemaining(promotionData?.expireDate)
-  );
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimeLeft(getTimeRemaining(promotionData?.expireDate));
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [promotionData?.expireDate]);
-
   function getTimeRemaining(expireDate) {
-    const now = new Date().getTime();
-    const expirationTime = new Date(expireDate).getTime();
-    const timeDifference = expirationTime - now;
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+    const expirationTime = new Date(expireDate).toLocaleString("en-US", {
+      timeZone: "Asia/Dhaka",
+    });
+
+    const nowMillis = new Date(now).getTime();
+    const expirationTimeMillis = new Date(expirationTime).getTime();
+    const timeDifference = expirationTimeMillis - nowMillis;
 
     if (timeDifference <= 0) {
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -181,6 +176,18 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
 
     return { days, hours, minutes, seconds };
   }
+
+  const [timeLeft, setTimeLeft] = useState(
+    getTimeRemaining(promotionData?.expireDate)
+  );
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeLeft(getTimeRemaining(promotionData?.expireDate));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [promotionData?.expireDate]);
 
   return (
     <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">
