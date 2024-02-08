@@ -128,7 +128,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
         </div>
         <hr />
         <div className="py-3 px-6 flex flex-col gap-y-3">
-          <div className="flex flex-wrap gap-1 justify-center">
+          <div className="flex flex-wrap gap-x-1 gap-y-4 justify-center">
             {colorsData.map((elem, index) => (
               <div
                 className="group/child relative flex flex-col items-center"
