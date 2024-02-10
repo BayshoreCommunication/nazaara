@@ -3,7 +3,6 @@ import Navigation from "@/components/paymentNav/Navigation";
 import CartContent from "@/components/shopping-cart/CartContent";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBagShopping, FaCartShopping } from "react-icons/fa6";
 

@@ -200,210 +200,433 @@ const CartContent = ({ userData }) => {
     return (
       <div className="main-container flex flex-col lg:flex-row gap-10 lg:items-start">
         <div className="flex lg:flex-[3] flex-col gap-5 bg-white">
-          <div className="text-black flex justify-between border-b border-gray-300 pb-2">
-            <div className="w-full flex flex-col sm:flex-row gap-y-3 justify-between items-center">
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold text-primary-color">
-                  Shopping Cart
-                </h2>
-                <span className="text-gray-500">
-                  {data.length > 1
-                    ? `(${data.length} Items)`
-                    : `(${data.length} Item)`}
-                </span>
+          <div>
+            <div className="text-black flex justify-between border-b border-gray-300 pb-2">
+              <div className="w-full flex justify-between items-center">
+                <div className="lg:flex lg:items-center gap-2">
+                  <h2 className="text-lg font-semibold text-primary-color">
+                    Shopping Cart
+                  </h2>
+                  <div className="text-gray-500 flex justify-center">
+                    {data.length > 1
+                      ? `(${data.length} Items)`
+                      : `(${data.length} Item)`}
+                  </div>
+                </div>
+                <Link className="" href={"/shop"}>
+                  <button className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 flex gap-1 items-center justify-center text-sm mb-3 sm:mb-0">
+                    <FaHandPointLeft size={20} /> Continue Shopping
+                  </button>
+                </Link>
               </div>
-              <Link className="w-full sm:w-auto" href={"/shop"}>
-                <button className="border-4 border-primary-color hover:border-transparent bg-primary-color text-white px-6 py-1.5 font-medium rounded-md hover:bg-primary-hover-color transition-colors duration-500 w-full flex gap-1 items-center justify-center text-sm mb-3 sm:mb-0">
-                  <FaHandPointLeft size={20} /> Continue Shopping
-                </button>
-              </Link>
             </div>
-          </div>
-          <>
-            {data.length > 0 ? (
-              <>
-                {data.map((detail, index) => (
-                  <div
-                    key={detail._id}
-                    className="flex justify-between items-center border-b border-gray-300 pb-5"
-                  >
-                    {detail?.product && (
-                      <>
-                        <div className="flex gap-4 items-center">
-                          <Link href={`/products/${detail?.product?.slug}`}>
-                            <Image
-                              src={detail?.product?.variant[0]?.imageUrl[0]}
-                              alt="cart"
-                              width={90}
-                              height={80}
-                              className="rounded-md"
-                            />
-                          </Link>
-                          <div className="text-sm flex flex-col gap-1 w-[20vw]">
+            <div>
+              {data.length > 0 ? (
+                <div>
+                  {data.map((detail, index) => (
+                    <div
+                      key={detail._id}
+                      className="flex flex-col lg:flex-row lg:justify-between lg:items-center border-b border-gray-300 py-5"
+                    >
+                      {detail?.product && (
+                        <>
+                          <div className="hidden lg:flex gap-4 items-center">
                             <Link href={`/products/${detail?.product?.slug}`}>
-                              <h2 className="text-gray-700 font-semibold text-base">
-                                {detail?.product?.productName}
-                              </h2>
+                              <Image
+                                src={detail?.product?.variant[0]?.imageUrl[0]}
+                                alt="cart"
+                                width={90}
+                                height={80}
+                                className="rounded-sm w-[64px] h-[90px]"
+                              />
                             </Link>
-                            <p className="text-gray-600">
-                              <span className="font-medium">Color:</span>{" "}
-                              {detail?.color}
-                            </p>
-                            <p className="text-gray-600">
-                              <span className="font-medium">Size:</span>{" "}
-                              {detail?.size}
-                            </p>
-                            <p className="text-gray-600">
-                              <span className="font-medium">Quantity:</span>{" "}
-                              {detail?.quantity}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <p className="text-gray-700 text-sm font-semibold">
-                            ৳{" "}
-                            {detail?.product?.category?.promotion
-                              ? calculateSalePrice(
-                                  detail?.product?.category?.promotion
-                                    ?.validPromotion,
-                                  detail?.product?.category?.promotion
-                                    ?.discountType,
-                                  detail?.product?.regularPrice,
-                                  detail?.product?.category?.promotion
-                                    ?.discountOff,
-                                  detail?.product?.salePrice
-                                ) * detail?.quantity
-                              : calculateSalePrice(
-                                  detail?.product?.subCategory?.promotion
-                                    ?.validPromotion,
-                                  detail?.product?.subCategory?.promotion
-                                    ?.discountType,
-                                  detail?.product?.regularPrice,
-                                  detail?.product?.subCategory?.promotion
-                                    ?.discountOff,
-                                  detail?.product?.salePrice
-                                ) * detail?.quantity}
-                            /-
-                          </p>
-                          <div className="relative group">
-                            <div>
-                              <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-0 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
-                                {`${
-                                  detail.product.stock > 0
-                                    ? `${detail?.product?.stock} Stock Available`
-                                    : `${
-                                        detail.product.preOrder
-                                          ? "Pre-Order Available"
-                                          : "Out Of Stock"
-                                      }`
-                                }`}
-                              </span>
+                            <div className="text-sm flex flex-row lg:flex-col gap-1 lg:w-[20vw] items-between items-center lg:items-start">
+                              <div className="text-gray-700 font-semibold text-md lg:text-base">
+                                <Link
+                                  href={`/products/${detail?.product?.slug}`}
+                                >
+                                  {detail?.product?.productName.length > 90
+                                    ? `${detail?.product?.productName.slice(
+                                        0,
+                                        90
+                                      )}...`
+                                    : detail?.product?.productName}
+                                </Link>
+                                <p className="text-gray-700 mt-2 text-sm font-semibold lg:hidden">
+                                  ৳{" "}
+                                  {detail?.product?.category?.promotion
+                                    ? calculateSalePrice(
+                                        detail?.product?.category?.promotion
+                                          ?.validPromotion,
+                                        detail?.product?.category?.promotion
+                                          ?.discountType,
+                                        detail?.product?.regularPrice,
+                                        detail?.product?.category?.promotion
+                                          ?.discountOff,
+                                        detail?.product?.salePrice
+                                      ) * detail?.quantity
+                                    : calculateSalePrice(
+                                        detail?.product?.subCategory?.promotion
+                                          ?.validPromotion,
+                                        detail?.product?.subCategory?.promotion
+                                          ?.discountType,
+                                        detail?.product?.regularPrice,
+                                        detail?.product?.subCategory?.promotion
+                                          ?.discountOff,
+                                        detail?.product?.salePrice
+                                      ) * detail?.quantity}
+                                  /-
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-gray-600">
+                                  <span className="font-semibold">Color:</span>{" "}
+                                  {detail?.color}
+                                </p>
+                                <p className="text-gray-600">
+                                  <span className="font-semibold">Size:</span>{" "}
+                                  {detail?.size}
+                                </p>
+                                <p className="text-gray-600">
+                                  <span className="font-semibold">
+                                    Quantity:
+                                  </span>{" "}
+                                  {detail?.quantity}
+                                </p>
+                              </div>
                             </div>
-                            <div className="flex items-center">
-                              {detail?.quantity > 1 ? (
+                          </div>
+                          <div className="hidden lg:flex flex-col gap-1">
+                            <p className="text-gray-700 text-sm font-semibold">
+                              ৳{" "}
+                              {detail?.product?.category?.promotion
+                                ? calculateSalePrice(
+                                    detail?.product?.category?.promotion
+                                      ?.validPromotion,
+                                    detail?.product?.category?.promotion
+                                      ?.discountType,
+                                    detail?.product?.regularPrice,
+                                    detail?.product?.category?.promotion
+                                      ?.discountOff,
+                                    detail?.product?.salePrice
+                                  ) * detail?.quantity
+                                : calculateSalePrice(
+                                    detail?.product?.subCategory?.promotion
+                                      ?.validPromotion,
+                                    detail?.product?.subCategory?.promotion
+                                      ?.discountType,
+                                    detail?.product?.regularPrice,
+                                    detail?.product?.subCategory?.promotion
+                                      ?.discountOff,
+                                    detail?.product?.salePrice
+                                  ) * detail?.quantity}
+                              /-
+                            </p>
+                            <div className="relative group">
+                              <div>
+                                <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-0 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
+                                  {`${
+                                    detail.product.stock > 0
+                                      ? `${detail?.product?.stock} Stock Available`
+                                      : `${
+                                          detail.product.preOrder
+                                            ? "Pre-Order Available"
+                                            : "Out Of Stock"
+                                        }`
+                                  }`}
+                                </span>
+                              </div>
+                              <div className="flex items-center">
+                                {detail?.quantity > 1 ? (
+                                  <button
+                                    onClick={() =>
+                                      handleDecreaseQuantity(
+                                        detail?.variantId,
+                                        detail?.quantity,
+                                        detail?.user,
+                                        index
+                                      )
+                                    }
+                                    className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
+                                  >
+                                    -
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteCartItem(
+                                        detail?.variantId,
+                                        detail?.user
+                                      )
+                                    }
+                                    className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
+                                  >
+                                    <MdDeleteForever />
+                                  </button>
+                                )}
+
+                                {updateCartLoading[index] ? (
+                                  <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
+                                    <BeatLoader color="#820000" size={3} />
+                                  </p>
+                                ) : (
+                                  <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
+                                    {detail?.quantity}
+                                  </p>
+                                )}
                                 <button
                                   onClick={() =>
-                                    handleDecreaseQuantity(
+                                    handleIncreaseQuantity(
                                       detail?.variantId,
                                       detail?.quantity,
                                       detail?.user,
+                                      detail?.product?.stock,
+                                      detail?.product?.preOrder,
                                       index
                                     )
                                   }
-                                  className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
-                                >
-                                  -
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() =>
-                                    handleDeleteCartItem(
-                                      detail?.variantId,
-                                      detail?.user
-                                    )
+                                  className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl ${
+                                    detail?.quantity >= detail?.product?.stock
+                                      ? "cursor-not-allowed"
+                                      : "cursor-pointer"
+                                  }`}
+                                  disabled={
+                                    detail?.quantity >= detail?.product?.stock
                                   }
-                                  className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
                                 >
-                                  <MdDeleteForever />
+                                  +
                                 </button>
-                              )}
-
-                              {updateCartLoading[index] ? (
-                                <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
-                                  <BeatLoader color="#820000" size={3} />
-                                </p>
-                              ) : (
-                                <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
-                                  {detail?.quantity}
-                                </p>
-                              )}
-                              <button
-                                onClick={() =>
-                                  handleIncreaseQuantity(
-                                    detail?.variantId,
-                                    detail?.quantity,
-                                    detail?.user,
-                                    detail?.product?.stock,
-                                    detail?.product?.preOrder,
-                                    index
-                                  )
-                                }
-                                className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl ${
-                                  detail?.quantity >= detail?.product?.stock
-                                    ? "cursor-not-allowed"
-                                    : "cursor-pointer"
-                                }`}
-                                disabled={
-                                  detail?.quantity >= detail?.product?.stock
-                                }
-                              >
-                                +
-                              </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <Link
-                          href={`/shop/cart/measurement?cartId=${detail?._id}&userId=${userData?._id}`}
-                          className="relative group"
-                        >
-                          {detail.sizeChart && (
-                            <div>
-                              <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
-                                Already Added
-                              </span>
-                            </div>
-                          )}
-                          <button
-                            disabled={detail.sizeChart}
-                            className="bg-primary-color text-white px-2 py-1 text-xs rounded-sm hover:bg-primary-hover-color transition-colors duration-500 disabled:cursor-not-allowed"
+                          <Link
+                            href={`/shop/cart/measurement?cartId=${detail?._id}&userId=${userData?._id}`}
+                            className="relative group hidden lg:block"
                           >
-                            Add Measurement
-                          </button>
-                        </Link>
+                            {detail.sizeChart && (
+                              <div>
+                                <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
+                                  Already Added
+                                </span>
+                              </div>
+                            )}
+                            <button
+                              disabled={detail.sizeChart}
+                              className="bg-primary-color text-white px-2 py-1 text-xs rounded-sm hover:bg-primary-hover-color transition-colors duration-500 disabled:cursor-not-allowed"
+                            >
+                              Add Measurement
+                            </button>
+                          </Link>
 
-                        <button
-                          onClick={() =>
-                            handleDeleteCartItem(
-                              detail?.variantId,
-                              detail?.user
-                            )
-                          }
-                        >
-                          <FaTimes className="text-gray-600" size={18} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                <NoProductFound text={"No item found in your cart"} />
-              </>
-            )}
-          </>
+                          <button
+                            onClick={() =>
+                              handleDeleteCartItem(
+                                detail?.variantId,
+                                detail?.user
+                              )
+                            }
+                          >
+                            <FaTimes
+                              className="text-gray-600 hidden lg:block"
+                              size={18}
+                            />
+                          </button>
+
+                          {/* mobile responsive part  */}
+                          <div className="lg:hidden">
+                            <div className="flex gap-3 items-start">
+                              <Link
+                                className="flex-shrink-0"
+                                href={`/products/${detail?.product?.slug}`}
+                              >
+                                <Image
+                                  src={detail?.product?.variant[0]?.imageUrl[0]}
+                                  alt="cart"
+                                  width={90}
+                                  height={80}
+                                  className="rounded-md w-[64px] h-[90px]"
+                                />
+                              </Link>
+                              <div className="font-semibold text-sm">
+                                <Link
+                                  href={`/products/${detail?.product?.slug}`}
+                                  className="text-gray-700"
+                                >
+                                  {detail?.product?.productName}
+                                </Link>
+                                <div>
+                                  <p className="text-gray-600">
+                                    <span className="font-semibold">
+                                      Color:
+                                    </span>{" "}
+                                    {detail?.color}
+                                  </p>
+                                  <p className="text-gray-600">
+                                    <span className="font-semibold">Size:</span>{" "}
+                                    {detail?.size}
+                                  </p>
+                                  <p className="text-gray-600">
+                                    <span className="font-semibold">
+                                      Quantity:
+                                    </span>{" "}
+                                    {detail?.quantity}
+                                  </p>
+                                  <p className="text-gray-700 text-sm font-semibold">
+                                    <span className="font-semibold">
+                                      Price:
+                                    </span>{" "}
+                                    ৳
+                                    {detail?.product?.category?.promotion
+                                      ? calculateSalePrice(
+                                          detail?.product?.category?.promotion
+                                            ?.validPromotion,
+                                          detail?.product?.category?.promotion
+                                            ?.discountType,
+                                          detail?.product?.regularPrice,
+                                          detail?.product?.category?.promotion
+                                            ?.discountOff,
+                                          detail?.product?.salePrice
+                                        ) * detail?.quantity
+                                      : calculateSalePrice(
+                                          detail?.product?.subCategory
+                                            ?.promotion?.validPromotion,
+                                          detail?.product?.subCategory
+                                            ?.promotion?.discountType,
+                                          detail?.product?.regularPrice,
+                                          detail?.product?.subCategory
+                                            ?.promotion?.discountOff,
+                                          detail?.product?.salePrice
+                                        ) * detail?.quantity}
+                                    /-
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() =>
+                                  handleDeleteCartItem(
+                                    detail?.variantId,
+                                    detail?.user
+                                  )
+                                }
+                              >
+                                <FaTimes className="text-gray-600" size={18} />
+                              </button>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 mt-3">
+                              <div className="flex lg:flex-col gap-1">
+                                <div className="relative group">
+                                  <div>
+                                    <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-0 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
+                                      {`${
+                                        detail.product.stock > 0
+                                          ? `${detail?.product?.stock} Stock Available`
+                                          : `${
+                                              detail.product.preOrder
+                                                ? "Pre-Order Available"
+                                                : "Out Of Stock"
+                                            }`
+                                      }`}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    {detail?.quantity > 1 ? (
+                                      <button
+                                        onClick={() =>
+                                          handleDecreaseQuantity(
+                                            detail?.variantId,
+                                            detail?.quantity,
+                                            detail?.user,
+                                            index
+                                          )
+                                        }
+                                        className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
+                                      >
+                                        -
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteCartItem(
+                                            detail?.variantId,
+                                            detail?.user
+                                          )
+                                        }
+                                        className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl`}
+                                      >
+                                        <MdDeleteForever />
+                                      </button>
+                                    )}
+
+                                    {updateCartLoading[index] ? (
+                                      <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
+                                        <BeatLoader color="#820000" size={3} />
+                                      </p>
+                                    ) : (
+                                      <p className="text-gray-600 border border-gray-400 font-normal w-7 h-7 flex justify-center items-center">
+                                        {detail?.quantity}
+                                      </p>
+                                    )}
+                                    <button
+                                      onClick={() =>
+                                        handleIncreaseQuantity(
+                                          detail?.variantId,
+                                          detail?.quantity,
+                                          detail?.user,
+                                          detail?.product?.stock,
+                                          detail?.product?.preOrder,
+                                          index
+                                        )
+                                      }
+                                      className={`flex items-center justify-center text-gray-600 border border-gray-400  hover:bg-gray-300 hover:text-gray-700 font-bold w-7 h-7 text-xl ${
+                                        detail?.quantity >=
+                                        detail?.product?.stock
+                                          ? "cursor-not-allowed"
+                                          : "cursor-pointer"
+                                      }`}
+                                      disabled={
+                                        detail?.quantity >=
+                                        detail?.product?.stock
+                                      }
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <Link
+                                href={`/shop/cart/measurement?cartId=${detail?._id}&userId=${userData?._id}`}
+                                className="relative group"
+                              >
+                                {detail.sizeChart && (
+                                  <div>
+                                    <span className="absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-1 text-xs w-full text-center font-medium text-gray-500 bg-gray-100 transition-opacity duration-300">
+                                      Already Added
+                                    </span>
+                                  </div>
+                                )}
+                                <button
+                                  disabled={detail.sizeChart}
+                                  className="bg-primary-color text-white px-2 py-1 text-xs rounded-md hover:bg-primary-hover-color transition-colors duration-500 disabled:cursor-not-allowed"
+                                >
+                                  Add Measurement
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <NoProductFound text={"No item found in your cart"} />
+                </>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="lg:flex-1 shadow-md rounded-md p-6">
+        <div className="lg:flex-1 shadow-md rounded-md px-6 pb-6 lg:p-6">
           <h2 className="font-semibold text-gray-700 text-lg mb-4">
             Order Summary
           </h2>
@@ -430,12 +653,13 @@ const CartContent = ({ userData }) => {
 
           {cartData?.data?.length > 0 ? (
             <div className="w-full">
-              <Link className="w-full" href={"/shop/checkout"}>
+              <Link className="flex justify-center" href={"/shop/checkout"}>
                 <ButtonOnHoverFullWidth text={"Proceed To Checkout"} />
               </Link>
             </div>
           ) : (
             <div
+              className="w-full"
               onClick={() =>
                 toast.error("Please add some products to continue!")
               }
