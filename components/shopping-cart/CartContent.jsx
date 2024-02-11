@@ -237,7 +237,7 @@ const CartContent = ({ userData }) => {
                                 alt="cart"
                                 width={90}
                                 height={80}
-                                className="rounded-sm w-[64px] h-[90px]"
+                                className="rounded-md w-[64px] h-[90px]"
                               />
                             </Link>
                             <div className="text-sm flex flex-row lg:flex-col gap-1 lg:w-[20vw] items-between items-center lg:items-start">
@@ -619,9 +619,9 @@ const CartContent = ({ userData }) => {
                   ))}
                 </div>
               ) : (
-                <>
+                <div>
                   <NoProductFound text={"No item found in your cart"} />
-                </>
+                </div>
               )}
             </div>
           </div>
