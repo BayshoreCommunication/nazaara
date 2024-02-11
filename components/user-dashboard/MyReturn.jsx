@@ -2,6 +2,7 @@ import { Util } from "@/util";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FaTimes } from "react-icons/fa";
 import { MdOutlineDone } from "react-icons/md";
 
 function formatDate(inputDateString) {
@@ -49,14 +50,14 @@ const MyReturn = ({ returnData }) => {
   // console.log(returnData);
   return (
     <>
-      {returnData && returnData?.order && returnData?.order?.product ? (
+      {returnData ? (
         <div className="relative overflow-x-auto mt-2">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 border">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Product Details
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Transaction Id
                 </th>
@@ -90,16 +91,16 @@ const MyReturn = ({ returnData }) => {
               {returnData &&
                 returnData.map((data, i) => (
                   <tr key={i} className="bg-white border-b dark:bg-gray-800">
-                    {data?.product && (
+                    {data?.order && (
                       <>
-                        {data.order.product.map((product, i) => (
+                        {/* {data.order.product.map((product, i) => (
                           <tr key={i} className="border-e border-b">
                             <td className="px-2 py-4 ">
                               <Image
                                 src={product.imgUrl}
                                 width={60}
                                 height={80}
-                                alt={data.productName}
+                                alt="product image"
                               />
                             </td>
                             <td className="pe-2 py-4">{`${
@@ -108,7 +109,7 @@ const MyReturn = ({ returnData }) => {
                                 : product.title
                             } `}</td>
                           </tr>
-                        ))}
+                        ))} */}
                         <td className="px-6 py-4">
                           {data.order.transactionId}
                         </td>
@@ -131,7 +132,7 @@ const MyReturn = ({ returnData }) => {
                           {formatDate(data.createdAt)}
                         </td>
                         <td
-                          className={`font-medium px-6 py-4${
+                          className={`font-medium px-6 py-4 ${
                             data.order.deliveryStatus === "pending"
                               ? "text-yellow-700"
                               : "text-green-700"
@@ -154,6 +155,9 @@ const MyReturn = ({ returnData }) => {
                           <span className="flex items-center gap-1">
                             {data.approval === "approved" && (
                               <MdOutlineDone size={18} color="green" />
+                            )}
+                            {data.approval === "rejected" && (
+                              <FaTimes size={18} color="red" />
                             )}
                             {data.approval}
                           </span>
