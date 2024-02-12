@@ -36,15 +36,14 @@ const ContactUsContent = () => {
                       rotate: 0,
                     }
                   : {
-                      y: -200,
+                      y: -100,
                       scale: 1,
                       rotate: 0,
                     }
               }
               transition={{
-                duration: 1.3,
+                duration: 1,
               }}
-              className=""
             >
               <div>
                 <h1 className="font-semibold tracking-[4px] text-2xl lg:text-3xl text-primary-color">

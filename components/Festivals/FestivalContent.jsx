@@ -24,26 +24,26 @@ const FestivalContent = ({ data, i }) => {
       className="w-full relative rounded-sm overflow-hidden h-[15.5rem] sm:h-[22rem] lg:min-h-[20rem] lg:max-h-[22rem] xl:min-h-[24rem] xl:max-[26rem] 2xl:min-h-[30rem] 2xl:max-h-[30rem] shadow-lg shadow-gray-300 hover:shadow-xl hover:shadow-gray-400 transition-all duration-1000 ease-in-out border-[3px] border-secondary-color"
     >
       <Link href={`/festival/${data.slug}`}>
-        {data.featuredImage ? (
-          <Image
-            src={`${data.featuredImage}`}
-            alt={`featured image for ${data.slug}`}
-            fill
-            className="object-cover transition-all duration-1000 ease-in-out hover:scale-110"
-          />
-        ) : (
-          <Image
-            src={`/images/image-not-found.jpg`}
-            alt={`featured image for ${data.slug}`}
-            fill
-            className="object-cover"
-          />
-        )}
+        <div className="">
+          {data.featuredImage ? (
+            <Image
+              src={`${data.featuredImage}`}
+              alt={`featured image for ${data.slug}`}
+              fill
+              className="object-cover transition-all duration-1000 ease-in-out hover:scale-110"
+            />
+          ) : (
+            <Image
+              src={`/images/image-not-found.jpg`}
+              alt={`featured image for ${data.slug}`}
+              fill
+              className="object-cover"
+            />
+          )}
+        </div>
 
-        <div className="absolute bottom-10 w-full text-center">
-          <p className="text-secondary-color text-lg font-semibold uppercase">
-            {data.title}
-          </p>
+        <div className="absolute bottom-0 w-full text-center text-white overlay_box py-5">
+          <p className="text-lg font-bold uppercase">{data.title}</p>
         </div>
       </Link>
     </MotionDiv>

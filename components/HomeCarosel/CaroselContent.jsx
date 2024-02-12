@@ -47,14 +47,14 @@ const CaroselContent = ({ data }) => {
                 <SwiperSlide key={slide._id}>
                   {slide?.imageUrl && (
                     <Link href={slide.link}>
-                      <div className="h-[28vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[80vh] 2xl:h-[84vh] relative w-full">
+                      <div className="h-[26vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[66vh] 2xl:h-[84vh] relative w-full">
                         <Image
                           src={slide?.imageUrl}
                           alt="Carosel Image"
-                          quality={100}
+                          quality={90}
                           fill
                           sizes="100vw"
-                          className="w-full h-auto"
+                          className="object-cover"
                         />
                       </div>
                     </Link>

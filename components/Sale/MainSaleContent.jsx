@@ -42,10 +42,8 @@ const MainSaleContent = ({ data, i }) => {
           />
         )}
 
-        <div className="absolute bottom-10 w-full text-center">
-          <p className="text-secondary-color text-lg font-bold uppercase">
-            {data.title}
-          </p>
+        <div className="absolute bottom-0 w-full text-center text-white overlay_box py-5">
+          <p className="text-lg font-bold uppercase">{data.title}</p>
         </div>
       </Link>
     </MotionDiv>

@@ -29,14 +29,14 @@ const BannerContent = ({ data }) => {
         <Image
           src={data?.imageUrl}
           alt="bridal_top"
-          width={1900}
+          width={1903}
           height={582}
           quality={90}
-          className="w-full h-auto"
+          className="w-full h-auto xl:h-[30rem]"
         />
       )}
 
-      <div className="text-primary-color absolute top-1/2 -translate-y-1/2 right-0 xl:right-20 2xl:right-28 overflow-hidden">
+      <div className="text-primary-color py-2 px-4 absolute top-1/2 -translate-y-1/2 right-0 xl:right-20 2xl:right-28 overflow-hidden">
         <div className="flex flex-col gap-1 lg:gap-4 items-start">
           <MotionDiv
             animate={

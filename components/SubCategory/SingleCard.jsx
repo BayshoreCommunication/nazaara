@@ -27,8 +27,13 @@ const SingleCard = ({ subCategoryData }) => {
               />
             )}
 
-            <div className="absolute bottom-10 w-full text-center">
+            {/* <div className="absolute bottom-10 w-full text-center">
               <p className="text-secondary-color text-lg font-bold uppercase">
+                {subCategoryData?.title}
+              </p>
+            </div> */}
+            <div className="absolute bottom-0 w-full text-center text-white overlay_box py-5">
+              <p className="text-lg font-bold uppercase">
                 {subCategoryData?.title}
               </p>
             </div>
