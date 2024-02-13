@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { useInView } from "react-intersection-observer";
-import { MotionDiv } from "./MotionDiv";
-import ButtonOnHover from "./ButtonOnHover";
 import { FaPlayCircle } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
+import ButtonOnHover from "./ButtonOnHover";
+import { MotionDiv } from "./MotionDiv";
 
 const BannerContent = ({ data }) => {
   const { ref, inView } = useInView();
@@ -32,7 +31,7 @@ const BannerContent = ({ data }) => {
           width={1903}
           height={582}
           quality={90}
-          className="w-full h-auto xl:h-[30rem]"
+          className="w-full h-auto"
         />
       )}
 

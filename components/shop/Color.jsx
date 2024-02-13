@@ -31,7 +31,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   const [colorsData, setColorsData] = useState([]);
 
   // console.log("color name", colorData);
-  // console.log("colors data", colorsData);
+  console.log("colors data", colorsData);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/product/colors`;
@@ -146,16 +146,6 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
                 />
               </div>
             ))}
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {/* {colorData.map((elem, i) => (
-              <ColorAttribute
-                key={i}
-                elem={elem} // Render the 'color' property of the 'el' object
-                active={activeColors.includes(elem)}
-                onClick={handleColorSelection}
-              />
-            ))} */}
           </div>
         </div>
       </div>
