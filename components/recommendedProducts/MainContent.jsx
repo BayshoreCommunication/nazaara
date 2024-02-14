@@ -175,7 +175,7 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
 
                   <div>
                     <p className="font-semibold mb-6">COLOR</p>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-x-1 gap-y-4">
                       {colorNames.map((data, index) => (
                         <div
                           className="relative group flex flex-col items-center"

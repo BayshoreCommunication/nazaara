@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { RxDotFilled } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
-import { TiDelete } from "react-icons/ti";
+import { TiDelete, TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
@@ -36,7 +36,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
 
   // console.log("cartItems", cartItems);
 
-  console.log("promotion data", promotionData);
+  // console.log("promotion data", promotionData);
 
   //set initial price
   useEffect(() => {
@@ -81,6 +81,18 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
 
     setFutureDate(futureDate);
   }, [data.preOrder, data.stock]);
+
+  const formatFutureDate = (date) => {
+    const options = {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    };
+    if (date) {
+      return date?.toLocaleString("en-US", options).replace(",", ", ");
+    }
+  };
 
   //handle price
   const handleIncreasePrice = () => {
@@ -182,12 +194,14 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
   );
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimeLeft(getTimeRemaining(promotionData?.expireDate));
-    }, 1000);
+    if (promotionData) {
+      const intervalId = setInterval(() => {
+        setTimeLeft(getTimeRemaining(promotionData?.expireDate));
+      }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [promotionData?.expireDate]);
+      return () => clearInterval(intervalId);
+    }
+  }, [promotionData, promotionData?.expireDate]);
 
   return (
     <div className="flex flex-col gap-y-4 mt-4 lg:mt-0">
@@ -280,21 +294,34 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
 
           <div>
             <h2 className="font-medium text-gray-700 text-sm mb-1">Color</h2>
-            <div className="flex items-center gap-2">
-              {data.variant.map((data, i) => (
-                <button
-                  key={data._id}
-                  onClick={() => {
-                    setGetColor(data?.color);
-                    dispatch(currentColor(data.color));
-                  }}
-                  className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
-                    getColor === data?.color &&
-                    "border-primary-color bg-primary-color text-white"
-                  }`}
-                >
-                  {data?.color}
-                </button>
+            <div className="flex items-center gap-x-1 gap-y-4">
+              {data.variant.map((data) => (
+                <>
+                  <div
+                    key={data._id}
+                    className="relative group flex flex-col items-center"
+                  >
+                    <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                      {data.color}
+                    </div>
+                    <button
+                      key={data._id}
+                      onClick={() => {
+                        setGetColor(data?.color);
+                        dispatch(currentColor(data?.color));
+                      }}
+                      style={{ backgroundColor: data?.colorCode }}
+                      className={`flex justify-center items-center w-7 h-7 border border-gray-300 rounded-sm shadow-sm`}
+                    >
+                      {getColor === data?.color &&
+                        (data.color === "Black" ? (
+                          <TiTick color="white" size={20} />
+                        ) : (
+                          <TiTick color="black" size={20} />
+                        ))}
+                    </button>
+                  </div>
+                </>
               ))}
               {getColor && (
                 <button
@@ -308,6 +335,52 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
                 </button>
               )}
             </div>
+
+            {/* <div className="flex items-center gap-2">
+              {data.variant.map((data, i) => (
+                // <button
+                //   key={data._id}
+                //   onClick={() => {
+                //     setGetColor(data?.color);
+                //     dispatch(currentColor(data.color));
+                //   }}
+                //   className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
+                //     getColor === data?.color &&
+                //     "border-primary-color bg-primary-color text-white"
+                //   }`}
+                // >
+                //   {data?.color}
+                // </button>
+
+                <button
+                  key={data._id}
+                  onClick={() => {
+                    setGetColor(data?.color);
+                    dispatch(currentColor(data.color));
+                  }}
+                  style={{ backgroundColor: data.colorCode }}
+                  className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                >
+                  {getColor === data?.color &&
+                    (data.color === "Black" ? (
+                      <TiTick color="white" size={20} />
+                    ) : (
+                      <TiTick color="black" size={20} />
+                    ))}
+                </button>
+              ))}
+              {getColor && (
+                <button
+                  onClick={() => {
+                    setGetColor(null);
+                    dispatch(currentColor(null));
+                  }}
+                  className="text-xs text-primary-color flex items-center"
+                >
+                  <TiDelete size={17} color="red" /> Clear Select
+                </button>
+              )}
+            </div> */}
           </div>
 
           <div>
@@ -338,7 +411,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
           <div>
             <p className="flex items-center gap-1 justify-center bg-gray-100 py-1 text-sm font-medium">
               <TbTruckDelivery /> Estimated Shipping Date:
-              {` ${futureDate?.toDateString()}`}
+              {` ${formatFutureDate(futureDate)}`}
             </p>
             <button
               onClick={handleAddToCart}

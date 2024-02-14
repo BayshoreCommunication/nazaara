@@ -113,6 +113,8 @@ const CheckoutContent = ({
     size: item.size,
     sizeChart: item.sizeChart,
     salePrice: item.product.salePrice,
+    stock: item.product.stock,
+    preOrder: item.product.preOrder,
     offeredPrice: calculateSalePrice(
       item?.product?.category?.promotion?.validPromotion,
       item?.product?.category?.promotion?.discountType,
