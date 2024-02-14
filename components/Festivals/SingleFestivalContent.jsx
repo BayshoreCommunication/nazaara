@@ -1,6 +1,5 @@
 "use client";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
-import colors from "color-name";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useEffect, useState } from "react";
@@ -92,27 +91,27 @@ const FestivalContent = ({ festivalData }) => {
     setFilteredProducts([]);
   };
 
-  function rgbToHex(rgb) {
-    // console.log("rgb", rgb);
-    if (rgb) {
-      return (
-        "#" +
-        rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
-      );
-    }
-  }
+  // function rgbToHex(rgb) {
+  //   // console.log("rgb", rgb);
+  //   if (rgb) {
+  //     return (
+  //       "#" +
+  //       rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
+  //     );
+  //   }
+  // }
 
-  useEffect(() => {
-    if (colorNames.length > 0) {
-      const colorData = colorNames.map((data) => ({
-        name: data, // Convert color name to lowercase
-        code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
-      }));
-      const filteredColorData = colorData.filter((data) => data.code);
-      setColorsData(filteredColorData);
-      // console.log("colorData", colorData);
-    }
-  }, [colorNames]);
+  // useEffect(() => {
+  //   if (colorNames.length > 0) {
+  //     const colorData = colorNames.map((data) => ({
+  //       name: data, // Convert color name to lowercase
+  //       code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
+  //     }));
+  //     const filteredColorData = colorData.filter((data) => data.code);
+  //     setColorsData(filteredColorData);
+  //     // console.log("colorData", colorData);
+  //   }
+  // }, [colorNames]);
 
   return (
     <main>
@@ -168,21 +167,21 @@ const FestivalContent = ({ festivalData }) => {
                   <div>
                     <p className="font-semibold mb-6">COLOR</p>
                     <div className="flex flex-wrap gap-1">
-                      {colorsData.map((data, index) => (
+                      {colorNames.map((data, index) => (
                         <div
                           className="relative group flex flex-col items-center"
                           key={index}
                         >
                           <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
-                            {data.name}
+                            {data.color}
                           </div>
                           <button
-                            onClick={() => handleSearch(data.name)}
-                            style={{ backgroundColor: data.code }}
+                            onClick={() => handleSearch(data.color)}
+                            style={{ backgroundColor: data.colorCode }}
                             className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
                           >
-                            {selectedColors.includes(data.name) &&
-                              (data.code === "#000000" ? (
+                            {selectedColors.includes(data.color) &&
+                              (data.color === "Black" ? (
                                 <TiTick color="white" size={20} />
                               ) : (
                                 <TiTick color="black" size={20} />

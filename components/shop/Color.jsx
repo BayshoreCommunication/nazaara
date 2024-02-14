@@ -1,5 +1,4 @@
 import axios from "axios";
-import colors from "color-name";
 import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import ToogleButton from "./ToogleButton";
@@ -27,11 +26,6 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
   const [colorData, setColorData] = useState([]);
   const [activeColors, setActiveColors] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  // const [colorNames, setColorNames] = useState([]);
-  const [colorsData, setColorsData] = useState([]);
-
-  // console.log("color name", colorData);
-  console.log("colors data", colorsData);
 
   useEffect(() => {
     const apiUrl = `${process.env.API_URL}/api/v1/product/colors`;
@@ -40,7 +34,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
       try {
         const response = await axios.get(apiUrl);
         if (response.status === 200) {
-          setColorData(response.data.color);
+          setColorData(response.data);
         }
       } catch (error) {
         console.error("product color fetching error", error);
@@ -84,28 +78,6 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
     setIsActive(newActiveColors.length > 0);
   };
 
-  function rgbToHex(rgb) {
-    // console.log("rgb", rgb);
-    if (rgb) {
-      return (
-        "#" +
-        rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
-      );
-    }
-  }
-
-  useEffect(() => {
-    if (colorData.length > 0) {
-      const colorsData = colorData.map((data) => ({
-        name: data, // Convert color name to lowercase
-        code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
-      }));
-      const filteredColorData = colorsData.filter((data) => data.code);
-      setColorsData(filteredColorData);
-      // console.log("colorData", colorData);
-    }
-  }, [colorData]);
-
   return (
     <div className="group/parent relative">
       <ToogleButton title={`Color`} isActive={isActive} />
@@ -129,23 +101,24 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
         <hr />
         <div className="py-3 px-6 flex flex-col gap-y-3">
           <div className="flex flex-wrap gap-x-1 gap-y-4 justify-center">
-            {colorsData.map((elem, index) => (
-              <div
-                className="group/child relative flex flex-col items-center"
-                key={index}
-              >
-                <div className="mb-1 rounded-sm absolute opacity-0 z-50 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300 group-hover/child:opacity-100">
-                  {elem.name}
-                </div>
-                <ColorAttribute
+            {colorData &&
+              colorData?.colors?.map((elem, index) => (
+                <div
+                  className="group/child relative flex flex-col items-center"
                   key={index}
-                  color={elem.name}
-                  code={elem.code}
-                  active={activeColors.includes(elem.name)}
-                  onClick={handleColorSelection}
-                />
-              </div>
-            ))}
+                >
+                  <div className="mb-1 rounded-sm absolute opacity-0 z-50 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300 group-hover/child:opacity-100">
+                    {elem.color}
+                  </div>
+                  <ColorAttribute
+                    key={index}
+                    color={elem.color}
+                    code={elem.colorCode}
+                    active={activeColors.includes(elem.color)}
+                    onClick={handleColorSelection}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>

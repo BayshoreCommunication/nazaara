@@ -11,11 +11,13 @@ export const GetUniqueColorNames = (data) => {
       product.variant.forEach((variant) => {
         // Check if the color is not already in the array, then add it
         if (variant.color && !colorNames.includes(variant.color)) {
-          colorNames.push(variant.color);
+          colorNames.push({
+            color: variant.color,
+            colorCode: variant.colorCode,
+          });
         }
       });
     });
-
     return colorNames;
   } else {
     return [];
