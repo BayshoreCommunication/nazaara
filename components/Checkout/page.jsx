@@ -8,6 +8,7 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { BeatLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import { handleOrder } from "../serverAction/order";
+import Link from "next/link";
 
 const CheckoutContent = ({
   userData,
@@ -24,6 +25,10 @@ const CheckoutContent = ({
   const [shippingMethod, setShippingMethod] = useState("inside-dhaka");
   const [paymentMethod, setPaymentMethod] = useState("partial-payment");
   const [isLoading, setIsLoading] = useState(false);
+  const [isUserAgree, setIsUserAgree] = useState(false);
+  const [userNotAgreed, setUserNotAgreed] = useState(true);
+
+  // console.log("is User agree", isUserAgree);
 
   // console.log("cartData", cartData);
 
@@ -254,23 +259,27 @@ const CheckoutContent = ({
 
   //server action for create form data
   async function clientAction(formData) {
-    const swal = await Swal.fire({
-      title: "Please confirm your order",
-      text: "You won't be able to revert this!",
-      icon: "success",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#880202",
-      confirmButtonText: "Yes, confirm it!",
-    });
-    if (swal.isConfirmed) {
-      const result = await handleOrder(formData, others);
-      // console.log("result", result);
-      if (result.error) {
-        toast.error(result.error, { duration: 4000 });
-      } else {
+    if (!isUserAgree) {
+      setUserNotAgreed(false);
+    } else {
+      const swal = await Swal.fire({
+        title: "Please confirm your order",
+        text: "You won't be able to revert this!",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#880202",
+        confirmButtonText: "Yes, confirm it!",
+      });
+      if (swal.isConfirmed) {
+        const result = await handleOrder(formData, others);
         // console.log("result", result);
-        redirect(result.res.url);
+        if (result.error) {
+          toast.error(result.error, { duration: 4000 });
+        } else {
+          // console.log("result", result);
+          redirect(result.res.url);
+        }
       }
     }
   }
@@ -533,7 +542,7 @@ const CheckoutContent = ({
                     required
                     name="payment"
                     value="partial-payment"
-                    // defaultChecked={paymentMethod === "partial-payment"}
+                    defaultChecked={true}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 cursor-pointer"
                   />
                   <label
@@ -676,7 +685,7 @@ const CheckoutContent = ({
             </div>
           </div>
           <div>
-            <div className="flex justify-between items-center mt-3 text-gray-700 font-medium">
+            <div className="flex justify-between items-center mt-6 text-gray-700 font-medium">
               <p>Total Amount</p>
               <p>৳ {totalAmount}/-</p>
             </div>
@@ -687,7 +696,7 @@ const CheckoutContent = ({
               )}
               {paymentMethod === "full-payment" && <p>৳ {totalAmount}/-</p>}
             </div>
-            <div className="flex justify-between items-center mt-3 text-gray-700 font-medium">
+            <div className="flex justify-between items-center mt-3 text-gray-700 font-medium border-b pb-6">
               <p>Due Amount</p>
               {paymentMethod === "partial-payment" && (
                 <p>৳ {totalAmount - (totalAmount * 20) / 100}/-</p>
@@ -695,6 +704,53 @@ const CheckoutContent = ({
               {paymentMethod === "full-payment" && <p>৳ 0/-</p>}
             </div>
           </div>
+        </div>
+        <div className="w-full xl:payment-container-end mt-6">
+          <div
+            // onClick={(e) => setPaymentMethod(e.target.value)}
+            className="flex items-center"
+          >
+            <input
+              type="checkbox"
+              id="isUserAgree"
+              // required
+              name="isUserAgree"
+              value={isUserAgree}
+              onChange={() => setIsUserAgree(!isUserAgree)}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 cursor-pointer"
+            />
+            <label
+              htmlFor="isUserAgree"
+              className="w-full ml-2 text-xs font-medium text-gray-700 cursor-pointer"
+            >
+              {`I HAVE READ AND AGREED TO THE WEBSITE'S`}{" "}
+              <Link
+                className="text-primary-color font-semibold hover:underline underline-offset-2"
+                href={"/terms-of-use"}
+              >
+                TERMS AND CONDITION
+              </Link>{" "}
+              ,{" "}
+              <Link
+                className="text-primary-color font-semibold hover:underline underline-offset-2"
+                href={"/privacy-policy"}
+              >
+                PRIVACY POLICY
+              </Link>{" "}
+              AND{" "}
+              <Link
+                className="text-primary-color font-semibold hover:underline underline-offset-2"
+                href={"/return-exchange"}
+              >
+                RETURN POLICIES
+              </Link>
+            </label>
+          </div>
+          {!userNotAgreed && !isUserAgree && (
+            <small className="text-red-600 text-xs font-medium">
+              *please check the checkbox to continue
+            </small>
+          )}
         </div>
         <div className="flex gap-5 items-center mt-6">
           <div
