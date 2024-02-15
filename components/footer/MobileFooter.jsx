@@ -10,6 +10,7 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
+import sslCommerceBanner from "../../public/images/sslCommerce.jpg";
 
 const MobileFooter = () => {
   const [serviceToogleArrow, setServiceToogleArrow] = useState(false);
@@ -196,23 +197,28 @@ const MobileFooter = () => {
       </div>
       <div className="mt-6 flex justify-center">
         <div>
-          <span className="text-sm text-white">
-            <div className="text-white mb-1">
-              © Copyright 2023 NAZAARA LIFESTYLE LTD. All rights Reserved.
-            </div>
-            <div className="text-white">
-              Design & Development by
+          <div className="text-sm text-white">
+            <p className="text-white mb-1">
+              © Copyright 2023 ANZARA LIFESTYLE LTD.
+            </p>
+            <p className="text-white">
+              Design & Develop by
               <Link
                 className="ml-1"
                 href="https://bayshorecommunication.com/"
                 target="_blank"
               >
-                <span className="text-white underline underline-offset-2 mt-1">
+                <span className="text-white underline underline-offset-4 mt-1">
                   Bayshore Communication
                 </span>
               </Link>
-            </div>
-          </span>
+            </p>
+            <Image
+              className="mt-2"
+              src={sslCommerceBanner}
+              alt="SSL commerce banner"
+            />
+          </div>
         </div>
       </div>
     </div>

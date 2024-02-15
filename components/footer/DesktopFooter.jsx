@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import sslCommerceBanner from "../../public/images/sslCommerce.jpg";
 
 const DesktopFooter = () => {
   return (
@@ -125,27 +126,26 @@ const DesktopFooter = () => {
           </ul>
         </div>
         <hr className="mx-auto border-base-100 my-6" />
-        <div className="flex justify-between items-center">
-          <div>
-            <span className="text-[13px] text-white">
-              <div className="text-white mb-1">
-                © Copyright 2023 NAZAARA LIFESTYLE LTD. All rights Reserved.
-              </div>
-              <div className="text-white">
-                Design & Development by
-                <Link
-                  className=" ml-1"
-                  href="https://bayshorecommunication.com/"
-                  target="_blank"
-                >
-                  <span className="block lg:inline text-white underline underline-offset-2 mt-1 lg:mt-0">
-                    Bayshore Communication
-                  </span>
-                </Link>
-              </div>
+        <div className="flex gap-10 justify-between items-center">
+          <div className="flex-shrink-0 text-[13px] text-white">
+            <span className="text-white mb-1">
+              © Copyright 2023 | ANZARA LIFESTYLE LTD.
             </span>
+            <div className="text-white">
+              Design & Develop by
+              <Link
+                className=" ml-1"
+                href="https://bayshorecommunication.com/"
+                target="_blank"
+              >
+                <span className=" text-white font-semibold hover:underline underline-offset-4 mt-1 lg:mt-0">
+                  Bayshore Communication
+                </span>
+              </Link>
+            </div>
           </div>
-          <div className="flex gap-2">
+          <Image src={sslCommerceBanner} alt="SSL commerce banner" />
+          {/* <div className="flex gap-2">
             <Image
               src="/images/visa.png"
               alt="My Image"
@@ -167,8 +167,17 @@ const DesktopFooter = () => {
               height={35}
               className="brightness-50"
             />
-          </div>
+          </div> */}
         </div>
+        {/* <div>
+          <Image
+            src={sslCommerceBanner}
+            alt="SSL commerce banner"
+            // width={42}
+            // height={35}
+            // className="brightness-50"
+          />
+        </div> */}
       </div>
     </div>
   );
