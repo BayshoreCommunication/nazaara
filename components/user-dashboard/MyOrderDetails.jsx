@@ -290,7 +290,7 @@ const MyOrderDetails = ({ orderData }) => {
           </p>
         </div>
         <div className="flex justify-between items-center mb-3">
-          <p>Transaction ID</p>
+          <p>Order ID</p>
           <p>{orderData?.transactionId}</p>
         </div>
         <div className="flex justify-between items-center mb-3">

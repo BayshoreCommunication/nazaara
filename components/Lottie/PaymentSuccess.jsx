@@ -12,7 +12,11 @@ const PaymentSuccess = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  return <Lottie options={defaultOptions} height={600} width={600} />;
+  return (
+    <div className="w-[350px] lg:w-[600px]">
+      <Lottie options={defaultOptions} />
+    </div>
+  );
 };
 
 export default PaymentSuccess;

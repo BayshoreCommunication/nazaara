@@ -278,9 +278,9 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
               ))}
           </div>
           <div className="flex items-center gap-2">
-            {data?.size?.map((data) => (
+            {data?.size?.map((data, index) => (
               <button
-                key={data}
+                key={index}
                 onClick={() => setGetSize(data)}
                 className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
                   getSize === data &&
@@ -335,52 +335,6 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
                 </button>
               )}
             </div>
-
-            {/* <div className="flex items-center gap-2">
-              {data.variant.map((data, i) => (
-                // <button
-                //   key={data._id}
-                //   onClick={() => {
-                //     setGetColor(data?.color);
-                //     dispatch(currentColor(data.color));
-                //   }}
-                //   className={`capitalize text-sm px-2 py-1 text-gray-700 border border-gray-400 hover:border-primary-color rounded-md hover:bg-primary-color hover:text-white font-normal ${
-                //     getColor === data?.color &&
-                //     "border-primary-color bg-primary-color text-white"
-                //   }`}
-                // >
-                //   {data?.color}
-                // </button>
-
-                <button
-                  key={data._id}
-                  onClick={() => {
-                    setGetColor(data?.color);
-                    dispatch(currentColor(data.color));
-                  }}
-                  style={{ backgroundColor: data.colorCode }}
-                  className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
-                >
-                  {getColor === data?.color &&
-                    (data.color === "Black" ? (
-                      <TiTick color="white" size={20} />
-                    ) : (
-                      <TiTick color="black" size={20} />
-                    ))}
-                </button>
-              ))}
-              {getColor && (
-                <button
-                  onClick={() => {
-                    setGetColor(null);
-                    dispatch(currentColor(null));
-                  }}
-                  className="text-xs text-primary-color flex items-center"
-                >
-                  <TiDelete size={17} color="red" /> Clear Select
-                </button>
-              )}
-            </div> */}
           </div>
 
           <div>

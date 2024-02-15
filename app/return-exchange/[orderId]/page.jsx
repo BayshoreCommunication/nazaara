@@ -92,7 +92,7 @@ const ReturnAndExchange = ({ params }) => {
               />
             </div>
             <div className="w-full">
-              <label>OrderID:</label>
+              <label>ID:</label>
               <input
                 className="block w-full text-gray-600 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none cursor-not-allowed"
                 disabled

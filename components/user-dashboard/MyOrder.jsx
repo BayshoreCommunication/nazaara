@@ -49,7 +49,7 @@ const MyOrder = ({ orderData }) => {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Transaction Id
+              Order Id
             </th>
             <th scope="col" className="px-6 py-3">
               Payment Type
