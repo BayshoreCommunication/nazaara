@@ -7,6 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const DetailImage = ({ productData }) => {
+  // console.log("products data", productData);
   const { width } = useWindowDimensions();
   const currentColor = useSelector((state) => state.imgFilter.color);
 
@@ -16,10 +17,13 @@ const DetailImage = ({ productData }) => {
       (el) => el.color === currentColor
     );
   else currentProduct = productData.variant;
+
+  console.log("current product", currentProduct);
+
   const currentProductImages = currentProduct?.flatMap((elem) =>
     elem.imageUrl.map((url) => ({
-      original: url,
-      thumbnail: url,
+      original: url.image,
+      thumbnail: url.image,
     }))
   );
   const imageGalleryItems = currentProductImages.map((image) => ({

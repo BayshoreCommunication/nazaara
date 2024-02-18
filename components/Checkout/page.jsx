@@ -587,7 +587,13 @@ const CheckoutContent = ({
               >
                 <div className="flex gap-4 items-center relative">
                   <Image
-                    src={`${data?.product?.variant[0]?.imageUrl[0]}`}
+                    // src={`${data?.product?.variant[0]?.imageUrl[0]}`}
+                    src={
+                      data?.product?.variant
+                        .flatMap((v) => v.imageUrl)
+                        .find((image) => image.isFeatured)?.image ||
+                      data?.product?.variant[0].imageUrl[0].image
+                    }
                     alt="bridal_top"
                     width={60}
                     height={40}

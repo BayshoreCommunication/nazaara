@@ -233,7 +233,13 @@ const CartContent = ({ userData }) => {
                           <div className="hidden lg:flex gap-4 items-center">
                             <Link href={`/products/${detail?.product?.slug}`}>
                               <Image
-                                src={detail?.product?.variant[0]?.imageUrl[0]}
+                                // src={detail?.product?.variant[0]?.imageUrl[0]}
+                                src={
+                                  detail?.product?.variant
+                                    .flatMap((v) => v.imageUrl)
+                                    .find((image) => image.isFeatured)?.image ||
+                                  detail?.product?.variant[0].imageUrl[0].image
+                                }
                                 alt="cart"
                                 width={90}
                                 height={80}

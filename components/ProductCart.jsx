@@ -129,9 +129,15 @@ const ProductCart = ({ data, i }) => {
             <Link className="" href={`/products/${data?.slug}`}>
               <div className="relative">
                 <div className="">
-                  {data?.variant[0]?.imageUrl[0] && (
+                  {data?.variant[0]?.imageUrl.length > 0 && (
                     <Image
-                      src={data?.variant[0]?.imageUrl[0]}
+                      // src={data?.variant[0]?.imageUrl[0]}
+                      src={
+                        data.variant
+                          .flatMap((v) => v.imageUrl)
+                          .find((image) => image.isFeatured)?.image ||
+                        data.variant[0].imageUrl[0].image
+                      }
                       alt={data.productName}
                       width={384}
                       height={512}
