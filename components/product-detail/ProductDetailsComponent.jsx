@@ -295,17 +295,16 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
           <div>
             <h2 className="font-medium text-gray-700 text-sm mb-1">Color</h2>
             <div className="flex items-center gap-x-1 gap-y-4">
-              {data.variant.map((data) => (
+              {data.variant.map((data, index) => (
                 <>
                   <div
-                    key={data._id}
+                    key={index}
                     className="relative group flex flex-col items-center"
                   >
                     <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
                       {data.color}
                     </div>
                     <button
-                      key={data._id}
                       onClick={() => {
                         setGetColor(data?.color);
                         dispatch(currentColor(data?.color));

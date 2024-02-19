@@ -11,10 +11,12 @@ import { setCookie } from "cookies-next";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 const SignIn = ({ setAuth }) => {
   const router = useRouter();
   const [authCheck, setAuthCheck] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -27,14 +29,14 @@ const SignIn = ({ setAuth }) => {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
         const userData = result.user;
-        // console.log("result", userData);
+        console.log("result", userData);
         const userGoogle = result.user.email;
-        // console.log("google email", userGoogle);
+        console.log("google email", userGoogle);
 
         const url = `${process.env.API_URL}/api/v1/auth/${userGoogle}`;
         // console.log("url", url);
         const userAuthCredential = await usefetch(url);
-        // console.log("userAuthCredential", userAuthCredential);
+        console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
@@ -44,35 +46,42 @@ const SignIn = ({ setAuth }) => {
               maxAge: 24 * 60 * 60 * 1000,
             }
           );
-          router.push("/");
+          router.back();
           toast.success("Sign in Successfully.");
           setAuthCheck("Sign in complete.");
         } else {
           // toast.error("Please sign up first!");
           // setAuthCheck("Please sign up first!");
           const formData = {
+            // _id: crypto.randomUUID(),
             fullName: userData.displayName,
             email: userGoogle,
-            password: Math.random().toString(36).slice(-8),
+            password: "",
             phone: "",
             gender: "",
             refund: 0,
             addressBook: [],
             imageUrl: userData.photoURL,
           };
+          console.log("form data", formData);
+
           if (userAuthCredential.status === "Not matched") {
             axios
               .post(`${process.env.API_URL}/api/v1/user`, formData)
               .then((response) => {
-                // console.log("response", response);
+                console.log("response", response);
                 if (response.status === 200 || response.status === 201) {
                   setAuth("signIn");
-                  setCookie("userAuthCredential", JSON.stringify(formData), {
-                    maxAge: 24 * 60 * 60 * 1000,
-                  });
-                  router.push("/");
-                  setAuthCheck("Sign in complete.");
+                  setCookie(
+                    "userAuthCredential",
+                    JSON.stringify(response.data.data),
+                    {
+                      maxAge: 24 * 60 * 60 * 1000,
+                    }
+                  );
                   toast.success("Successfully registered.");
+                  setAuthCheck("Sign in complete.");
+                  router.back();
                 }
               })
               .catch((error) => {
@@ -85,15 +94,7 @@ const SignIn = ({ setAuth }) => {
         }
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
         console.error("errorMessage", error);
-        // The email of the user's account used.
-        // const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
       });
   };
 
@@ -130,6 +131,7 @@ const SignIn = ({ setAuth }) => {
 
   const handleSignIn = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const authBody = {
       email: user.email,
       password: user.password,
@@ -142,13 +144,15 @@ const SignIn = ({ setAuth }) => {
           setCookie("userAuthCredential", JSON.stringify(response.data.user), {
             maxAge: 24 * 60 * 60 * 1000,
           });
-          router.push("/");
+          setIsLoading(false);
+          router.back();
           setAuthCheck("Sign in complete.");
           setAuth("signIn");
           toast.success("Successfully Logged In.");
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data.message);
       });
 
@@ -184,7 +188,7 @@ const SignIn = ({ setAuth }) => {
     <div className=" max-w-[30rem] mx-auto py-[3rem]">
       <div className="flex flex-col">
         <div className="p-6">
-          <div className="space-y-5">
+          <form onSubmit={handleSignIn} className="space-y-5">
             <div>
               <label
                 htmlFor="email"
@@ -227,17 +231,17 @@ const SignIn = ({ setAuth }) => {
                 />
               </div>
             </div>
-
-            <div>
-              <button
-                onClick={handleSignIn}
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
-              >
-                Sign In
-              </button>
-            </div>
-          </div>
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-primary-color px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-color"
+            >
+              {isLoading ? (
+                <BeatLoader className="py-[5px]" size={10} color="#ffffff" />
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </form>
           <div className="text-sm text-end mt-1">
             <Link
               href="/forgotPassword"
