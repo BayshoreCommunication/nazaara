@@ -82,7 +82,6 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
                     id="blouse"
                     type="radio"
                     name="topsRadio"
-                    required
                     value="blouse"
                     className="w-4 h-4"
                   />
@@ -97,7 +96,6 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
                   <input
                     id="kameez"
                     type="radio"
-                    required
                     name="topsRadio"
                     value="kameez"
                     className="w-4 h-4"
@@ -113,7 +111,6 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
                   <input
                     id="gown"
                     type="radio"
-                    required
                     name="topsRadio"
                     value="gown"
                     className="w-4 h-4"

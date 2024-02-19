@@ -26,7 +26,13 @@ const DrawerContent = ({ data, setIsOpen }) => {
           <div className="flex gap-4 my-4">
             {data.variant[0].imageUrl[0] && (
               <Image
-                src={data.variant[0].imageUrl[0]}
+                // src={data.variant[0].imageUrl[0]}
+                src={
+                  data.variant
+                    .flatMap((v) => v.imageUrl)
+                    .find((image) => image.isFeatured)?.image ||
+                  data.variant[0].imageUrl[0].image
+                }
                 alt="bridal_top"
                 width={600}
                 height={300}
