@@ -73,7 +73,7 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
                   alt="logo"
                   width={20}
                   height={20}
-                  className="cursor-pointer rounded-full h-5 w-5 lg:h-6 lg:w-6 shadow-md border-2"
+                  className="cursor-pointer rounded-full h-5 w-5 lg:h-6 lg:w-6 border-2 border-white"
                 />
               ) : (
                 <div className="border-2 h-5 w-5 lg:h-6 lg:w-6 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
