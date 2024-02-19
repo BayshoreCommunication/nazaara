@@ -14,7 +14,7 @@ const MyReturns = async () => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/return-exchange/user/${data._id}`;
       const returnData = await fetchDynamicServerSideData(url);
-      console.log(returnData.data);
+      // console.log(returnData.data);
       if (returnData) {
         if ((returnData.status = "success")) {
           return (

@@ -8,10 +8,10 @@ import MobileFooter from "./MobileFooter";
 async function getData() {
   const cookieData = cookies();
   const userData = cookieData.get("userAuthCredential");
-  console.log("user data", userData);
+  // console.log("user data", userData);
   if (userData) {
     const data = JSON.parse(userData?.value);
-    console.log("data", data);
+    // console.log("data", data);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
     const res = await fetch(url, { cache: "no-store" });
     // if (!res.ok) {

@@ -29,14 +29,14 @@ const SignIn = ({ setAuth }) => {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
         const userData = result.user;
-        console.log("result", userData);
+        // console.log("result", userData);
         const userGoogle = result.user.email;
-        console.log("google email", userGoogle);
+        // console.log("google email", userGoogle);
 
         const url = `${process.env.API_URL}/api/v1/auth/${userGoogle}`;
         // console.log("url", url);
         const userAuthCredential = await usefetch(url);
-        console.log("userAuthCredential", userAuthCredential);
+        // console.log("userAuthCredential", userAuthCredential);
         // console.log("User Auth Credential", userAuthCredential.user.imageUrl);
         if (userAuthCredential.user) {
           setCookie(
@@ -63,13 +63,13 @@ const SignIn = ({ setAuth }) => {
             addressBook: [],
             imageUrl: userData.photoURL,
           };
-          console.log("form data", formData);
+          // console.log("form data", formData);
 
           if (userAuthCredential.status === "Not matched") {
             axios
               .post(`${process.env.API_URL}/api/v1/user`, formData)
               .then((response) => {
-                console.log("response", response);
+                // console.log("response", response);
                 if (response.status === 200 || response.status === 201) {
                   setAuth("signIn");
                   setCookie(

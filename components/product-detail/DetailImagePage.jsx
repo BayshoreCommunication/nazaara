@@ -18,7 +18,7 @@ const DetailImage = ({ productData }) => {
     );
   else currentProduct = productData.variant;
 
-  console.log("current product", currentProduct);
+  // console.log("current product", currentProduct);
 
   const currentProductImages = currentProduct?.flatMap((elem) =>
     elem.imageUrl.map((url) => ({

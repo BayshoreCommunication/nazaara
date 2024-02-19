@@ -71,9 +71,9 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
                 <Image
                   src={`${imgUrl}`}
                   alt="logo"
-                  width={20}
-                  height={20}
-                  className="cursor-pointer rounded-full h-5 w-5 lg:h-6 lg:w-6 border-2 border-white"
+                  width={30}
+                  height={30}
+                  className="cursor-pointer rounded-full h-5 w-5 lg:h-[22px] lg:w-[22px]"
                 />
               ) : (
                 <div className="border-2 h-5 w-5 lg:h-6 lg:w-6 rounded-full flex justify-center items-center hover:bg-white hover:text-primary-color">
@@ -92,7 +92,7 @@ const EndHandler = ({ isSearchOpen, searchRef, setIsSearchOpen }) => {
               alt="logo"
               width={20}
               height={20}
-              className="cursor-pointer h-auto"
+              className="cursor-pointer h-5 w-5"
             />
           </Link>
         )}
