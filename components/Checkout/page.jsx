@@ -112,7 +112,12 @@ const CheckoutContent = ({
     title: item.product.productName,
     sku: item.product.sku,
     slug: item.product.slug,
-    imgUrl: item.product.variant[0].imageUrl[0],
+    // imgUrl: item.product.variant[0].imageUrl[0],
+    imgUrl:
+      item.product.variant
+        .flatMap((v) => v.imageUrl)
+        .find((image) => image.isFeatured)?.image ||
+      item.product.variant[0].imageUrl[0].image,
     quantity: item.quantity,
     color: item.color,
     size: item.size,

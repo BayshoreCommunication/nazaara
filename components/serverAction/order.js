@@ -31,7 +31,6 @@ export const handleOrder = async (formData, others) => {
 
   // console.log("data from server action", data);
   const url = `${process.env.API_URL}/api/v1/order`;
-  // const url = `http://localhost:8000/api/v1/order`;
 
   try {
     const response = await fetch(url, {
