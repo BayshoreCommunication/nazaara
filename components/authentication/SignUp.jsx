@@ -172,11 +172,11 @@ const SignUp = ({ setAuth }) => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.error("Sign in error", error);
+          console.error("Sign up error", error);
         });
     } else {
       setIsLoading(false);
-      toast.error("Already heve an account!");
+      toast.error("Already have an account! Please sign in.");
       setAuthCheck("Already registered!");
     }
   };
