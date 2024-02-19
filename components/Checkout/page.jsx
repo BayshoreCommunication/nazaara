@@ -18,6 +18,7 @@ const CheckoutContent = ({
 }) => {
   const [couponCode, setCouponCode] = useState("");
   const [couponAmount, setCouponAmount] = useState(0);
+  const [shippingCharge, setShippingCharge] = useState(0);
   const [couponId, setCouponId] = useState(null);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
   const [isPromotionAvailable, setIsPromotionAvailable] = useState(false);
@@ -33,13 +34,16 @@ const CheckoutContent = ({
   // console.log("cartData", cartData);
 
   useEffect(() => {
-    const isFreeShipping = cartData.map(
+    const isFreeShippingData = cartData.map(
       (cart) =>
-        cart?.product?.category?.promotion?.freeShipping ||
-        cart?.product?.subCategory?.promotion?.freeShipping
+        (cart?.product?.category?.promotion?.freeShipping &&
+          cart?.product?.category?.promotion?.validPromotion) ||
+        (cart?.product?.subCategory?.promotion?.freeShipping &&
+          cart?.product?.subCategory?.promotion?.validPromotion)
     );
-    const hasFreeShipping = isFreeShipping.some((value) => value === true);
-
+    // console.log("is free", isFreeShippingData);
+    const hasFreeShipping = isFreeShippingData.some((value) => value === true);
+    // console.log("hasFreeShipping", hasFreeShipping);
     const isPromotion = cartData.map(
       (cart) =>
         cart?.product?.category?.promotion?.validPromotion ||
@@ -58,6 +62,23 @@ const CheckoutContent = ({
     event.preventDefault();
     setAddressIndex(index);
   };
+
+  useEffect(() => {
+    // console.log("isFreeShipping", isFreeShipping, shippingMethod);
+    if (isFreeShipping) {
+      // shippingCharge = 0;
+      setShippingCharge(0);
+    } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
+      // shippingCharge = 100;
+      setShippingCharge(100);
+    } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
+      // shippingCharge = 250;
+      setShippingCharge(250);
+    } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
+      // shippingCharge = 0;
+      setShippingCharge(0);
+    }
+  }, [isFreeShipping, shippingMethod]);
 
   //calculate value
   let subTotal = 0;
@@ -217,16 +238,7 @@ const CheckoutContent = ({
   };
 
   //calculate shipping charge
-  let shippingCharge = 0;
-  if (isFreeShipping) {
-    shippingCharge = 0;
-  } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
-    shippingCharge = 100;
-  } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
-    shippingCharge = 250;
-  } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
-    shippingCharge = 0;
-  }
+  // let shippingCharge = 0;
 
   //calculate pay amount
   let payAmout = 0;
@@ -264,6 +276,7 @@ const CheckoutContent = ({
 
   //server action for create form data
   async function clientAction(formData) {
+    // console.log("form data", formData);
     if (!isUserAgree) {
       setUserNotAgreed(false);
     } else {
@@ -288,6 +301,8 @@ const CheckoutContent = ({
       }
     }
   }
+
+  // console.log("data others", others);
 
   return (
     <form action={clientAction} className="flex flex-col lg:flex-row">
