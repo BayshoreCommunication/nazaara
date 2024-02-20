@@ -9,11 +9,11 @@ const LocationPage = () => {
   return (
     <div>
       <TopBar icon={<IoLocationSharp />} title={"OUR LOCATION"} />
-      <div className="my-10 lg:w-2/3 xl:w-1/2 mx-auto">
+      <div className="my-10 lg:w-[80%] mx-auto">
         <h2 className="heading-4 text-center mb-16 text-gray-700 mx-auto">
           VISIT OUR STORE DIRECTLY TODAY!
         </h2>
-        <div className="flex flex-col gap-y-10">
+        <div className="">
           {/* <div className="flex flex-col lg:flex-row gap-14 items-center">
             <div className="w-[90%] lg:w-3/5">
               <iframe
@@ -40,20 +40,33 @@ const LocationPage = () => {
               <p>Phone: 01752-556120</p>
             </div>
           </div> */}
-          <div className="flex flex-col lg:flex-row gap-20 items-center">
-            <div className="w-[90%] lg:w-3/5">
+          <div className="flex flex-col lg:flex-row gap-x-24 gap-y-16 items-center justify-center">
+            <div className="lg:hidden">
               <iframe
                 width="100%"
                 height="300"
                 title="PetersBurg"
-                frameBorder="0"
-                scrolling="no"
-                marginHeight="0"
-                marginWidth="0"
+                // frameBorder="0"
+                // scrolling="no"
+                // marginHeight="0"
+                // marginWidth="0"
                 src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=nazara,dhanmondi+(Nazara)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
               ></iframe>
             </div>
-            <div className="w-[90%] lg:w-2/5 flex flex-col gap-y-4 text-lg text-center">
+
+            <div className="hidden lg:block">
+              <iframe
+                width="400"
+                height="400"
+                title="PetersBurg"
+                // frameBorder="0"
+                // scrolling="no"
+                // marginHeight="0"
+                // marginWidth="0"
+                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=nazara,dhanmondi+(Nazara)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              ></iframe>
+            </div>
+            <div className=" flex flex-col gap-y-4 text-lg text-center">
               <h2 className="text-2xl font-semibold">DHANMONDI SHOWROOM</h2>
               <p className="border-b-2 pb-2">
                 House 22/B, Road 02 Dhanmondi R/A, Dhaka 1205

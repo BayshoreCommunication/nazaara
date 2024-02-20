@@ -12,11 +12,11 @@ const Home = () => {
   return (
     <main>
       {/* <Suspense fallback={<Loader height="h-[40vh]" />}> */}
-      <div className="mt-16 lg:mt-[5.5rem]">
+      <div className="">
         <CaroselDataLoader />
       </div>
       {/* </Suspense> */}
-      <div className="main-container my-10 lg:my-20 flex flex-col gap-y-10 lg:gap-y-20">
+      <div className="main-container my-10 lg:my-16 flex flex-col gap-y-10 lg:gap-y-16">
         {/* shop by festival start */}
         <div>
           <h1 className="card-title">SHOP BY FESTIVAL</h1>

@@ -14,9 +14,9 @@ async function getData() {
     // console.log("data", data);
     const url = `${process.env.API_URL}/api/v1/cart/user/${data._id}`;
     const res = await fetch(url, { cache: "no-store" });
-    // if (!res.ok) {
-    //   throw new Error("Failed to fetch data");
-    // }
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
     return res.json();
   }
 }

@@ -126,7 +126,7 @@ const DesktopFooter = () => {
           </ul>
         </div>
         <hr className="mx-auto border-base-100 my-6" />
-        <div className="flex gap-10 justify-between items-center">
+        <div className="flex gap-10 justify-between items-center overflow-x-hidden">
           <div className="flex-shrink-0 text-[13px] text-white">
             <span className="text-white mb-1">
               © Copyright 2023 | ANZARA LIFESTYLE LTD.

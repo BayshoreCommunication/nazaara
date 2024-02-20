@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <Toaster position="top-center" reverseOrder={false} />
           <MainNavbar />
           <Suspense fallback={<Loader height={"h-[60vh]"} />}>
-            {children}
+            <main className="mt-16 lg:mt-[5.5rem]">{children}</main>
           </Suspense>
           <Footer />
         </Providers>
