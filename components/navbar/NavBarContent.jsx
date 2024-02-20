@@ -474,53 +474,55 @@ const NavBarContent = ({ data, sales, advertisements }) => {
         {isMobileNavOpen && (
           <div
             ref={mobileNavRef}
-            className={`${
-              scrollY > 100
-                ? "lg:py-1  backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
-                : ""
-            } block lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color ring-1 ring-black ring-opacity-5 focus:outline-none z-20 left-0`}
+            className="lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color focus:outline-none z-20 left-0 backdrop-blur-3xl backdrop-opacity-80 bg-primary-color/80"
           >
             <div className="main-container ">
               <SearchComponent />
               <div className="flex flex-col gap-y-2 mt-3">
-                <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link href="/" onClick={() => setIsMobileNavOpen(false)}>
-                    HOME
-                  </Link>
-                </li>
+                <Link
+                  className="w-full border-b py-2 text-white text-sm"
+                  href="/"
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  HOME
+                </Link>
 
-                <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link href="/shop" onClick={() => setIsMobileNavOpen(false)}>
-                    SHOP
-                  </Link>
-                </li>
+                <Link
+                  className="w-full border-b py-2 text-white text-sm"
+                  href="/shop"
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  SHOP
+                </Link>
 
                 <div className="border-b">
                   <div
                     onClick={() => setMobileRegularLink(!mobileRegularLink)}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between w-full"
                   >
-                    <li className="block py-2 text-white text-sm cursor-pointer">
-                      <p>REGULAR WEAR</p>
-                    </li>
-                    {mobileRegularLink ? (
-                      <FaAngleUp size={18} color="white" />
-                    ) : (
-                      <FaAngleDown size={18} color="white" />
-                    )}
+                    <span className="block py-2 text-white text-sm cursor-pointer">
+                      REGULAR WEAR
+                    </span>
+                    <FaAngleDown
+                      className={`transition-all duration-300 ease-in-out ${
+                        mobileRegularLink ? "rotate-180" : ""
+                      } `}
+                      size={18}
+                      color="white"
+                    />
                   </div>
                   {mobileRegularLink && (
                     <>
                       {saleData("regular-wear").map((data, index) => (
                         <div
                           key={index}
-                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
+                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
                         >
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setToogle(false)}
+                              // onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
@@ -537,27 +539,32 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                     onClick={() => setMobilePartyLink(!mobilePartyLink)}
                     className="flex items-center justify-between"
                   >
-                    <li className="block py-2 text-white text-sm cursor-pointer">
-                      <p>PARTY WEAR</p>
-                    </li>
-                    {mobilePartyLink ? (
+                    <span className="py-2 text-white text-sm">PARTY WEAR</span>
+                    {/* {mobilePartyLink ? (
                       <FaAngleUp size={18} color="white" />
                     ) : (
                       <FaAngleDown size={18} color="white" />
-                    )}
+                    )} */}
+                    <FaAngleDown
+                      className={`transition-all duration-300 ease-in-out ${
+                        mobilePartyLink ? "rotate-180" : ""
+                      } `}
+                      size={18}
+                      color="white"
+                    />
                   </div>
                   {mobilePartyLink && (
                     <>
                       {saleData("party-wear").map((data, index) => (
                         <div
                           key={index}
-                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
+                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
                         >
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setToogle(false)}
+                              // onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
@@ -574,27 +581,34 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                     onClick={() => setMobileBridalLink(!mobileBridalLink)}
                     className="flex items-center justify-between"
                   >
-                    <li className="block py-2 text-white text-sm cursor-pointer">
-                      <p>BRIDAL WEAR</p>
-                    </li>
-                    {mobileBridalLink ? (
-                      <FaAngleUp size={18} color="white" />
-                    ) : (
-                      <FaAngleDown size={18} color="white" />
-                    )}
+                    <span className="py-2 text-white text-sm">BRIDAL WEAR</span>
+                    <span>
+                      {/* {mobileBridalLink ? (
+                        <FaAngleUp size={18} color="white" />
+                      ) : (
+                        <FaAngleDown size={18} color="white" />
+                      )} */}
+                      <FaAngleDown
+                        className={`transition-all duration-300 ease-in-out ${
+                          mobileBridalLink ? "rotate-180" : ""
+                        } `}
+                        size={18}
+                        color="white"
+                      />
+                    </span>
                   </div>
                   {mobileBridalLink && (
                     <>
                       {saleData("bridal-wear").map((data, index) => (
                         <div
                           key={index}
-                          className="flex flex-col gap-y-3 text-sm mb-4 mt-2"
+                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
                         >
                           {data.subCategories.map((subCategory, i) => (
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setToogle(false)}
+                              // onClick={() => setToogle(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
@@ -605,22 +619,20 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                     </>
                   )}
                 </div>
-                <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link
-                    href="/contact-us"
-                    onClick={() => setIsMobileNavOpen(false)}
-                  >
-                    CONTACT US
-                  </Link>
-                </li>
-                <li className="border-b block py-2 text-white text-sm cursor-pointer">
-                  <Link
-                    href="/location"
-                    onClick={() => setIsMobileNavOpen(false)}
-                  >
-                    OUR LOCATIONS
-                  </Link>
-                </li>
+                <Link
+                  href="/contact-us"
+                  className="border-b py-2 text-white text-sm cursor-pointer"
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  CONTACT US
+                </Link>
+                <Link
+                  className="border-b py-2 text-white text-sm cursor-pointer"
+                  href="/location"
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  OUR LOCATIONS
+                </Link>
               </div>
             </div>
           </div>
