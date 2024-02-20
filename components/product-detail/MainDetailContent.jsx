@@ -51,7 +51,7 @@ const ProductMainDetails = ({
 
   return (
     <div>
-      <div className="lg:flex gap-8 main-container my-4 md:my-6 lg:my-10">
+      <div className="lg:flex gap-8 main-container mt-20 lg:mt-32">
         <div
           id="leftDiv"
           className={`flex-1 w-full lg:w-[60%] overflow-y-scroll scrollbar-none bg-white ${
