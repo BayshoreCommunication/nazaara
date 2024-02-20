@@ -1,60 +1,12 @@
-import CheckoutContent from "@/components/Checkout/page";
+import CheckoutMainPage from "@/components/Checkout/MainPage";
 import TopBar from "@/components/TopBar";
 import Navigation from "@/components/paymentNav/Navigation";
-import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { FaBagShopping, FaCartShopping } from "react-icons/fa6";
 import { IoBagHandle } from "react-icons/io5";
+import { BeatLoader } from "react-spinners";
 
-//define fetch user data from cookies function
-async function getUserData() {
-  const cookieData = cookies();
-  const userData = cookieData.get("userAuthCredential");
-  // console.log("user data", userData);
-  if (userData) {
-    const data = JSON.parse(userData?.value);
-    const user = await fetchServerSideData(
-      `${process.env.API_URL}/api/v1/user/${data?._id}`
-    );
-    return user;
-  }
-  return redirect("/user-authentication");
-}
-
-const CheckoutPage = async () => {
-  const userData = await getUserData(); //call fetch user data function
-
-  //   console.log("user data", userData);
-
-  //fetch cart data using user id
-  const cartData = await fetchDynamicServerSideData(
-    `${process.env.API_URL}/api/v1/cart/user/${userData?.data?._id}`
-  );
-
-  if (cartData?.data?.length < 1) {
-    return redirect("/shop/cart");
-  }
-
-  // console.log("cart data from page", cartData);
-
-  //fetch all country data
-  const countryData = await fetchServerSideData(
-    `https://restcountries.com/v2/all`
-  );
-  const countryName = countryData.map((data) => data?.name) || [
-    "Bangladesh",
-    "India",
-    "Pakistan",
-  ]; //extract all the country name
-
-  const fetchCouponData = async (url) => {
-    "use server";
-    const res = await fetch(url, { cache: "no-store" });
-    return res.json();
-  };
-
+const CheckoutPage = () => {
   return (
     <main>
       <TopBar
@@ -77,12 +29,15 @@ const CheckoutPage = async () => {
         }
       />
       <section className="main-container py-6">
-        <CheckoutContent
-          userData={userData?.data}
-          cartData={cartData?.data}
-          countryName={countryName}
-          fetchCouponData={fetchCouponData}
-        />
+        <Suspense
+          fallback={
+            <div className="w-full h-[40vh] flex justify-center items-center">
+              <BeatLoader color="#820000" />
+            </div>
+          }
+        >
+          <CheckoutMainPage />
+        </Suspense>
       </section>
     </main>
   );

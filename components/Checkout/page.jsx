@@ -9,10 +9,11 @@ import { BeatLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import { handleOrder } from "../serverAction/order";
 import Link from "next/link";
+import { useGetCartByUserIdQuery } from "@/services/cartApi";
 
 const CheckoutContent = ({
   userData,
-  cartData,
+  // cartData,
   countryName,
   fetchCouponData,
 }) => {
@@ -34,32 +35,42 @@ const CheckoutContent = ({
   const [payAmount, setPayAmount] = useState(0);
   const [dueAmount, setDueAmount] = useState(0);
 
-  // console.log("cart data", cartData);
+  const { data, isLoading: isCartDataLoading } = useGetCartByUserIdQuery(
+    `${userData._id}`
+  );
+
+  const cartData = data?.data;
+
+  console.log("cart data", cartData);
 
   useEffect(() => {
-    const isFreeShippingData = cartData.map(
-      (cart) =>
-        (cart?.product?.category?.promotion?.freeShipping &&
-          cart?.product?.category?.promotion?.validPromotion) ||
-        (cart?.product?.subCategory?.promotion?.freeShipping &&
-          cart?.product?.subCategory?.promotion?.validPromotion)
-    );
-    // console.log("is free", isFreeShippingData);
-    const hasFreeShipping = isFreeShippingData.some((value) => value === true);
-    // console.log("hasFreeShipping", hasFreeShipping);
-    const isPromotion = cartData.map(
-      (cart) =>
-        cart?.product?.category?.promotion?.validPromotion ||
-        cart?.product?.subCategory?.promotion?.validPromotion
-    );
-    const hasPromotion = isPromotion.some((value) => value === true);
+    if (cartData) {
+      const isFreeShippingData = cartData.map(
+        (cart) =>
+          (cart?.product?.category?.promotion?.freeShipping &&
+            cart?.product?.category?.promotion?.validPromotion) ||
+          (cart?.product?.subCategory?.promotion?.freeShipping &&
+            cart?.product?.subCategory?.promotion?.validPromotion)
+      );
+      // console.log("is free", isFreeShippingData);
+      const hasFreeShipping = isFreeShippingData.some(
+        (value) => value === true
+      );
+      // console.log("hasFreeShipping", hasFreeShipping);
+      const isPromotion = cartData.map(
+        (cart) =>
+          cart?.product?.category?.promotion?.validPromotion ||
+          cart?.product?.subCategory?.promotion?.validPromotion
+      );
+      const hasPromotion = isPromotion.some((value) => value === true);
 
-    // Set the state based on the condition
-    setIsFreeShipping(hasFreeShipping);
-    setIsPromotionAvailable(hasPromotion);
+      // Set the state based on the condition
+      setIsFreeShipping(hasFreeShipping);
+      setIsPromotionAvailable(hasPromotion);
+    }
   }, [cartData]);
 
-  const cartId = cartData.map((data) => data._id);
+  const cartId = cartData?.map((data) => data._id);
 
   const handleClick = (index, event) => {
     event.preventDefault();
@@ -144,32 +155,34 @@ const CheckoutContent = ({
   }, [isFreeShipping, paymentMethod, shippingMethod, totalAmount]);
 
   //extract cart data into an array of object
-  const productData = cartData.map((item) => ({
-    productDetails: item.product._id,
-    title: item.product.productName,
-    sku: item.product.sku,
-    slug: item.product.slug,
-    // imgUrl: item.product.variant[0].imageUrl[0],
-    imgUrl:
-      item.product.variant
-        .flatMap((v) => v.imageUrl)
-        .find((image) => image.isFeatured)?.image ||
-      item.product.variant[0].imageUrl[0].image,
-    quantity: item.quantity,
-    color: item.color,
-    size: item.size,
-    sizeChart: item.sizeChart,
-    salePrice: item.product.salePrice,
-    stock: item.product.stock,
-    preOrder: item.product.preOrder,
-    offeredPrice: calculateSalePrice(
-      item?.product?.category?.promotion?.validPromotion,
-      item?.product?.category?.promotion?.discountType,
-      item?.product?.regularPrice,
-      item?.product?.category?.promotion?.discountOff,
-      item?.product?.salePrice
-    ),
-  }));
+  const productData =
+    cartData &&
+    cartData.map((item) => ({
+      productDetails: item.product._id,
+      title: item.product.productName,
+      sku: item.product.sku,
+      slug: item.product.slug,
+      // imgUrl: item.product.variant[0].imageUrl[0],
+      imgUrl:
+        item.product.variant
+          .flatMap((v) => v.imageUrl)
+          .find((image) => image.isFeatured)?.image ||
+        item.product.variant[0].imageUrl[0].image,
+      quantity: item.quantity,
+      color: item.color,
+      size: item.size,
+      sizeChart: item.sizeChart,
+      salePrice: item.product.salePrice,
+      stock: item.product.stock,
+      preOrder: item.product.preOrder,
+      offeredPrice: calculateSalePrice(
+        item?.product?.category?.promotion?.validPromotion,
+        item?.product?.category?.promotion?.discountType,
+        item?.product?.regularPrice,
+        item?.product?.category?.promotion?.discountOff,
+        item?.product?.salePrice
+      ),
+    }));
 
   //handle the coupon
   const handleCoupon = async (e) => {
@@ -598,65 +611,76 @@ const CheckoutContent = ({
       </div>
       <div className="flex-1 mt-6 lg:mt-0 lg:ml-10">
         <div className="w-full xl:payment-container-end text-sm mt-6">
-          {cartData?.map((data, index) => {
-            return (
-              <div
-                className="flex justify-between items-center pb-4 border-b mb-4"
-                key={index}
-              >
-                <div className="flex gap-4 items-center relative">
-                  <Image
-                    // src={`${data?.product?.variant[0]?.imageUrl[0]}`}
-                    src={
-                      data?.product?.variant
-                        .flatMap((v) => v.imageUrl)
-                        .find((image) => image.isFeatured)?.image ||
-                      data?.product?.variant[0].imageUrl[0].image
-                    }
-                    alt="bridal_top"
-                    width={60}
-                    height={40}
-                    className="w-[5rem] h-[5.7rem] border-2 border-secondary-color rounded-sm"
-                  />
-                  <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[6px] left-[66px]">
-                    <p className="text-primary-color text-xs font-semibold">
-                      {data?.quantity}
-                    </p>
+          {cartData && !isCartDataLoading ? (
+            <>
+              {cartData?.map((data, index) => {
+                return (
+                  <div
+                    className="flex justify-between items-center pb-4 border-b mb-4"
+                    key={index}
+                  >
+                    <div className="flex gap-4 items-center relative">
+                      <Image
+                        // src={`${data?.product?.variant[0]?.imageUrl[0]}`}
+                        src={
+                          data?.product?.variant
+                            .flatMap((v) => v.imageUrl)
+                            .find((image) => image.isFeatured)?.image ||
+                          data?.product?.variant[0].imageUrl[0].image
+                        }
+                        alt="bridal_top"
+                        width={60}
+                        height={40}
+                        className="w-[5rem] h-[5.7rem] border-2 border-secondary-color rounded-sm"
+                      />
+                      <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[6px] left-[66px]">
+                        <p className="text-primary-color text-xs font-semibold">
+                          {data?.quantity}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-base font-semibold text-gray-700">
+                          {data?.product?.productName}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          Size: {data?.size}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          Price: ৳
+                          {data?.product?.category?.promotion
+                            ? calculateSalePrice(
+                                data?.product?.category?.promotion
+                                  ?.validPromotion,
+                                data?.product?.category?.promotion
+                                  ?.discountType,
+                                data?.product?.regularPrice,
+                                data?.product?.category?.promotion?.discountOff,
+                                data?.product?.salePrice
+                              ) * data?.quantity
+                            : calculateSalePrice(
+                                data?.product?.subCategory?.promotion
+                                  ?.validPromotion,
+                                data?.product?.subCategory?.promotion
+                                  ?.discountType,
+                                data?.product?.regularPrice,
+                                data?.product?.subCategory?.promotion
+                                  ?.discountOff,
+                                data?.product?.salePrice
+                              ) * data?.quantity}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-base font-semibold text-gray-700">
-                      {data?.product?.productName}
-                    </p>
-                    <p className="text-sm text-gray-700">Size: {data?.size}</p>
-                    <p className="text-sm text-gray-700">
-                      Price: ৳
-                      {data?.product?.category?.promotion
-                        ? calculateSalePrice(
-                            data?.product?.category?.promotion?.validPromotion,
-                            data?.product?.category?.promotion?.discountType,
-                            data?.product?.regularPrice,
-                            data?.product?.category?.promotion?.discountOff,
-                            data?.product?.salePrice
-                          ) * data?.quantity
-                        : calculateSalePrice(
-                            data?.product?.subCategory?.promotion
-                              ?.validPromotion,
-                            data?.product?.subCategory?.promotion?.discountType,
-                            data?.product?.regularPrice,
-                            data?.product?.subCategory?.promotion?.discountOff,
-                            data?.product?.salePrice
-                          ) * data?.quantity}
-                    </p>
-                  </div>
-                </div>
-                {/* <p>
-                  BDT{" "}
-                  {data?.productDetails?.salePrice * cartItems[index]?.quantity}
-                  /-
-                </p> */}
+                );
+              })}
+            </>
+          ) : (
+            <>
+              <div className="w-full h-[20vh] flex justify-center items-center">
+                <BeatLoader color="#820000" size={10} />
               </div>
-            );
-          })}
+            </>
+          )}
 
           <div className="border-b pb-4">
             <div className="flex gap-2 items-center w-full">
