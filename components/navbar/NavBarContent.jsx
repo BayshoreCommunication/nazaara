@@ -522,7 +522,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              // onClick={() => setToogle(false)}
+                              onClick={() => setIsMobileNavOpen(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
@@ -540,11 +540,6 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                     className="flex items-center justify-between"
                   >
                     <span className="py-2 text-white text-sm">PARTY WEAR</span>
-                    {/* {mobilePartyLink ? (
-                      <FaAngleUp size={18} color="white" />
-                    ) : (
-                      <FaAngleDown size={18} color="white" />
-                    )} */}
                     <FaAngleDown
                       className={`transition-all duration-300 ease-in-out ${
                         mobilePartyLink ? "rotate-180" : ""
@@ -564,7 +559,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              // onClick={() => setToogle(false)}
+                              onClick={() => setIsMobileNavOpen(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
@@ -583,11 +578,6 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                   >
                     <span className="py-2 text-white text-sm">BRIDAL WEAR</span>
                     <span>
-                      {/* {mobileBridalLink ? (
-                        <FaAngleUp size={18} color="white" />
-                      ) : (
-                        <FaAngleDown size={18} color="white" />
-                      )} */}
                       <FaAngleDown
                         className={`transition-all duration-300 ease-in-out ${
                           mobileBridalLink ? "rotate-180" : ""
@@ -608,7 +598,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
                             <Link
                               key={i}
                               href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              // onClick={() => setToogle(false)}
+                              onClick={() => setIsMobileNavOpen(false)}
                               className="text-[13px]"
                             >
                               {subCategory.title}
