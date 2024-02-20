@@ -474,7 +474,11 @@ const NavBarContent = ({ data, sales, advertisements }) => {
         {isMobileNavOpen && (
           <div
             ref={mobileNavRef}
-            className="lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl bg-primary-color focus:outline-none z-20 left-0 backdrop-blur-3xl backdrop-opacity-80 bg-primary-color/80"
+            className={`lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl z-20 left-0 bg-primary-color ${
+              scrollY > 200
+                ? " lg:py-1 backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
+                : "lg:py-3 bg-primary-color"
+            }`}
           >
             <div className="main-container ">
               <SearchComponent />
