@@ -14,6 +14,7 @@ export const calculateSalePrice = (
       return regularPrice - discountOff;
     }
   } else {
+    // console.log("sale priceeeee", salePrice);
     return salePrice;
   }
 };

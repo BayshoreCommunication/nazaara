@@ -28,10 +28,13 @@ const CheckoutContent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isUserAgree, setIsUserAgree] = useState(false);
   const [userNotAgreed, setUserNotAgreed] = useState(true);
+  const [subTotal, setSubTotal] = useState(0);
+  const [vatIncluded, setVatIncluded] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [payAmount, setPayAmount] = useState(0);
+  const [dueAmount, setDueAmount] = useState(0);
 
-  // console.log("is User agree", isUserAgree);
-
-  // console.log("cartData", cartData);
+  // console.log("cart data", cartData);
 
   useEffect(() => {
     const isFreeShippingData = cartData.map(
@@ -64,7 +67,67 @@ const CheckoutContent = ({
   };
 
   useEffect(() => {
-    // console.log("isFreeShipping", isFreeShipping, shippingMethod);
+    const calculateSalePriceFunc = () => {
+      if (cartData) {
+        let updatedSalePrice = 0;
+        // console.log("updatedSalePrice", updatedSalePrice);
+        cartData.map((detail) => {
+          if (detail?.product?.category?.promotion) {
+            updatedSalePrice +=
+              calculateSalePrice(
+                detail?.product?.category?.promotion?.validPromotion,
+                detail?.product?.category?.promotion?.discountType,
+                detail?.product?.regularPrice,
+                detail?.product?.category?.promotion?.discountOff,
+                detail?.product?.salePrice
+              ) * detail?.quantity;
+          } else {
+            updatedSalePrice +=
+              calculateSalePrice(
+                detail?.product?.subCategory?.promotion?.validPromotion,
+                detail?.product?.subCategory?.promotion?.discountType,
+                detail?.product?.regularPrice,
+                detail?.product?.subCategory?.promotion?.discountOff,
+                detail?.product?.salePrice
+              ) * detail?.quantity;
+          }
+        });
+        return updatedSalePrice;
+      }
+    };
+
+    const price = calculateSalePriceFunc();
+    // console.log("price", price);
+    setSubTotal(price);
+
+    //calculate vat
+    setVatIncluded(Number((subTotal * 0.07).toFixed(2)));
+
+    if (isFreeShipping) {
+      setTotalAmount(subTotal - couponAmount);
+    } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
+      setTotalAmount(subTotal + 100 - couponAmount);
+    } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
+      setTotalAmount(subTotal + 250 - couponAmount);
+    } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
+      setTotalAmount(subTotal - couponAmount);
+    }
+  }, [cartData, couponAmount, isFreeShipping, shippingMethod, subTotal]);
+
+  useEffect(() => {
+    // let payAmout = 0;
+    if (paymentMethod === "partial-payment") {
+      setPayAmount((totalAmount * 20) / 100);
+    } else {
+      setPayAmount(totalAmount);
+    }
+    // let dueAmout = 0;
+    if (paymentMethod === "partial-payment") {
+      setDueAmount(totalAmount - (totalAmount * 20) / 100);
+    } else {
+      setDueAmount(0);
+    }
+
     if (isFreeShipping) {
       // shippingCharge = 0;
       setShippingCharge(0);
@@ -78,54 +141,7 @@ const CheckoutContent = ({
       // shippingCharge = 0;
       setShippingCharge(0);
     }
-  }, [isFreeShipping, shippingMethod]);
-
-  //calculate value
-  let subTotal = 0;
-  let vatIncluded = 0;
-  let totalAmount = 0;
-  // let freeShipping = false;
-  // let validCouponId = null;
-  if (cartData) {
-    // cartData?.map((data) => {
-    //   subTotal = subTotal + data.product.salePrice * data.quantity;
-    // });
-    cartData.forEach((detail) => {
-      detail?.product?.category?.promotion
-        ? (subTotal =
-            subTotal +
-            calculateSalePrice(
-              detail?.product?.category?.promotion?.validPromotion,
-              detail?.product?.category?.promotion?.discountType,
-              detail?.product?.regularPrice,
-              detail?.product?.category?.promotion?.discountOff,
-              detail?.product?.salePrice
-            ) *
-              detail?.quantity)
-        : (subTotal =
-            subTotal +
-            calculateSalePrice(
-              detail?.product?.subCategory?.promotion?.validPromotion,
-              detail?.product?.subCategory?.promotion?.discountType,
-              detail?.product?.regularPrice,
-              detail?.product?.subCategory?.promotion?.discountOff,
-              detail?.product?.salePrice
-            ) *
-              detail?.quantity);
-    });
-    //calculate vat
-    vatIncluded = Number((subTotal * 0.07).toFixed(2));
-
-    if (isFreeShipping) {
-      totalAmount = subTotal - couponAmount;
-    } else if (shippingMethod === "inside-dhaka" && !isFreeShipping) {
-      totalAmount = subTotal + 100 - couponAmount;
-    } else if (shippingMethod === "outside-dhaka" && !isFreeShipping) {
-      totalAmount = subTotal + 250 - couponAmount;
-    } else if (shippingMethod === "shop-pickup" || !isFreeShipping) {
-      totalAmount = subTotal - couponAmount;
-    }
-  }
+  }, [isFreeShipping, paymentMethod, shippingMethod, totalAmount]);
 
   //extract cart data into an array of object
   const productData = cartData.map((item) => ({
@@ -237,23 +253,6 @@ const CheckoutContent = ({
     }
   };
 
-  //calculate shipping charge
-  // let shippingCharge = 0;
-
-  //calculate pay amount
-  let payAmout = 0;
-  if (paymentMethod === "partial-payment") {
-    payAmout = (totalAmount * 20) / 100;
-  } else {
-    payAmout = totalAmount;
-  }
-  let dueAmout = 0;
-  if (paymentMethod === "partial-payment") {
-    dueAmout = totalAmount - (totalAmount * 20) / 100;
-  } else {
-    dueAmout = 0;
-  }
-
   //make a object others to send data in server action
   const others = {
     subTotal: subTotal,
@@ -263,8 +262,8 @@ const CheckoutContent = ({
     totalAmount: totalAmount,
     discountAmount: couponAmount,
     totalPay: 0,
-    advancePay: payAmout,
-    due: dueAmout,
+    advancePay: payAmount,
+    due: dueAmount,
     user: userData._id,
     product: productData,
     paymentStatus: "pending",
