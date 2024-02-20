@@ -7,8 +7,10 @@ import EndHandler from "./EndHandler";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import SearchComponent from "./PartsOfHandler/Search";
-import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "@/store/cartSlice";
+// import dynamic from "next/dynamic";
+// const useScrollY = dynamic(() => import("@/customhooks/useScrollY"), {
+//   ssr: false,
+// });
 import useScrollY from "@/customhooks/useScrollY";
 
 const NavBarContent = ({ data, sales, advertisements }) => {
@@ -17,6 +19,8 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   const [mobileBridalLink, setMobileBridalLink] = useState(false);
 
   const scrollY = useScrollY();
+
+  console.log("scroll y ", scrollY);
 
   const currentRoute = usePathname();
   const searchParams = useSearchParams();
@@ -77,9 +81,9 @@ const NavBarContent = ({ data, sales, advertisements }) => {
   return (
     <div
       // ref={ref}
-      className={`text-base-100 relative transition-all duration-500 ease-in-out ${
-        scrollY > 100
-          ? "lg:py-1 backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
+      className={`text-base-100 transition-all duration-300 ease-in-out ${
+        scrollY > 200
+          ? " lg:py-1 backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
           : "lg:py-3 bg-primary-color"
       }`}
     >

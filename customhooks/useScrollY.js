@@ -5,6 +5,9 @@ const useScrollY = () => {
   const [scrollY, setScrollY] = useState(0);
 
   const handleScroll = useCallback(() => {
+    // setTimeout(() => {
+    //   setScrollY(window.scrollY);
+    // }, 100);
     setScrollY(window.scrollY);
   }, []);
 

@@ -12,9 +12,9 @@ async function getData() {
     const res = await fetch(url, {
       next: { revalidate: 0 },
     });
-    // if (!res.ok) {
-    //   throw new Error("Failed to fetch data");
-    // }
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
     return res.json();
   }
 }
@@ -35,13 +35,15 @@ const MainNavbar = async () => {
   const advertisements = await getAdvertisementData();
 
   return (
-    <main className="sticky top-0 z-50 shadow-xl">
-      <NavBarContent
-        data={data}
-        sales={links}
-        advertisements={advertisements}
-      />
-    </main>
+    <div className="relative">
+      <div className="fixed top-0 z-50 shadow-xl w-full">
+        <NavBarContent
+          data={data}
+          sales={links}
+          advertisements={advertisements}
+        />
+      </div>
+    </div>
   );
 };
 

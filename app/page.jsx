@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <main>
       {/* <Suspense fallback={<Loader height="h-[40vh]" />}> */}
-      <div className="w-full">
+      <div className="mt-16 lg:mt-[5.5rem]">
         <CaroselDataLoader />
       </div>
       {/* </Suspense> */}
