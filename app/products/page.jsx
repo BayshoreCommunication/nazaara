@@ -1,7 +1,6 @@
 import { Loader } from "@/components/Loader";
 import DataLoaderComponent from "@/components/recommendedProducts/DataLoaderComponent";
-import React from "react";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 
 const recommendedProductsPage = ({ searchParams }) => {
   return (

@@ -29,9 +29,9 @@ export default function RootLayout({ children }) {
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <MainNavbar />
-          <Suspense fallback={<Loader height={"h-[60vh]"} />}>
-            <main className="mt-16 lg:mt-[5.5rem]">{children}</main>
-          </Suspense>
+          {/* <Suspense fallback={<Loader height={"h-[60vh]"} />}> */}
+          <main className="mt-16 lg:mt-[5.5rem]">{children}</main>
+          {/* </Suspense> */}
           <Footer />
         </Providers>
       </body>

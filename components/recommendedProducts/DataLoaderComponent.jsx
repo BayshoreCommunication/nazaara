@@ -1,10 +1,10 @@
 import MainContent from "@/components/recommendedProducts/MainContent";
 import RouterBack from "@/helpers/RouterBack";
 import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { TbCategoryFilled } from "react-icons/tb";
-import { Loader } from "../Loader";
+// import { Loader } from "../Loader";
 
 const DataLoaderComponent = async ({ searchParams }) => {
   // console.log("search params", searchParams);
@@ -24,14 +24,14 @@ const DataLoaderComponent = async ({ searchParams }) => {
       const subCategoryData = await fetchServerSideData(subCategoryUrl);
 
       return (
-        <Suspense fallback={<Loader height="h-[40vh]" />}>
-          <MainContent
-            product={subCategoryData.product}
-            categoryName={categoryData.data.slug}
-            othersName={searchParams.subCategory}
-            titleIcon={<TbCategoryFilled />}
-          />
-        </Suspense>
+        // <Suspense fallback={<Loader height="h-[40vh]" />}>
+        <MainContent
+          product={subCategoryData.product}
+          categoryName={categoryData.data.slug}
+          othersName={searchParams.subCategory}
+          titleIcon={<TbCategoryFilled />}
+        />
+        // </Suspense>
       );
     } else if (searchParams.festival) {
       //subcategorydata
@@ -39,14 +39,14 @@ const DataLoaderComponent = async ({ searchParams }) => {
       const festivalData = await fetchServerSideData(festivalUrl);
 
       return (
-        <Suspense fallback={<Loader height="h-[40vh]" />}>
-          <MainContent
-            product={festivalData.data}
-            categoryName={categoryData.data.slug}
-            othersName={searchParams.festival}
-            titleIcon={<FaShoppingBag />}
-          />
-        </Suspense>
+        // <Suspense fallback={<Loader height="h-[40vh]" />}>
+        <MainContent
+          product={festivalData.data}
+          categoryName={categoryData.data.slug}
+          othersName={searchParams.festival}
+          titleIcon={<FaShoppingBag />}
+        />
+        // </Suspense>
       );
     } else if (searchParams.sale) {
       //subcategorydata
@@ -54,14 +54,14 @@ const DataLoaderComponent = async ({ searchParams }) => {
       const saleData = await fetchServerSideData(saleUrl);
 
       return (
-        <Suspense fallback={<Loader height="h-[40vh]" />}>
-          <MainContent
-            product={saleData.data}
-            categoryName={categoryData.data.slug}
-            othersName={searchParams.sale}
-            titleIcon={<FaShoppingBag />}
-          />
-        </Suspense>
+        // <Suspense fallback={<Loader height="h-[40vh]" />}>
+        <MainContent
+          product={saleData.data}
+          categoryName={categoryData.data.slug}
+          othersName={searchParams.sale}
+          titleIcon={<FaShoppingBag />}
+        />
+        // </Suspense>
       );
     }
   } else {
