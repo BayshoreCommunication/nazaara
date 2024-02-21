@@ -21,17 +21,19 @@ const Measurement = async ({ searchParams }) => {
     };
 
     const data = await getData();
-    // console.log("cart data", data.data.product);
+
     return (
-      <main>
-        <Navigation
-          link1Title={"Shop"}
-          link1Icon={<FaBagShopping />}
-          link2Title={"Cart"}
-          link2Icon={<FaShoppingCart />}
-          link3Title={"Measurement"}
-        />
-        <div className="main-container flex lg:block flex-col gap-y-6 my-6 lg:my-10">
+      <main className="mt-10 lg:mt-28">
+        <div className="flex items-center">
+          <Navigation
+            link1Title={"Shop"}
+            link1Icon={<FaBagShopping />}
+            link2Title={"Cart"}
+            link2Icon={<FaShoppingCart />}
+            link3Title={"Measurement"}
+          />
+        </div>
+        <div className="main-container flex lg:block flex-col mb-4 lg:mb-8 mt-4">
           <CreateMeasurementForm
             searchParams={searchParams}
             product={data.data.product}

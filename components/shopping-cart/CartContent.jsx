@@ -19,8 +19,6 @@ import NoProductFound from "../NoProductFound";
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  // const [promotionData, setPromotionData] = useState(null);
-  // const [isExtraProduct, setIsExtraProduct] = useState(false);
 
   const {
     data: cartData,
@@ -233,7 +231,6 @@ const CartContent = ({ userData }) => {
                           <div className="hidden lg:flex gap-4 items-center">
                             <Link href={`/products/${detail?.product?.slug}`}>
                               <Image
-                                // src={detail?.product?.variant[0]?.imageUrl[0]}
                                 src={
                                   detail?.product?.variant
                                     .flatMap((v) => v.imageUrl)
@@ -440,17 +437,25 @@ const CartContent = ({ userData }) => {
 
                           {/* mobile responsive part  */}
                           <div className="lg:hidden">
-                            <div className="flex gap-3 items-start">
+                            <div className="flex gap-3 items-start justify-between">
                               <Link
                                 className="flex-shrink-0"
                                 href={`/products/${detail?.product?.slug}`}
                               >
                                 <Image
-                                  src={detail?.product?.variant[0]?.imageUrl[0]}
+                                  // src={detail?.product?.variant[0]?.imageUrl[0]}
+                                  src={
+                                    detail?.product?.variant
+                                      .flatMap((v) => v.imageUrl)
+                                      .find((image) => image.isFeatured)
+                                      ?.image ||
+                                    detail?.product?.variant[0].imageUrl[0]
+                                      .image
+                                  }
                                   alt="cart"
                                   width={90}
                                   height={80}
-                                  className="rounded-md w-[64px] h-[90px]"
+                                  className="rounded-md w-[64px] h-[80px]"
                                 />
                               </Link>
                               <div className="font-semibold text-sm">

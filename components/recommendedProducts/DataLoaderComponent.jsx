@@ -12,8 +12,8 @@ const DataLoaderComponent = ({ searchParams }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 
-  console.log("data", data);
-  console.log("loading", loading);
+  //   console.log("data", data);
+  //   console.log("loading", loading);
 
   useEffect(() => {
     setLoading(true);
@@ -96,7 +96,7 @@ const DataLoaderComponent = ({ searchParams }) => {
     return <RouterBack />;
   }
 
-  return <MainContent {...data} loading={loading} />;
+  return <MainContent {...data} />;
 };
 
 export default DataLoaderComponent;

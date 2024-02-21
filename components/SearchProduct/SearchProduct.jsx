@@ -8,6 +8,7 @@ import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
 import NoProductFound from "../NoProductFound";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import { redirect } from "next/navigation";
+import { TiTick } from "react-icons/ti";
 
 const SearchProduct = () => {
   const reduxData = useSelector((state) => state.searchProduct.product);
@@ -17,6 +18,8 @@ const SearchProduct = () => {
       return redirect("/shop");
     }
   }, [reduxData]);
+
+  console.log("redux data", reduxData);
 
   const minPrice = reduxData
     ? Math.min(...reduxData?.map((product) => Math.floor(product?.salePrice)))
@@ -28,12 +31,13 @@ const SearchProduct = () => {
 
   const [selectedColors, setSelectedColors] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // Default price range
+  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(false);
+      console.log("reduxData", reduxData);
 
       // Your existing filtering logic here
       const colorFilteredData =
@@ -44,6 +48,8 @@ const SearchProduct = () => {
               )
             )
           : reduxData;
+
+      console.log();
 
       const priceFilteredData = colorFilteredData?.filter(
         (product) =>
@@ -121,20 +127,29 @@ const SearchProduct = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-6">COLOR</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-x-1 gap-y-4">
                       {GetUniqueColorNames(reduxData).length > 0 &&
-                        GetUniqueColorNames(reduxData).map((color, i) => (
-                          <button
-                            key={i}
-                            onClick={() => handleSearch(color)}
-                            className={`border ${
-                              selectedColors.includes(color)
-                                ? "bg-primary-color text-white"
-                                : "bg-gray-100 border border-gray-500 hover:bg-primary-color hover:text-white"
-                            } text-xs px-2 py-1 uppercase rounded-md transition-all duration-500 ease-in-out`}
+                        GetUniqueColorNames(reduxData).map((data, index) => (
+                          <div
+                            className="relative group flex flex-col items-center"
+                            key={index}
                           >
-                            {color}
-                          </button>
+                            <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                              {data.color}
+                            </div>
+                            <button
+                              onClick={() => handleSearch(data.color)}
+                              style={{ backgroundColor: data.colorCode }}
+                              className={`flex justify-center items-center w-7 h-7 border rounded-sm shadow-sm`}
+                            >
+                              {selectedColors.includes(data.color) &&
+                                (data.color === "Black" ? (
+                                  <TiTick color="white" size={20} />
+                                ) : (
+                                  <TiTick color="black" size={20} />
+                                ))}
+                            </button>
+                          </div>
                         ))}
                     </div>
                   </div>

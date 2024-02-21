@@ -41,7 +41,7 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
           ***All measurements should be taken in inch
         </p>
         <button
-          className="text-primary-color flex items-center gap-1 font-medium"
+          className="text-primary-color flex items-center gap-1 font-medium mb-2 lg:mb-0"
           onClick={toggleDrawer}
         >
           <BsBoxArrowUp />
@@ -124,7 +124,7 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 mx-10 gap-x-10 gap-y-2 py-4">
+            <div className="grid grid-cols-2 mx-3 lg:mx-6 2xl:mx-10 gap-x-10 gap-y-2 py-4">
               <div>
                 <label className="block text-gray-600" htmlFor="chest">
                   Chest
@@ -351,7 +351,7 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 mx-10 gap-x-10 gap-y-2 py-4">
+            <div className="grid grid-cols-2 mx-3 lg:mx-6 2xl:mx-10 gap-x-10 gap-y-2 py-4">
               <div>
                 <label className="block text-gray-600" htmlFor="bLength">
                   Length

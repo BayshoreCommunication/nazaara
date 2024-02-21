@@ -10,13 +10,7 @@ import NoProductFound from "../NoProductFound";
 import TopBar from "../TopBar";
 import { Loader } from "../Loader";
 
-const MainContent = ({
-  product,
-  categoryName,
-  othersName,
-  titleIcon,
-  loading: productDataLoading,
-}) => {
+const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
   const minPrice = Math.min(
     ...product?.map((product) => Math.floor(product?.salePrice))
   );
