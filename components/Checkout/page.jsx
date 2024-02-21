@@ -526,7 +526,7 @@ const CheckoutContent = ({
                     name="shipping"
                     required
                     className="block appearance-none w-full border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-                    onClick={(e) => setShippingMethod(e.target.value)}
+                    onChange={(e) => setShippingMethod(e.target.value)}
                   >
                     <option disabled>Select Shipping Method</option>
                     <option value="inside-dhaka">Inside Dhaka</option>
