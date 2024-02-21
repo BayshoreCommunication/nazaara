@@ -4,7 +4,11 @@ import { GetAuthenticateUserData } from "@/helpers/GetAuthenticateUserData";
 const userDashboardPage = async () => {
   const userData = await GetAuthenticateUserData();
   if (userData) {
-    return <MyProfile userData={userData?.data} />;
+    return (
+      <main className="mt-20 lg:mt-28">
+        <MyProfile userData={userData?.data} />
+      </main>
+    );
   }
 };
 

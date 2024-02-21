@@ -19,7 +19,7 @@ const OrderTrackPage = async ({ params }) => {
           return (
             <main>
               <TopBar title={"Order Track"} icon={<FaTruck />} />
-              <div className="main-container my-10 flex flex-col gap-y-4">
+              <div className="main-container mb-10 mt-20 lg:mt-28 flex flex-col gap-y-4">
                 <div>
                   <p className="text-gray-800 font-medium mb-4">
                     ORDER ID: {params.id}

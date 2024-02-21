@@ -18,7 +18,7 @@ const MyOrders = async () => {
         if (orderData.success) {
           return (
             <>
-              <div className="main-container my-10 flex flex-col gap-y-4">
+              <div className="main-container mb-10 mt-20 lg:mt-28 flex flex-col gap-y-4">
                 <h2 className="text-xl font-semibold">
                   Hello, {data.fullName}
                 </h2>

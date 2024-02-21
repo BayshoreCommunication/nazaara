@@ -434,7 +434,9 @@ const CheckoutContent = ({
                     name="zip"
                     id="zip"
                     required
-                    // defaultValue={userData?.addressBook[addressIndex]?.zip}
+                    defaultValue={
+                      userData?.addressBook[addressIndex]?.postalCode
+                    }
                     placeholder="Enter City Postal Code"
                   />
                 </div>

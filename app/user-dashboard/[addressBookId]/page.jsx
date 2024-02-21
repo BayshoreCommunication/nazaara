@@ -74,7 +74,7 @@ const AddressBook = ({ params }) => {
           <BeatLoader color="#820000" />
         </div>
       ) : (
-        <div className="main-container my-10">
+        <div className="main-container mb-10 mt-20 lg:mt-28">
           {data && (
             <h2 className="text-xl font-semibold mb-2 uppercase">
               Hello, {data?.fullName}
