@@ -17,7 +17,7 @@ const FaqPage = () => {
           FREQUENTLY ASKED QUESTIONS BY CUSTOMERS
         </h2>
         {/* faq component  */}
-        <Suspense fallback={<Loader height={"h-[60vh]"} />}>
+        <Suspense fallback={<Loader height={"h-[50vh]"} />}>
           <FaqData />
         </Suspense>
       </div>
