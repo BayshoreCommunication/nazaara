@@ -162,7 +162,7 @@ const ProductCart = ({ data, i }) => {
                 </div>
               </div>
             </Link>
-            <div className="min-h-full text-left my-3 mx-2">
+            <div className="text-left my-3 mx-2">
               <p className="text-sm font-semibold my-2 text-gray-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {data?.productName}
               </p>

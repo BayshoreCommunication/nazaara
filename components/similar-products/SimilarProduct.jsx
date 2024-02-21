@@ -23,7 +23,7 @@ const SimilarProduct = async ({ categoryId, subCategoryId, productId }) => {
     <div>
       {/* similar products section  */}
       {similarProductData && (
-        <div className="main-container">
+        <div className="main-container mt-10">
           <h2 className="card-title">Similar Products</h2>
           <div className="carosel">
             <SimilarProductsCarosel data={similarFinalProducts} />
