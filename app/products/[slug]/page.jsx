@@ -9,9 +9,9 @@ const ProductDetails = async ({ params }) => {
   const productDetails = await fetchServerSideData(productDetailsUrl);
   return (
     <main>
-      <Suspense fallback={<Loader height={"h-[50vh]"} />}>
-        <ProductMainDetails productDetails={productDetails?.data} />
-      </Suspense>
+      {/* <Suspense fallback={<Loader height={"h-[50vh]"} />}> */}
+      <ProductMainDetails productDetails={productDetails?.data} />
+      {/* </Suspense> */}
       <Suspense fallback={<Loader height={"h-[50vh]"} />}>
         <SimilarProduct
           categoryId={productDetails.data.category._id}
