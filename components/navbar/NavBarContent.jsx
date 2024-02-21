@@ -4,16 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import EndHandler from "./EndHandler";
-import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
+import { FaAngleDown, FaBars, FaTimes } from "react-icons/fa";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import SearchComponent from "./PartsOfHandler/Search";
-// import dynamic from "next/dynamic";
-// const useScrollY = dynamic(() => import("@/customhooks/useScrollY"), {
-//   ssr: false,
-// });
 import useScrollY from "@/customhooks/useScrollY";
 
-const NavBarContent = ({ data, sales, advertisements }) => {
+const NavBarContent = ({ sales, advertisements }) => {
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
   const [mobileRegularLink, setMobileRegularLink] = useState(false);
   const [mobileBridalLink, setMobileBridalLink] = useState(false);
