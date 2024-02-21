@@ -10,11 +10,7 @@ import DetailImage from "@/components/product-detail/DetailImagePage";
 import { useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
 
-const ProductMainDetails = ({
-  productDetails,
-  similarProductData,
-  moreProductData,
-}) => {
+const ProductMainDetails = ({ productDetails }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
   const [promotionData, setPromotionData] = useState(null);
 
@@ -47,8 +43,6 @@ const ProductMainDetails = ({
     }
   }, [productDetails]);
 
-  // console.log("product deatails", promotionData);
-
   return (
     <div>
       <div className="lg:flex gap-8 main-container mt-20 lg:mt-32">
@@ -70,7 +64,7 @@ const ProductMainDetails = ({
         </div>
       </div>
 
-      {/* similar products section  */}
+      {/* similar products section 
       {similarProductData && (
         <div className="main-container">
           <h2 className="card-title">Similar Products</h2>
@@ -81,12 +75,12 @@ const ProductMainDetails = ({
       )}
 
       {/* More From the collections  */}
-      <div className="main-container my-10">
+      {/* <div className="main-container my-10">
         <h2 className="card-title">More From The Collections</h2>
         <div className="carosel">
           <SimilarProductsCarosel data={moreProductData} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

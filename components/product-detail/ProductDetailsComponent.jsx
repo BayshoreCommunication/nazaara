@@ -29,8 +29,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
   const [calculatePrice, setCalculatePrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
-  const [updateCart, { isLoading, isError, isSuccess }] =
-    useUpdateCartByUserIdMutation();
+  const [updateCart] = useUpdateCartByUserIdMutation();
 
   const [createCart] = useCreateNewCartMutation();
 
@@ -296,31 +295,29 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
             <h2 className="font-medium text-gray-700 text-sm mb-1">Color</h2>
             <div className="flex items-center gap-x-1 gap-y-4">
               {data.variant.map((data, index) => (
-                <>
-                  <div
-                    key={index}
-                    className="relative group flex flex-col items-center"
-                  >
-                    <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
-                      {data.color}
-                    </div>
-                    <button
-                      onClick={() => {
-                        setGetColor(data?.color);
-                        dispatch(currentColor(data?.color));
-                      }}
-                      style={{ backgroundColor: data?.colorCode }}
-                      className={`flex justify-center items-center w-7 h-7 border border-gray-300 rounded-sm shadow-sm`}
-                    >
-                      {getColor === data?.color &&
-                        (data.color === "Black" ? (
-                          <TiTick color="white" size={20} />
-                        ) : (
-                          <TiTick color="black" size={20} />
-                        ))}
-                    </button>
+                <div
+                  key={index}
+                  className="relative group flex flex-col items-center"
+                >
+                  <div className="mb-1 rounded-sm absolute opacity-0 z-50 group-hover:opacity-100 bottom-full px-2 py-[2px] text-xs w-max text-center font-medium text-gray-500 bg-gray-200 transition-opacity duration-300">
+                    {data.color}
                   </div>
-                </>
+                  <button
+                    onClick={() => {
+                      setGetColor(data?.color);
+                      dispatch(currentColor(data?.color));
+                    }}
+                    style={{ backgroundColor: data?.colorCode }}
+                    className={`flex justify-center items-center w-7 h-7 border border-gray-300 rounded-sm shadow-sm`}
+                  >
+                    {getColor === data?.color &&
+                      (data.color === "Black" ? (
+                        <TiTick color="white" size={20} />
+                      ) : (
+                        <TiTick color="black" size={20} />
+                      ))}
+                  </button>
+                </div>
               ))}
               {getColor && (
                 <button
@@ -379,7 +376,7 @@ const ProductDetailsComponent = ({ data, promotionData }) => {
           </div>
         </>
       ) : (
-        <div className="w-full h-[40vh] flex justify-center items-center">
+        <div className="w-full h-[50vh] flex justify-center items-center">
           <BeatLoader color="#820000" />
         </div>
       )}
