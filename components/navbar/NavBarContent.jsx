@@ -20,7 +20,7 @@ const NavBarContent = ({ data, sales, advertisements }) => {
 
   const scrollY = useScrollY();
 
-  console.log("scroll y ", scrollY);
+  // console.log("scroll y ", scrollY);
 
   const currentRoute = usePathname();
   const searchParams = useSearchParams();

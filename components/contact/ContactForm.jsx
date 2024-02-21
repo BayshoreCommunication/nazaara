@@ -32,7 +32,7 @@ const ContactForm = () => {
           id="name"
           name="name"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:outline-none focus:border-gray-600 block w-full p-2.5"
-          placeholder="name"
+          placeholder="Enter Name"
           required
         />
       </div>
@@ -48,7 +48,7 @@ const ContactForm = () => {
           id="email"
           name="email"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:outline-none focus:border-gray-600 block w-full p-2.5"
-          placeholder="name@gmail.com"
+          placeholder="Enter Email"
           required
         />
       </div>

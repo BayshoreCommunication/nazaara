@@ -101,31 +101,8 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
     setFilteredProducts([]);
   };
 
-  // console.log("filtered products, ", filteredProducts);
-
-  // function rgbToHex(rgb) {
-  //   // console.log("rgb", rgb);
-  //   if (rgb) {
-  //     return (
-  //       "#" +
-  //       rgb.map((component) => component.toString(16).padStart(2, "0")).join("")
-  //     );
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (colorNames.length > 0) {
-  //     const colorData = colorNames.map((data) => ({
-  //       name: data, // Convert color name to lowercase
-  //       code: rgbToHex(colors[data.toLowerCase().replace(/\s+/g, "")]),
-  //     }));
-  //     const filteredColorData = colorData.filter((data) => data.code);
-  //     setColorsData(filteredColorData);
-  //   }
-  // }, [colorNames]);
-
   return (
-    <main>
+    <div>
       <TopBar title={`${categoryName} / ${othersName}`} icon={titleIcon} />
       <>
         <div className="main-container my-10">
@@ -229,7 +206,7 @@ const MainContent = ({ product, categoryName, othersName, titleIcon }) => {
           )}
         </div>
       </>
-    </main>
+    </div>
   );
 };
 
