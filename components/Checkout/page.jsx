@@ -42,6 +42,7 @@ const CheckoutContent = ({
   const cartData = data?.data;
 
   // console.log("cart data", cartData);
+  console.log("user data", userData);
 
   useEffect(() => {
     if (cartData) {
@@ -456,7 +457,9 @@ const CheckoutContent = ({
                       name="country"
                       required
                       defaultValue={
-                        userData?.addressBook[addressIndex]?.country
+                        userData?.addressBook.length > 0
+                          ? userData?.addressBook[addressIndex]?.country
+                          : "Bangladesh"
                       }
                     >
                       <option value="" disabled>

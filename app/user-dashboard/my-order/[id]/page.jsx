@@ -1,3 +1,4 @@
+import { Loader } from "@/components/Loader";
 import TopBar from "@/components/TopBar";
 import MyOrderDetails from "@/components/user-dashboard/MyOrderDetails";
 import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
@@ -13,7 +14,6 @@ const MyOrdersDetailsPage = async ({ params }) => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/order/${params.id}`;
       const orderData = await fetchDynamicServerSideData(url);
-      // console.log(orderData.data);
       if (orderData) {
         if (orderData.success) {
           return (
@@ -22,12 +22,14 @@ const MyOrdersDetailsPage = async ({ params }) => {
                 title={"Order Details"}
                 icon={<IoBag className="mb-1" size={20} />}
               />
-              <div className="main-container mb-10 mt-20 lg:mt-28 flex flex-col gap-y-4">
+              <div className="main-container mb-10 mt-6 flex flex-col gap-y-4">
                 <MyOrderDetails orderData={orderData.data} />
               </div>
             </main>
           );
         }
+      } else {
+        return <Loader height={"h-[50vh]"} />;
       }
     }
   } else {
