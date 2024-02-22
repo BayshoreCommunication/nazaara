@@ -19,70 +19,40 @@ import NoProductFound from "../NoProductFound";
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isDecrease, setIsDecrease] = useState(false);
 
-  const {
-    data: cartData,
-    isLoading,
-    refetch,
-  } = useGetCartByUserIdQuery(`${userData._id}`);
+  const { data: cartData, isLoading } = useGetCartByUserIdQuery(
+    `${userData._id}`
+  );
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
   // console.log("cartData", cartData);
 
-  // useEffect(() => {
-  //   if (cartData) {
-  //     if (
-  //       cartData.data.map(
-  //         (data) => data.quantity > data.product.stock && !data.product.preOrder
-  //       )
-  //     ) {
-  //       setIsExtraProduct(true);
-  //     }
-  //   }
-  // }, [cartData, cartData?.data]);
-  // useEffect(() => {
-  //   // if (cartData) {
-  //   const promotionData = cartData?.data?.map(
-  //     (data) =>
-  //       data?.product?.category?.promotion ||
-  //       data?.product?.subCategory?.promotion
-  //   );
-
-  //   // console.log("promotion teti", promotionData);
-  //   // if (promotionData) {
-  //   //   if (promotionData.validPromotion) {
-  //   //     setPromotionData(promotionData);
-  //   //   }
-  //   // }
-  //   // }
-  //   // const promotionData =
-  //   //   productDetails?.subCategory?.promotion ||
-  //   //   productDetails?.category?.promotion;
-  //   // if (promotionData) {
-  //   //   if (promotionData.validPromotion) {
-  //   //     setPromotionData(promotionData);
-  //   //   }
-  //   // }
-  // }, [cartData]);
+  // console.log("updateCartLoading", updateCartLoading);
+  // console.log("isLoading", isLoading);
 
   const handleDecreaseQuantity = async (variantId, quantity, user, index) => {
+    setIsDecrease(true);
     try {
       setUpdateCartLoading((prevLoading) => {
         const newLoading = [...prevLoading];
         newLoading[index] = true;
         return newLoading;
       });
-      await updateCart({
+      const isCartUpdate = await updateCart({
         user: user,
         variantId: variantId,
         quantity: quantity - 1,
       });
-
-      setUpdateCartLoading((prevLoading) => {
-        const newLoading = [...prevLoading];
-        newLoading[index] = false;
-        return newLoading;
-      });
+      if (isCartUpdate) {
+        setTimeout(() => {
+          setUpdateCartLoading((prevLoading) => {
+            const newLoading = [...prevLoading];
+            newLoading[index] = false;
+            return newLoading;
+          });
+        }, 1000);
+      }
     } catch (err) {
       console.error("Update error:", err);
     }
@@ -107,11 +77,13 @@ const CartContent = ({ userData }) => {
           variantId: variantId,
           quantity: quantity + 1,
         });
-        setUpdateCartLoading((prevLoading) => {
-          const newLoading = [...prevLoading];
-          newLoading[index] = false;
-          return newLoading;
-        });
+        setTimeout(() => {
+          setUpdateCartLoading((prevLoading) => {
+            const newLoading = [...prevLoading];
+            newLoading[index] = false;
+            return newLoading;
+          });
+        }, 1050);
       } else if (quantity < stock) {
         setUpdateCartLoading((prevLoading) => {
           const newLoading = [...prevLoading];
@@ -123,11 +95,13 @@ const CartContent = ({ userData }) => {
           variantId: variantId,
           quantity: quantity + 1,
         });
-        setUpdateCartLoading((prevLoading) => {
-          const newLoading = [...prevLoading];
-          newLoading[index] = false;
-          return newLoading;
-        });
+        setTimeout(() => {
+          setUpdateCartLoading((prevLoading) => {
+            const newLoading = [...prevLoading];
+            newLoading[index] = false;
+            return newLoading;
+          });
+        }, 1050);
       }
     } catch (err) {
       console.error("Update error:", err);
@@ -142,7 +116,10 @@ const CartContent = ({ userData }) => {
       });
       // console.log("detecart", deleteCarts);
       if (deleteCarts?.data?.status == "success") {
-        setIsDeleteLoading(false);
+        setTimeout(() => {
+          setIsDeleteLoading(false);
+        }, 1050);
+        // setIsDeleteLoading(false);
         revalidatePath("/shop/checkout");
       }
     } catch (err) {
@@ -157,7 +134,6 @@ const CartContent = ({ userData }) => {
       </div>
     );
   } else {
-    refetch;
     const data = cartData?.data;
     // console.log("data", data);
 
