@@ -8,7 +8,7 @@ import {
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaHandPointLeft, FaTimes } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
@@ -19,7 +19,6 @@ import NoProductFound from "../NoProductFound";
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [isDecrease, setIsDecrease] = useState(false);
 
   const { data: cartData, isLoading } = useGetCartByUserIdQuery(
     `${userData._id}`
@@ -27,12 +26,10 @@ const CartContent = ({ userData }) => {
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
   // console.log("cartData", cartData);
-
   // console.log("updateCartLoading", updateCartLoading);
   // console.log("isLoading", isLoading);
 
   const handleDecreaseQuantity = async (variantId, quantity, user, index) => {
-    setIsDecrease(true);
     try {
       setUpdateCartLoading((prevLoading) => {
         const newLoading = [...prevLoading];

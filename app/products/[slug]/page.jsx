@@ -12,7 +12,7 @@ const ProductDetails = async ({ params }) => {
       <Suspense fallback={<Loader height={"h-[50vh]"} />}>
         <ProductMainDetails productDetails={productDetails?.data} />
       </Suspense>
-      <Suspense fallback={<Loader height={"h-[50vh]"} />}>
+      <Suspense fallback={null}>
         <SimilarProduct
           categoryId={productDetails.data.category._id}
           subCategoryId={productDetails.data.subCategory._id}
