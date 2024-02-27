@@ -3,7 +3,13 @@ import React from "react";
 
 async function getRegularSaleData() {
   const res = await fetch(
-    `${process.env.API_URL}/api/v1/sale/web/category/6538d081e59098ac82de1d63`
+    `${process.env.API_URL}/api/v1/sale/web/category/6538d081e59098ac82de1d63`,
+    {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
+      cache: "no-store",
+    }
   );
   if (!res.ok) {
     throw new Error("Failed to fetch data");

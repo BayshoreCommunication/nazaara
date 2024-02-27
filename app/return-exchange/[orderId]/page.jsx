@@ -21,6 +21,11 @@ const ReturnAndExchange = ({ params }) => {
           user_id: userId,
           order: params.orderId,
           issue: issue,
+        },
+        {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
         }
       );
 

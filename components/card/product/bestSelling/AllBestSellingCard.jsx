@@ -65,7 +65,11 @@ const AllBestSellingCard = () => {
         const productPromises = slugArray.map(async (slug) => {
           const productApiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
           try {
-            const response = await axios.get(productApiUrl);
+            const response = await axios.get(productApiUrl, {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            });
             // console.log("response for product", response);
             if (response.status === 200) {
               return response.data.data;
@@ -100,7 +104,11 @@ const AllBestSellingCard = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(apiUrl, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      });
       setData(response.data.result);
     } catch (error) {
       console.error("product productByOrders fetching error", error);

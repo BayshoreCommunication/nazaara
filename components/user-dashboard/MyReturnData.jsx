@@ -16,8 +16,13 @@ const MyReturnData = () => {
       try {
         if (data) {
           const response = await fetch(
-            // `${process.env.API_URL}/api/v1/return-exchange/user/64c0fdda2d2464f49300858b`
-            `${process.env.API_URL}/api/v1/return-exchange/user/${id}`
+            `${process.env.API_URL}/api/v1/return-exchange/user/${id}`,
+            {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+              cache: "no-store",
+            }
           );
 
           // console.log(

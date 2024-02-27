@@ -26,7 +26,11 @@ const Size = ({ currentSize, setCurrentSize, setCurrentPage }) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(apiUrl, {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        });
         return response.data;
       } catch (error) {
         console.error(error);

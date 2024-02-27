@@ -13,7 +13,12 @@ export const Util = () => {
         if (jsonStr) {
           const obj = JSON.parse(jsonStr);
           const response = await fetch(
-            `${process.env.API_URL}/api/v1/user/${obj._id}`
+            `${process.env.API_URL}/api/v1/user/${obj._id}`,
+            {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            }
           );
 
           const data = await response.json();

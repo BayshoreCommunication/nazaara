@@ -30,7 +30,12 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
     try {
       // console.log("top console");
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productId}`
+        `${process.env.API_URL}/api/v1/product/${productId}`,
+        {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        }
       );
       // console.log("item", response.data);
       return response.data;

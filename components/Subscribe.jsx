@@ -13,7 +13,15 @@ const Subscribe = () => {
     try {
       const url = `${process.env.API_URL}/api/v1/subscriber`;
 
-      const response = await axios.post(url, { email: formData });
+      const response = await axios.post(
+        url,
+        { email: formData },
+        {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        }
+      );
 
       if (response.status === 200) {
         toast.success("Successfully Subscribed");

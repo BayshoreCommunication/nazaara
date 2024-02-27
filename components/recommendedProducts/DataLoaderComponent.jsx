@@ -22,19 +22,31 @@ const DataLoaderComponent = ({ searchParams }) => {
         setLoading(true);
         try {
           const categorySlugUrl = `${process.env.API_URL}/api/v1/category/slug/${searchParams.category}`;
-          const categoryData = await axios.get(categorySlugUrl);
+          const categoryData = await axios.get(categorySlugUrl, {
+            headers: {
+              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+            },
+          });
           console.log("category data", categoryData);
           const categoryId = categoryData?.data?.data?._id;
 
           if (searchParams.subCategory) {
             setLoading(true);
             const subCategorySlugUrl = `${process.env.API_URL}/api/v1/sub-category/slug/${searchParams.subCategory}`;
-            const subCategoryIdData = await axios.get(subCategorySlugUrl);
+            const subCategoryIdData = await axios.get(subCategorySlugUrl, {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            });
             console.log("subCategoryIdData", subCategoryIdData);
             const subCategoryId = subCategoryIdData?.data?.data[0]?._id;
 
             const subCategoryUrl = `${process.env.API_URL}/api/v1/product/published?category=${categoryId}&subCategory=${subCategoryId}`;
-            const subCategoryData = await axios.get(subCategoryUrl);
+            const subCategoryData = await axios.get(subCategoryUrl, {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            });
 
             setData({
               product: subCategoryData.data.product,
@@ -45,7 +57,11 @@ const DataLoaderComponent = ({ searchParams }) => {
           } else if (searchParams.festival) {
             setLoading(true);
             const festivalUrl = `${process.env.API_URL}/api/v1/festival/${categoryId}/${searchParams.festival}`;
-            const festivalData = await axios.get(festivalUrl);
+            const festivalData = await axios.get(festivalUrl, {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            });
             console.log("festivalData");
 
             setData({
@@ -57,7 +73,11 @@ const DataLoaderComponent = ({ searchParams }) => {
           } else if (searchParams.sale) {
             setLoading(true);
             const saleUrl = `${process.env.API_URL}/api/v1/sale/${categoryId}/${searchParams.sale}`;
-            const saleData = await axios.get(saleUrl);
+            const saleData = await axios.get(saleUrl, {
+              headers: {
+                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+              },
+            });
             console.log("saleData", saleData);
 
             setData({

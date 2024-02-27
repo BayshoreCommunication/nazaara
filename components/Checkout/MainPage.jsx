@@ -34,7 +34,12 @@ const CheckoutMainPage = async () => {
 
   const fetchCouponData = async (url) => {
     "use server";
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
+      cache: "no-store",
+    });
     return res.json();
   };
   return (

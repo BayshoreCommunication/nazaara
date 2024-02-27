@@ -10,6 +10,9 @@ const Measurement = async ({ searchParams }) => {
       const response = await fetch(
         `${process.env.API_URL}/api/v1/cart/${searchParams?.cartId}`,
         {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
           next: { revalidate: 300 },
         }
       );

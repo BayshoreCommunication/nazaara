@@ -5,7 +5,11 @@ const ClientSideDataFetching = (url) => {
   const [data, setData] = useState([]);
 
   const getData = useCallback(async () => {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
+    });
     setData(response);
   }, [url]);
 

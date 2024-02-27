@@ -90,7 +90,11 @@ const DesktopNavbar = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(apiUrl, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      });
       if (response.status === 200) {
         setCategories(response.data.newData);
       }
@@ -133,7 +137,12 @@ const DesktopNavbar = () => {
             const slughola = elem.productSlug[0];
             // console.log("test product", elem);
             return axios.get(
-              `${process.env.API_URL}/api/v1/product/${slughola}`
+              `${process.env.API_URL}/api/v1/product/${slughola}`,
+              {
+                headers: {
+                  authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+                },
+              }
             );
           });
 

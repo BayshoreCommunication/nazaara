@@ -14,7 +14,12 @@ const SuccessPage = async ({ params }) => {
       const data = JSON.parse(userData?.value);
       const userId = data._id;
       const url = `${process.env.API_URL}/api/v1/order/transactionId/${params.transactionId}`;
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch(url, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+        cache: "no-store",
+      });
       if (!res.ok) {
         return redirect("/");
       }

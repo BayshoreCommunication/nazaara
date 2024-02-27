@@ -17,7 +17,15 @@ const ResetPassword = ({ params }) => {
       const url = `${process.env.API_URL}/api/v1/user/resetPassword/${params.token}`;
 
       try {
-        const response = await axios.patch(url, { password });
+        const response = await axios.patch(
+          url,
+          { password },
+          {
+            headers: {
+              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+            },
+          }
+        );
         // console.log("POST request successful:", response.data);
         toast.success("password change successfully ");
         router.push("/user-authentication");

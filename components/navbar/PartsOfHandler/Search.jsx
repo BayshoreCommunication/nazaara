@@ -29,7 +29,13 @@ const SearchComponent = () => {
 
   const fetcher = async () => {
     const response = await fetch(
-      `${process.env.API_URL}/api/v1/product/search-published`
+      `${process.env.API_URL}/api/v1/product/search-published`,
+      {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+        next: { revalidate: 300 },
+      }
     );
     const data = await response.json();
     return data;

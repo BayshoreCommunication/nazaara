@@ -39,7 +39,12 @@ const Payment = () => {
   const fetchProductDetails = useCallback(async (productSlug) => {
     try {
       const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productSlug}`
+        `${process.env.API_URL}/api/v1/product/${productSlug}`,
+        {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        }
       );
       return response.data.data;
     } catch (error) {
@@ -53,7 +58,13 @@ const Payment = () => {
       if (jsonStr) {
         const obj = JSON.parse(jsonStr);
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
+          {
+            headers: {
+              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+            },
+            cache: "no-store",
+          }
         );
         const data = await response.json();
 
@@ -90,7 +101,13 @@ const Payment = () => {
       if (jsonStr) {
         const obj = JSON.parse(jsonStr);
         const response = await fetch(
-          `${process.env.API_URL}/api/v1/user/${obj._id}`
+          `${process.env.API_URL}/api/v1/user/${obj._id}`,
+          {
+            headers: {
+              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+            },
+            cache: "no-store",
+          }
         );
         const data = await response.json();
         setUserData(data?.data);

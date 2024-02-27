@@ -19,6 +19,7 @@ export const handleUpdateUserInfo = async (formData, userId) => {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
       },
     });
 

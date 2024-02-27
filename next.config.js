@@ -10,6 +10,7 @@ const nextConfig = {
     APP_ID: process.env.APP_ID,
     MEASURMENT_ID: process.env.MEASURMENT_ID,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    API_SECURE_KEY: process.env.API_SECURE_KEY,
   },
   // images: {
   //   domains: ["lh3.googleusercontent.com", "res.cloudinary.com", "example.com"],

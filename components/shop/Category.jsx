@@ -28,7 +28,11 @@ const Category = ({ setCurrentCategory, setCurrentPage, currentCategory }) => {
     const apiUrl = `${process.env.API_URL}/api/v1/category`;
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(apiUrl, {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        });
         if (response.status === 200) {
           setCategoryData(response.data.data);
         }

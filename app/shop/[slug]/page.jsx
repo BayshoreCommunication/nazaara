@@ -44,7 +44,11 @@ const ProductDetails = ({ params }) => {
   //get single product details
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(apiUrl, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      });
       if (response.status === 200) {
         setData(response);
         setCategory(response.data.data.category);
@@ -56,7 +60,11 @@ const ProductDetails = ({ params }) => {
 
   const fetchCategoryData = useCallback(async () => {
     try {
-      const response = await axios.get(categoryApiUrl);
+      const response = await axios.get(categoryApiUrl, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      });
       if (response.status === 200) {
         setCategoryData(response.data.product);
       }
@@ -67,7 +75,11 @@ const ProductDetails = ({ params }) => {
 
   const fetchAllProductData = useCallback(async () => {
     try {
-      const response = await axios.get(allProductUrl);
+      const response = await axios.get(allProductUrl, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      });
       if (response?.status === 200) {
         setAllProducts(response.data.product);
       }
