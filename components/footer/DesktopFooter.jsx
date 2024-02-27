@@ -130,7 +130,7 @@ const DesktopFooter = () => {
           </ul>
         </div>
         <hr className="mx-auto border-base-100 my-6" />
-        <div className="flex gap-20 xl:gap-28 items-center justify-between overflow-x-hidden">
+        <div className="flex gap-20 xl:gap-28 2xl:gap-60 items-center justify-between overflow-x-hidden">
           <div className="flex-shrink-0">
             <div className="text-[13px] text-white">
               <span className="text-white mb-1">
