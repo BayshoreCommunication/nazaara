@@ -73,7 +73,11 @@ const SignUp = ({ setAuth }) => {
 
           if (userAuthCredential.status === "Not matched") {
             axios
-              .post(`${process.env.API_URL}/api/v1/user`, formData)
+              .post(`${process.env.API_URL}/api/v1/user`, formData, {
+                headers: {
+                  authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+                },
+              })
               .then((response) => {
                 // console.log("response", response);
                 if (response.status === 200 || response.status === 201) {
@@ -152,7 +156,11 @@ const SignUp = ({ setAuth }) => {
 
     if (userAuthCheck.status === "Not matched") {
       axios
-        .post(`${process.env.API_URL}/api/v1/user`, formData)
+        .post(`${process.env.API_URL}/api/v1/user`, formData, {
+          headers: {
+            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+          },
+        })
         .then((response) => {
           // console.log("response", response);
           if (response.status === 200 || response.status === 201) {

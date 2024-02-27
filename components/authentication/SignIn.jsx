@@ -67,7 +67,11 @@ const SignIn = ({ setAuth }) => {
 
           if (userAuthCredential.status === "Not matched") {
             axios
-              .post(`${process.env.API_URL}/api/v1/user`, formData)
+              .post(`${process.env.API_URL}/api/v1/user`, formData, {
+                headers: {
+                  authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+                },
+              })
               .then((response) => {
                 // console.log("response", response);
                 if (response.status === 200 || response.status === 201) {
@@ -138,7 +142,11 @@ const SignIn = ({ setAuth }) => {
     };
     const url = `${process.env.API_URL}/api/v1/user/login`;
     axios
-      .post(`${url}`, authBody)
+      .post(`${url}`, authBody, {
+        headers: {
+          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
           setCookie("userAuthCredential", JSON.stringify(response.data.user), {
