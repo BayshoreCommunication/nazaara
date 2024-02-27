@@ -10,14 +10,14 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
-import sslCommerceBanner from "../../public/images/sslCommerce.jpg";
+import sslCommerceBanner from "../../public/images/sslcommerz-banner.png";
 
 const MobileFooter = () => {
   const [serviceToogleArrow, setServiceToogleArrow] = useState(false);
   const [moreToogleArrow, setMoreToogleArrow] = useState(false);
   const [companyToogleArrow, setCompanyToogleArrow] = useState(false);
   return (
-    <div className="lg:hidden main-container text-white text-center flex flex-col gap-y-10">
+    <div className="lg:hidden main-container text-white text-center flex flex-col gap-y-2">
       <div className="">
         <Link href="/" className="flex items-center justify-center">
           <Image
@@ -144,7 +144,7 @@ const MobileFooter = () => {
       </div>
 
       <div>
-        <div className="flex justify-center gap-x-6 mb-6">
+        <div className="flex justify-center gap-x-6 mb-6 mt-4">
           <Link
             href="https://www.facebook.com/nazaara.official/"
             target="_blank"
@@ -171,7 +171,7 @@ const MobileFooter = () => {
           </Link>
         </div>
 
-        <div className="flex gap-2 justify-center">
+        {/* <div className="flex gap-2 justify-center">
           <Image
             src="/images/visa.png"
             alt="My Image"
@@ -193,9 +193,9 @@ const MobileFooter = () => {
             height={37}
             className="brightness-50"
           />
-        </div>
+        </div> */}
       </div>
-      <div className="mt-6 flex justify-center">
+      <div className="mt-0 flex justify-center">
         <div>
           <div className="text-sm text-white">
             <p className="text-white mb-1">
@@ -213,8 +213,12 @@ const MobileFooter = () => {
                 </span>
               </Link>
             </p>
+            <div className="text-sm mt-3">
+              <p>Trade License :</p>
+              <p>TRAD/DSCC/026507/2022</p>
+            </div>
             <Image
-              className="mt-2"
+              className="mt-3"
               src={sslCommerceBanner}
               alt="SSL commerce banner"
             />
