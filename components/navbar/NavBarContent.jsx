@@ -124,10 +124,7 @@ const NavBarContent = ({ sales, advertisements }) => {
 
               <div className="group">
                 <li
-                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
-                    searchParams.get("category") === "regular-wear" &&
-                    "bg-base-100 text-primary-color hover:no-underline"
-                  }`}
+                  className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
                 >
                   REGULAR WEAR{" "}
                   <FaAngleDown
@@ -228,10 +225,7 @@ const NavBarContent = ({ sales, advertisements }) => {
               </div>
               <div className="group">
                 <li
-                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
-                    searchParams.get("category") === "party-wear" &&
-                    "bg-base-100 text-primary-color hover:no-underline"
-                  }`}
+                  className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
                 >
                   PARTY WEAR{" "}
                   <FaAngleDown
@@ -333,10 +327,7 @@ const NavBarContent = ({ sales, advertisements }) => {
               </div>
               <div className="group">
                 <li
-                  className={`flex items-center gap-1 font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4 ${
-                    searchParams.get("category") === "bridal-wear" &&
-                    "bg-base-100 text-primary-color hover:no-underline"
-                  }`}
+                  className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
                 >
                   BRIDAL WEAR{" "}
                   <FaAngleDown

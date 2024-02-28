@@ -8,9 +8,35 @@ import { useInView } from "react-intersection-observer";
 import { MotionDiv } from "./MotionDiv";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { CalculateFixLessPercentageAmount } from "@/helpers/CalculateFixedPercentageLessAmount";
+import { motion } from "framer-motion";
 
 const ProductCart = ({ data, i }) => {
   const [promotionData, setPromotionData] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const imageUrls = data.variant.flatMap((item) =>
+    item.imageUrl.map((image) => image.image)
+  );
+
+  useEffect(() => {
+    if (isHovering) {
+      const intervalId = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => {
+          if (prevIndex === imageUrls.length - 1) {
+            return 0; // Reset to first image
+          }
+          return prevIndex + 1;
+        });
+      }, 1000); // Adjust interval as needed
+
+      return () => clearInterval(intervalId); // Clear interval on unmount
+    }
+  }, [isHovering, imageUrls]);
+
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+
   useEffect(() => {
     const promotionData =
       data?.subCategory?.promotion || data?.category?.promotion;
@@ -28,6 +54,12 @@ const ProductCart = ({ data, i }) => {
     hidden: { opacity: 0 },
     inView: { opacity: 1 },
   };
+
+  // const imageVariants = {
+  //   initial: { opacity: 0 },
+  //   enter: { opacity: 1, transition: { duration: 0.3 } }, // Smooth transition
+  //   exit: { opacity: 0, transition: { duration: 0.3 } }, // Smooth transition on leave
+  // };
 
   // console.log("datatata", data);
 
@@ -113,7 +145,7 @@ const ProductCart = ({ data, i }) => {
   return (
     <div className="h-full">
       {data && (
-        <div className="h-full">
+        <div className={`h-full`}>
           <MotionDiv
             ref={ref}
             variants={variants}
@@ -126,30 +158,71 @@ const ProductCart = ({ data, i }) => {
             // hover:scale-[1.02]
             className="shadow-xl shadow-gray-300 rounded-md flex flex-col transition-all duration-500 ease-in-out hover:shadow-gray-400 h-full"
           >
-            <Link className="" href={`/products/${data?.slug}`}>
+            <Link href={`/products/${data?.slug}`}>
               <div className="relative">
-                <div className="">
-                  {data?.variant[0]?.imageUrl.length > 0 && (
-                    <Image
-                      // src={data?.variant[0]?.imageUrl[0]}
-                      src={
-                        data.variant
-                          .flatMap((v) => v.imageUrl)
-                          .find((image) => image.isFeatured)?.image ||
-                        data.variant[0].imageUrl[0].image
-                      }
-                      alt={data.productName}
-                      width={384}
-                      height={512}
-                      // placeholder="blur"
-                      className="rounded-t-lg w-full h-auto"
-                    />
+                <div
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {isHovering ? (
+                    <>
+                      <Image
+                        src={imageUrls[currentImageIndex]}
+                        alt={data.productName}
+                        width={384}
+                        height={512}
+                        className="rounded-t-lg w-full h-auto"
+                      />
+                      {/* <motion.img
+                        src={imageUrls[currentImageIndex]}
+                        alt={data.productName}
+                        width={384}
+                        height={512}
+                        className="rounded-t-lg w-full h-auto"
+                        variants={imageVariants} // Apply animation variants to image
+                        initial="initial"
+                        animate="enter"
+                        exit="exit"
+                      /> */}
+                      {/* <motion.img
+                        key={index}
+                        ref={imageRefs.current[index]} // Assign ref for animation
+                        src={
+                          v.imageUrl.find((image) => image.isFeatured)?.image ||
+                          v.imageUrl[0].image
+                        }
+                        alt={data.productName}
+                        width={384}
+                        height={512}
+                        className="rounded-t-lg w-full h-auto"
+                        variants={imageVariants} // Apply animation variants to image
+                        initial="initial"
+                        animate={
+                          currentImageIndex.current === index ? "enter" : "exit"
+                        } // Animate based on current image index
+                      /> */}
+                    </>
+                  ) : (
+                    <>
+                      {data?.variant[0]?.imageUrl.length > 0 && (
+                        <Image
+                          src={
+                            data.variant
+                              .flatMap((v) => v.imageUrl)
+                              .find((image) => image.isFeatured)?.image ||
+                            data.variant[0].imageUrl[0].image
+                          }
+                          alt={data.productName}
+                          width={384}
+                          height={512}
+                          // placeholder="blur"
+                          className="rounded-t-lg w-full h-auto"
+                        />
+                      )}
+                    </>
                   )}
                 </div>
 
-                {/* <div className="absolute top-2 left-2">
-                {CalculatePercentageValue()}
-              </div> */}
                 <div className="absolute top-2 left-2">
                   {promotionData && promotionData?.freeShipping && (
                     <p className="text-white text-xs bg-primary-color px-2 py-[2px] rounded-full">
@@ -173,24 +246,6 @@ const ProductCart = ({ data, i }) => {
                   {CalculatePercentageValue()}
                 </div>
               </div>
-
-              {/* <div className="flex items-center justify-between">
-              {data?.preOrder && (
-                <div className="">
-                  <ReadyToShipBadge text="Pre-Order Available" />
-                </div>
-              )}
-              {data?.promotion &&
-                data?.promotion?.validPromotion &&
-                data?.promotion?.freeShipping && (
-                  <p className="text-white text-xs bg-green-500 px-2 py-[1px] rounded-md">
-                    <span className="flex items-center gap-1">
-                      <MdOutlineLocalShipping size={17} />
-                      Free Shipping
-                    </span>
-                  </p>
-                )}
-            </div> */}
             </div>
           </MotionDiv>
         </div>

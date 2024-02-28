@@ -326,11 +326,11 @@ const DesktopNavbar = () => {
                     // console.log("portion", portion);
                     return (
                       <div className="group" key={index}>
-                        <li className="font-medium relative cursor-pointer text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
+                        <p className="font-medium relative text-sm px-2 py-1 rounded-lg hover:underline underline-offset-4">
                           {elem.navCategoryTitle.toUpperCase()}
                           {/* {elem.category} */}
                           <div className="h-6 w-full absolute lg:bottom-[-23px] xl:bottom-[-21px] left-0"></div>
-                        </li>
+                        </p>
                         <div className="hidden text-text-color group-hover:block bg-base-100 absolute w-full left-0 top-[160px] z-20 shadow-xl text-sm">
                           <div className="flex justify-between w-2/3 mx-auto py-6">
                             <ul className="flex flex-col gap-y-2">
