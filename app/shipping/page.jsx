@@ -10,23 +10,19 @@ const ShippingDelivery = () => {
     <main>
       <TopBar icon={<FaTruck />} title={"SHIPPING & DELIVERY"} />
       <div className="main-container mt-10 text-center flex flex-col items-center gap-y-6">
-        <h1 className="text-xl font-medium text-gray-600">Delivery Time</h1>
+        <h1 className="text-xl font-medium text-gray-700">Delivery Time</h1>
         <div className="flex gap-4 justify-center flex-wrap">
           <button className="bg-gray-300 py-1 px-8 text-sm">
             <p className="font-medium">Ready Size</p>
-            <p>1-2 Days</p>
+            <p>2-4 Days</p>
           </button>
           <button className="bg-gray-300 py-1 px-8 text-sm">
             <p className="font-medium">Unstitched</p>
-            <p>1-2 Days</p>
+            <p>2-4 Days</p>
           </button>
           <button className="bg-gray-300 py-1 px-8 text-sm">
-            <p className="font-medium">Bridals</p>
-            <p>1-2 Days</p>
-          </button>
-          <button className="bg-gray-300 py-1 px-8 text-sm">
-            <p className="font-medium">Stitched</p>
-            <p>1-2 Days</p>
+            <p className="font-medium">Customized Size</p>
+            <p>5-7 Days</p>
           </button>
         </div>
         <p>
@@ -36,7 +32,7 @@ const ShippingDelivery = () => {
           availability of slots, nature of order (normal/fast track) <br /> and
           season of order placement, the delivery time frame can vary.
         </p>
-        <h2 className="text-xl font-medium text-gray-600">Customs & Duties</h2>
+        <h2 className="text-xl font-medium text-gray-700">Customs & Duties</h2>
       </div>
       <div className="main-container mt-4">
         <p>

@@ -11,273 +11,250 @@ const Privacy = () => {
       <TopBar icon={<MdPrivacyTip />} title={"Privacy Policy"} />
       <div className="my-10">
         <div className="main-container text-gray-700">
-          <h2 className="heading-4">
-            Privacy Policy for nazaara Lifestyle Ltd.
-          </h2>
+          <h2 className="heading-4">Privacy Policy of ANZARA LIFESTYLE LTD</h2>
           <div className="mb-6">
             <p className="mb-2">
-              At Nazaara, accessible from https://www.nazaaralifestyle.com, one
-              of our main priorities is the privacy of our visitors. This
-              Privacy Policy document contains types of information that is
-              collected and recorded by Nazaara and how we use it.
-            </p>
-            <p className="mb-2">
-              If you have additional questions or require more information about
-              our Privacy Policy, do not hesitate to contact us.
-            </p>
-            <p className="mb-2">
-              This Privacy Policy applies only to our online activities and is
-              valid for visitors to our website with regards to the information
-              that they shared and/or collect in Nazaara. This policy is not
-              applicable to any information collected offline or via channels
-              other than this website.
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">Consent</p>
-            <p>
-              By using our website, you hereby consent to our Privacy Policy and
-              agree to its terms.
-            </p>
-            {/* <ul>
-              <li className="list-disc list-inside">
-                Company (referred to as either the Company, We, Us or Our in
-                this Disclaimer) refers to Anzara Lifestyle Ltd., Block C, 1st
-                Floor, House 111 Road 8, Dhaka 1213.
-              </li>
-              <li className="list-disc list-inside">
-                Service refers to the Website.
-              </li>
-              <li className="list-disc list-inside">
-                You means the individual accessing the Service, or the company,
-                or other legal entity on behalf of which such individual is
-                accessing or using the Service, as applicable.
-              </li>
-              <li className="list-disc list-inside">
-                Website refers to Nazaara, accessible from
-                https://www.nazaaralifestyle.com
-              </li>
-            </ul> */}
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">Information we collect</p>
-            <p className="mb-2">
-              The personal information that you are asked to provide, and the
-              reasons why you are asked to provide it, will be made clear to you
-              at the point we ask you to provide your personal information.
-            </p>
-            <p className="mb-2">
-              If you contact us directly, we may receive additional information
-              about you such as your name, email address, phone number, the
-              contents of the message and/or attachments you may send us, and
-              any other information you may choose to provide.
-            </p>
-            <p>
-              When you register for an Account, we may ask for your contact
-              information, including items such as name, company name, address,
-              email address, and telephone number.
+              The Privacy Policy of ANZARA LIFESTYLE LTD pertains to the
+              personal information gathered from our customers and job
+              applicants, whether obtained through our website
+              www.nazaaralifestyle.com or through various interactions at our
+              stores in Bangladesh. This policy outlines the details regarding
+              the collection, utilization, disclosure, and overall management of
+              the information we acquire from customers and job applicants. We
+              prioritize safeguarding the privacy of your personal information
+              and offer choices for you to control and limit how we use this
+              data.
             </p>
           </div>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">
-              How we use your information
+              Information Collected by ANZARA LIFESTYLE LTD
             </p>
-            <p className="mb-2">
-              We use the information we collect in various ways, including to:
-            </p>
+            <p className="mb-2">We collect personal information when you:</p>
             <ul>
               <li className="list-disc list-inside">
-                Provide, operate, and maintain our website
+                Purchase, order, return or exchange products and services
               </li>
               <li className="list-disc list-inside">
-                Improve, personalize, and expand our website
+                Track your order through www.ANZARA LIFESTYLE LTD.net
               </li>
               <li className="list-disc list-inside">
-                Understand and analyze how you use our website
+                Sign up for ANZARA LIFESTYLE LTD newsletter
               </li>
               <li className="list-disc list-inside">
-                Develop new products, services, features, and functionality
+                Send or purchase a gift card
+              </li>
+              <li className="list-disc list-inside">Register on our website</li>
+              <li className="list-disc list-inside">
+                Apply for a position at ANZARA LIFESTYLE LTD through Career page
+                or other third party job portals
               </li>
               <li className="list-disc list-inside">
-                Communicate with you, either directly or through one of our
-                partners, including for customer service, to provide you with
-                updates and other information relating to the website, and for
-                marketing and promotional purposes
+                Participate in a promotion or survey
               </li>
-              <li className="list-disc list-inside">Send you emails</li>
-              <li className="list-disc list-inside">Find and prevent fraud</li>
+              <li className="list-disc list-inside">
+                Contact us with a comment, question or complaint
+              </li>
             </ul>
           </div>
           <div className="mb-6">
-            <p className="text-xl font-normal mb-2">
-              Errors and Omissions Disclaimer
-            </p>
+            <p className="text-xl font-normal mb-2">Shopping</p>
             <p className="mb-2">
-              The information given by the Service is for general guidance on
-              matters of interest only. Even if the Company takes every
-              precaution to insure that the content of the Service is both
-              current and accurate, errors can occur. Plus, given the changing
-              nature of laws, rules and regulations, there may be delays,
-              omissions or inaccuracies in the information contained on the
-              Service.
+              {`When making cash purchases at our stores, there's no requirement for you to furnish any personal information. However, if you opt to use a credit or debit card for your transactions, we will gather pertinent details related to the card and also obtain your signature to facilitate payment processing. Furthermore, when you submit written suggestions, complaints, or inquiries via email or complaint/suggestion forms, we collect relevant information associated with these communications.`}
+            </p>
+            <p className="mb-2">www.nazaaralifestyle.com</p>
+            <p className="mb-2">
+              <span className="text-gray-800 font-medium">
+                i. Registered shoppers:
+              </span>{" "}
+              If you sign-up for an account we save basic information about you
+              and purchase history. This enables you to track your order.
             </p>
             <p>
-              The Company is not responsible for any errors or omissions, or for
-              the results obtained from the use of this information.
+              <span className="text-gray-800 font-medium">
+                ii. Guest shopper:
+              </span>{" "}
+              If you sign-up for newsletter, we may collect personal details
+              such as your name, email address and/or mobile number. We use this
+              information to communicate with you and provide you with useful
+              services and special offers.
             </p>
           </div>
           <div className="mb-6">
-            <p className="text-xl font-normal mb-2">Log Files</p>
+            <p className="text-xl font-normal mb-2">Phone and Email Orders</p>
+            <p className="mb-2">
+              ANZARA LIFESTYLE LTD store or www.nazaaralifestyle.com accepts
+              orders placed over phone or email. We will never ask for
+              credit/debit card or any other sensitive information via email or
+              phone. Please do not provide this information over the phone or
+              via fax.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Career</p>
+            <p className="mb-2">
+              When you apply for a specific or suitable position through
+              www.nazaaralifestyle.com, you may provide us with personal
+              information about yourself, such as that contained in a resume or
+              similar employment-related materials. The information provided is
+              saved in ANZARA LIFESTYLE LTD’s internal server and might be saved
+              no more than one year. We use this information for the purpose of
+              processing and responding to your enquiry or job application. We
+              will not sell your details to any third party or share unless
+              required by law. We only keep your personal information as long as
+              necessary for the purposes collected, or as otherwise required by
+              law.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Newsletter</p>
+            <p className="mb-2">
+              Individuals who subscribe to our newsletter receive advanced
+              notifications about sales, new products, store openings, and other
+              updates from ANZARA LIFESTYLE LTD. Email addresses provided are
+              strictly used internally for the purpose of delivering these
+              electronic newsletters. We value your privacy and adhere to your
+              rights; therefore, we do not sell or rent your email address to
+              other companies without your explicit consent. If you wish to
+              discontinue receiving our emails, you can easily unsubscribe by
+              clicking the designated link at the bottom of our newsletter.
+            </p>
+            <p>
+              Upon signing up for our newsletter, you may also choose to provide
+              optional information such as your name, postal code, and product
+              interests. This additional personal information may be utilized to
+              improve and expand our product and service offerings.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">
+              Visit or Register on www.nazaaralifestyle.com
+            </p>
             <p>
               {`
-              Nazaara follows a standard procedure of using log files. These
-              files log visitors when they visit websites. All hosting companies
-              do this and a part of hosting services' analytics. The information
-              collected by log files include internet protocol (IP) addresses,
-              browser type, Internet Service Provider (ISP), date and time
-              stamp, referring/exit pages, and possibly the number of clicks.
-              These are not linked to any information that is personally
-              identifiable. The purpose of the information is for analyzing
-              trends, administering the site, tracking users' movement on the
-              website, and gathering demographic information.`}
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">Cookies and Web Beacons</p>
-            <p className="mb-2">
-              {`Like any other website, Nazaara uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.`}
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">
-              Advertising Partners Privacy Policies
-            </p>
-            <p className="mb-2">
-              You may consult this list to find the Privacy Policy for each of
-              the advertising partners of Nazaara.
-            </p>
-            <p className="mb-2">
-              {` Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Nazaara, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.`}
+              Registration is not mandatory for visiting www.nazaaralifestyle.com. However, to access specific services, you have the option to create an account by supplying your chosen email address and password. The personal information you furnish during the account creation or update, as well as at the checkout on our website (including but not limited to name, address, mobile number, email address, billing address, shipping address, and credit card details), is securely stored in electronic files on our web server and internal systems located in Bangladesh.`}
             </p>
             <p>
-              Note that Nazaara has no access to or control over these cookies
-              that are used by third-party advertisers.
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">
-              Third Party Privacy Policies
-            </p>
-            <p className="mb-2">
-              {`Nazaara's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.`}
-            </p>
-            <p>
-              {` You can choose to disable cookies through your individual browser
-              options. To know more detailed information about cookie management
-              with specific web browsers, it can be found at the browsers'
-              respective websites.`}
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">
-              CCPA Privacy Rights (Do Not Sell My Personal Information)
-            </p>
-            <p className="mb-2">
-              Under the CCPA, among other rights, California consumers have the
-              right to:
-            </p>
-            <p className="mb-2">
-              {`Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a business has collected about consumers.`}
-            </p>
-            <p className="mb-2">
-              Request that a business delete any personal data about the
-              consumer that a business has collected.
-            </p>
-            <p className="mb-2">
-              {` Request that a business that sells a consumer's personal data, not sell the consumer's personal data.`}
-            </p>
-            <p>
-              If you make a request, we have one month to respond to you. If you
-              would like to exercise any of these rights, please contact us.
-            </p>
-          </div>
-          <div className="mb-6">
-            <p className="text-xl font-normal mb-2">
-              GDPR Data Protection Rights
-            </p>
-            <p className="mb-2">
-              We would like to make sure you are fully aware of all of your data
-              protection rights. Every user is entitled to the following:
-            </p>
-            <p className="mb-2">
               {`
-                The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service.`}
+              The information provided during registration is exclusively utilized to fulfill and manage the services you have requested. Additionally, it may be used for other purposes to which you have given your consent.`}
             </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Promotions and Surveys</p>
             <p className="mb-2">
-              The right to rectification – You have the right to request that we
-              correct any information you believe is inaccurate. You also have
-              the right to request that we complete the information you believe
-              is incomplete.
-            </p>
-            <p className="mb-2">
-              The right to erasure – You have the right to request that we erase
-              your personal data, under certain conditions.
-            </p>
-            <p className="mb-2">
-              The right to restrict processing – You have the right to request
-              that we restrict the processing of your personal data, under
-              certain conditions.
-            </p>
-            <p className="mb-2">
-              The right to object to processing – You have the right to object
-              to our processing of your personal data, under certain conditions.
-            </p>
-            <p className="mb-2">
-              The right to data portability – You have the right to request that
-              we transfer the data that we have collected to another
-              organization, or directly to you, under certain conditions.
-            </p>
-            <p>
-              If you make a request, we have one month to respond to you. If you
-              would like to exercise any of these rights, please contact us.
+              {`Engaging in promotions or responding to surveys may involve the collection of your name, address, mobile number, and email address. This information is gathered to facilitate the administration of your participation in the promotion. In the case of surveys, the data is used to contact you for follow-up questions.`}
             </p>
           </div>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">
-              {`Children's Information`}
+              Customer Service through Contact Us (page)
             </p>
             <p className="mb-2">
-              Another part of our priority is adding protection for children
-              while using the internet. We encourage parents and guardians to
-              observe, participate in, and/or monitor and guide their online
-              activity.
+              When reaching out to our customer service representatives with
+              questions, feedback, or comments, you might be requested to
+              provide identifying information like your name, address, and
+              telephone number. This information is gathered to verify your
+              identity and facilitate a prompt response to your inquiries or
+              feedback. Additionally, we may retain this information for future
+              assistance. Your feedback, suggestions, and comments are valuable
+              to us, and we may utilize them to monitor and enhance our
+              products, website, or services, which could include implementing
+              improvements through training modules, for example.
             </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Website Analytics</p>
             <p className="mb-2">
-              Nazaara does not knowingly collect any Personal Identifiable
-              Information from children under the age of 13. If you think that
-              your child provided this kind of information on our website, we
-              strongly encourage you to contact us immediately and we will do
-              our best efforts to promptly remove such information from our
-              records.
+              {`You are welcome to explore www.nazaaralifestyle.com without disclosing your identity or providing personal information. Nevertheless, we automatically collect the IP addresses of our website visitors, along with related data like page requests, browser type, operating system, and average time spent on the site. This information is utilized to monitor and enhance the performance of our website.`}
+            </p>
+            <p>
+              {`To gather product and purchase information, we employ cookies and similar technologies from the pages you visit. Cookies are small pieces of data stored on your computer to recognize you upon your return, aiding us in better understanding your usage patterns on www.nazaaralifestyle.com. This helps us continually refine and improve the website for our customers. You have the option to disable cookies by adjusting your browser preferences, although it's important to note that this may limit access to certain features on the website. The information gathered through cookies may be combined with other identifiable personal information from our records and other sources, used for future marketing initiatives, and to enhance our website presentation and your overall shopping experience.`}
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Social Media</p>
+            <p className="mb-2">
+              We may provide you with the chance to interact with our content on
+              third-party social networking websites, plug-ins, and
+              applications. When you choose to engage with our content through
+              these platforms, you may grant us access to specific information
+              linked to your social media account (such as your name, username,
+              email address, profile picture, and gender). This access is
+              utilized to deliver the content and is integral to the functioning
+              of the website, plug-in, or application.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Information We Share</p>
+            <p className="mb-2">
+              We may share or grant access to your personal information with
+              affiliated entities that provide services on our behalf. These
+              services include data processing, online payment handling, product
+              and service delivery, website hosting, email communications, as
+              well as conducting promotions and surveys, all aimed at improving
+              the functionality and user experience of www.nazaaralifestyle.com.
+              All service providers working with us are required to maintain the
+              confidentiality and security of your personal information, using
+              it strictly in compliance with applicable privacy laws. These
+              providers are not authorized to use your information for any
+              purposes other than assisting us in delivering products and
+              services, or as mandated by relevant laws. Your personal data may
+              be stored and processed in Bangladesh and in other third-party
+              locations, including courier services and mobile marketing
+              entities.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">{`Legal Obligations`}</p>
+            <p className="mb-2">
+              Please note that ANZARA LIFESTYLE LTD is required to disclose your
+              personal information if compelled by a valid search warrant, legal
+              inquiry, or order. In circumstances involving a breach of
+              agreement, violation of the law, or as mandated by legal
+              requirements in Bangladesh, we may also share your information
+              with investigative bodies.
             </p>
           </div>
           <div className="mb-6">
             <p className="text-xl font-normal mb-2">
-              Changes to This Privacy Policy
+              Security of Personal Details
             </p>
-            <p>
-              We may update our Privacy Policy from time to time. Thus, we
-              advise you to review this page periodically for any changes. We
-              will notify you of any changes by posting the new Privacy Policy
-              on this page. These changes are effective immediately, after they
-              are posted on this page.
+            <p className="mb-2">
+              Ensuring the safeguarding of your privacy is our top priority. We
+              have instituted practical administrative, technical, and physical
+              measures to reduce the risk of loss, theft, unauthorized access,
+              use, modification, and disclosure of the personal information
+              within our custody and control. These security measures involve
+              limiting access to personal information to employees and
+              authorized service providers who necessitate it for the purposes
+              outlined in our Privacy & Security Policy.
+            </p>
+            <p className="mb-2">
+              To further enhance the security of online access to specific
+              personal information, we may implement password protection
+              measures. It is strongly recommended that you avoid sharing your
+              password with anyone, as we will never request it through
+              unsolicited communications.
             </p>
           </div>
           <div className="mb-6">
-            <p className="text-xl font-normal mb-2">Contact Us</p>
+            <p className="text-xl font-normal mb-2">Policy Changes</p>
             <p>
-              If you have any questions or suggestions about our Privacy Policy,
-              do not hesitate to contact us.
+              The Privacy Policy of www.nazaaralifestyle.com may undergo
+              periodic updates to accommodate new, unforeseen uses not
+              previously disclosed. Any modifications will be posted here for
+              your reference.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="text-xl font-normal mb-2">Update Your Profile</p>
+            <p>
+              If you wish to access, modify, or correct the profile information
+              we have about you, please contact us. To safeguard your privacy,
+              we will take reasonable steps to verify your identity before
+              granting access or making corrections. Alternatively, you can
+              easily update your account details by logging in to
+              www.nazaaralifestyle.com and selecting the Login option.
             </p>
           </div>
         </div>
