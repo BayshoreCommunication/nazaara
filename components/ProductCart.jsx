@@ -13,16 +13,28 @@ import { motion } from "framer-motion";
 const ProductCart = ({ data, i }) => {
   const [promotionData, setPromotionData] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [hoverImageUrl, setHoverImageUrl] = useState(null);
   // const [randomNumber, setRandomNumber] = useState(0);
 
   // const imageUrls = data.variant.flatMap((item) =>
   //   item.imageUrl.map((image) => image.image)
   // );
 
+  console.log("hoverImageUrl", hoverImageUrl);
+
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
 
   useEffect(() => {
+    const imageUrl =
+      data.variant
+        .filter((v) => v.imageUrl?.every((i) => i.isFeatured === false))
+        .flatMap((v) => v.imageUrl)
+        .sort(() => Math.random() - 0.5)[0]?.image ||
+      data.variant[0].imageUrl[0].image;
+
+    setHoverImageUrl(imageUrl);
+
     const promotionData =
       data?.subCategory?.promotion || data?.category?.promotion;
     if (promotionData) {
@@ -117,10 +129,6 @@ const ProductCart = ({ data, i }) => {
     return null;
   };
 
-  const imageVariants = {
-    enter: { transition: { duration: 1.8 }, scale: 1.1 },
-  };
-
   return (
     <div className="overflow-hidden">
       {data && (
@@ -143,17 +151,9 @@ const ProductCart = ({ data, i }) => {
                   onMouseLeave={handleMouseLeave}
                   className="overflow-hidden"
                 >
-                  {isHovering ? (
+                  {isHovering && hoverImageUrl ? (
                     <motion.img
-                      src={
-                        data.variant
-                          .filter((v) =>
-                            v.imageUrl?.every((i) => i.isFeatured === false)
-                          )
-                          .flatMap((v) => v.imageUrl)
-                          .sort(() => Math.random() - 0.5)[0]?.image ||
-                        data.variant[0].imageUrl[0].image
-                      }
+                      src={hoverImageUrl}
                       alt={data.productName}
                       width={384}
                       height={512}
