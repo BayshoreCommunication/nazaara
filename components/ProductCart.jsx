@@ -130,9 +130,9 @@ const ProductCart = ({ data, i }) => {
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="h-full">
       {data && (
-        <div className={`overflow-hidden`}>
+        <div className={`h-full`}>
           <MotionDiv
             ref={ref}
             variants={variants}
@@ -147,38 +147,43 @@ const ProductCart = ({ data, i }) => {
             <Link href={`/products/${data?.slug}`}>
               <div className="relative">
                 <div
-                  onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
-                  className="overflow-hidden"
+                  className={`overflow-hidden ${
+                    isHovering ? "block" : "hidden"
+                  }`}
                 >
-                  {isHovering && hoverImageUrl ? (
-                    <motion.img
+                  {hoverImageUrl && (
+                    <Image
                       src={hoverImageUrl}
                       alt={data.productName}
                       width={384}
                       height={512}
-                      className="rounded-t-lg w-full h-auto"
-                      animate={{ animationDuration: 2, scale: 1.2 }}
-                      transition={{ ease: "linear", duration: 1.5 }}
+                      className="rounded-t-lg w-full h-auto hover:scale-125 ease-in-out transition-all  duration-[1800ms]"
+                      // animate={{ animationDuration: 2, scale: 1.2 }}
+                      // transition={{ ease: "linear", duration: 1.5 }}
                     />
-                  ) : (
-                    <>
-                      {data?.variant[0]?.imageUrl.length > 0 && (
-                        <Image
-                          src={
-                            data.variant
-                              .flatMap((v) => v.imageUrl)
-                              .find((image) => image.isFeatured)?.image ||
-                            data.variant[0].imageUrl[0].image
-                          }
-                          alt={data.productName}
-                          width={384}
-                          height={512}
-                          // placeholder="blur"
-                          className="rounded-t-lg w-full h-auto"
-                        />
-                      )}
-                    </>
+                  )}
+                </div>
+                <div
+                  onMouseEnter={handleMouseEnter}
+                  className={`overflow-hidden ${
+                    isHovering ? "hidden" : "block"
+                  }`}
+                >
+                  {data?.variant[0]?.imageUrl.length > 0 && (
+                    <Image
+                      src={
+                        data.variant
+                          .flatMap((v) => v.imageUrl)
+                          .find((image) => image.isFeatured)?.image ||
+                        data.variant[0].imageUrl[0].image
+                      }
+                      alt={data.productName}
+                      width={384}
+                      height={512}
+                      // placeholder="blur"
+                      className="rounded-t-lg w-full h-auto"
+                    />
                   )}
                 </div>
 
