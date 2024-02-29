@@ -127,7 +127,7 @@ const ProductCart = ({ data, i }) => {
               <div className="relative">
                 <div className="overflow-hidden">
                   {data?.variant[0]?.imageUrl.length > 0 && (
-                    <motion.img
+                    <Image
                       src={
                         data.variant
                           .flatMap((v) => v.imageUrl)
@@ -137,10 +137,7 @@ const ProductCart = ({ data, i }) => {
                       alt={data.productName}
                       width={384}
                       height={512}
-                      className="rounded-t-lg w-full h-auto "
-                      // animate={{ animationDuration: 2, scale: 1.2 }}
-                      transition={{ ease: "linear", duration: 1.0 }}
-                      whileHover={{ scale: 1.1 }}
+                      className="rounded-t-lg w-full h-auto transition-all hover:scale-110 duration-1000"
                     />
                   )}
                 </div>
