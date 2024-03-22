@@ -36,7 +36,10 @@ const BestSellingCard = ({ elem }) => {
               alt="bridal_top"
               width={326}
               height={461}
-              className="w-full"
+              priority
+              blurDataURL={"/images/placeholder_image.jpg"}
+              placeholder="blur"
+              className="w-full h-auto"
             />
           )}
         </div>

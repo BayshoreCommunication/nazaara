@@ -14,7 +14,7 @@ const SimilarProductsCarosel = ({ data }) => {
   // console.log("holaad", data);
   return (
     <>
-      {data?.length >= 1 && (
+      {data && data?.length > 0 && (
         <>
           <div className="md:hidden">
             <Swiper

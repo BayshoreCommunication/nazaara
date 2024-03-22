@@ -64,6 +64,9 @@ const CaroselContent = ({ data }) => {
                           quality={90}
                           fill
                           sizes="100vw"
+                          priority
+                          blurDataURL={"/images/placeholder_image.jpg"}
+                          placeholder="blur"
                           className="object-cover"
                         />
                       </div>

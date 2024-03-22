@@ -426,6 +426,8 @@ const Payment = () => {
                     alt="bridal_top"
                     width={60}
                     height={40}
+                    blurDataURL={"/images/placeholder_image.jpg"}
+                    placeholder="blur"
                     className="rounded-sm w-[4rem] h-[4.8rem] border-2 border-secondary-color"
                   />
                   <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[8px] left-[50px]">

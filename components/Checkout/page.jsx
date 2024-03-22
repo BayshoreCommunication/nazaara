@@ -1,6 +1,8 @@
 "use client";
 import { calculateSalePrice } from "@/helpers/CalculateSalePrice";
+import { useGetCartByUserIdQuery } from "@/services/cartApi";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -8,8 +10,6 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { BeatLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import { handleOrder } from "../serverAction/order";
-import Link from "next/link";
-import { useGetCartByUserIdQuery } from "@/services/cartApi";
 
 const CheckoutContent = ({
   userData,
@@ -636,6 +636,8 @@ const CheckoutContent = ({
                         alt="bridal_top"
                         width={60}
                         height={40}
+                        blurDataURL={"/images/placeholder_image.jpg"}
+                        placeholder="blur"
                         className="w-[5rem] h-[5.7rem] border-2 border-secondary-color rounded-sm"
                       />
                       <div className="flex justify-center items-center bg-white border-2 border-secondary-color rounded-full w-5 h-5 absolute -top-[6px] left-[66px]">

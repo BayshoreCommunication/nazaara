@@ -1,12 +1,8 @@
 "use client";
-import Loader from "@/components/Loader";
 import PercentageBadge from "@/components/PercentageBadge";
 import ReadyToShipBadge from "@/components/ReadyToShipBadge";
 import TopBar from "@/components/TopBar";
-import Brand from "@/components/shop/Brand";
 import Color from "@/components/shop/Color";
-import Delivery from "@/components/shop/Delivery";
-import Discount from "@/components/shop/Discount";
 import Filter from "@/components/shop/Filter";
 import Price from "@/components/shop/Price";
 import Size from "@/components/shop/Size";
@@ -16,8 +12,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import { Scrollbar } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const Categories = ({ params }) => {
   const [data, setData] = useState(null);
@@ -224,6 +218,9 @@ const Categories = ({ params }) => {
                           alt="bridal_top"
                           width={326}
                           height={461}
+                          priority
+                          blurDataURL={"/images/placeholder_image.jpg"}
+                          placeholder="blur"
                           className="w-full h-full rounded-[4px] border"
                         />
                         <div className="absolute top-2 left-2">

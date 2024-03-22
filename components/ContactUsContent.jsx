@@ -1,10 +1,9 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import ButtonOnHover from "./ButtonOnHover";
 import { AiFillMessage } from "react-icons/ai";
 import { useInView } from "react-intersection-observer";
-import Image from "next/image";
+import ButtonOnHover from "./ButtonOnHover";
 import { MotionDiv } from "./MotionDiv";
 
 const ContactUsContent = () => {
@@ -70,6 +69,9 @@ const ContactUsContent = () => {
               alt="Book Appointment"
               width={700}
               height={500}
+              priority
+              blurDataURL={"/images/placeholder_image.jpg"}
+              placeholder="blur"
               className="rounded-xl w-full h-full"
             />
           </div>

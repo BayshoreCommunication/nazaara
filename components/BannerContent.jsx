@@ -31,6 +31,9 @@ const BannerContent = ({ data }) => {
           width={1903}
           height={582}
           quality={90}
+          priority
+          blurDataURL={"/images/placeholder_image.jpg"}
+          placeholder="blur"
           className="w-full h-auto"
         />
       )}

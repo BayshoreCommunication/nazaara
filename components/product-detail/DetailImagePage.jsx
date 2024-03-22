@@ -1,10 +1,10 @@
 "use client";
-import { useSelector } from "react-redux";
+import useWindowDimensions from "@/customhooks/useDimensionWindow";
+import Image from "next/image";
+import { useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import useWindowDimensions from "@/customhooks/useDimensionWindow";
-import { useState } from "react";
-import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const DetailImage = ({ productData }) => {
   // console.log("products data", productData);
@@ -57,17 +57,24 @@ const DetailImage = ({ productData }) => {
                   transition: "transform 0.5s ease-out 0s",
                   transformOrigin: transformOrigin,
                 }}
-                className="hoverImage h-[34rem] sm:h-[64rem] lg:h-[50rem] xl:h-[58rem] 2xl:h-[70rem] hover:scale-[2]"
+                className="hoverImage hover:scale-[2]"
+                // className="hoverImage h-[34rem] sm:h-[64rem] lg:h-[50rem] xl:h-[58rem] 2xl:h-[70rem] hover:scale-[2]"
                 onMouseMove={handleMouseMove}
               >
                 <Image
                   alt="dress"
                   src={item.original}
-                  fill
-                  quality={80}
-                  style={{
-                    objectFit: "cover",
-                  }}
+                  // fill
+                  // quality={80}
+                  // style={{
+                  //   objectFit: "cover",
+                  // }}
+                  width={600}
+                  height={800}
+                  priority
+                  blurDataURL={"/images/placeholder_image.jpg"}
+                  placeholder="blur"
+                  className="w-full h-auto"
                 />
               </div>
             </>

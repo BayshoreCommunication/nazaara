@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { MotionDiv } from "../MotionDiv";
 import { useInView } from "react-intersection-observer";
+import { MotionDiv } from "../MotionDiv";
 
 const MainSaleContent = ({ data, i }) => {
   const { ref, inView } = useInView();
@@ -28,17 +27,25 @@ const MainSaleContent = ({ data, i }) => {
           <Image
             src={`${data.featuredImage}`}
             alt={`featured image for ${data.slug}`}
-            fill
-            sizes="100vw"
-            className="object-cover transition-all duration-1000 ease-in-out hover:scale-110 "
+            // fill
+            // sizes="100vw"
+            width={400}
+            height={500}
+            priority
+            blurDataURL={"/images/placeholder_image.jpg"}
+            placeholder="blur"
+            className="w-full h-full transition-all duration-1000 ease-in-out hover:scale-110"
           />
         ) : (
           <Image
             src={`/images/image-not-found.jpg`}
             alt="bridal_top"
-            fill
-            sizes="100vw"
-            className="object-cover"
+            width={400}
+            height={500}
+            priority
+            blurDataURL={"/images/placeholder_image.jpg"}
+            placeholder="blur"
+            className="w-full h-full"
           />
         )}
 

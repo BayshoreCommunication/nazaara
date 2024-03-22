@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { MotionDiv } from "../MotionDiv";
 
@@ -29,15 +28,20 @@ const FestivalContent = ({ data, i }) => {
             <Image
               src={`${data.featuredImage}`}
               alt={`featured image for ${data.slug}`}
-              fill
-              className="object-cover transition-all duration-1000 ease-in-out hover:scale-110"
+              width={400}
+              height={500}
+              // fill
+              priority
+              blurDataURL={"/images/placeholder_image.jpg"}
+              placeholder="blur"
+              className="w-full h-full transition-all duration-1000 ease-in-out hover:scale-110"
             />
           ) : (
             <Image
               src={`/images/image-not-found.jpg`}
               alt={`featured image for ${data.slug}`}
               fill
-              className="object-cover"
+              className="w-full h-full"
             />
           )}
         </div>

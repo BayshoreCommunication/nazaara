@@ -36,6 +36,9 @@ const DrawerContent = ({ data, setIsOpen }) => {
                 alt="bridal_top"
                 width={600}
                 height={300}
+                priority
+                blurDataURL={"/images/placeholder_image.jpg"}
+                placeholder="blur"
                 className="w-[40%] rounded-md"
               />
             )}

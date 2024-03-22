@@ -1,13 +1,13 @@
 "use client";
+import useGlobalCart from "@/customhooks/useGlobalCart";
+import useScrollY from "@/customhooks/useScrollY";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import EndHandler from "./EndHandler";
+import { useState } from "react";
 import { FaAngleDown, FaBars, FaTimes } from "react-icons/fa";
-import useGlobalCart from "@/customhooks/useGlobalCart";
+import EndHandler from "./EndHandler";
 import SearchComponent from "./PartsOfHandler/Search";
-import useScrollY from "@/customhooks/useScrollY";
 
 const NavBarContent = ({ sales, advertisements }) => {
   const [mobilePartyLink, setMobilePartyLink] = useState(false);
@@ -65,6 +65,9 @@ const NavBarContent = ({ sales, advertisements }) => {
               quality={100}
               width={1000}
               height={400}
+              priority
+              blurDataURL={"/images/placeholder_image.jpg"}
+              placeholder="blur"
               alt="Nazaara Promotion"
               className="rounded-xl"
             />

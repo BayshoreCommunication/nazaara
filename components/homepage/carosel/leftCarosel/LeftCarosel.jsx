@@ -52,6 +52,9 @@ const LeftCarosel = ({ data }) => {
                       quality={100}
                       fill
                       sizes="100vw"
+                      priority
+                      blurDataURL={"/images/placeholder_image.jpg"}
+                      placeholder="blur"
                       className="w-full h-auto"
                     />
                   </div>
