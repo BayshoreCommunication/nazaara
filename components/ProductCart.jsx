@@ -14,6 +14,8 @@ const ProductCart = ({ data, i }) => {
   const [promotionData, setPromotionData] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
+  // console.log("imageUrl", imageUrl);
+
   useEffect(() => {
     const imgUrl =
       data.variant.flatMap((v) => v.imageUrl).find((image) => image.isFeatured)
@@ -138,12 +140,6 @@ const ProductCart = ({ data, i }) => {
                   {imageUrl ? (
                     // {data?.variant[0]?.imageUrl.length > 0 && (
                     <Image
-                      // src={
-                      //   data.variant
-                      //     .flatMap((v) => v.imageUrl)
-                      //     .find((image) => image.isFeatured)?.image ||
-                      //   data.variant[0].imageUrl[0].image
-                      // }
                       src={imageUrl}
                       alt={data.productName}
                       width={384}

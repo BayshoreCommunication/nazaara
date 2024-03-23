@@ -1,14 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import { BeatLoader } from "react-spinners";
-import { useSelector } from "react-redux";
-import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
-import NoProductFound from "../NoProductFound";
 import { GetUniqueColorNames } from "@/helpers/GetUniqueColorName";
 import { redirect } from "next/navigation";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
+import { useSelector } from "react-redux";
+import { BeatLoader } from "react-spinners";
+import FilteredFestivalComponent from "../Festivals/FilteredFestivalComponent";
+import NoProductFound from "../NoProductFound";
 
 const SearchProduct = () => {
   const reduxData = useSelector((state) => state.searchProduct.product);
@@ -19,7 +19,7 @@ const SearchProduct = () => {
     }
   }, [reduxData]);
 
-  console.log("redux data", reduxData);
+  // console.log("redux data", reduxData);
 
   const minPrice = reduxData
     ? Math.min(...reduxData?.map((product) => Math.floor(product?.salePrice)))
@@ -37,7 +37,7 @@ const SearchProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(false);
-      console.log("reduxData", reduxData);
+      // console.log("reduxData", reduxData);
 
       // Your existing filtering logic here
       const colorFilteredData =
@@ -49,7 +49,7 @@ const SearchProduct = () => {
             )
           : reduxData;
 
-      console.log();
+      // console.log();
 
       const priceFilteredData = colorFilteredData?.filter(
         (product) =>

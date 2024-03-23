@@ -17,7 +17,7 @@ const SimilarProduct = async ({ categoryId, subCategoryId, productId }) => {
   const moreFinalProducts = moreSlicedData.filter(
     (product) => product._id !== productId
   );
-  console.log("similar prodcts", similarFinalProducts);
+  // console.log("similar prodcts", similarFinalProducts);
   return (
     <div>
       {/* similar products section  */}

@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import MainContent from "@/components/recommendedProducts/MainContent";
 import RouterBack from "@/helpers/RouterBack";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { TbCategoryFilled } from "react-icons/tb";
 import { Loader } from "../Loader";
@@ -27,7 +27,7 @@ const DataLoaderComponent = ({ searchParams }) => {
               authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
             },
           });
-          console.log("category data", categoryData);
+          // console.log("category data", categoryData);
           const categoryId = categoryData?.data?.data?._id;
 
           if (searchParams.subCategory) {
@@ -38,7 +38,7 @@ const DataLoaderComponent = ({ searchParams }) => {
                 authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
               },
             });
-            console.log("subCategoryIdData", subCategoryIdData);
+            // console.log("subCategoryIdData", subCategoryIdData);
             const subCategoryId = subCategoryIdData?.data?.data[0]?._id;
 
             const subCategoryUrl = `${process.env.API_URL}/api/v1/product/published?category=${categoryId}&subCategory=${subCategoryId}`;
@@ -62,7 +62,7 @@ const DataLoaderComponent = ({ searchParams }) => {
                 authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
               },
             });
-            console.log("festivalData");
+            // console.log("festivalData");
 
             setData({
               product: festivalData.data.data,
@@ -78,7 +78,7 @@ const DataLoaderComponent = ({ searchParams }) => {
                 authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
               },
             });
-            console.log("saleData", saleData);
+            // console.log("saleData", saleData);
 
             setData({
               product: saleData.data.data,
