@@ -16,7 +16,7 @@ export const metadata = {
     template: "%s | Nazaara Exclusive Women Wear",
   },
   description:
-    "Reveal the latest exclusive woman wear at Nazaara. Shop trendy and high-quality clothing for women in Bangladesh. Dress yourself with our exclusive collection for your bridal, party, and regular occasions.",
+    "Reveal the latest exclusive woman wear at Nazaara. Shop trendy and high-quality clothing for women in Bangladesh. Dress yourself with our exclusive collection for your bridal, party, and regular occasion.",
 };
 
 export default function RootLayout({ children }) {
