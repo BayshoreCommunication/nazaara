@@ -15,9 +15,13 @@ const Contact = () => {
           <h2 className="mb-4 text-2xl tracking-tight font-semibold text-center text-gray-900">
             WE ARE HERE FOR YOU
           </h2>
-          <p className="mb-8 lg:mb-10 font-light text-center text-gray-500 sm:text-xl lg:text-lg">
-            For further assistance, please call us at 01752-556120 between 11AM
-            - 8PM
+          <p className="mb-3 lg:mb-4 text-center text-gray-600 sm:text-xl lg:text-lg">
+            HOUSE 22/B, ROAD 02, DHANMONDI, DHAKA 1205
+          </p>
+          <p className="mb-8 lg:mb-10 font-light text-center text-gray-600 sm:text-xl lg:text-lg">
+            For further assistance, please call us at{" "}
+            <span className="font-semibold">01752-556120</span> between (11AM -
+            8PM)
           </p>
           {/* import form component here  */}
           <ContactForm />

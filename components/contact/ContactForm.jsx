@@ -19,7 +19,7 @@ const ContactForm = () => {
     }
   }
   return (
-    <form ref={ref} action={clientAction} className="space-y-8">
+    <form ref={ref} action={clientAction} className="space-y-4">
       <div>
         <label
           htmlFor="name"
