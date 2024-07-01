@@ -61,11 +61,11 @@ const CaroselContent = ({ data }) => {
                         <Image
                           src={slide?.imageUrl}
                           alt="Carosel Image"
-                          quality={90}
+                          quality={80}
                           fill
                           sizes="100vw"
                           priority
-                          blurDataURL={"/images/placeholder_image.jpg"}
+                          blurDataURL={"/images/carosel_placeholder.png"}
                           placeholder="blur"
                           className="object-cover"
                         />

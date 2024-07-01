@@ -34,8 +34,8 @@ const Home = () => {
       <div className="main-container my-10 lg:my-16 flex flex-col gap-y-10 lg:gap-y-16">
         {/* shop by festival start */}
         <div>
-          <h1 className="card-title">SHOP BY FESTIVAL</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">SHOP BY FESTIVAL</h1>
             <MainFestivalPage />
           </Suspense>
         </div>
@@ -43,8 +43,8 @@ const Home = () => {
 
         {/* shop by category start */}
         <div>
-          <h1 className="card-title">SHOP BY CATEGORY</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">SHOP BY CATEGORY</h1>
             <SubCategoriesData />
           </Suspense>
         </div>
@@ -52,8 +52,8 @@ const Home = () => {
 
         {/* shop by sale start */}
         <div>
-          <h1 className="card-title">SHOP BY SALE</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">SHOP BY SALE</h1>
             <MainSalePage />
           </Suspense>
         </div>
@@ -61,8 +61,8 @@ const Home = () => {
 
         {/* best selling start */}
         <div>
-          <h1 className="card-title">BEST SELLING</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">BEST SELLING</h1>
             <MainBestSellingDataContent />
           </Suspense>
         </div>
@@ -75,8 +75,8 @@ const Home = () => {
         {/* banner end */}
         {/* YOU MAY LIKE start */}
         <div>
-          <h1 className="card-title">YOU MAY LIKE</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">YOU MAY LIKE</h1>
             <MainDataContent />
           </Suspense>
         </div>
@@ -84,9 +84,9 @@ const Home = () => {
 
         {/* BOOK AN APPOINTMENT start */}
         <div>
-          <h1 className="card-title">CONTACT WITH US</h1>
           <div className="">
             <Suspense fallback={<Loader height="h-[40vh]" />}>
+              <h1 className="card-title">CONTACT WITH US</h1>
               <BookAppointment />
             </Suspense>
           </div>
@@ -95,8 +95,8 @@ const Home = () => {
 
         {/* Our Delivery Partner start */}
         <div>
-          <h1 className="card-title">OUR DELIVERY PARTNERS</h1>
           <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <h1 className="card-title">OUR DELIVERY PARTNERS</h1>
             <DeliveryDesktop />
           </Suspense>
         </div>

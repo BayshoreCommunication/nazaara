@@ -32,7 +32,7 @@ const BannerContent = ({ data }) => {
           height={582}
           quality={90}
           priority
-          blurDataURL={"/images/placeholder_image.jpg"}
+          blurDataURL={"/images/carosel_placeholder.png"}
           placeholder="blur"
           className="w-full h-auto"
         />
