@@ -4,7 +4,7 @@ import useScrollY from "@/customhooks/useScrollY";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { FaAngleDown, FaBars, FaTimes } from "react-icons/fa";
 import EndHandler from "./EndHandler";
 import SearchComponent from "./PartsOfHandler/Search";
@@ -135,96 +135,98 @@ const NavBarContent = ({ sales, advertisements }) => {
                   />
                   <div className="h-8 w-full absolute top-full left-0"></div>
                 </li>
-                <div
-                  className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
-                >
-                  <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
-                    <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
-                      {/* SALE */}
-                      {sales?.data[0]?.sales?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <p className="text-primary-color font-semibold">
-                            SALE
-                          </p>
-                          <div>
-                            {saleData("regular-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.sales.map((sale) => (
-                                  <Link
-                                    key={sale._id}
-                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {sale.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </ul>
-                      )}
-
-                      {/* SUBCATEGORY  */}
-                      {sales?.data[0]?.subCategories?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY CATEGORY
-                          </li>
-                          <ul>
-                            {saleData("regular-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.subCategories.map((subCategory) => (
-                                  <Link
-                                    key={subCategory._id}
-                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {subCategory.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                <Suspense fallback={null}>
+                  <div
+                    className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
+                  >
+                    <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
+                      <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
+                        {/* SALE */}
+                        {sales?.data[0]?.sales?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <p className="text-primary-color font-semibold">
+                              SALE
+                            </p>
+                            <div>
+                              {saleData("regular-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.sales.map((sale) => (
+                                    <Link
+                                      key={sale._id}
+                                      href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {sale.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </div>
                           </ul>
-                        </ul>
-                      )}
+                        )}
 
-                      {/* FESTIVAL  */}
-                      {sales?.data[0]?.fesivals?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY FESTIVAL
-                          </li>
-                          <ul>
-                            {saleData("regular-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.fesivals.map((festival) => (
-                                  <Link
-                                    key={festival._id}
-                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {festival.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                        {/* SUBCATEGORY  */}
+                        {sales?.data[0]?.subCategories?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY CATEGORY
+                            </li>
+                            <ul>
+                              {saleData("regular-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.subCategories.map((subCategory) => (
+                                    <Link
+                                      key={subCategory._id}
+                                      href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {subCategory.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
                           </ul>
-                        </ul>
-                      )}
+                        )}
+
+                        {/* FESTIVAL  */}
+                        {sales?.data[0]?.fesivals?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY FESTIVAL
+                            </li>
+                            <ul>
+                              {saleData("regular-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.fesivals.map((festival) => (
+                                    <Link
+                                      key={festival._id}
+                                      href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {festival.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
+                          </ul>
+                        )}
+                      </div>
+                      {/* render image via function  */}
+                      {advertisementData("Regular Wear")}
                     </div>
-                    {/* render image via function  */}
-                    {advertisementData("Regular Wear")}
                   </div>
-                </div>
+                </Suspense>
               </div>
               <div className="group">
                 <li
@@ -236,97 +238,99 @@ const NavBarContent = ({ sales, advertisements }) => {
                   />
                   <div className="h-8 w-full absolute top-full left-0"></div>
                 </li>
-                <div
-                  className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
-                >
-                  <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
-                    <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
-                      {/* SALE  */}
-                      {sales?.data[1]?.sales?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <p className="text-primary-color font-semibold">
-                            SALE
-                          </p>
-                          <div>
-                            {saleData("party-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.sales.map((sale, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {sale.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </ul>
-                      )}
-
-                      {/* SUBCATEGORY  */}
-                      {sales?.data[1]?.subCategories?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY CATEGORY
-                          </li>
-                          <ul>
-                            {saleData("party-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.subCategories.map((subCategory, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {subCategory.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                <Suspense fallback={null}>
+                  <div
+                    className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
+                  >
+                    <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
+                      <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
+                        {/* SALE  */}
+                        {sales?.data[1]?.sales?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <p className="text-primary-color font-semibold">
+                              SALE
+                            </p>
+                            <div>
+                              {saleData("party-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.sales.map((sale, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {sale.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </div>
                           </ul>
-                        </ul>
-                      )}
+                        )}
 
-                      {/* FESTIVAL  */}
-                      {sales?.data[1]?.fesivals?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY FESTIVAL
-                          </li>
-                          <ul>
-                            {saleData("party-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.fesivals.map((festival, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {festival.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                        {/* SUBCATEGORY  */}
+                        {sales?.data[1]?.subCategories?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY CATEGORY
+                            </li>
+                            <ul>
+                              {saleData("party-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.subCategories.map((subCategory, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {subCategory.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
                           </ul>
-                        </ul>
-                      )}
+                        )}
+
+                        {/* FESTIVAL  */}
+                        {sales?.data[1]?.fesivals?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY FESTIVAL
+                            </li>
+                            <ul>
+                              {saleData("party-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.fesivals.map((festival, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {festival.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
+                          </ul>
+                        )}
+                      </div>
+                      {/* IMAGE  */}
+                      {/* render image via function  */}
+                      {advertisementData("Party Wear")}
                     </div>
-                    {/* IMAGE  */}
-                    {/* render image via function  */}
-                    {advertisementData("Party Wear")}
                   </div>
-                </div>
+                </Suspense>
               </div>
               <div className="group">
                 <li
@@ -338,97 +342,99 @@ const NavBarContent = ({ sales, advertisements }) => {
                   />
                   <div className="h-8 w-full absolute top-full left-0"></div>
                 </li>
-                <div
-                  className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
-                >
-                  <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
-                    <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
-                      {/* SALE  */}
-                      {sales?.data[2]?.sales?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <p className="text-primary-color font-semibold">
-                            SALE
-                          </p>
-                          <div>
-                            {saleData("bridal-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.sales.map((sale, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {sale.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </ul>
-                      )}
-
-                      {/* SUBCATEGORY  */}
-                      {sales?.data[2]?.subCategories?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY CATEGORY
-                          </li>
-                          <ul>
-                            {saleData("bridal-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.subCategories.map((subCategory, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {subCategory.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                <Suspense fallback={null}>
+                  <div
+                    className={`text-text-color bg-base-100 absolute w-full left-0 z-20 shadow-xl text-sm bottom-full group-hover:bottom-auto group-hover:top-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out`}
+                  >
+                    <div className="flex justify-between px-2 md:px-12 lg:px-8 xl:px-0 xl:w-5/6 2xl:w-[75%] mx-auto py-6 lg:gap-x-14 xl:gap-x-20">
+                      <div className="flex flex-[1.5] lg:gap-x-14 xl:gap-x-20 2xl:gap-x-32">
+                        {/* SALE  */}
+                        {sales?.data[2]?.sales?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <p className="text-primary-color font-semibold">
+                              SALE
+                            </p>
+                            <div>
+                              {saleData("bridal-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.sales.map((sale, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&sale=${sale.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {sale.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </div>
                           </ul>
-                        </ul>
-                      )}
+                        )}
 
-                      {/* FESTIVAL  */}
-                      {sales?.data[2]?.fesivals?.length > 0 && (
-                        <ul className="flex flex-col gap-y-2">
-                          <li className="text-primary-color font-semibold">
-                            SHOP BY FESTIVAL
-                          </li>
-                          <ul>
-                            {saleData("bridal-wear").map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex flex-col gap-y-2"
-                              >
-                                {data.fesivals.map((festival, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
-                                    className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
-                                  >
-                                    {festival.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
+                        {/* SUBCATEGORY  */}
+                        {sales?.data[2]?.subCategories?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY CATEGORY
+                            </li>
+                            <ul>
+                              {saleData("bridal-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.subCategories.map((subCategory, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {subCategory.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
                           </ul>
-                        </ul>
-                      )}
+                        )}
+
+                        {/* FESTIVAL  */}
+                        {sales?.data[2]?.fesivals?.length > 0 && (
+                          <ul className="flex flex-col gap-y-2">
+                            <li className="text-primary-color font-semibold">
+                              SHOP BY FESTIVAL
+                            </li>
+                            <ul>
+                              {saleData("bridal-wear").map((data, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col gap-y-2"
+                                >
+                                  {data.fesivals.map((festival, i) => (
+                                    <Link
+                                      key={i}
+                                      href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
+                                      className="hover:text-primary-color hover:underline underline-offset-2 uppercase"
+                                    >
+                                      {festival.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                            </ul>
+                          </ul>
+                        )}
+                      </div>
+                      {/* IMAGE  */}
+                      {/* render image via function  */}
+                      {advertisementData("Bridal Wear")}
                     </div>
-                    {/* IMAGE  */}
-                    {/* render image via function  */}
-                    {advertisementData("Bridal Wear")}
                   </div>
-                </div>
+                </Suspense>
               </div>
 
               <Link

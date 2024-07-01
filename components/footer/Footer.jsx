@@ -17,7 +17,9 @@ async function getData() {
       headers: {
         authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
       },
-      cache: "no-store",
+      next: {
+        revalidate: 360,
+      },
     });
     if (!res.ok) {
       throw new Error("Failed to fetch data");

@@ -1,13 +1,26 @@
-import BookAppointment from "@/components/BookAppointment";
-import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
-import CaroselDataLoader from "@/components/HomeCarosel/CaroselDataLoader";
+const CaroselDataLoader = dynamic(() =>
+  import("@/components/HomeCarosel/CaroselDataLoader")
+);
+const MainFestivalPage = dynamic(() =>
+  import("@/components/Festivals/MainFestivalPage")
+);
+const SubCategoriesData = dynamic(() =>
+  import("@/components/SubCategory/MainSubCategoryData")
+);
+const MainSalePage = dynamic(() => import("@/components/Sale/MainSalePage"));
+const MainBestSellingDataContent = dynamic(() =>
+  import("@/components/card/BestSelling/MainDataContent")
+);
+const MainDataContent = dynamic(() =>
+  import("@/components/card/youMayLike/MainDataContent")
+);
+const Banner = dynamic(() => import("@/components/homepage/banner/Banner"));
+const BookAppointment = dynamic(() => import("@/components/BookAppointment"));
+const DeliveryDesktop = dynamic(() =>
+  import("@/components/homepage/delivery-partner/DeliveryDesktop")
+);
 import { Loader } from "@/components/Loader";
-import MainSalePage from "@/components/Sale/MainSalePage";
-import SubCategoriesData from "@/components/SubCategory/MainSubCategoryData";
-import MainBestSellingDataContent from "@/components/card/BestSelling/MainDataContent";
-import MainDataContent from "@/components/card/youMayLike/MainDataContent";
-import Banner from "@/components/homepage/banner/Banner";
-import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 const Home = () => {
