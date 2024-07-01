@@ -16,7 +16,7 @@ const nextConfig = {
   //   domains: ["lh3.googleusercontent.com", "res.cloudinary.com", "example.com"],
   // },
   images: {
-    unoptimized: true,
+    // unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
