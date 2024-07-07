@@ -4,6 +4,7 @@ import React from "react";
 import { AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
 import { Loader } from "./Loader";
+import { BeatLoader } from "react-spinners";
 
 const NavBarLoading = () => {
   return (
