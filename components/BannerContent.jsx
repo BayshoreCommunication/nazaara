@@ -30,8 +30,8 @@ const BannerContent = ({ data }) => {
           alt="bridal_top"
           width={1903}
           height={582}
-          quality={90}
-          priority
+          // quality={90}
+          // priority
           blurDataURL={"/images/carosel_placeholder.png"}
           placeholder="blur"
           className="w-full h-auto"
@@ -82,7 +82,7 @@ const BannerContent = ({ data }) => {
           >
             {data?.mainHeading}
           </MotionDiv>
-          <Link target="_blank" href={data?.btnLink}>
+          <Link target="_blank" href={data?.btnLink ? data?.btnLink : "/"}>
             <MotionDiv
               animate={
                 inView

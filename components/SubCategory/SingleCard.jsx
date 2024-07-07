@@ -14,7 +14,7 @@ const SingleCard = ({ subCategoryData }) => {
                 alt={`featured image for ${subCategoryData?.slug}`}
                 fill
                 sizes="100vw"
-                priority
+                // priority
                 blurDataURL={"/images/placeholder_image.jpg"}
                 placeholder="blur"
                 className="object-cover"
@@ -25,7 +25,7 @@ const SingleCard = ({ subCategoryData }) => {
                 alt="image_not_found"
                 fill
                 sizes="100vw"
-                priority
+                // priority
                 blurDataURL={"/images/placeholder_image.jpg"}
                 placeholder="blur"
                 className="object-cover"

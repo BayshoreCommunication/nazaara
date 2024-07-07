@@ -144,7 +144,7 @@ const ProductCart = ({ data, i }) => {
                       alt={data.productName}
                       width={384}
                       height={512}
-                      priority
+                      // priority
                       blurDataURL={"/images/placeholder_image.jpg"}
                       placeholder="blur"
                       className="rounded-t-lg w-full h-auto transition-all hover:scale-110 duration-1000"

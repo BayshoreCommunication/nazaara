@@ -6,9 +6,9 @@ const SubCategoriesData = async () => {
   const url = `${process.env.API_URL}/api/v1/sub-category/published`;
   const categories = await fetchServerSideData(url);
   return (
-    <main>
-      <AllSubCategoriesCard data={categories} />
-    </main>
+    <section>
+      {categories && <AllSubCategoriesCard data={categories} />}
+    </section>
   );
 };
 

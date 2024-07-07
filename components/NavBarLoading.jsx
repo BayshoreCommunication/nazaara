@@ -30,13 +30,12 @@ const NavBarLoading = () => {
             </div>
             {/* links  */}
             <div className="hidden lg:block">
-              <ul className="flex gap-2 2xl:gap-4">
-                <Link
-                  href="/"
+              <div className="flex gap-2 2xl:gap-4">
+                <p
                   className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
                 >
                   SHOP
-                </Link>
+                </p>
 
                 <div>
                   <li
@@ -46,7 +45,7 @@ const NavBarLoading = () => {
                     <div className="h-8 w-full absolute top-full left-0"></div>
                   </li>
                 </div>
-                <div className="group">
+                <div>
                   <li
                     className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
                   >
@@ -54,7 +53,7 @@ const NavBarLoading = () => {
                     <div className="h-8 w-full absolute top-full left-0"></div>
                   </li>
                 </div>
-                <div className="group">
+                <div>
                   <li
                     className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
                   >
@@ -63,19 +62,17 @@ const NavBarLoading = () => {
                   </li>
                 </div>
 
-                <Link
-                  href="/"
+                <p
                   className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
                 >
                   CONTACT US
-                </Link>
-                <Link
-                  href="/location"
+                </p>
+                <p
                   className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4 lg:hidden xl:block`}
                 >
                   OUR LOCATIONS
-                </Link>
-              </ul>
+                </p>
+              </div>
             </div>
 
             {/* end handler here  */}
@@ -102,7 +99,9 @@ const NavBarLoading = () => {
         </div>
       </div>
 
-      <Loader height={"h-[50vh]"} />
+      <div className={`w-full h-[50vh] flex justify-center items-center`}>
+        <BeatLoader color="#820000" />
+      </div>
     </>
   );
 };

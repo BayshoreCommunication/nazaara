@@ -69,7 +69,7 @@ const ContactUsContent = () => {
               alt="Book Appointment"
               width={700}
               height={500}
-              priority
+              // priority
               blurDataURL={"/images/placeholder_image.jpg"}
               placeholder="blur"
               className="rounded-xl w-full h-full"

@@ -31,7 +31,7 @@ const MainSaleContent = ({ data, i }) => {
             // sizes="100vw"
             width={400}
             height={500}
-            priority
+            // priority
             blurDataURL={"/images/placeholder_image.jpg"}
             placeholder="blur"
             className="w-full h-full transition-all duration-1000 ease-in-out hover:scale-110"
@@ -42,7 +42,7 @@ const MainSaleContent = ({ data, i }) => {
             alt="bridal_top"
             width={400}
             height={500}
-            priority
+            // priority
             blurDataURL={"/images/placeholder_image.jpg"}
             placeholder="blur"
             className="w-full h-full"

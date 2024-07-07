@@ -1,26 +1,13 @@
-const CaroselDataLoader = dynamic(() =>
-  import("@/components/HomeCarosel/CaroselDataLoader")
-);
-const MainFestivalPage = dynamic(() =>
-  import("@/components/Festivals/MainFestivalPage")
-);
-const SubCategoriesData = dynamic(() =>
-  import("@/components/SubCategory/MainSubCategoryData")
-);
-const MainSalePage = dynamic(() => import("@/components/Sale/MainSalePage"));
-const MainBestSellingDataContent = dynamic(() =>
-  import("@/components/card/BestSelling/MainDataContent")
-);
-const MainDataContent = dynamic(() =>
-  import("@/components/card/youMayLike/MainDataContent")
-);
-const Banner = dynamic(() => import("@/components/homepage/banner/Banner"));
-const BookAppointment = dynamic(() => import("@/components/BookAppointment"));
-const DeliveryDesktop = dynamic(() =>
-  import("@/components/homepage/delivery-partner/DeliveryDesktop")
-);
+import CaroselDataLoader from "@/components/HomeCarosel/CaroselDataLoader";
+import MainFestivalPage from "@/components/Festivals/MainFestivalPage";
+import SubCategoriesData from "@/components/SubCategory/MainSubCategoryData";
+import MainSalePage from "@/components/Sale/MainSalePage";
+import MainBestSellingDataContent from "@/components/card/BestSelling/MainDataContent";
+import MainDataContent from "@/components/card/youMayLike/MainDataContent";
+import Banner from "@/components/homepage/banner/Banner";
+import BookAppointment from "@/components/BookAppointment";
+import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
 import { Loader } from "@/components/Loader";
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 const Home = () => {
@@ -34,7 +21,7 @@ const Home = () => {
       <div className="main-container my-10 lg:my-16 flex flex-col gap-y-10 lg:gap-y-16">
         {/* shop by festival start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">SHOP BY FESTIVAL</h1>
             <MainFestivalPage />
           </Suspense>
@@ -43,7 +30,7 @@ const Home = () => {
 
         {/* shop by category start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">SHOP BY CATEGORY</h1>
             <SubCategoriesData />
           </Suspense>
@@ -52,7 +39,7 @@ const Home = () => {
 
         {/* shop by sale start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">SHOP BY SALE</h1>
             <MainSalePage />
           </Suspense>
@@ -61,7 +48,7 @@ const Home = () => {
 
         {/* best selling start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">BEST SELLING</h1>
             <MainBestSellingDataContent />
           </Suspense>
@@ -69,13 +56,13 @@ const Home = () => {
         {/* best selling end */}
 
         {/* banner start */}
-        <Suspense fallback={<Loader height="h-[40vh]" />}>
+        <Suspense fallback={<Loader height="h-[20vh]" />}>
           <Banner />
         </Suspense>
         {/* banner end */}
         {/* YOU MAY LIKE start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">YOU MAY LIKE</h1>
             <MainDataContent />
           </Suspense>
@@ -85,7 +72,7 @@ const Home = () => {
         {/* BOOK AN APPOINTMENT start */}
         <div>
           <div className="">
-            <Suspense fallback={<Loader height="h-[40vh]" />}>
+            <Suspense fallback={<Loader height="h-[20vh]" />}>
               <h1 className="card-title">CONTACT WITH US</h1>
               <BookAppointment />
             </Suspense>
@@ -95,7 +82,7 @@ const Home = () => {
 
         {/* Our Delivery Partner start */}
         <div>
-          <Suspense fallback={<Loader height="h-[40vh]" />}>
+          <Suspense fallback={<Loader height="h-[20vh]" />}>
             <h1 className="card-title">OUR DELIVERY PARTNERS</h1>
             <DeliveryDesktop />
           </Suspense>

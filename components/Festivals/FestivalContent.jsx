@@ -31,7 +31,7 @@ const FestivalContent = ({ data, i }) => {
               width={400}
               height={500}
               // fill
-              priority
+              // priority
               blurDataURL={"/images/placeholder_image.jpg"}
               placeholder="blur"
               className="w-full h-full transition-all duration-1000 ease-in-out hover:scale-110"
