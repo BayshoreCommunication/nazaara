@@ -23,15 +23,8 @@ async function getAdvertisementData() {
 }
 
 export default async function MainNavbar() {
-  const linkPromise = getNavLinkData();
-  const advertisementPromise = getAdvertisementData();
-
-  const [links, advertisements] = await Promise.all([
-    linkPromise,
-    advertisementPromise,
-  ]);
-
-  // console.log(links, advertisements);
+  const links = await getNavLinkData();
+  const advertisements = await getAdvertisementData();
 
   return (
     <div className="relative">
