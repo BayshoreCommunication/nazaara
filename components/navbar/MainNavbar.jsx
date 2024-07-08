@@ -54,7 +54,7 @@ export default function MainNavbar() {
   }, []);
 
   if (loading) return <NavBarLoading />;
-  if (error) return <div>Error loading data</div>;
+  if (error) return <NavBarLoading />;
 
   return (
     <div className="relative">

@@ -1,11 +1,14 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaAngleDown, FaBars } from "react-icons/fa";
-import { Loader } from "./Loader";
 import { BeatLoader } from "react-spinners";
 
 const NavBarLoading = () => {
+  const currentRoute = usePathname();
   return (
     <>
       <div className="relative">
@@ -33,11 +36,15 @@ const NavBarLoading = () => {
                 {/* links  */}
                 <div className="hidden lg:block">
                   <div className="flex gap-2 2xl:gap-4">
-                    <p
-                      className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
+                    <Link
+                      href="/shop"
+                      className={`${
+                        currentRoute === "/shop" &&
+                        "bg-base-100 text-primary-color hover:no-underline"
+                      } font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
                     >
                       SHOP
-                    </p>
+                    </Link>
                     <div className="group">
                       <li
                         className={`flex items-center gap-1 font-medium relative text-sm px-2 py-1 rounded-lg group-hover:bg-base-100 group-hover:text-primary-color`}
@@ -99,16 +106,24 @@ const NavBarLoading = () => {
                       </div>
                     </div>
 
-                    <p
-                      className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
+                    <Link
+                      href="/contact-us"
+                      className={`${
+                        currentRoute === "/contact-us" &&
+                        "bg-base-100 text-primary-color hover:no-underline"
+                      } font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
                     >
                       CONTACT US
-                    </p>
-                    <p
-                      className={`font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4 lg:hidden xl:block`}
+                    </Link>
+                    <Link
+                      href="/location"
+                      className={`${
+                        currentRoute === "/location" &&
+                        "bg-base-100 text-primary-color hover:no-underline"
+                      } font-medium text-sm p-1 xl:px-2 xl:py-1 rounded-lg hover:underline underline-offset-4`}
                     >
                       OUR LOCATIONS
-                    </p>
+                    </Link>
                   </div>
                 </div>
 
