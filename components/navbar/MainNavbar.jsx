@@ -1,15 +1,26 @@
-import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
-import NavBarContent from "./NavBarContent";
-import { Suspense } from "react";
+import NavResponsive from "./NavResponsive";
 
 async function getNavLinkData() {
-  const url = `${process.env.API_URL}/api/v1/category/nav-data`;
-  return fetchServerSideData(url);
+  const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
+    headers: {
+      authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+    },
+    next: { revalidate: 3600 },
+  });
+  return res.json();
 }
 
 async function getAdvertisementData() {
-  const url = `${process.env.API_URL}/api/v1/nav-advertise/category`;
-  return fetchServerSideData(url);
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/nav-advertise/category`,
+    {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
+      next: { revalidate: 3600 },
+    }
+  );
+  return res.json();
 }
 
 const MainNavbar = async () => {
@@ -21,12 +32,13 @@ const MainNavbar = async () => {
     advertisementPromise,
   ]);
 
+  // console.log("links", linkPromise);
+  // console.log("advertisements", advertisementPromise);
+
   return (
     <div className="relative">
       <div className="fixed top-0 z-50 shadow-xl w-full">
-        <Suspense fallback={"loading...."}>
-          <NavBarContent sales={links} advertisements={advertisements} />
-        </Suspense>
+        <NavResponsive sales={links} advertisements={advertisements} />
       </div>
     </div>
   );

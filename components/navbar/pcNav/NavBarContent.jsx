@@ -3,48 +3,21 @@ import useGlobalCart from "@/customhooks/useGlobalCart";
 import useScrollY from "@/customhooks/useScrollY";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
-import { FaAngleDown, FaBars, FaTimes } from "react-icons/fa";
-import EndHandler from "./EndHandler";
-import SearchComponent from "./PartsOfHandler/Search";
+import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import { FaAngleDown } from "react-icons/fa";
+import EndHandler from "../EndHandler";
 
 const NavBarContent = ({ sales, advertisements }) => {
-  const [mobilePartyLink, setMobilePartyLink] = useState(false);
-  const [mobileRegularLink, setMobileRegularLink] = useState(false);
-  const [mobileBridalLink, setMobileBridalLink] = useState(false);
-
   const scrollY = useScrollY();
 
-  // console.log("scroll y ", scrollY);
-
   const currentRoute = usePathname();
-  const searchParams = useSearchParams();
-
-  // console.log("current route", searchParams.get("category"));
 
   const {
     isCartOpen: isSearchOpen,
     setIsCartOpen: setIsSearchOpen,
     cartRef: searchRef,
   } = useGlobalCart();
-
-  const {
-    isCartOpen: isMobileNavOpen,
-    setIsCartOpen: setIsMobileNavOpen,
-    cartRef: mobileNavRef,
-  } = useGlobalCart();
-
-  const handleMobileNavToggle = () => {
-    setIsMobileNavOpen(!isMobileNavOpen); // Toggle the cart open/close state
-  };
-
-  // console.log("navbar content data", data);
-  // const dispatch = useDispatch();
-  // if (data) {
-  //   data.data.map((elem) => dispatch(addItemToCart(elem)));
-  // }
-  // console.log("data inside navbar", data);
 
   const saleData = (slug) => {
     const data = sales.data.filter((elem) => elem.category.slug === slug);
@@ -88,19 +61,6 @@ const NavBarContent = ({ sales, advertisements }) => {
     >
       <div className="main-container">
         <div className="flex justify-between items-center ">
-          {/* for mobile only */}
-          <div className="lg:hidden flex justify-between items-center ">
-            <div className="lg:hidden w-1/4">
-              <button
-                // onClick={() => setMobileNavCollapse(!mobileNavCollapse)}
-                onClick={handleMobileNavToggle}
-                className="text-3xl font-bold flex lg:hidden"
-              >
-                {!isMobileNavOpen && <FaBars size={20} />}
-                {isMobileNavOpen && <FaTimes size={20} />}
-              </button>
-            </div>
-          </div>
           {/* logo image  */}
           <div className="flex justify-center">
             <Link className="w-max" href="/">
@@ -112,7 +72,7 @@ const NavBarContent = ({ sales, advertisements }) => {
               />
             </Link>
           </div>
-          {/* links  */}
+          {/* links ->  for pc only  */}
           <div className="hidden lg:block">
             <ul className="flex gap-2 2xl:gap-4">
               <Link
@@ -465,168 +425,6 @@ const NavBarContent = ({ sales, advertisements }) => {
             isSearchOpen={isSearchOpen}
           />
         </div>
-
-        {/* mobile navbar start  */}
-        {isMobileNavOpen && (
-          <div
-            ref={mobileNavRef}
-            className={`lg:hidden w-full origin-top absolute top-15 shadow-xl pb-4 rounded-b-2xl z-20 left-0 bg-primary-color ${
-              scrollY > 200
-                ? " lg:py-1 backdrop-blur-3xl backdrop-opacity-50 bg-primary-color/80"
-                : "lg:py-3 bg-primary-color"
-            }`}
-          >
-            <div className="main-container ">
-              <SearchComponent />
-              <div className="flex flex-col gap-y-2 mt-3">
-                <Link
-                  className="w-full border-b py-2 text-white text-sm"
-                  href="/"
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  HOME
-                </Link>
-
-                <Link
-                  className="w-full border-b py-2 text-white text-sm"
-                  href="/shop"
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  SHOP
-                </Link>
-
-                <div className="border-b">
-                  <div
-                    onClick={() => setMobileRegularLink(!mobileRegularLink)}
-                    className="flex items-center justify-between w-full"
-                  >
-                    <span className="block py-2 text-white text-sm cursor-pointer">
-                      REGULAR WEAR
-                    </span>
-                    <FaAngleDown
-                      className={`transition-all duration-300 ease-in-out ${
-                        mobileRegularLink ? "rotate-180" : ""
-                      } `}
-                      size={18}
-                      color="white"
-                    />
-                  </div>
-                  {mobileRegularLink && (
-                    <>
-                      {saleData("regular-wear").map((data, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
-                        >
-                          {data.subCategories.map((subCategory, i) => (
-                            <Link
-                              key={i}
-                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setIsMobileNavOpen(false)}
-                              className="text-[13px]"
-                            >
-                              {subCategory.title}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-
-                <div className="border-b">
-                  <div
-                    onClick={() => setMobilePartyLink(!mobilePartyLink)}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="py-2 text-white text-sm">PARTY WEAR</span>
-                    <FaAngleDown
-                      className={`transition-all duration-300 ease-in-out ${
-                        mobilePartyLink ? "rotate-180" : ""
-                      } `}
-                      size={18}
-                      color="white"
-                    />
-                  </div>
-                  {mobilePartyLink && (
-                    <>
-                      {saleData("party-wear").map((data, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
-                        >
-                          {data.subCategories.map((subCategory, i) => (
-                            <Link
-                              key={i}
-                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setIsMobileNavOpen(false)}
-                              className="text-[13px]"
-                            >
-                              {subCategory.title}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-
-                <div className="border-b">
-                  <div
-                    onClick={() => setMobileBridalLink(!mobileBridalLink)}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="py-2 text-white text-sm">BRIDAL WEAR</span>
-                    <span>
-                      <FaAngleDown
-                        className={`transition-all duration-300 ease-in-out ${
-                          mobileBridalLink ? "rotate-180" : ""
-                        } `}
-                        size={18}
-                        color="white"
-                      />
-                    </span>
-                  </div>
-                  {mobileBridalLink && (
-                    <>
-                      {saleData("bridal-wear").map((data, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-col gap-y-2 text-sm mb-4 mt-2"
-                        >
-                          {data.subCategories.map((subCategory, i) => (
-                            <Link
-                              key={i}
-                              href={`/products?category=${data.category.slug}&subCategory=${subCategory.slug}`}
-                              onClick={() => setIsMobileNavOpen(false)}
-                              className="text-[13px]"
-                            >
-                              {subCategory.title}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-                <Link
-                  href="/contact-us"
-                  className="border-b py-2 text-white text-sm cursor-pointer"
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  CONTACT US
-                </Link>
-                <Link
-                  className="border-b py-2 text-white text-sm cursor-pointer"
-                  href="/location"
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  OUR LOCATIONS
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
