@@ -1,7 +1,7 @@
 import { Loader } from "@/components/Loader";
 import TopBar from "@/components/TopBar";
 import MyOrderDetails from "@/components/user-dashboard/MyOrderDetails";
-import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { fetchDynamicServerSideData } from "@/helpers/dynamicServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { IoBag } from "react-icons/io5";

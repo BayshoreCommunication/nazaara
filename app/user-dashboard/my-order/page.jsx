@@ -1,7 +1,7 @@
 // import NoProductFound from "@/components/NoProductFound";
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import MyOrder from "@/components/user-dashboard/MyOrder";
-import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { fetchDynamicServerSideData } from "@/helpers/dynamicServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

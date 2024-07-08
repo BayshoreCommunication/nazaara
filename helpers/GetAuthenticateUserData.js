@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { fetchDynamicServerSideData } from "./DynamicServerSideDataFetching";
+import { fetchDynamicServerSideData } from "./dynamicServerSideDataFetching";
 import { redirect } from "next/navigation";
 
 export const GetAuthenticateUserData = async () => {

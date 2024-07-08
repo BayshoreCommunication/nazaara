@@ -1,6 +1,6 @@
 import TopBar from "@/components/TopBar";
 import TrackOrder from "@/components/user-dashboard/TrackOrder";
-import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { fetchDynamicServerSideData } from "@/helpers/dynamicServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { FaTruck } from "react-icons/fa";

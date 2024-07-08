@@ -2,7 +2,7 @@
 
 import DashboardUtil from "@/components/user-dashboard/DashboardUtil";
 import MyReturn from "@/components/user-dashboard/MyReturn";
-import { fetchDynamicServerSideData } from "@/helpers/DynamicServerSideDataFetching";
+import { fetchDynamicServerSideData } from "@/helpers/dynamicServerSideDataFetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

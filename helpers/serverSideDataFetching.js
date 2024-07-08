@@ -1,3 +1,4 @@
+"use server";
 export const fetchServerSideData = async (url) => {
   const res = await fetch(url, {
     headers: {
