@@ -1,13 +1,27 @@
+import axios from "axios";
 import NavResponsive from "./NavResponsive";
+import NavBarLoading from "../NavBarLoading";
 // export const revalidate = 360;
 
+// async function getNavLinkData() {
+//   const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
+//     headers: {
+//       authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+//     },
+//   });
+//   return await res.json();
+// }
+
 async function getNavLinkData() {
-  const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
-    headers: {
-      authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-    },
-  });
-  return await res.json();
+  const res = await axios.get(
+    `${process.env.API_URL}/api/v1/category/nav-data`,
+    {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
+    }
+  );
+  return res.data;
 }
 
 async function getAdvertisementData() {
@@ -37,10 +51,14 @@ export default async function MainNavbar() {
   return (
     <div className="relative">
       <div className="fixed top-0 z-50 shadow-xl w-full">
-        <NavResponsive
-          sales={linkPromise}
-          advertisements={advertisementPromise}
-        />
+        {linkPromise ? (
+          <NavResponsive
+            sales={linkPromise}
+            advertisements={advertisementPromise}
+          />
+        ) : (
+          <NavBarLoading />
+        )}
       </div>
     </div>
   );
