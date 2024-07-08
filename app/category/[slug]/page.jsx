@@ -1,5 +1,5 @@
 import DynamicSubCategoryContent from "@/components/SubCategory/DynamicSubCategory/DynamicSubCategoryContent";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 export const metadata = {
   title: "Category",

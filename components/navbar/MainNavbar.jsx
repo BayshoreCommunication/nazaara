@@ -1,4 +1,4 @@
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import NavBarContent from "./NavBarContent";
 import { Suspense } from "react";
 

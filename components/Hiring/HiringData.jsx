@@ -1,6 +1,6 @@
 import React from "react";
 import HiringComponent from "./Hiring";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const HiringData = async () => {
   const url = `${process.env.API_URL}/api/v1/hiring-customization/published`;

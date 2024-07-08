@@ -1,7 +1,7 @@
 import { Loader } from "@/components/Loader";
 import ProductMainDetails from "@/components/product-detail/MainDetailContent";
 import SimilarProduct from "@/components/similar-products/SimilarProduct";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import { Suspense } from "react";
 
 const ProductDetails = async ({ params }) => {

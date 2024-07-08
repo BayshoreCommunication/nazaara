@@ -1,4 +1,4 @@
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import SimilarProductsCarosel from "./SimilarProductsCarosel";
 
 const SimilarProduct = async ({ categoryId, subCategoryId, productId }) => {

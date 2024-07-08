@@ -1,6 +1,6 @@
 import React from "react";
 import Faq from "./Faq";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const FaqData = async () => {
   const url = `${process.env.API_URL}/api/v1/customization`;

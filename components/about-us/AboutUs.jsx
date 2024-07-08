@@ -1,4 +1,4 @@
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import Image from "next/image";
 
 const AboutUs = async () => {

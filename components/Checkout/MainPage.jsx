@@ -1,7 +1,7 @@
 import React from "react";
 import CheckoutContent from "./page";
 import { cookies } from "next/headers";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 async function getUserData() {
   //   await new Promise((resolve) => setTimeout(resolve, 5000));

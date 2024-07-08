@@ -1,5 +1,5 @@
 import SaleContent from "@/components/Sale/SaleContent";
-import { fetchServerSideData } from "@/helpers/ServerSideDataFetching";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 export const metadata = {
   title: "Sale",
