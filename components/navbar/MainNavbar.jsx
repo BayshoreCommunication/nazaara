@@ -23,13 +23,21 @@ async function getAdvertisementData() {
 }
 
 export default async function MainNavbar() {
-  const links = await getNavLinkData();
-  const advertisements = await getAdvertisementData();
+  const linkPromise = getNavLinkData();
+  const advertisementPromise = getAdvertisementData();
+
+  const [links, advertisements] = await Promise.all([
+    linkPromise,
+    advertisementPromise,
+  ]);
+
+  console.log(linkPromise, advertisementPromise);
+  console.log(links, advertisements);
 
   return (
     <div className="relative">
       <div className="fixed top-0 z-50 shadow-xl w-full">
-        <NavResponsive sales={links} advertisements={advertisements} />
+        {/* <NavResponsive sales={links} advertisements={advertisements} /> */}
       </div>
     </div>
   );
