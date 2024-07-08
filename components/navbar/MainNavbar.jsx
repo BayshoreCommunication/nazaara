@@ -1,71 +1,43 @@
 import NavResponsive from "./NavResponsive";
+export const revalidate = 360;
 
 async function getNavLinkData() {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
-      headers: {
-        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-      },
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch nav links: ${res.statusText}`);
-    }
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
+    headers: {
+      authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+    },
+  });
+  return await res.json();
 }
 
 async function getAdvertisementData() {
-  try {
-    const res = await fetch(
-      `${process.env.API_URL}/api/v1/nav-advertise/category`,
-      {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-        next: { revalidate: 3600 },
-      }
-    );
-    if (!res.ok) {
-      throw new Error(`Failed to fetch advertisements: ${res.statusText}`);
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/nav-advertise/category`,
+    {
+      headers: {
+        authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+      },
     }
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  );
+  return await res.json();
 }
 
-const MainNavbar = async () => {
+export default async function MainNavbar() {
   const linkPromise = getNavLinkData();
   const advertisementPromise = getAdvertisementData();
 
-  try {
-    const [links, advertisements] = await Promise.all([
-      linkPromise,
-      advertisementPromise,
-    ]);
+  const [links, advertisements] = await Promise.all([
+    linkPromise,
+    advertisementPromise,
+  ]);
 
-    return (
-      <div className="relative">
-        <div className="fixed top-0 z-50 shadow-xl w-full">
-          <NavResponsive sales={links} advertisements={advertisements} />
-        </div>
-      </div>
-    );
-  } catch (error) {
-    console.error("Error loading data for MainNavbar:", error);
-    return (
-      <div className="relative">
-        <div className="fixed top-0 z-50 shadow-xl w-full">
-          <NavResponsive sales={[]} advertisements={[]} />
-        </div>
-      </div>
-    );
-  }
-};
+  // console.log(links, advertisements);
 
-export default MainNavbar;
+  return (
+    <div className="relative">
+      <div className="fixed top-0 z-50 shadow-xl w-full">
+        <NavResponsive sales={links} advertisements={advertisements} />
+      </div>
+    </div>
+  );
+}
