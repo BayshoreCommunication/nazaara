@@ -23,7 +23,7 @@ async function getAdvertisementData() {
 }
 
 export default async function MainNavbar() {
-  const linkPromise = await getNavLinkData();
+  // const linkPromise = await getNavLinkData();
   const advertisementPromise = await getAdvertisementData();
 
   // const [links, advertisements] = await Promise.all([
@@ -31,7 +31,7 @@ export default async function MainNavbar() {
   //   advertisementPromise,
   // ]);
 
-  console.log(linkPromise, advertisementPromise);
+  // console.log(linkPromise, advertisementPromise);
   // console.log(links, advertisements);
 
   return (
