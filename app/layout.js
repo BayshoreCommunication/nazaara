@@ -1,5 +1,5 @@
 import Footer from "@/components/footer/Footer";
-import MainNavbar from "@/components/navbar/MainNavbar";
+// import MainNavbar from "@/components/navbar/MainNavbar";
 import { Providers } from "@/store/provider";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <Toaster position="top-center" reverseOrder={false} />
           <main>
             <Suspense fallback={<NavBarLoading />}>
-              <MainNavbar />
+              {/* <MainNavbar /> */}
               <main className="mt-16 lg:mt-[5.5rem]">{children}</main>
             </Suspense>
             <Suspense fallback={null}>
