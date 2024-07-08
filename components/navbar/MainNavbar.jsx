@@ -1,5 +1,5 @@
 import NavResponsive from "./NavResponsive";
-export const revalidate = 360;
+// export const revalidate = 360;
 
 async function getNavLinkData() {
   const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
@@ -23,16 +23,16 @@ async function getAdvertisementData() {
 }
 
 export default async function MainNavbar() {
-  const linkPromise = getNavLinkData();
-  const advertisementPromise = getAdvertisementData();
+  const linkPromise = await getNavLinkData();
+  const advertisementPromise = await getAdvertisementData();
 
-  const [links, advertisements] = await Promise.all([
-    linkPromise,
-    advertisementPromise,
-  ]);
+  // const [links, advertisements] = await Promise.all([
+  //   linkPromise,
+  //   advertisementPromise,
+  // ]);
 
   console.log(linkPromise, advertisementPromise);
-  console.log(links, advertisements);
+  // console.log(links, advertisements);
 
   return (
     <div className="relative">
