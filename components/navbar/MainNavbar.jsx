@@ -1,16 +1,8 @@
+"use client";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NavResponsive from "./NavResponsive";
 import NavBarLoading from "../NavBarLoading";
-// export const revalidate = 360;
-
-// async function getNavLinkData() {
-//   const res = await fetch(`${process.env.API_URL}/api/v1/category/nav-data`, {
-//     headers: {
-//       authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-//     },
-//   });
-//   return await res.json();
-// }
 
 async function getNavLinkData() {
   const res = await axios.get(
@@ -36,26 +28,39 @@ async function getAdvertisementData() {
   return await res.json();
 }
 
-export default async function MainNavbar() {
-  const linkPromise = await getNavLinkData();
-  const advertisementPromise = await getAdvertisementData();
+export default function MainNavbar() {
+  const [links, setLinks] = useState(null);
+  const [advertisements, setAdvertisements] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // const [links, advertisements] = await Promise.all([
-  //   linkPromise,
-  //   advertisementPromise,
-  // ]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [linkData, advertisementData] = await Promise.all([
+          getNavLinkData(),
+          getAdvertisementData(),
+        ]);
+        setLinks(linkData);
+        setAdvertisements(advertisementData);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  // console.log(linkPromise, advertisementPromise);
-  // console.log(links, advertisements);
+    fetchData();
+  }, []);
+
+  if (loading) return <NavBarLoading />;
+  if (error) return <div>Error loading data</div>;
 
   return (
     <div className="relative">
       <div className="fixed top-0 z-50 shadow-xl w-full">
-        {linkPromise ? (
-          <NavResponsive
-            sales={linkPromise}
-            advertisements={advertisementPromise}
-          />
+        {links && advertisements ? (
+          <NavResponsive sales={links} advertisements={advertisements} />
         ) : (
           <NavBarLoading />
         )}
