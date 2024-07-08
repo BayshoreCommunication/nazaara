@@ -17,7 +17,7 @@ async function getNavLinkData() {
 }
 
 async function getAdvertisementData() {
-  const res = await fetch(
+  const res = await axios.get(
     `${process.env.API_URL}/api/v1/nav-advertise/category`,
     {
       headers: {
@@ -25,7 +25,7 @@ async function getAdvertisementData() {
       },
     }
   );
-  return await res.json();
+  return await res.data;
 }
 
 export default function MainNavbar() {
