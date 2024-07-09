@@ -259,7 +259,7 @@ const NavBarContent = ({ sales, advertisements }) => {
                         )}
 
                         {/* FESTIVAL  */}
-                        {sales?.data[1]?.fesivals?.length > 0 && (
+                        {/* {sales?.data[1]?.festivals?.length > 0 && (
                           <ul className="flex flex-col gap-y-2">
                             <li className="text-primary-color font-semibold">
                               SHOP BY FESTIVAL
@@ -270,7 +270,7 @@ const NavBarContent = ({ sales, advertisements }) => {
                                   key={index}
                                   className="flex flex-col gap-y-2"
                                 >
-                                  {data.fesivals.map((festival, i) => (
+                                  {data.festivals.map((festival, i) => (
                                     <Link
                                       key={i}
                                       href={`/products?category=${data.category.slug}&festival=${festival.slug}`}
@@ -283,7 +283,7 @@ const NavBarContent = ({ sales, advertisements }) => {
                               ))}
                             </ul>
                           </ul>
-                        )}
+                        )} */}
                       </div>
                       {/* IMAGE  */}
                       {/* render image via function  */}
