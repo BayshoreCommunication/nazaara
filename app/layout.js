@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { Suspense } from "react";
 import NavBarLoading from "@/components/NavBarLoading";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
   subsets: ["latin"],
@@ -28,6 +31,8 @@ export default function RootLayout({ children }) {
       <body>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
+          <Analytics />
+          <SpeedInsights />
           <main>
             <Suspense fallback={<NavBarLoading />}>
               <MainNavbar />
