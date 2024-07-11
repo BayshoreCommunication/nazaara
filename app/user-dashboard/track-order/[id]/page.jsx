@@ -13,7 +13,7 @@ const OrderTrackPage = async ({ params }) => {
     if (data) {
       const url = `${process.env.API_URL}/api/v1/order/${params.id}`;
       const orderData = await fetchDynamicServerSideData(url);
-      //   console.log(orderData.data);
+      console.log(orderData.data);
       if (orderData) {
         if (orderData.success) {
           return (
@@ -22,7 +22,7 @@ const OrderTrackPage = async ({ params }) => {
               <div className="main-container mb-10 mt-20 lg:mt-28 flex flex-col gap-y-4">
                 <div>
                   <p className="text-gray-800 font-medium mb-4">
-                    ORDER ID: {params.id}
+                    ORDER ID: {orderData?.data?.transactionId}
                   </p>
                 </div>
                 <TrackOrder orderData={orderData.data} />

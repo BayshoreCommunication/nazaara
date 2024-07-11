@@ -19,15 +19,6 @@ const Home = () => {
       </div>
       {/* </Suspense> */}
       <div className="main-container my-10 lg:my-16 flex flex-col gap-y-10 lg:gap-y-16">
-        {/* shop by festival start */}
-        <div>
-          {/* <Suspense fallback={<Loader height="h-[20vh]" />}> */}
-          <h1 className="card-title">SHOP BY FESTIVAL</h1>
-          <MainFestivalPage />
-          {/* </Suspense> */}
-        </div>
-        {/* shop by festival end */}
-
         {/* shop by category start */}
         <div>
           {/* <Suspense fallback={<Loader height="h-[20vh]" />}> */}
@@ -36,6 +27,14 @@ const Home = () => {
           {/* </Suspense> */}
         </div>
         {/* shop by category end */}
+        {/* shop by festival start */}
+        <div>
+          {/* <Suspense fallback={<Loader height="h-[20vh]" />}> */}
+          <h1 className="card-title">SHOP BY FESTIVAL</h1>
+          <MainFestivalPage />
+          {/* </Suspense> */}
+        </div>
+        {/* shop by festival end */}
 
         {/* shop by sale start */}
         <div>
