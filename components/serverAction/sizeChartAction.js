@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 export const sizeCharthandleContact = async (formData, searchParams) => {
   const data = {
     topType: formData.get("topsRadio"),
@@ -46,6 +48,7 @@ export const sizeCharthandleContact = async (formData, searchParams) => {
     });
 
     if (response.ok) {
+      revalidatePath("/shop/cart");
       return {
         message: `Successfully saved your size!`,
         // success: true,

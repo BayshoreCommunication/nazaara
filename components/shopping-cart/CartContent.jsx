@@ -15,19 +15,28 @@ import { MdDeleteForever } from "react-icons/md";
 import { BeatLoader } from "react-spinners";
 import ButtonOnHoverFullWidth from "../ButtonOnHoverWithFullWidth";
 import NoProductFound from "../NoProductFound";
+import { useSearchParams } from "next/navigation";
 
 const CartContent = ({ userData }) => {
   const [updateCartLoading, setUpdateCartLoading] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const measurement = searchParams.get("measurement");
 
-  const { data: cartData, isLoading } = useGetCartByUserIdQuery(
-    `${userData._id}`
-  );
+  const {
+    data: cartData,
+    isLoading,
+    refetch,
+  } = useGetCartByUserIdQuery(`${userData._id}`);
   const [updateCart] = useUpdateCartByUserIdMutation();
   const [deleteCart] = useDeleteCartByUserIdAndVariantIdMutation();
-  // console.log("cartData", cartData);
-  // console.log("updateCartLoading", updateCartLoading);
-  // console.log("isLoading", isLoading);
+
+  useEffect(() => {
+    // when query measurement is true then call refetch to refetch the data
+    if (measurement === "true") {
+      refetch();
+    }
+  }, [measurement, refetch]);
 
   const handleDecreaseQuantity = async (variantId, quantity, user, index) => {
     try {

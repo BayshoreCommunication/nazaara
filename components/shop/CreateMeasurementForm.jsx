@@ -24,7 +24,7 @@ const CreateMeasurementForm = ({ searchParams, product }) => {
     if (result?.error) {
       toast.error(result.error, { duration: 4000 });
     } else {
-      router.push("/shop/cart");
+      router.push("/shop/cart?measurement=true");
       toast.success(result.message, { duration: 4000 });
     }
   }
