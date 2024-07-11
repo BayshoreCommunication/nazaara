@@ -5,9 +5,9 @@ import { useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { useSelector } from "react-redux";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const DetailImage = ({ productData }) => {
-  // console.log("products data", productData);
   const { width } = useWindowDimensions();
   const currentColor = useSelector((state) => state.imgFilter.color);
 
@@ -17,8 +17,6 @@ const DetailImage = ({ productData }) => {
       (el) => el.color === currentColor
     );
   else currentProduct = productData.variant;
-
-  // console.log("current product", currentProduct);
 
   const currentProductImages = currentProduct?.flatMap((elem) =>
     elem.imageUrl.map((url) => ({
@@ -58,24 +56,35 @@ const DetailImage = ({ productData }) => {
                   transformOrigin: transformOrigin,
                 }}
                 className="hoverImage hover:scale-[2]"
-                // className="hoverImage h-[34rem] sm:h-[64rem] lg:h-[50rem] xl:h-[58rem] 2xl:h-[70rem] hover:scale-[2]"
                 onMouseMove={handleMouseMove}
               >
-                <Image
-                  alt="dress"
-                  src={item.original}
-                  // fill
-                  // quality={80}
-                  // style={{
-                  //   objectFit: "cover",
-                  // }}
-                  width={600}
-                  height={800}
-                  priority
-                  blurDataURL={"/images/placeholder_image.jpg"}
-                  placeholder="blur"
-                  className="w-full h-auto"
-                />
+                {width >= 992 ? (
+                  <Image
+                    alt="dress"
+                    src={item.original}
+                    width={600}
+                    height={800}
+                    priority
+                    blurDataURL={"/images/placeholder_image.jpg"}
+                    placeholder="blur"
+                    className="w-full h-auto"
+                  />
+                ) : (
+                  <TransformWrapper>
+                    <TransformComponent>
+                      <Image
+                        alt="dress"
+                        src={item.original}
+                        width={600}
+                        height={800}
+                        priority
+                        blurDataURL={"/images/placeholder_image.jpg"}
+                        placeholder="blur"
+                        className="w-full h-auto"
+                      />
+                    </TransformComponent>
+                  </TransformWrapper>
+                )}
               </div>
             </>
           )}

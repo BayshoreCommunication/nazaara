@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           <Toaster position="top-center" reverseOrder={false} />
           <Analytics />
           <SpeedInsights />
-          <main>
+          <main className="overflow-x-hidden">
             <Suspense fallback={<NavBarLoading />}>
               <MainNavbar />
             </Suspense>
