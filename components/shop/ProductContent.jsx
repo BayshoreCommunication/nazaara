@@ -21,6 +21,12 @@ const ProductContent = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (window != undefined) {
+      window.scrollTo(0, 0);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
     setIsLoading(true);
     const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=10&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
     const fetchData = async () => {
@@ -46,32 +52,23 @@ const ProductContent = () => {
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(page);
     }
   };
 
-  const renderPageNumbers = () => {
+  const renderPageNumbers = (maxButtonsToShow) => {
     const pageNumbers = [];
     const ellipsis = (
       <button className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300">
@@ -79,7 +76,7 @@ const ProductContent = () => {
       </button>
     );
 
-    const maxButtonsToShow = 5; // Number of buttons to show at a time
+    // const maxButtonsToShow = 5; // Number of buttons to show at a time
     const halfMaxButtons = Math.floor(maxButtonsToShow / 2);
 
     let startPage = currentPage - halfMaxButtons;
@@ -105,7 +102,7 @@ const ProductContent = () => {
           1
         </button>
       );
-      if (startPage > 2) {
+      if (maxButtonsToShow === 5 && startPage > 2) {
         pageNumbers.push(ellipsis);
       }
     }
@@ -192,7 +189,7 @@ const ProductContent = () => {
       )}
 
       {totalPages > 1 && (
-        <div className="">
+        <div className="overflow-x-hidden">
           <ul className="flex -space-x-px text-sm justify-center mt-4">
             <li>
               <button
@@ -208,7 +205,12 @@ const ProductContent = () => {
               </button>
             </li>
 
-            <li className="flex !text-black">{renderPageNumbers()}</li>
+            <li className="flex !text-black xl:hidden">
+              {renderPageNumbers(3)}
+            </li>
+            <li className="!text-black hidden xl:flex">
+              {renderPageNumbers(5)}
+            </li>
             <li>
               <button
                 onClick={handleNextPage}

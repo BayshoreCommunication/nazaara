@@ -8,36 +8,36 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
     setPrevTotalPages(totalPages);
   }, [totalPages]);
 
+  useEffect(() => {
+    if (window != undefined) {
+      window.scrollTo(0, 0);
+    }
+  }, [currentPage]);
+
   //if previous totalPages number is changing then set currentPage into 1
   useEffect(() => {
     if (totalPages && totalPages !== prevTotalPages) {
       setCurrentPage(1);
+      if (window != undefined) {
+        window.scrollTo(0, 0);
+      }
     }
   }, [setCurrentPage, totalPages, prevTotalPages, currentPage]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
-      if (window != undefined) {
-        window.scrollTo(0, 0);
-      }
       setCurrentPage(page);
     }
   };
