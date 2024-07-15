@@ -22,6 +22,16 @@ export const metadata = {
   },
   description:
     "Reveal the latest exclusive woman wear at Nazaara. Shop trendy and high-quality clothing for women in Bangladesh. Dress yourself with our exclusive collection for your bridal, party, and regular occasions.",
+  metadataBase: new URL("https://www.nazaaralifestyle.com/"),
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/en-US",
+    },
+  },
+  openGraph: {
+    images: "/opengraph-image.jpg",
+  },
 };
 
 export default function RootLayout({ children }) {
