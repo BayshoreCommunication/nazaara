@@ -134,7 +134,9 @@ const ProductCart = ({ data, i }) => {
             }}
             className="shadow-xl shadow-gray-300 rounded-md flex flex-col transition-all duration-500 ease-in-out hover:shadow-gray-400 h-full"
           >
-            <Link href={`/products/${data?.slug}`}>
+            <Link
+              href={`/products/${data?.sku.replace(/\//g, "-").toLowerCase()}`}
+            >
               <div className="relative">
                 <div className="overflow-hidden">
                   {imageUrl ? (
