@@ -108,7 +108,9 @@ const SearchComponent = () => {
                 {filteredData?.length > 0 ? (
                   filteredData.map((result) => (
                     <Link
-                      href={`/products/${result.slug}`}
+                      href={`/products/${result?.sku
+                        .replace(/\//g, "-")
+                        .toLowerCase()}`}
                       className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
                       key={result._id}
                       onClick={() => {
@@ -193,7 +195,9 @@ const SearchComponent = () => {
                   {filteredData?.length > 0 ? (
                     filteredData.map((result) => (
                       <Link
-                        href={`/products/${result.slug}`}
+                        href={`/products/${result?.sku
+                          .replace(/\//g, "-")
+                          .toLowerCase()}`}
                         className="text-gray-700 text-sm cursor-pointer hover:text-primary-color hover:font-semibold transition-all duration-300"
                         key={result._id}
                         onClick={() => {
