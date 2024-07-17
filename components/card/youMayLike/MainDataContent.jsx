@@ -3,9 +3,10 @@ import AllCards from "./AllCards";
 import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import { Loader } from "@/components/Loader";
 
-const MainDataContent = async () => {
-  const url = `${process.env.API_URL}/api/v1/product/random-products`;
-  const data = await fetchServerSideData(url);
+const MainDataContent = async ({ data }) => {
+  // const url = `${process.env.API_URL}/api/v1/product/random-products`;
+  // const data = await fetchServerSideData(url);
+  // console.log("you may like");
   return (
     <section>
       {data && (

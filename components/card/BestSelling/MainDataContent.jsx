@@ -3,10 +3,10 @@ import AllCards from "./AllCarts";
 import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import { Loader } from "@/components/Loader";
 
-const MainBestSellingDataContent = async () => {
-  const url = `${process.env.API_URL}/api/v1/best-selling-product`;
-  const data = await fetchServerSideData(url);
-  // console.log(data.data[0].products);
+const MainBestSellingDataContent = async ({ data }) => {
+  // const url = `${process.env.API_URL}/api/v1/best-selling-product`;
+  // const data = await fetchServerSideData(url);
+  // console.log("best selling");
   return (
     <section>
       {data && (

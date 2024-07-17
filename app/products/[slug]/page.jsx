@@ -17,9 +17,9 @@ function decodeSku(sku) {
 const ProductDetails = async ({ params }) => {
   const sku = decodeSku(params.slug).toUpperCase();
   const encodeUrl = encodeURIComponent(sku);
-  console.log("parm sku", params.slug);
-  console.log("sku", sku);
-  console.log("encodeUrl", encodeUrl);
+  // console.log("parm sku", params.slug);
+  // console.log("sku", sku);
+  // console.log("encodeUrl", encodeUrl);
 
   const productDetails = await fetchServerSideData(
     `${process.env.API_URL}/api/v1/product/${encodeUrl}`

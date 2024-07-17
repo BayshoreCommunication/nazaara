@@ -42,7 +42,7 @@ const CheckoutContent = ({
   const cartData = data?.data;
 
   // console.log("cart data", cartData);
-  console.log("user data", userData);
+  // console.log("user data", userData);
 
   useEffect(() => {
     if (cartData) {
