@@ -8,6 +8,7 @@ import Banner from "@/components/homepage/banner/Banner";
 import BookAppointment from "@/components/BookAppointment";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
 import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
+import MessengerChat from "@/components/Messenger";
 // import { Loader } from "@/components/Loader";
 // import { Suspense } from "react";
 
@@ -172,6 +173,7 @@ const Home = async () => {
         </div>
         {/* Our Delivery Partner end */}
       </div>
+      <MessengerChat />
     </main>
   );
 };
