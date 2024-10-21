@@ -8,7 +8,7 @@ import Banner from "@/components/homepage/banner/Banner";
 import BookAppointment from "@/components/BookAppointment";
 import DeliveryDesktop from "@/components/homepage/delivery-partner/DeliveryDesktop";
 import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
-import MessengerChat, { MessengerFbChat } from "@/components/Messenger";
+import { MessengerFbChat } from "@/components/Messenger";
 // import { Loader } from "@/components/Loader";
 // import { Suspense } from "react";
 
