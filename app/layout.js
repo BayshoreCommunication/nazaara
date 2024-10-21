@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
               <Footer />
             </Suspense>
             {/* <MessengerChat /> */}
-            {/* <WhatsAppButton /> */}
+            <WhatsAppButton />
           </main>
         </Providers>
       </body>

@@ -1,4 +1,3 @@
-// components/MessengerChat.tsx
 "use client";
 import React from "react";
 import MessengerCustomerChat from "react-messenger-customer-chat";

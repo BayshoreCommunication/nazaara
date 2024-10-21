@@ -173,7 +173,7 @@ const Home = async () => {
         </div>
         {/* Our Delivery Partner end */}
       </div>
-      <MessengerChat />
+      {/* <MessengerChat /> */}
     </main>
   );
 };
