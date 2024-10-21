@@ -11,6 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import WhatsAppButton from "@/components/WhatsappChat";
 import MessengerChat from "@/components/MessengerChat";
 import { MessengerFbChat } from "@/components/Messenger";
+import MessengerRedirect from "@/components/MessengerRedirect";
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
@@ -54,7 +55,8 @@ export default function RootLayout({ children }) {
             <Suspense fallback={null}>
               <Footer />
             </Suspense>
-            <MessengerFbChat />
+            {/* <MessengerFbChat /> */}
+            <MessengerRedirect />
             <WhatsAppButton />
           </main>
         </Providers>

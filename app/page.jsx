@@ -174,7 +174,7 @@ const Home = async () => {
         {/* Our Delivery Partner end */}
       </div>
       {/* <MessengerChat /> */}
-      <MessengerFbChat />
+      {/* <MessengerFbChat /> */}
     </main>
   );
 };

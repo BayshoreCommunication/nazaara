@@ -13,10 +13,10 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${phoneNumber}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 right-5 bg-green-500 text-white p-3 rounded-full shadow-lg flex items-center justify-center"
+      className="fixed bottom-5 right-5 bg-green-500 text-white p-3 rounded-full flex items-center justify-center"
       style={{ zIndex: 1000 }}
     >
-      <BsWhatsapp size={20} />
+      <BsWhatsapp size={17} />
     </a>
   );
 };
