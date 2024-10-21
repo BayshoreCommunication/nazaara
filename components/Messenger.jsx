@@ -34,6 +34,7 @@ const MessengerChat = () => {
       <script>
         {`var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "115797558072759");
+        chatbox.setAttribute("app_id", "1153289488711586");
         chatbox.setAttribute("attribution", "biz_inbox");`}
       </script>
     </>
