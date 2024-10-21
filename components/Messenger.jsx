@@ -15,11 +15,12 @@ const MessengerChat = () => {
 
       // Dynamically load the SDK
       (function (d, s, id) {
-        const js = d.createElement(s);
-        const fjs = d.getElementsByTagName(s)[0];
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
+        js = d.createElement(s);
         js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+        js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js"; // Correct URL
         fjs.parentNode.insertBefore(js, fjs);
       })(document, "script", "facebook-jssdk");
     };
