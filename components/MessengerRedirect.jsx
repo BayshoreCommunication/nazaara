@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const MessengerRedirect = () => {
   const handleMessengerClick = () => {
-    const username = "raihan.ali.75457"; // Replace with the desired Facebook username
+    const username = "nazaara.official"; // Replace with the desired Facebook username
     const messengerUrl = `https://m.me/${username}`;
     window.open(messengerUrl, "_blank");
   };
