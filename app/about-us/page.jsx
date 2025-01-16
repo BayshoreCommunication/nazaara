@@ -6,6 +6,8 @@ export const metadata = {
   title: "About",
 };
 
+//about us page
+
 const AboutUsPage = async () => {
   return (
     <main>
