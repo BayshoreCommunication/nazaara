@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import ToogleButton from "./ToogleButton";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const ColorAttribute = ({ color, code, active, onClick }) => {
   return (
@@ -32,19 +32,14 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl, {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        });
-        if (response.status === 200) {
-          setColorData(response.data);
-        }
+        const response = await fetchServerSideData(apiUrl);
+        console.log("response", response);
+
+        setColorData(response);
       } catch (error) {
         console.error("product color fetching error", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -86,7 +81,7 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
     <div className="group/parent relative">
       <ToogleButton title={`Color`} isActive={isActive} />
       <div className="h-2 w-24"></div>
-      <div className="hidden py-2 group-hover/parent:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow">
+      <div className="hidden py-2 group-hover/parent:block absolute z-50 top-11 bg-white w-full lg:w-96 left-0 lg:left-auto rounded-lg box-shadow h-64 overflow-hidden pb-10">
         <div
           className={`flex items-center my-2 px-4 ${
             currentColor ? "justify-between" : "justify-center"
@@ -103,8 +98,8 @@ const Color = ({ setCurrentColor, setCurrentPage, currentColor }) => {
           )}
         </div>
         <hr />
-        <div className="py-3 px-6 flex flex-col gap-y-3">
-          <div className="flex flex-wrap gap-x-1 gap-y-4 justify-center">
+        <div className="py-3 px-6 flex flex-col gap-y-3 h-full overflow-y-auto overflow-x-hidden pb-4">
+          <div className="flex flex-wrap gap-x-1 gap-y-4 justify-center h-full overflow-y-auto overflow-x-hidden">
             {colorData &&
               colorData?.colors?.map((elem, index) => (
                 <div
