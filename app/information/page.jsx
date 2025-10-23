@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Navigation from "@/components/paymentNav/Navigation";
-import axios from "axios";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,8 +25,9 @@ const Payment = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await fetch("https://restcountries.com/v2/all");
-      const data = await response.json();
+      const data = await fetchServerSideData(
+        "https://restcountries.com/v2/all"
+      );
       const countryList = data.map((country) => ({
         code: `+${country.callingCodes[0]}-${country.name}`,
         name: country.name,
@@ -38,15 +39,10 @@ const Payment = () => {
   };
   const fetchProductDetails = useCallback(async (productSlug) => {
     try {
-      const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productSlug}`,
-        {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        }
+      const response = await fetchServerSideData(
+        `${process.env.API_URL}/api/v1/product/${productSlug}`
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
@@ -57,16 +53,20 @@ const Payment = () => {
     try {
       if (jsonStr) {
         const obj = JSON.parse(jsonStr);
-        const response = await fetch(
-          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
-          {
-            headers: {
-              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-            },
-            cache: "no-store",
-          }
+        // const response = await fetch(
+        //   `${process.env.API_URL}/api/v1/cart/user/${obj._id}`,
+        //   {
+        //     headers: {
+        //       authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
+        //     },
+        //     cache: "no-store",
+        //   }
+        // );
+        // const data = await response.json();
+
+        const data = await fetchServerSideData(
+          `${process.env.API_URL}/api/v1/cart/user/${obj._id}`
         );
-        const data = await response.json();
 
         // Fetch product details for each cart item
         const updatedCartData = await Promise.all(
@@ -100,16 +100,9 @@ const Payment = () => {
     try {
       if (jsonStr) {
         const obj = JSON.parse(jsonStr);
-        const response = await fetch(
-          `${process.env.API_URL}/api/v1/user/${obj._id}`,
-          {
-            headers: {
-              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-            },
-            cache: "no-store",
-          }
+        const data = await fetchServerSideData(
+          `${process.env.API_URL}/api/v1/user/${obj._id}`
         );
-        const data = await response.json();
         setUserData(data?.data);
       }
     } catch (error) {

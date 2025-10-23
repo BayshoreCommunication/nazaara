@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import { postData } from "@/helpers/serverSideDataFetching";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -12,21 +12,9 @@ const Subscribe = () => {
     e.preventDefault();
     try {
       const url = `${process.env.API_URL}/api/v1/subscriber`;
-
-      const response = await axios.post(
-        url,
-        { email: formData },
-        {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        toast.success("Successfully Subscribed");
-        setFormData("");
-      }
+      await postData(url, { email: formData });
+      toast.success("Successfully Subscribed");
+      setFormData("");
     } catch (error) {
       if (error.response.status === 422) {
         toast.error("Already Subscribed with this email!");

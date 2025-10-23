@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ToogleButton from "./ToogleButton";
-import axios from "axios";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const SizeAttribute = ({ elem, active, onClick }) => {
   return (
@@ -26,21 +26,14 @@ const Size = ({ currentSize, setCurrentSize, setCurrentPage }) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl, {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        });
-        return response.data;
+        const response = await fetchServerSideData(apiUrl);
+        setSizeData(response);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching product sizes:", error);
         return null;
       }
     };
-
-    fetchData().then((apiData) => {
-      setSizeData(apiData);
-    });
+    fetchData();
   }, []);
 
   // Update activeSizes when currentSize changes

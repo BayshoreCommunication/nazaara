@@ -2,8 +2,8 @@
 import { Util } from "@/util";
 import { TbArrowsExchange } from "react-icons/tb";
 import { useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import { postData } from "@/helpers/serverSideDataFetching";
 
 const ReturnAndExchange = ({ params }) => {
   const [issue, setIssue] = useState("");
@@ -15,19 +15,14 @@ const ReturnAndExchange = ({ params }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${process.env.API_URL}/api/v1/return-exchange`,
-        {
-          user_id: userId,
-          order: params.orderId,
-          issue: issue,
-        },
-        {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        }
-      );
+      const url = `${process.env.API_URL}/api/v1/return-exchange`;
+      const payload = {
+        user_id: userId,
+        order: params.orderId,
+        issue: issue,
+      };
+
+      const response = await postData(url, payload);
 
       if (response) {
         toast.success(
@@ -41,11 +36,6 @@ const ReturnAndExchange = ({ params }) => {
       console.error("Error:", error);
     }
   };
-
-  // console.log(
-  //   "data",
-  //   user?.orders?.map((elam) => elam?.product?.map((item) => item))[0]
-  // );
 
   return (
     <div>

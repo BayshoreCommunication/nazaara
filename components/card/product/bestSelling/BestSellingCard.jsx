@@ -1,4 +1,4 @@
-import axios from "axios";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -11,12 +11,13 @@ const BestSellingCard = ({ elem }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      setData(response.data.data);
+      const response = await fetchServerSideData(apiUrl);
+
+      if (response?.data) {
+        setData(response.data);
+      } else {
+        console.error("No data found in response:", response);
+      }
     } catch (error) {
       console.error("product productByOrders fetching error", error);
     }

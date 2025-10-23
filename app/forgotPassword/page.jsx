@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import { postData } from "@/helpers/serverSideDataFetching";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -10,16 +10,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     const url = `${process.env.API_URL}/api/v1/user/forgotPassword`;
     try {
-      const response = await axios.post(
-        url,
-        { email },
-        {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        }
-      );
-      // console.log("POST request successful:", response.data);
+      await postData(url, { email });
       toast.success("Reset password email sent");
       setEmail(" ");
     } catch (error) {

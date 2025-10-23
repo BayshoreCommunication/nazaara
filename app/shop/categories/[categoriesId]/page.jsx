@@ -7,7 +7,7 @@ import Filter from "@/components/shop/Filter";
 import Price from "@/components/shop/Price";
 import Size from "@/components/shop/Size";
 import SortBy from "@/components/shop/SortBy";
-import axios from "axios";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -25,19 +25,13 @@ const Categories = ({ params }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      setData(response.data);
-      if (data) {
-        setIsLoading(false);
-      }
+      const response = await fetchServerSideData(apiUrl);
+      setData(response);
+      setIsLoading(false);
     } catch (error) {
       console.error("product fetching error", error);
     }
-  }, [apiUrl, data]);
+  }, [apiUrl]);
 
   useEffect(() => {
     fetchData();

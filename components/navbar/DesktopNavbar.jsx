@@ -4,7 +4,6 @@ import Link from "next/link";
 import Cart from "../shopping-cart/Cart";
 import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import useGlobalCart from "@/customhooks/useGlobalCart";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -18,6 +17,7 @@ import { addProduct } from "@/store/serachProductSlice";
 import { useRouter } from "next/navigation";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import { useGetNavDataQuery } from "@/services/navApi";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const DesktopNavbar = () => {
   const router = useRouter();
@@ -90,13 +90,12 @@ const DesktopNavbar = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      if (response.status === 200) {
-        setCategories(response.data.newData);
+      const response = await fetchServerSideData(apiUrl);
+
+      if (response?.newData) {
+        setCategories(response.newData);
+      } else {
+        console.error("No category data found in response:", response);
       }
     } catch (error) {
       console.error("product categories fetching error", error);
@@ -133,43 +132,41 @@ const DesktopNavbar = () => {
     const fetchProducts = async () => {
       try {
         if (navData) {
-          const productRequests = navData?.saleData?.slice(0, 6).map((elem) => {
-            const slughola = elem.productSlug[0];
-            // console.log("test product", elem);
-            return axios.get(
-              `${process.env.API_URL}/api/v1/product/${slughola}`,
-              {
-                headers: {
-                  authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-                },
-              }
-            );
-          });
+          // Create an array of product fetch promises
+          const productRequests = navData?.saleData
+            ?.slice(0, 6)
+            .map(async (elem) => {
+              const slug = elem.productSlug[0];
+              const productApiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
 
-          // Use axios.all to perform multiple requests in parallel
+              try {
+                const response = await fetchServerSideData(productApiUrl);
+                return response; // response expected to have { data: {...productData} }
+              } catch (error) {
+                console.error(
+                  `Error fetching product for slug ${slug}:`,
+                  error
+                );
+                return null;
+              }
+            });
+
+          // Wait for all requests to complete
           const responses = await Promise.all(productRequests);
 
-          // Extract product data from responses
-          const productsData = responses.map((response) => response.data);
-          // console.log(
-          //   "After Request productsData",
-          //   productsData.map((item) => item.data)
-          // );
+          // Filter out any failed/null responses
+          const validProducts = responses.filter((res) => res !== null);
 
-          // Update state with products data
-          setProducts(productsData);
+          // Update state
+          setProducts(validProducts);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
+
     fetchProducts();
   }, [navData]);
-
-  // console.log(
-  //   "Productssss",
-  //   products.map((item) => item.data.category)
-  // );
 
   const calculateSliceRange = (index) => {
     if (!products) return [];

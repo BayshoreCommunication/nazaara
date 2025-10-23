@@ -1,12 +1,12 @@
 "use client";
 import MainContent from "@/components/recommendedProducts/MainContent";
 import RouterBack from "@/helpers/RouterBack";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { TbCategoryFilled } from "react-icons/tb";
 import { Loader } from "../Loader";
 import TopBar from "../TopBar";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const DataLoaderComponent = ({ searchParams }) => {
   const [loading, setLoading] = useState(true);
@@ -16,84 +16,81 @@ const DataLoaderComponent = ({ searchParams }) => {
   //   console.log("loading", loading);
 
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
-      if (searchParams.category) {
-        setLoading(true);
-        try {
-          const categorySlugUrl = `${process.env.API_URL}/api/v1/category/slug/${searchParams.category}`;
-          const categoryData = await axios.get(categorySlugUrl, {
-            headers: {
-              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-            },
-          });
-          // console.log("category data", categoryData);
-          const categoryId = categoryData?.data?.data?._id;
+      if (!searchParams.category) return;
 
-          if (searchParams.subCategory) {
-            setLoading(true);
-            const subCategorySlugUrl = `${process.env.API_URL}/api/v1/sub-category/slug/${searchParams.subCategory}`;
-            const subCategoryIdData = await axios.get(subCategorySlugUrl, {
-              headers: {
-                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-              },
-            });
-            // console.log("subCategoryIdData", subCategoryIdData);
-            const subCategoryId = subCategoryIdData?.data?.data[0]?._id;
+      setLoading(true);
 
-            const subCategoryUrl = `${process.env.API_URL}/api/v1/product/published?category=${categoryId}&subCategory=${subCategoryId}`;
-            const subCategoryData = await axios.get(subCategoryUrl, {
-              headers: {
-                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-              },
-            });
+      try {
+        // 1️⃣ Fetch category by slug
+        const categorySlugUrl = `${process.env.API_URL}/api/v1/category/slug/${searchParams.category}`;
+        const categoryData = await fetchServerSideData(categorySlugUrl);
+        const categoryId = categoryData?.data?._id;
 
-            setData({
-              product: subCategoryData.data.product,
-              categoryName: categoryData.data.data.slug,
-              othersName: searchParams.subCategory,
-              titleIcon: <TbCategoryFilled />,
-            });
-          } else if (searchParams.festival) {
-            setLoading(true);
-            const festivalUrl = `${process.env.API_URL}/api/v1/festival/${categoryId}/${searchParams.festival}`;
-            const festivalData = await axios.get(festivalUrl, {
-              headers: {
-                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-              },
-            });
-            // console.log("festivalData");
-
-            setData({
-              product: festivalData.data.data,
-              categoryName: categoryData.data.data.slug,
-              othersName: searchParams.festival,
-              titleIcon: <FaShoppingBag />,
-            });
-          } else if (searchParams.sale) {
-            setLoading(true);
-            const saleUrl = `${process.env.API_URL}/api/v1/sale/${categoryId}/${searchParams.sale}`;
-            const saleData = await axios.get(saleUrl, {
-              headers: {
-                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-              },
-            });
-            // console.log("saleData", saleData);
-
-            setData({
-              product: saleData.data.data,
-              categoryName: categoryData.data.data.slug,
-              othersName: searchParams.sale,
-              titleIcon: <FaShoppingBag />,
-            });
-          }
+        if (!categoryId) {
+          console.error("Category ID not found");
           setLoading(false);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          setLoading(false);
+          return;
         }
+
+        // 2️⃣ Handle sub-category filter
+        if (searchParams.subCategory) {
+          const subCategorySlugUrl = `${process.env.API_URL}/api/v1/sub-category/slug/${searchParams.subCategory}`;
+          const subCategoryIdData = await fetchServerSideData(
+            subCategorySlugUrl
+          );
+          const subCategoryId = subCategoryIdData?.data?.[0]?._id;
+
+          if (!subCategoryId) {
+            console.error("Subcategory ID not found");
+            setLoading(false);
+            return;
+          }
+
+          const subCategoryUrl = `${process.env.API_URL}/api/v1/product/published?category=${categoryId}&subCategory=${subCategoryId}`;
+          const subCategoryData = await fetchServerSideData(subCategoryUrl);
+
+          setData({
+            product: subCategoryData?.product,
+            categoryName: categoryData?.data?.slug,
+            othersName: searchParams.subCategory,
+            titleIcon: <TbCategoryFilled />,
+          });
+        }
+
+        // 3️⃣ Handle festival filter
+        else if (searchParams.festival) {
+          const festivalUrl = `${process.env.API_URL}/api/v1/festival/${categoryId}/${searchParams.festival}`;
+          const festivalData = await fetchServerSideData(festivalUrl);
+
+          setData({
+            product: festivalData?.data,
+            categoryName: categoryData?.data?.slug,
+            othersName: searchParams.festival,
+            titleIcon: <FaShoppingBag />,
+          });
+        }
+
+        // 4️⃣ Handle sale filter
+        else if (searchParams.sale) {
+          const saleUrl = `${process.env.API_URL}/api/v1/sale/${categoryId}/${searchParams.sale}`;
+          const saleData = await fetchServerSideData(saleUrl);
+
+          setData({
+            product: saleData?.data,
+            categoryName: categoryData?.data?.slug,
+            othersName: searchParams.sale,
+            titleIcon: <FaShoppingBag />,
+          });
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
       }
     };
+
     fetchData();
   }, [searchParams]);
 

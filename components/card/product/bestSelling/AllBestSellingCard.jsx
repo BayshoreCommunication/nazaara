@@ -10,7 +10,7 @@ import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper";
 import BestSellingCard from "./BestSellingCard";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const AllBestSellingCard = () => {
   const [data, setData] = useState([]);
@@ -18,61 +18,24 @@ const AllBestSellingCard = () => {
   const [slugData, setSlugData] = useState();
   const [products, setProducts] = useState([]);
 
-  // useEffect(() => {
-  //   const slugApiUrl = `${process.env.API_URL}/api/v1/best-selling-product`;
-  //   const slugFunc = async () => {
-  //     try {
-  //       const response = await axios.get(slugApiUrl);
-  //       setSlugData(response?.data?.bestSellingData[0].slug);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   slugFunc();
-
-  //   const fetchProducts = async () => {
-  //     const productPromises = slugData?.map(async (slug) => {
-  //       const apiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
-  //       try {
-  //         // const response = await fetch(apiUrl);
-  //         const productData = await axios.get(apiUrl);
-  //         // setData(response.data.result);
-  //         if (!response.ok) {
-  //           throw new Error("Network response was not ok");
-  //         }
-  //         // const productData = await response.json();
-  //         return productData;
-  //       } catch (error) {
-  //         console.error(`Error fetching product for slug ${slug}:`, error);
-  //         return null;
-  //       }
-  //     });
-  //     const products = await Promise.all(productPromises);
-  //     setProducts(products.filter((product) => product !== null));
-  //   };
-  //   fetchProducts();
-  // }, [slugData]);
-
   useEffect(() => {
-    const slugApiUrl = `${process.env.API_URL}/api/v1/best-selling-product`;
-    axios
-      .get(slugApiUrl)
-      .then((response) => {
-        const slugArray = response?.data?.bestSellingData[0]?.slug || [];
+    const fetchData = async () => {
+      try {
+        const slugApiUrl = `${process.env.API_URL}/api/v1/best-selling-product`;
+        const slugResponse = await fetchServerSideData(slugApiUrl);
+
+        const slugArray = slugResponse?.bestSellingData?.[0]?.slug || [];
         setSlugData(slugArray);
 
-        // Fetch product data based on slugs
+        // Fetch product data for each slug
         const productPromises = slugArray.map(async (slug) => {
           const productApiUrl = `${process.env.API_URL}/api/v1/product/${slug}`;
           try {
-            const response = await axios.get(productApiUrl, {
-              headers: {
-                authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-              },
-            });
-            // console.log("response for product", response);
-            if (response.status === 200) {
-              return response.data.data;
+            const productResponse = await fetchServerSideData(productApiUrl);
+
+            // Assuming API returns { data: { ...productData } }
+            if (productResponse?.data) {
+              return productResponse.data;
             } else {
               throw new Error("Product data fetch failed");
             }
@@ -83,17 +46,14 @@ const AllBestSellingCard = () => {
         });
 
         // Wait for all product promises to resolve
-        Promise.all(productPromises)
-          .then((filteredProducts) => {
-            setProducts(filteredProducts.filter((product) => product !== null));
-          })
-          .catch((error) => {
-            console.error("Error fetching product data:", error);
-          });
-      })
-      .catch((error) => {
+        const filteredProducts = await Promise.all(productPromises);
+        setProducts(filteredProducts.filter((product) => product !== null));
+      } catch (error) {
         console.error("Error fetching slug data:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   // console.log("products data", products);
@@ -104,12 +64,13 @@ const AllBestSellingCard = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      setData(response.data.result);
+      const response = await fetchServerSideData(apiUrl);
+
+      if (response?.result) {
+        setData(response.result);
+      } else {
+        console.error("No result found in response:", response);
+      }
     } catch (error) {
       console.error("product productByOrders fetching error", error);
     }

@@ -1,6 +1,5 @@
 "use client";
 import { removeItemFromCart, updateQuantity } from "@/store/cartSlice";
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +13,7 @@ import {
   useUpdateCartByUserIdMutation,
 } from "@/services/cartApi";
 import { BeatLoader } from "react-spinners";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const Cart = ({ cookieData, setIsAddToCartOpen }) => {
   const [loading, setLoading] = useState(true);
@@ -28,19 +28,12 @@ const Cart = ({ cookieData, setIsAddToCartOpen }) => {
 
   const fetchProductDetails = async (productId) => {
     try {
-      // console.log("top console");
-      const response = await axios.get(
-        `${process.env.API_URL}/api/v1/product/${productId}`,
-        {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        }
-      );
-      // console.log("item", response.data);
-      return response.data;
+      const apiUrl = `${process.env.API_URL}/api/v1/product/${productId}`;
+      const response = await fetchServerSideData(apiUrl);
+      return response;
     } catch (error) {
       console.error("Error fetching product details:", error);
+      return null;
     }
   };
 

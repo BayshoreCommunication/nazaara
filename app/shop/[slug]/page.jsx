@@ -3,7 +3,7 @@
 
 //swiper import here
 // import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Pagination, Autoplay } from "swiper";
+import SwiperCore, { Autoplay } from "swiper";
 // import { getCookie } from 'cookies-next'
 import "swiper/css";
 import "swiper/css/pagination";
@@ -26,9 +26,8 @@ import ProductDetailsComponent from "@/components/product-detail/ProductDetailsC
 import DetailImage from "@/components/product-detail/DetailImagePage";
 import { useCallback, useEffect, useState } from "react";
 import Accordion from "@/components/Accordion";
-import axios from "axios";
-import Loader from "@/components/Loader";
 import { BeatLoader } from "react-spinners";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const ProductDetails = ({ params }) => {
   const [isScrollingUp, setIsScrollingUp] = useState(false);
@@ -44,15 +43,9 @@ const ProductDetails = ({ params }) => {
   //get single product details
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(apiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      if (response.status === 200) {
-        setData(response);
-        setCategory(response.data.data.category);
-      }
+      const response = await fetchServerSideData(apiUrl);
+      setData({ data: response });
+      setCategory(response.data.category);
     } catch (error) {
       console.error(error);
     }
@@ -60,14 +53,8 @@ const ProductDetails = ({ params }) => {
 
   const fetchCategoryData = useCallback(async () => {
     try {
-      const response = await axios.get(categoryApiUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      if (response.status === 200) {
-        setCategoryData(response.data.product);
-      }
+      const response = await fetchServerSideData(categoryApiUrl);
+      setCategoryData(response.product);
     } catch (error) {
       console.error(error);
     }
@@ -75,14 +62,8 @@ const ProductDetails = ({ params }) => {
 
   const fetchAllProductData = useCallback(async () => {
     try {
-      const response = await axios.get(allProductUrl, {
-        headers: {
-          authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-        },
-      });
-      if (response?.status === 200) {
-        setAllProducts(response.data.product);
-      }
+      const response = await fetchServerSideData(allProductUrl);
+      setAllProducts(response.product);
     } catch (error) {
       console.error(error);
     }

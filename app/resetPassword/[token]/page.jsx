@@ -1,8 +1,8 @@
 "use client";
-import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { patchData } from "@/helpers/serverSideDataFetching";
 
 const ResetPassword = ({ params }) => {
   const router = useRouter();
@@ -17,19 +17,9 @@ const ResetPassword = ({ params }) => {
       const url = `${process.env.API_URL}/api/v1/user/resetPassword/${params.token}`;
 
       try {
-        const response = await axios.patch(
-          url,
-          { password },
-          {
-            headers: {
-              authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-            },
-          }
-        );
-        // console.log("POST request successful:", response.data);
+        await patchData(url, { password });
         toast.success("password change successfully ");
         router.push("/user-authentication");
-
         setEmail(" ");
       } catch (error) {
         console.error("POST request error:", error);
