@@ -9,6 +9,7 @@ import Color from "./Color";
 import Filter from "./Filter";
 import Price from "./Price";
 import Size from "./Size";
+import { fetchServerSideData } from "@/helpers/serverSideDataFetching";
 
 const ProductContent = () => {
   const [data, setData] = useState({});
@@ -26,26 +27,50 @@ const ProductContent = () => {
     }
   }, [currentPage]);
 
+  // useEffect(() => {
+  //   console.log("hit");
+
+  //   setIsLoading(true);
+  //   const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=10&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+  //   const fetchData = async () => {
+  //     try {
+  //       const apiData = await fetchServerSideData(apiUrl);
+  //       setData(apiData);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   };
+  //   fetchData();
+  // }, [currentCategory, currentColor, currentPage, currentSize, priceRange]);
+
   useEffect(() => {
     setIsLoading(true);
-    const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=10&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(apiUrl, {
-          headers: {
-            authorization: `Nazaara@Token ${process.env.API_SECURE_KEY}`,
-          },
-        });
-        return response.data;
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    };
-    fetchData().then((apiData) => {
-      setData(apiData);
-      setIsLoading(false);
-    });
+
+    // Debounce timer - waits 500ms after user stops interacting
+    const timer = setTimeout(() => {
+      const apiUrl = `${process.env.API_URL}/api/v1/product/published?page=${currentPage}&limit=10&category=${currentCategory}&color=${currentColor}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&size=${currentSize}`;
+
+      const fetchData = async () => {
+        console.log("hit");
+
+        try {
+          const apiData = await fetchServerSideData(apiUrl);
+          setData(apiData);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+          setIsLoading(false);
+          return null;
+        }
+      };
+
+      fetchData();
+    }, 300); // 500ms debounce delay
+
+    // Cleanup function - cancels the timer if dependencies change
+    return () => clearTimeout(timer);
   }, [currentCategory, currentColor, currentPage, currentSize, priceRange]);
 
   const totalPages = data?.totalPages;
