@@ -23,10 +23,10 @@ const CheckoutMainPage = async () => {
 
   //fetch all country data
   const countryData = await fetchServerSideData(
-    `https://restcountries.com/v2/all`
+    `https://restcountries.com/v3.1/all?fields=name`
   );
 
-  const countryName = countryData.map((data) => data?.name) || [
+  const countryName = countryData?.map((country) => country.name.common) || [
     "Bangladesh",
     "India",
     "Pakistan",
@@ -45,7 +45,6 @@ const CheckoutMainPage = async () => {
   return (
     <CheckoutContent
       userData={userData?.data}
-      // cartData={cartData?.data}
       countryName={countryName}
       fetchCouponData={fetchCouponData}
     />
